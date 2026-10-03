@@ -28,34 +28,32 @@
             <aside class="sidebar" aria-label="Campaign journal navigation">
                 <div class="sidebar-heading">JOURNAL</div>
 
-                <button type="button" class="nav-item active" data-page="quests">
-                    <span aria-hidden="true">▤</span> Quests
+                <button class="nav-item active" data-page="quests">
+                    <span>▤</span> Quests
                 </button>
+
+                <div class="quest-subnav">
+
+                    <button class="nav-item quest-subnav-item" data-team="one">
+                        Team One
+                    </button>
+
+                    <button class="nav-item quest-subnav-item" data-team="two">
+                        Team Two
+                    </button>
+
+                </div>
 
                 <button class="nav-item" data-page="calendar">
                     <span>□</span> Calendar
                 </button>
 
-                <button type="button" class="nav-item" data-page="map">
-                    <span aria-hidden="true">⌖</span> Map
+                <button class="nav-item" data-page="map">
+                    <span>⌖</span> Map
                 </button>
 
                 <button type="button" class="nav-item" data-page="music">
                     <span>♫</span> Music
-                </button>
-
-                <div class="sidebar-heading party-heading">PARTIES</div>
-
-                <button type="button" class="nav-item" data-team="all">
-                    All Quests
-                </button>
-
-                <button type="button" class="nav-item" data-team="one">
-                    Team One
-                </button>
-
-                <button type="button" class="nav-item" data-team="two">
-                    Team Two
                 </button>
             </aside>
 
@@ -80,6 +78,9 @@
     </div>
 
     <script src="js/quests.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/music.js"></script>
     <script src="js/app.js"></script>
 </body>
 

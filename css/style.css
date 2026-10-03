@@ -120,6 +120,29 @@ button:focus-visible {
    SIDEBAR
    ========================================================= */
 
+/* QUEST SUBNAVIGATION */
+
+.quest-subnav {
+    margin: -4px 0 8px;
+    padding-left: 18px;
+    border-left: 1px solid var(--border);
+}
+
+.quest-subnav-item {
+    padding-left: 14px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.quest-subnav-item:hover {
+    color: var(--parchment);
+}
+
+.quest-subnav-item.active {
+    color: var(--gold);
+    background: transparent;
+}
+
 .sidebar {
     padding: 28px 16px;
 
