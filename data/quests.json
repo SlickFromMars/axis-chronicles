@@ -221,5 +221,25 @@
             }
         ],
         "developments": []
+    },
+    {
+        "id": "glim",
+        "title": "Shining Through the Darkness",
+        "team": "two",
+        "type": "companion",
+        "status": "completed",
+        "description": "Waxborns rarely wander far from their creator, and Glim has certainly done that. In search of purpose and joy, she travels the continent alongside our heroes.",
+        "objectives": [
+            {
+                "text": "Speak to Vae'Saron about where you come from.",
+                "completed": true
+            }
+        ],
+        "developments": [
+            {
+                "session": "Team 2, Chapter 4 - Holocene",
+                "text": "Glim has split from the party to discover her origins in Homeward Reach."
+            }
+        ]
     }
 ]

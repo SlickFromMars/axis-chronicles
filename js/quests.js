@@ -68,6 +68,16 @@ function renderQuestList(quests) {
             .filter(quest => quest.type === category.type)
             .sort((a, b) => {
 
+                // Completed quests always go to the bottom
+                const completedDifference =
+                    (a.status === "completed" ? 1 : 0) -
+                    (b.status === "completed" ? 1 : 0);
+
+                if (completedDifference !== 0) {
+                    return completedDifference;
+                }
+
+                // Team ordering
                 const teamOrder = {
                     one: 1,
                     two: 2,
@@ -82,12 +92,13 @@ function renderQuestList(quests) {
                     return teamDifference;
                 }
 
+                // Alphabetical title ordering
                 return a.title.localeCompare(
                     b.title,
                     undefined,
                     { sensitivity: "base" }
                 );
-            });
+            })
 
         if (categoryQuests.length === 0) {
             return;
