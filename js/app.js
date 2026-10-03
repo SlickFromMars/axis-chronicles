@@ -45,23 +45,6 @@ function showQuests() {
 // Update the selected team
 function setTeam(team) {
     currentTeam = team;
-
-    // Update team navigation
-    document.querySelectorAll("[data-team]").forEach(button => {
-        button.classList.toggle(
-            "active",
-            button.dataset.team === team
-        );
-    });
-
-    // Select the Quests page
-    document.querySelectorAll("[data-page]").forEach(button => {
-        button.classList.toggle(
-            "active",
-            button.dataset.page === "quests"
-        );
-    });
-
     showQuests();
 }
 
@@ -116,16 +99,6 @@ document.querySelectorAll("[data-page]").forEach(button => {
         if (page === "quests") {
 
             currentTeam = "all";
-
-            document
-                .querySelectorAll("[data-team]")
-                .forEach(item => {
-                    item.classList.toggle(
-                        "active",
-                        item.dataset.team === "all"
-                    );
-                });
-
             showQuests();
 
         } else if (page === "calendar") {

@@ -159,7 +159,6 @@ function renderQuestControls() {
         <div class="quest-controls">
 
             <label class="quest-toggle">
-
                 <input
                     type="checkbox"
                     id="hide-completed-toggle"
@@ -173,8 +172,35 @@ function renderQuestControls() {
                 <span class="quest-toggle-text">
                     Hide Completed
                 </span>
-
             </label>
+
+            <div class="team-filter">
+                <label
+                    class="team-filter-label"
+                    for="team-filter-select"
+                >
+                    PARTY
+                </label>
+
+                <div class="team-filter-select-wrapper">
+                    <select
+                        id="team-filter-select"
+                        class="team-filter-select"
+                    >
+                        <option value="all" ${currentTeam === "all" ? "selected" : ""}>
+                            All Teams
+                        </option>
+
+                        <option value="one" ${currentTeam === "one" ? "selected" : ""}>
+                            Team One
+                        </option>
+
+                        <option value="two" ${currentTeam === "two" ? "selected" : ""}>
+                            Team Two
+                        </option>
+                    </select>
+                </div>
+            </div>
 
         </div>
     `;
@@ -186,27 +212,32 @@ function attachQuestControls() {
         "hide-completed-toggle"
     );
 
-    if (!toggle) {
-        return;
+    const teamFilter = document.getElementById(
+        "team-filter-select"
+    );
+
+    if (toggle) {
+        toggle.addEventListener("change", () => {
+
+            hideCompleted = toggle.checked;
+
+            localStorage.setItem(
+                "hideCompleted",
+                String(hideCompleted)
+            );
+
+            showQuests();
+        });
     }
 
-    toggle.addEventListener("change", () => {
+    if (teamFilter) {
+        teamFilter.addEventListener("change", () => {
 
-        hideCompleted = toggle.checked;
+            currentTeam = teamFilter.value;
 
-        /*
-            Save the setting so it survives page refreshes.
-        */
-        localStorage.setItem(
-            "hideCompleted",
-            String(hideCompleted)
-        );
-
-        /*
-            Re-render the quest list.
-        */
-        showQuests();
-    });
+            showQuests();
+        });
+    }
 }
 
 
