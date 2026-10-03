@@ -1,0 +1,40 @@
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": false,
+    "editor.wordWrap": "on",
+    "editor.rulers": [
+        120
+    ],
+    "editor.trimAutoWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features",
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features",
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "html.format.indentInnerHtml": false,
+    "html.format.wrapLineLength": 120,
+    "html.format.wrapAttributes": "auto",
+    "html.format.preserveNewLines": true,
+    "js/ts.format.insertSpaceAfterCommaDelimiter": true,
+    "js/ts.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
+    "js/ts.format.insertSpaceBeforeFunctionParenthesis": false,
+    "css.format.newlineBetweenRules": true,
+    "css.format.spaceAroundSelectorSeparator": true,
+    "css.format.braceStyle": "collapse"
+}

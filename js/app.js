@@ -19,6 +19,7 @@ async function initializeJournal() {
     }
 }
 
+// Display quests filtered by the selected team
 function showQuests() {
     const filteredQuests = allQuests.filter(quest =>
         currentTeam === "all" ||
@@ -29,9 +30,9 @@ function showQuests() {
     renderQuestList(filteredQuests);
 }
 
+// Update the selected team
 function setTeam(team) {
     currentTeam = team;
-    showQuests();
 
     document.querySelectorAll("[data-team]").forEach(button => {
         button.classList.toggle(
@@ -40,41 +41,83 @@ function setTeam(team) {
         );
     });
 
+    // Select the Quests page when changing teams
     document.querySelectorAll("[data-page]").forEach(button => {
-        button.classList.remove("active");
+        button.classList.toggle(
+            "active",
+            button.dataset.page === "quests"
+        );
     });
+
+    showQuests();
 }
 
+// Display the map
+function showMap() {
+    document.getElementById("content").innerHTML = `
+        <section class="page map-page">
+            <h1>World Map</h1>
+            <div class="map-container">
+                <img
+                    src="assets/images/world-map.png"
+                    alt="Map of the world of Breaking the Axis"
+                    class="world-map"
+                >
+            </div>
+        </section>
+    `;
+}
+
+// Display a placeholder for sections that are not ready
+function showPlaceholder(page) {
+    document.getElementById("content").innerHTML = `
+        <div class="placeholder">
+            <h2>${escapeHTML(
+        page.charAt(0).toUpperCase() + page.slice(1)
+    )}</h2>
+            <p>This section will be added in a future stage.</p>
+        </div>
+    `;
+}
+
+// Handle team selection
 document.querySelectorAll("[data-team]").forEach(button => {
     button.addEventListener("click", () => {
         setTeam(button.dataset.team);
     });
 });
 
+// Handle navigation
 document.querySelectorAll("[data-page]").forEach(button => {
     button.addEventListener("click", () => {
         const page = button.dataset.page;
 
-        document.querySelectorAll(".nav-item")
-            .forEach(item => item.classList.remove("active"));
-
-        button.classList.add("active");
-
-        currentTeam = "all";
+        // Update active navigation button
+        document.querySelectorAll("[data-page]").forEach(item => {
+            item.classList.toggle(
+                "active",
+                item.dataset.page === page
+            );
+        });
 
         if (page === "quests") {
+            currentTeam = "all";
+
+            document.querySelectorAll("[data-team]").forEach(item => {
+                item.classList.toggle(
+                    "active",
+                    item.dataset.team === "all"
+                );
+            });
+
             showQuests();
+        } else if (page === "map") {
+            showMap();
         } else {
-            document.getElementById("content").innerHTML = `
-                <div class="placeholder">
-                    <h2>${escapeHTML(
-                        page.charAt(0).toUpperCase() + page.slice(1)
-                    )}</h2>
-                    <p>This section will be added in a future stage.</p>
-                </div>
-            `;
+            showPlaceholder(page);
         }
     });
 });
 
+// Start the journal
 initializeJournal();
