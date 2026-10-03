@@ -22,39 +22,31 @@ function getPageFromURL() {
         return page;
     }
 
-    return "journal";
+    return "quests";
 }
 
 
 // Update the URL without changing the existing site URL
 function updatePageURL(page) {
-    if (page === "journal") {
-        history.pushState(
-            { page },
-            "",
-            window.location.pathname
-        );
-    } else {
-        history.pushState(
-            { page },
-            "",
-            `${window.location.pathname}#${page}`
-        );
-    }
+    history.pushState(
+        { page },
+        "",
+        `${window.location.pathname}${page === "quests" ? "" : `#${page}`}`
+    );
 }
 
 
-// Display the requested page
+// Display a page
 function navigateTo(page, updateURL = true) {
     if (!validPages.includes(page)) {
-        page = "journal";
+        page = "quests";
     }
 
     if (updateURL) {
         updatePageURL(page);
     }
 
-    // Update active page navigation
+    // Update active navigation button
     document.querySelectorAll("[data-page]").forEach(item => {
         item.classList.toggle(
             "active",
@@ -62,7 +54,7 @@ function navigateTo(page, updateURL = true) {
         );
     });
 
-    // Display page content
+    // Display requested page
     if (page === "quests") {
 
         currentTeam = "all";
@@ -79,10 +71,6 @@ function navigateTo(page, updateURL = true) {
     } else if (page === "music") {
 
         showMusic();
-
-    } else {
-
-        showPlaceholder(page);
     }
 }
 
@@ -98,7 +86,7 @@ async function initializeJournal() {
         allQuests = await loadQuests();
 
         // Open the page specified by the URL.
-        // If there is no hash, open Journal.
+        // Defaults to Quests if there is no valid hash.
         navigateTo(getPageFromURL(), false);
 
     } catch (error) {
@@ -183,12 +171,13 @@ document.querySelectorAll("[data-page]").forEach(button => {
    BROWSER NAVIGATION
    ========================================================= */
 
-// Handle browser Back / Forward
+// Browser Back / Forward
 window.addEventListener("popstate", () => {
     navigateTo(getPageFromURL(), false);
 });
 
-// Handle direct hash changes
+
+// Handle manually changed hashes
 window.addEventListener("hashchange", () => {
     navigateTo(getPageFromURL(), false);
 });
