@@ -227,6 +227,8 @@ document.querySelectorAll("[data-page]").forEach(button => {
             showMap();
         } else if (page == "music") {
             showMusic();
+        } else if (page === "calendar") {
+            showCalendar();
         } else {
             showPlaceholder(page);
         }
