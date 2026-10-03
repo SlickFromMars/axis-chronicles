@@ -3,6 +3,91 @@ let currentTeam = "all";
 
 
 /* =========================================================
+   PAGE ROUTING
+   ========================================================= */
+
+const validPages = [
+    "quests",
+    "calendar",
+    "map",
+    "music"
+];
+
+
+// Get the current page from the URL hash
+function getPageFromURL() {
+    const page = window.location.hash.substring(1);
+
+    if (validPages.includes(page)) {
+        return page;
+    }
+
+    return "journal";
+}
+
+
+// Update the URL without changing the existing site URL
+function updatePageURL(page) {
+    if (page === "journal") {
+        history.pushState(
+            { page },
+            "",
+            window.location.pathname
+        );
+    } else {
+        history.pushState(
+            { page },
+            "",
+            `${window.location.pathname}#${page}`
+        );
+    }
+}
+
+
+// Display the requested page
+function navigateTo(page, updateURL = true) {
+    if (!validPages.includes(page)) {
+        page = "journal";
+    }
+
+    if (updateURL) {
+        updatePageURL(page);
+    }
+
+    // Update active page navigation
+    document.querySelectorAll("[data-page]").forEach(item => {
+        item.classList.toggle(
+            "active",
+            item.dataset.page === page
+        );
+    });
+
+    // Display page content
+    if (page === "quests") {
+
+        currentTeam = "all";
+        showQuests();
+
+    } else if (page === "calendar") {
+
+        showCalendar();
+
+    } else if (page === "map") {
+
+        showMap();
+
+    } else if (page === "music") {
+
+        showMusic();
+
+    } else {
+
+        showPlaceholder(page);
+    }
+}
+
+
+/* =========================================================
    INITIALIZE JOURNAL
    ========================================================= */
 
@@ -12,7 +97,10 @@ async function initializeJournal() {
     try {
         allQuests = await loadQuests();
 
-        showQuests();
+        // Open the page specified by the URL.
+        // If there is no hash, open Journal.
+        navigateTo(getPageFromURL(), false);
+
     } catch (error) {
         console.error(error);
 
@@ -86,39 +174,23 @@ document.querySelectorAll("[data-team]").forEach(button => {
 
 document.querySelectorAll("[data-page]").forEach(button => {
     button.addEventListener("click", () => {
-        const page = button.dataset.page;
-
-        // Update active page navigation
-        document.querySelectorAll("[data-page]").forEach(item => {
-            item.classList.toggle(
-                "active",
-                item.dataset.page === page
-            );
-        });
-
-        if (page === "quests") {
-
-            currentTeam = "all";
-            showQuests();
-
-        } else if (page === "calendar") {
-
-            showCalendar();
-
-        } else if (page === "map") {
-
-            showMap();
-
-        } else if (page === "music") {
-
-            showMusic();
-
-        } else {
-
-            showPlaceholder(page);
-
-        }
+        navigateTo(button.dataset.page);
     });
+});
+
+
+/* =========================================================
+   BROWSER NAVIGATION
+   ========================================================= */
+
+// Handle browser Back / Forward
+window.addEventListener("popstate", () => {
+    navigateTo(getPageFromURL(), false);
+});
+
+// Handle direct hash changes
+window.addEventListener("hashchange", () => {
+    navigateTo(getPageFromURL(), false);
 });
 
 
