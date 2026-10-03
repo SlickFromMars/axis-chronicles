@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#211e1a">
+    <title>Breaking the Axis</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-icon">✦</span>
+                <span>BREAKING THE AXIS</span>
+            </div>
+            <span class="header-label">CAMPAIGN JOURNAL</span>
+        </header>
+
+        <div class="layout">
+            <aside class="sidebar">
+                <div class="sidebar-heading">JOURNAL</div>
+
+                <button class="nav-item active"
+                        data-page="quests">
+                    <span>▤</span> Quests
+                </button>
+
+                <button class="nav-item"
+                        data-page="locations">
+                    <span>⌖</span> Map
+                </button>
+                <div class="sidebar-heading party-heading">
+                    PARTIES
+                </div>
+
+                <button class="nav-item"
+                        data-team="one">
+                    Team One
+                </button>
+
+                <button class="nav-item"
+                        data-team="two">
+                    Team Two
+                </button>
+            </aside>
+
+            
+
+            <main id="main-content" class="main-content">
+                <div class="page-heading">
+                    <div class="eyebrow">THE ADVENTURER'S JOURNAL</div>
+                    <h1>The Axis Codex</h1>
+                    <p>
+                        A record of the trials, discoveries,
+                        and deeds of the daring adventurers of
+                        Caelora.
+                    </p>
+                </div>
+
+                <div id="content">
+                    <p class="loading">Fetching chronicles...</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/quests.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
