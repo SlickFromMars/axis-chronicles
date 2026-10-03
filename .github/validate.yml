@@ -1,0 +1,36 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate JavaScript syntax
+        run: |
+          for file in js/*.js; do
+            node --check "$file"
+          done
+
+      - name: Validate JSON
+        run: |
+          for file in data/*.json; do
+            python -m json.tool "$file" > /dev/null
+          done
+
+      - name: Check required files
+        run: |
+          test -f index.html
+          test -f css/style.css
+          test -f js/app.js
+          test -f js/quests.js
