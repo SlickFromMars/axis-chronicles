@@ -1,3 +1,225 @@
 [
-    
+    {
+        "id": "act-1",
+        "title": "Flames and Fate",
+        "team": "shared",
+        "type": "main",
+        "status": "active",
+        "description": "Var'Kennan's influence reaches deeper into Caeloran society.",
+        "objectives": [
+            {
+                "text": "Find a way to subdue or defeat Var'Kennan.",
+                "completed": false
+            },
+            {
+                "text": "Dismantle the Order of Truespawn to stop the Dwarven genocide.",
+                "completed": false
+            }
+        ],
+        "developments": []
+    },
+    {
+        "id": "ashton",
+        "title": "The Wayward Son",
+        "team": "one",
+        "type": "side",
+        "status": "active",
+        "description": "Ashton has been captured by Dyra, and the party must find him before it's too late.",
+        "objectives": [
+            {
+                "text": "Locate and save Ashton from Dyra.",
+                "completed": false
+            },
+            {
+                "text": "Deliver Ashton to Voltegar in Avilon.",
+                "completed": true
+            },
+            {
+                "text": "Discover what is inside the mysterious orb.",
+                "completed": true
+            }
+        ],
+        "developments": [
+            {
+                "session": "Team 1, Chapter 5 - Meet Me in the Woods",
+                "text": "Dyra captured Ashton while the team was fighting and left an ominous note."
+            }
+        ]
+    },
+    {
+        "id": "the-edge",
+        "title": "Beyond the Sea",
+        "team": "shared",
+        "type": "side",
+        "status": "active",
+        "description": "A massive glacier surrounds the island, fabled to bring death to any adventurer who goes near it.",
+        "objectives": [
+            {
+                "text": "Pay a visit to the Undersea to find a way to make it to the glaciers.",
+                "completed": false
+            }
+        ],
+        "developments": []
+    },
+    {
+        "id": "quill",
+        "title": "The Crystal's Calling",
+        "team": "one",
+        "type": "companion",
+        "status": "active",
+        "description": "A mysterious crystal connects Quill to mysterious forces and deities.",
+        "objectives": [
+            {
+                "text": "Investigate the crystal's origins.",
+                "completed": false
+            },
+            {
+                "text": "Discover the nature of its resonant connection.",
+                "completed": false
+            }
+        ],
+        "developments": [
+            {
+                "session": "Breaking the Axis, Chapter 1 - The Chain",
+                "text": "Bix managed to freeze Quill in place by connecting to the crystal."
+            }
+        ]
+    },
+    {
+        "id": "caedes",
+        "title": "The Death Cheater",
+        "team": "one",
+        "type": "companion",
+        "status": "active",
+        "description": "Caedes' connection to the book puts him at odds with his team and the goddess of death herself.",
+        "objectives": [
+            {
+                "text": "Discover the book's motivations and origins.",
+                "completed": false
+            },
+            {
+                "text": "Heed Nihelia's warning... or don't.",
+                "completed": false
+            },
+            {
+                "text": "Keep a close eye on Mari and discover the motivations behind the attempt on your life.",
+                "completed": false
+            }
+        ],
+        "developments": [
+            {
+                "session": "Team 1, Chapter 5 - Meet Me in the Woods",
+                "text": "Mari attempted to kill Caedes, which has festered a sense of distrust within the party."
+            },
+            {
+                "session": "Team 1, Chapter 3 - The Hard Break",
+                "text": "We now know that the book is searching for a vessel to be reborn in."
+            }
+        ]
+    },
+    {
+        "id": "balthrum",
+        "title": "The Hardened Heart",
+        "team": "one",
+        "type": "companion",
+        "status": "active",
+        "description": "A simple errand led to a chain reaction that has the humble Balthrum traveling Caelora, and it might hit closer to home than he thinks.",
+        "objectives": [
+            {
+                "text": "Locate the fabled mug for your wife.",
+                "completed": false
+            },
+            {
+                "text": "Dive deeper into your past memories.",
+                "completed": false
+            }
+        ],
+        "developments": []
+    },
+    {
+        "id": "mari",
+        "title": "Fable of Feathers",
+        "team": "one",
+        "type": "companion",
+        "status": "active",
+        "description": "Mari's origins are mostly shrouded in mystery and secrets, but somewhere deep down there's a far more complex soul than meets the eye.",
+        "objectives": [
+            {
+                "text": "Discover the truth of your lineage.",
+                "completed": false
+            },
+            {
+                "text": "Return to or reject the influence of the Figure.",
+                "completed": false
+            },
+            {
+                "text": "Dispose of Caedes Mortem. (FAILED)",
+                "completed": true
+            }
+        ],
+        "developments": [
+            {
+                "session": "Team 1, Chapter 5 - Meet Me in the Woods",
+                "text": "Mari attempted to kill Caedes, which has festered a sense of distrust within the party."
+            }
+        ]
+    },
+    {
+        "id": "jorovindr",
+        "title": "The Kensei's Chance",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "description": "Jorovindr travels the continent in search of purpose... and rocks.",
+        "objectives": [
+            {
+                "text": "Find the stone giants and rescue them from Var'Kennan.",
+                "completed": false
+            },
+            {
+                "text": "Find a use for the mysterious stone from the festival.",
+                "completed": false
+            }
+        ],
+        "developments": []
+    },
+    {
+        "id": "maria",
+        "title": "The Warden's Stranding",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "description": "Maria has been stranded on Caelora with her memories clouded by amnesia.",
+        "objectives": [
+            {
+                "text": "Travel to the Highlands to find your brother.",
+                "completed": false
+            },
+            {
+                "text": "Discover how you got to Caelora, and find a way to return home.",
+                "completed": false
+            }
+        ],
+        "developments": [
+            {
+                "session": "Team 2, Chapter 4 - Holocene",
+                "text": "Vae'Saron seems to think that your brother might be somewhere in the Highlands, which is the domain of Var'Kennan."
+            }
+        ]
+    },
+    {
+        "id": "oliver",
+        "title": "A Son's Burden",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "description": "Oliver is no longer at sea and must come to terms with his past in order to discover his true self.",
+        "objectives": [
+            {
+                "text": "Find and free your mother.",
+                "completed": false
+            }
+        ],
+        "developments": []
+    }
 ]

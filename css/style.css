@@ -71,7 +71,7 @@ button:focus-visible {
 
     padding: 0 28px;
 
-    background: #211e1a;
+    background: var(--background);
     border-bottom: 1px solid var(--gold-dark);
 }
 
@@ -280,6 +280,7 @@ h1 {
     text-align: left;
 
     background: var(--panel);
+
     border: 1px solid var(--border);
     border-radius: 5px;
 
@@ -356,6 +357,74 @@ h1 {
 
 
 /* =========================================================
+   QUEST CONTROLS
+   ========================================================= */
+
+.quest-controls {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-bottom: 24px;
+}
+
+.quest-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--muted);
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+}
+
+.quest-toggle input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.quest-toggle-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 17px;
+    height: 17px;
+
+    color: var(--ink);
+    background: var(--background);
+
+    border: 1px solid var(--gold-dark);
+    border-radius: 3px;
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.quest-toggle:hover {
+    color: var(--parchment);
+}
+
+.quest-toggle input:checked + .quest-toggle-box {
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+
+/* =========================================================
    QUEST DETAIL
    ========================================================= */
 
@@ -370,11 +439,23 @@ h1 {
 }
 
 .quest-detail h2 {
-    margin: 10px 0 10px;
+    margin: 10px 0;
 
     color: var(--parchment);
     font-size: 32px;
     line-height: 1.25;
+}
+
+.quest-detail-team {
+    margin-top: 5px;
+
+    color: var(--muted-dark);
+
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
 }
 
 .quest-description {
@@ -411,21 +492,11 @@ h1 {
 .objective {
     display: flex;
     align-items: flex-start;
-
     gap: 12px;
 
     color: var(--parchment);
     line-height: 1.5;
 }
-
-
-/*
-    Decorative checkbox.
-
-    These are intentionally NOT interactive.
-    quests.json determines whether an objective
-    appears completed.
-*/
 
 .objective-checkbox {
     display: inline-flex;
@@ -439,7 +510,6 @@ h1 {
     margin-top: 2px;
 
     color: transparent;
-
     background: var(--background);
 
     border: 1px solid var(--gold-dark);
@@ -452,7 +522,6 @@ h1 {
 
 .objective.completed .objective-checkbox {
     color: var(--ink);
-
     background: var(--gold);
     border-color: var(--gold);
 }
@@ -462,6 +531,15 @@ h1 {
 
     text-decoration: line-through;
     text-decoration-color: var(--muted-dark);
+}
+
+.objectives-hidden {
+    margin: 0;
+
+    color: var(--muted-dark);
+
+    font-style: italic;
+    line-height: 1.5;
 }
 
 
@@ -544,6 +622,7 @@ h1 {
     text-align: center;
 
     background: var(--panel);
+
     border: 1px solid var(--border);
     border-radius: 6px;
 }
@@ -560,6 +639,7 @@ h1 {
     color: var(--failure);
 
     background: rgba(112, 45, 43, 0.12);
+
     border: 1px solid var(--burgundy);
     border-radius: 5px;
 }
@@ -581,15 +661,14 @@ h1 {
 }
 
 .map-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
     width: 100%;
+    padding: 12px;
 
     overflow: auto;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
-    padding: 12px;
 
     background: #151515;
 
@@ -606,18 +685,10 @@ h1 {
     object-fit: contain;
 
     border-radius: 4px;
-}
 
-/* =========================================================
-   FULL-SCREEN MAP VIEWER
-   ========================================================= */
-
-.world-map {
     cursor: zoom-in;
 
-    transition:
-        opacity 0.15s ease,
-        transform 0.15s ease;
+    transition: opacity 0.15s ease;
 }
 
 .world-map:hover {
@@ -625,7 +696,9 @@ h1 {
 }
 
 
-/* Full-screen overlay */
+/* =========================================================
+   FULL-SCREEN MAP VIEWER
+   ========================================================= */
 
 .map-viewer {
     position: fixed;
@@ -645,17 +718,14 @@ h1 {
     animation: map-viewer-fade-in 0.18s ease;
 }
 
-
-/* Enlarged map */
-
 .map-viewer-image {
     display: block;
 
-    max-width: 95vw;
-    max-height: 92vh;
-
     width: auto;
     height: auto;
+
+    max-width: 95vw;
+    max-height: 92vh;
 
     object-fit: contain;
 
@@ -671,20 +741,17 @@ h1 {
     animation: map-viewer-image-in 0.2s ease;
 }
 
-
-/* Close button */
-
 .map-viewer-close {
     position: absolute;
     top: 20px;
     right: 26px;
 
-    width: 44px;
-    height: 44px;
-
     display: flex;
     align-items: center;
     justify-content: center;
+
+    width: 44px;
+    height: 44px;
 
     color: var(--parchment);
     background: rgba(52, 46, 37, 0.9);
@@ -740,33 +807,6 @@ h1 {
 
 
 /* =========================================================
-   MOBILE MAP VIEWER
-   ========================================================= */
-
-@media (max-width: 650px) {
-
-    .map-viewer {
-        padding: 16px;
-    }
-
-    .map-viewer-image {
-        max-width: 96vw;
-        max-height: 90vh;
-    }
-
-    .map-viewer-close {
-        top: 12px;
-        right: 12px;
-
-        width: 40px;
-        height: 40px;
-
-        font-size: 25px;
-    }
-}
-
-
-/* =========================================================
    MUSIC
    ========================================================= */
 
@@ -802,6 +842,8 @@ h1 {
 
 @media (max-width: 650px) {
 
+    /* Top bar */
+
     .topbar {
         padding: 0 16px;
     }
@@ -810,13 +852,18 @@ h1 {
         display: none;
     }
 
+
+    /* Layout */
+
     .layout {
         grid-template-columns: 1fr;
     }
 
+
+    /* Sidebar */
+
     .sidebar {
         display: flex;
-
         gap: 5px;
 
         overflow-x: auto;
@@ -840,6 +887,9 @@ h1 {
         white-space: nowrap;
     }
 
+
+    /* Main content */
+
     .main-content {
         padding: 26px 18px;
     }
@@ -848,6 +898,9 @@ h1 {
         padding-bottom: 22px;
         margin-bottom: 24px;
     }
+
+
+    /* Quests */
 
     .quest-category {
         margin-bottom: 26px;
@@ -861,6 +914,20 @@ h1 {
         font-size: 21px;
     }
 
+    .quest-card-top {
+        align-items: flex-start;
+    }
+
+    .quest-status {
+        white-space: nowrap;
+    }
+
+    .quest-controls {
+        justify-content: flex-start;
+
+        margin-bottom: 20px;
+    }
+
     .quest-detail {
         padding: 20px;
     }
@@ -869,11 +936,25 @@ h1 {
         font-size: 27px;
     }
 
-    .quest-card-top {
-        align-items: flex-start;
+
+    /* Map viewer */
+
+    .map-viewer {
+        padding: 16px;
     }
 
-    .quest-status {
-        white-space: nowrap;
+    .map-viewer-image {
+        max-width: 96vw;
+        max-height: 90vh;
+    }
+
+    .map-viewer-close {
+        top: 12px;
+        right: 12px;
+
+        width: 40px;
+        height: 40px;
+
+        font-size: 25px;
     }
 }
