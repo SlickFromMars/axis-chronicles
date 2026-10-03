@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap');
+
 :root {
     /* -----------------------------------------------------
        CORE PALETTE
@@ -203,13 +205,10 @@ a:focus-visible {
 
     color: var(--parchment-bright);
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+    font-family: "Cinzel", Georgia, "Times New Roman", serif;
 
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 600;
 
     letter-spacing: 2.5px;
 
@@ -567,12 +566,8 @@ a:focus-visible {
 h1,
 h2,
 h3 {
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-weight: normal;
+    font-family: "Cinzel", Georgia, "Times New Roman", serif;
+    font-weight: 500;
 }
 
 h1 {
@@ -585,7 +580,7 @@ h1 {
 
     line-height: 1.12;
 
-    letter-spacing: -0.5px;
+    letter-spacing: 0.5px;
 
     text-shadow:
         0 2px 12px rgba(0, 0, 0, 0.45),
