@@ -874,6 +874,64 @@ h1 {
     margin-top: 18px;
 }
 
+/* CALENDAR NAVIGATION */
+
+.calendar-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.calendar-title-row h1 {
+    margin: 12px 0 0;
+}
+
+.calendar-navigation {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.calendar-nav-button,
+.calendar-today-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    color: var(--parchment);
+    background: var(--panel);
+    border: 1px solid var(--gold-dark);
+    border-radius: 4px;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.calendar-nav-button {
+    width: 34px;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+}
+
+.calendar-today-button {
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.calendar-nav-button:hover,
+.calendar-today-button:hover {
+    color: var(--ink);
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
 .calendar-subscribe,
 .calendar-download {
     display: inline-flex;
@@ -1121,6 +1179,18 @@ h1 {
 
     .calendar-event-team {
         font-size: 7px;
+    }
+
+    .calendar-title-row {
+        align-items: flex-end;
+    }
+
+    .calendar-navigation {
+        flex-shrink: 0;
+    }
+
+    .calendar-today-button {
+        display: none;
     }
 
     .calendar-actions {

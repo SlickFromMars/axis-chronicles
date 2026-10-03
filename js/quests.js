@@ -1,6 +1,8 @@
 let hideCompleted =
     localStorage.getItem("hideCompleted") === "true";
 
+let currentCalendarDate = new Date();
+
 
 /* =========================================================
    LOAD QUESTS
@@ -447,14 +449,12 @@ async function showCalendar() {
 function renderCalendar(sessions) {
     const content = document.getElementById("content");
 
-    const now = new Date();
-
-    const year = now.getFullYear();
-    const month = now.getMonth();
+    const year = currentCalendarDate.getFullYear();
+    const month = currentCalendarDate.getMonth();
 
     const monthName = new Intl.DateTimeFormat("en-US", {
         month: "long"
-    }).format(now);
+    }).format(currentCalendarDate);
 
     const firstDay = new Date(
         year,
@@ -477,9 +477,43 @@ function renderCalendar(sessions) {
                     SESSION SCHEDULE
                 </div>
 
-                <h1>
-                    ${monthName} ${year}
-                </h1>
+                <div class="calendar-title-row">
+
+                    <h1>
+                        ${monthName} ${year}
+                    </h1>
+
+                    <div class="calendar-navigation">
+
+                        <button
+                            type="button"
+                            class="calendar-nav-button"
+                            id="calendar-previous"
+                            aria-label="Previous month"
+                        >
+                            ←
+                        </button>
+
+                        <button
+                            type="button"
+                            class="calendar-today-button"
+                            id="calendar-today"
+                        >
+                            Today
+                        </button>
+
+                        <button
+                            type="button"
+                            class="calendar-nav-button"
+                            id="calendar-next"
+                            aria-label="Next month"
+                        >
+                            →
+                        </button>
+
+                    </div>
+
+                </div>
 
                 <div class="calendar-actions">
 
@@ -564,6 +598,39 @@ function renderCalendar(sessions) {
     `;
 
     content.innerHTML = calendarHTML;
+
+
+    /* =====================================================
+       MONTH NAVIGATION
+       ===================================================== */
+
+    document
+        .getElementById("calendar-previous")
+        .addEventListener("click", () => {
+            currentCalendarDate.setMonth(
+                currentCalendarDate.getMonth() - 1
+            );
+
+            renderCalendar(sessions);
+        });
+
+    document
+        .getElementById("calendar-next")
+        .addEventListener("click", () => {
+            currentCalendarDate.setMonth(
+                currentCalendarDate.getMonth() + 1
+            );
+
+            renderCalendar(sessions);
+        });
+
+    document
+        .getElementById("calendar-today")
+        .addEventListener("click", () => {
+            currentCalendarDate = new Date();
+
+            renderCalendar(sessions);
+        });
 
 
     /* =====================================================
