@@ -94,14 +94,14 @@ function renderQuestDetail(quest) {
             <h3>Recent Developments</h3>
             <div class="developments">
                 ${quest.developments.length
-                    ? quest.developments.map(item => `
+            ? quest.developments.map(item => `
                         <div class="development">
-                            <span>SESSION ${escapeHTML(item.session)}</span>
+                            <span>${escapeHTML(item.session)}</span>
                             <p>${escapeHTML(item.text)}</p>
                         </div>
                     `).join("")
-                    : "<p>No developments recorded.</p>"
-                }
+            : "<p>No developments recorded.</p>"
+        }
             </div>
         </div>
     `;
