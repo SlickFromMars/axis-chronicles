@@ -34,13 +34,12 @@ function isAppInstalled() {
 
 // Detect mobile devices, including iPads that may identify as Macs
 function isMobileDevice() {
-    return (
-        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
-        (
-            navigator.maxTouchPoints > 0 &&
-            window.matchMedia("(pointer: coarse)").matches
-        )
-    );
+    return /Android|iPhone|iPad|iPod/i.test(
+        navigator.userAgent
+    ) || (
+            navigator.platform === "MacIntel" &&
+            navigator.maxTouchPoints > 1
+        );
 }
 
 
