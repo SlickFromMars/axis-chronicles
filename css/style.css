@@ -1,26 +1,46 @@
-
 :root {
     --background: #211e1a;
     --sidebar: #29251f;
     --panel: #342e25;
     --panel-hover: #453a2b;
+    --panel-dark: #2b261f;
+
     --gold: #c6a66a;
+    --gold-light: #dfc58e;
     --gold-dark: #806746;
+
     --parchment: #e7d5b3;
     --muted: #b9a98b;
+    --muted-dark: #928875;
+
     --ink: #33291f;
     --burgundy: #702d2b;
     --border: #574832;
+
+    --success: #9eaf78;
+    --failure: #c17b73;
 }
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+}
+
 body {
+    min-height: 100vh;
     margin: 0;
+
     background: var(--background);
     color: var(--parchment);
+
     font-family: Georgia, "Times New Roman", serif;
 }
 
@@ -28,55 +48,83 @@ button {
     font: inherit;
 }
 
+button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
 .app {
     min-height: 100vh;
 }
 
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
 .topbar {
     height: 64px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     padding: 0 28px;
-    border-bottom: 1px solid var(--gold-dark);
+
     background: #211e1a;
+    border-bottom: 1px solid var(--gold-dark);
 }
 
 .brand {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-family: Georgia, serif;
+
+    color: var(--parchment);
+
+    font-family: Georgia, "Times New Roman", serif;
     font-weight: bold;
     letter-spacing: 2px;
-    color: var(--parchment);
 }
 
 .brand-icon {
-    font-size: 25px;
     color: var(--gold);
+    font-size: 25px;
 }
 
 .header-label,
 .eyebrow,
 .sidebar-heading {
+    color: var(--gold);
+
     font-family: Arial, sans-serif;
     font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--gold);
     font-weight: bold;
+    letter-spacing: 2px;
 }
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
 
 .layout {
     display: grid;
     grid-template-columns: 230px minmax(0, 1fr);
+
     min-height: calc(100vh - 64px);
 }
 
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
 .sidebar {
+    padding: 28px 16px;
+
     background: var(--sidebar);
     border-right: 1px solid var(--border);
-    padding: 28px 16px;
 }
 
 .sidebar-heading {
@@ -89,57 +137,80 @@ button {
 
 .nav-item {
     display: flex;
-    gap: 12px;
     align-items: center;
+    gap: 12px;
+
     width: 100%;
-    padding: 12px 14px;
     margin: 4px 0;
-    text-align: left;
+    padding: 12px 14px;
+
     color: var(--muted);
     background: transparent;
+
     border: 0;
     border-radius: 4px;
+
     cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .nav-item:hover {
-    background: var(--panel-hover);
     color: var(--parchment);
+    background: var(--panel-hover);
 }
 
 .nav-item.active {
-    background: var(--panel-hover);
     color: var(--parchment);
+    background: var(--panel-hover);
+
     box-shadow: inset 3px 0 var(--gold);
 }
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
 
 .main-content {
     width: 100%;
     max-width: 1100px;
-    padding: 48px;
+
     margin: 0 auto;
+    padding: 48px;
 }
 
 .page-heading {
     padding-bottom: 28px;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
+
     border-bottom: 1px solid var(--gold-dark);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: Georgia, "Times New Roman", serif;
     font-weight: normal;
 }
 
 h1 {
     margin: 12px 0;
-    font-size: clamp(32px, 5vw, 48px);
+
     color: var(--parchment);
+    font-size: clamp(32px, 5vw, 48px);
 }
 
 .page-heading p {
+    max-width: 700px;
+
+    margin: 0;
+
     color: var(--muted);
+
     font-style: italic;
     line-height: 1.6;
 }
@@ -149,85 +220,109 @@ h1 {
     font-style: italic;
 }
 
-@media (max-width: 650px) {
-    .topbar {
-        padding: 0 16px;
-    }
 
-    .header-label {
-        display: none;
-    }
+/* =========================================================
+   QUEST CATEGORIES
+   ========================================================= */
 
-    .layout {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        display: flex;
-        gap: 5px;
-        overflow-x: auto;
-        padding: 10px;
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .sidebar-heading {
-        display: none;
-    }
-
-    .nav-item {
-        width: auto;
-        flex: 0 0 auto;
-        white-space: nowrap;
-        padding: 10px;
-    }
-
-    .main-content {
-        padding: 26px 18px;
-    }
+.quest-category {
+    margin-bottom: 32px;
 }
 
+.quest-category-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin: 0 0 10px;
+
+    color: var(--gold);
+
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.quest-category-heading::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: var(--border);
+}
+
+
+/* =========================================================
+   QUEST LIST
+   ========================================================= */
 
 .quest-list {
     display: grid;
-    gap: 14px;
+    gap: 10px;
 }
 
+
+/* =========================================================
+   QUEST CARD
+   ========================================================= */
+
 .quest-card {
+    position: relative;
+
     width: 100%;
-    padding: 22px;
-    text-align: left;
+    padding: 16px 20px;
+
     color: var(--parchment);
+    text-align: left;
+
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 5px;
+
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
 }
 
 .quest-card:hover {
     background: var(--panel-hover);
     border-color: var(--gold);
+
+    transform: translateX(2px);
 }
 
-.quest-card h2,
-.quest-detail h2 {
-    color: var(--parchment);
-    font-size: 25px;
-    margin: 12px 0;
-}
-
-.quest-card p,
-.quest-description {
-    color: var(--muted);
-    line-height: 1.6;
+.quest-card:active {
+    transform: translateX(1px);
 }
 
 .quest-card-top {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+
     gap: 12px;
+}
+
+.quest-card h2 {
+    margin: 5px 0 6px;
+
+    color: var(--parchment);
+    font-size: 23px;
+    line-height: 1.25;
+}
+
+.quest-card p {
+    margin: 0;
+
+    color: var(--muted);
+    line-height: 1.5;
 }
 
 .quest-category,
@@ -248,113 +343,537 @@ h1 {
 }
 
 .quest-status.active {
-    color: #d4ae66;
+    color: var(--gold-light);
 }
 
 .quest-status.completed {
-    color: #9eaf78;
+    color: var(--success);
 }
 
 .quest-status.failed {
-    color: #c17b73;
+    color: var(--failure);
 }
 
+
+/* =========================================================
+   QUEST DETAIL
+   ========================================================= */
+
 .quest-detail {
-    margin-top: 25px;
-    padding: 26px;
+    margin-top: 20px;
+    padding: 28px;
+
     background: var(--panel);
+
     border: 1px solid var(--gold-dark);
     border-radius: 6px;
 }
 
+.quest-detail h2 {
+    margin: 10px 0 10px;
+
+    color: var(--parchment);
+    font-size: 32px;
+    line-height: 1.25;
+}
+
+.quest-description {
+    max-width: 800px;
+
+    margin: 0 0 28px;
+
+    color: var(--muted);
+    line-height: 1.6;
+}
+
 .quest-detail h3 {
-    margin-top: 30px;
+    margin: 30px 0 12px;
     padding-bottom: 10px;
+
     color: var(--gold);
+
     font-size: 18px;
+
     border-bottom: 1px solid var(--border);
 }
 
+
+/* =========================================================
+   OBJECTIVES
+   ========================================================= */
+
 .objectives {
-    display: grid;
-    gap: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .objective {
     display: flex;
     align-items: flex-start;
+
     gap: 12px;
+
     color: var(--parchment);
     line-height: 1.5;
-    cursor: pointer;
 }
 
-.objective input {
-    accent-color: var(--gold);
-    margin-top: 4px;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
+
+/*
+    Decorative checkbox.
+
+    These are intentionally NOT interactive.
+    quests.json determines whether an objective
+    appears completed.
+*/
+
+.objective-checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+
+    color: transparent;
+
+    background: var(--background);
+
+    border: 1px solid var(--gold-dark);
+    border-radius: 3px;
+
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
 }
 
-.objective input:checked + span {
-    color: var(--muted);
+.objective.completed .objective-checkbox {
+    color: var(--ink);
+
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+.objective.completed .objective-text {
+    color: var(--muted-dark);
+
     text-decoration: line-through;
+    text-decoration-color: var(--muted-dark);
+}
+
+
+/* =========================================================
+   RECENT DEVELOPMENTS
+   ========================================================= */
+
+.developments {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .development {
-    padding: 12px;
-    margin: 12px 0;
-    border-left: 2px solid var(--gold-dark);
+    padding: 14px 16px;
+
     background: rgba(0, 0, 0, 0.12);
+
+    border-left: 2px solid var(--gold-dark);
 }
 
-.development span {
+.development span,
+.development-session {
     color: var(--gold);
-    font: bold 10px Arial, sans-serif;
+
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.development p,
-.placeholder p,
-.empty-state {
+.development p {
+    margin: 7px 0 0;
+
     color: var(--muted);
     line-height: 1.6;
 }
 
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
 .back-button {
+    display: inline-block;
+
+    padding: 8px 0;
+
     color: var(--gold);
     background: none;
+
     border: none;
+
     cursor: pointer;
+
     font-size: 14px;
-    padding: 8px 0;
+
+    transition: color 0.15s ease;
 }
 
 .back-button:hover {
     color: var(--parchment);
 }
 
+
+/* =========================================================
+   EMPTY / ERROR / PLACEHOLDER
+   ========================================================= */
+
+.empty-state,
+.placeholder p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.placeholder {
+    padding: 30px;
+
+    text-align: center;
+
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.placeholder h2 {
+    margin-top: 0;
+
+    color: var(--gold);
+}
+
 .error {
-    color: #d18c82;
+    padding: 18px;
+
+    color: var(--failure);
+
+    background: rgba(112, 45, 43, 0.12);
+    border: 1px solid var(--burgundy);
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.map-page {
+    width: 100%;
+}
+
+.map-page h1 {
+    margin-top: 0;
+    margin-bottom: 22px;
+
+    font-size: 32px;
 }
 
 .map-container {
     width: 100%;
-    height: 100%;
+
     overflow: auto;
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    background: #151515;
-    border-radius: 8px;
+
     padding: 12px;
+
+    background: #151515;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
 }
 
 .world-map {
     display: block;
+
     width: 100%;
     height: auto;
+
     object-fit: contain;
+
     border-radius: 4px;
+}
+
+/* =========================================================
+   FULL-SCREEN MAP VIEWER
+   ========================================================= */
+
+.world-map {
+    cursor: zoom-in;
+
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+}
+
+.world-map:hover {
+    opacity: 0.92;
+}
+
+
+/* Full-screen overlay */
+
+.map-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+
+    background: rgba(10, 9, 8, 0.92);
+
+    cursor: zoom-out;
+
+    animation: map-viewer-fade-in 0.18s ease;
+}
+
+
+/* Enlarged map */
+
+.map-viewer-image {
+    display: block;
+
+    max-width: 95vw;
+    max-height: 92vh;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    border: 1px solid var(--gold-dark);
+    border-radius: 4px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(198, 166, 106, 0.08);
+
+    cursor: default;
+
+    animation: map-viewer-image-in 0.2s ease;
+}
+
+
+/* Close button */
+
+.map-viewer-close {
+    position: absolute;
+    top: 20px;
+    right: 26px;
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--parchment);
+    background: rgba(52, 46, 37, 0.9);
+
+    border: 1px solid var(--gold-dark);
+    border-radius: 50%;
+
+    font-family: Arial, sans-serif;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.map-viewer-close:hover {
+    color: var(--ink);
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+
+/* =========================================================
+   MAP VIEWER ANIMATIONS
+   ========================================================= */
+
+@keyframes map-viewer-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes map-viewer-image-in {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* =========================================================
+   MOBILE MAP VIEWER
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .map-viewer {
+        padding: 16px;
+    }
+
+    .map-viewer-image {
+        max-width: 96vw;
+        max-height: 90vh;
+    }
+
+    .map-viewer-close {
+        top: 12px;
+        right: 12px;
+
+        width: 40px;
+        height: 40px;
+
+        font-size: 25px;
+    }
+}
+
+
+/* =========================================================
+   MUSIC
+   ========================================================= */
+
+.music-section {
+    margin-bottom: 36px;
+}
+
+.music-section h2 {
+    margin-bottom: 8px;
+
+    color: var(--gold);
+}
+
+.music-section p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.spotify-player {
+    width: 100%;
+    min-height: 152px;
+
+    margin-top: 16px;
+
+    border: 0;
+    border-radius: 12px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .header-label {
+        display: none;
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: flex;
+
+        gap: 5px;
+
+        overflow-x: auto;
+
+        padding: 10px;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-heading {
+        display: none;
+    }
+
+    .nav-item {
+        width: auto;
+        flex: 0 0 auto;
+
+        padding: 10px;
+
+        white-space: nowrap;
+    }
+
+    .main-content {
+        padding: 26px 18px;
+    }
+
+    .page-heading {
+        padding-bottom: 22px;
+        margin-bottom: 24px;
+    }
+
+    .quest-category {
+        margin-bottom: 26px;
+    }
+
+    .quest-card {
+        padding: 15px 16px;
+    }
+
+    .quest-card h2 {
+        font-size: 21px;
+    }
+
+    .quest-detail {
+        padding: 20px;
+    }
+
+    .quest-detail h2 {
+        font-size: 27px;
+    }
+
+    .quest-card-top {
+        align-items: flex-start;
+    }
+
+    .quest-status {
+        white-space: nowrap;
+    }
 }
