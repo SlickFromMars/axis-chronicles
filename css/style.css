@@ -675,6 +675,108 @@ h1 {
     text-transform: uppercase;
 }
 
+.quest-category-heading {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.quest-category-heading:hover {
+    color: var(--gold-light);
+}
+
+.category-title {
+    flex-shrink: 0;
+}
+
+.category-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+
+    color: var(--muted);
+    background: rgba(197, 161, 91, 0.07);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+
+    font-size: 9px;
+    letter-spacing: 0;
+}
+
+.category-chevron {
+    flex-shrink: 0;
+    width: 12px;
+
+    color: var(--gold-light);
+    font-size: 15px;
+    text-align: center;
+
+    transition: transform 0.2s ease;
+}
+
+.quest-category-heading:hover .category-chevron {
+    color: var(--gold-bright);
+}
+
+.quest-list[hidden] {
+    display: none;
+}
+
+.quest-view-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.quest-control-button {
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+
+    color: var(--gold-light);
+    background: rgba(197, 161, 91, 0.06);
+
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.quest-control-button:hover {
+    color: var(--gold-bright);
+    background: rgba(197, 161, 91, 0.14);
+    border-color: var(--gold-light);
+}
+
+.quest-control-button:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    .quest-view-controls {
+        width: 100%;
+    }
+
+    .quest-control-button {
+        flex: 1;
+        min-height: 38px;
+    }
+}
+
 .quest-category-heading::before {
     content: "◆";
 
@@ -992,7 +1094,7 @@ h1 {
         border-color 0.18s ease;
 }
 
-.quest-toggle input:checked + .quest-toggle-box {
+.quest-toggle input:checked+.quest-toggle-box {
     color: #1a1712;
 
     background: var(--gold);

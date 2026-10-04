@@ -1,6 +1,10 @@
 let hideCompleted =
     localStorage.getItem("hideCompleted") === "true";
 
+let collapsedCategories = JSON.parse(
+    localStorage.getItem("collapsedCategories") || "{}"
+);
+
 
 /* =========================================================
    LOAD QUESTS
@@ -104,24 +108,59 @@ function renderQuestList(quests) {
             return;
         }
 
+        const isCollapsed = collapsedCategories[category.type] === true;
+
         questHTML += `
-            <section class="quest-category">
+        <section class="quest-category ${isCollapsed ? "collapsed" : ""}">
 
-                <h2 class="quest-category-heading">
-                    ${category.label}
-                </h2>
+            <button
+                type="button"
+                class="quest-category-heading"
+                data-category-toggle="${category.type}"
+                aria-expanded="${!isCollapsed}"
+            >
+                <span class="category-title">
+                ${category.label}
+            </span>
 
-                <div class="quest-list">
-                    ${categoryQuests
+            <span class="category-count">
+                ${categoryQuests.length}
+            </span>
+
+            <span class="category-chevron" aria-hidden="true">
+                ${isCollapsed ? "▸" : "▾"}
+            </span>
+        </button>
+
+        <div class="quest-list" ${isCollapsed ? "hidden" : ""}>
+            ${categoryQuests
                 .map(renderQuestCard)
                 .join("")}
-                </div>
+        </div>
 
-            </section>
-        `;
+    </section>
+`;
     });
 
     content.innerHTML = questHTML;
+
+    content
+        .querySelectorAll("[data-category-toggle]")
+        .forEach(button => {
+            button.addEventListener("click", () => {
+                const category = button.dataset.categoryToggle;
+
+                collapsedCategories[category] =
+                    !collapsedCategories[category];
+
+                localStorage.setItem(
+                    "collapsedCategories",
+                    JSON.stringify(collapsedCategories)
+                );
+
+                showQuests();
+            });
+        });
 
 
     /* =====================================================
@@ -154,9 +193,34 @@ function renderQuestList(quests) {
    QUEST CONTROLS
    ========================================================= */
 
+function setAllCategoriesCollapsed(collapsed) {
+    const categories = ["main", "side", "companion"];
+
+    categories.forEach(category => {
+        collapsedCategories[category] = collapsed;
+    });
+
+    localStorage.setItem(
+        "collapsedCategories",
+        JSON.stringify(collapsedCategories)
+    );
+
+    showQuests();
+}
+
 function renderQuestControls() {
     return `
-        <div class="quest-controls">
+            <div class="quest-controls">
+
+            <div class="quest-view-controls">
+                <button type="button" id="collapse-all" class="quest-control-button">
+                    Collapse All
+                </button>
+
+            <button type="button" id="expand-all" class="quest-control-button">
+                Expand All
+            </button>
+            </div>
 
             <label class="quest-toggle">
                 <input
@@ -207,6 +271,7 @@ function renderQuestControls() {
 }
 
 
+
 function attachQuestControls() {
     const toggle = document.getElementById(
         "hide-completed-toggle"
@@ -216,9 +281,11 @@ function attachQuestControls() {
         "team-filter-select"
     );
 
+    const collapseAll = document.getElementById("collapse-all");
+    const expandAll = document.getElementById("expand-all");
+
     if (toggle) {
         toggle.addEventListener("change", () => {
-
             hideCompleted = toggle.checked;
 
             localStorage.setItem(
@@ -232,10 +299,20 @@ function attachQuestControls() {
 
     if (teamFilter) {
         teamFilter.addEventListener("change", () => {
-
             currentTeam = teamFilter.value;
-
             showQuests();
+        });
+    }
+
+    if (collapseAll) {
+        collapseAll.addEventListener("click", () => {
+            setAllCategoriesCollapsed(true);
+        });
+    }
+
+    if (expandAll) {
+        expandAll.addEventListener("click", () => {
+            setAllCategoriesCollapsed(false);
         });
     }
 }
