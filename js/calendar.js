@@ -355,8 +355,7 @@ function renderCalendarSession(session) {
             </span>
 
             <span class="calendar-event-title">
-                Chapter ${escapeHTML(session.chapter)}
-                — ${escapeHTML(session.title)}
+                ${escapeHTML(session.title)}
             </span>
 
             <span class="calendar-event-time">
