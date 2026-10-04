@@ -58,8 +58,8 @@
     {
         "id": "vera",
         "name": "Vera",
-        "type": "friend",
-        "location": "Wherever Mari Is",
+        "type": "player",
+        "team": "team-one",
         "race": "Owl",
         "class": "Companion",
         "description": "A mysterious but friendly owl accompanying Mari.",
