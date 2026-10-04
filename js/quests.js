@@ -407,8 +407,26 @@ function renderQuestCard(quest) {
    QUEST DETAIL
    ========================================================= */
 
-function renderQuestDetail(quest) {
+async function renderQuestDetail(quest) {
     const content = document.getElementById("content");
+
+    // Load map data on demand so quest-to-map links work even
+    // when the user opens a quest before visiting the Map page.
+    if (typeof loadMapLocations === "function") {
+        try {
+            await loadMapLocations();
+        } catch (error) {
+            console.error("Could not load locations for quest:", error);
+        }
+    }
+
+    const questLocations = quest.status === "active"
+        ? (quest.locations || [])
+            .map(locationId => mapLocations.find(
+                location => String(location.id) === String(locationId)
+            ))
+            .filter(Boolean)
+        : [];
 
     /*
         Hide completed objectives when the global setting
@@ -480,6 +498,25 @@ function renderQuestDetail(quest) {
 
             </div>
 
+            <h3>Relevant Locations</h3>
+
+            <div class="quest-locations">
+                ${questLocations.length
+                    ? questLocations.map(location => `
+                        <button
+                            type="button"
+                            class="quest-location-link"
+                            data-quest-location="${escapeHTML(location.id)}"
+                        >
+                            <span class="quest-location-icon" aria-hidden="true">⌖</span>
+                            <span>${escapeHTML(location.name)}</span>
+                            <span class="quest-location-arrow" aria-hidden="true">→</span>
+                        </button>
+                    `).join("")
+                    : `<p class="objectives-hidden">No currently relevant locations.</p>`
+                }
+            </div>
+
             <h3>
                 Recent Developments
             </h3>
@@ -508,6 +545,12 @@ function renderQuestDetail(quest) {
         .addEventListener("click", () => {
             showQuests();
         });
+
+    content.querySelectorAll("[data-quest-location]").forEach(button => {
+        button.addEventListener("click", () => {
+            openMapLocation(button.dataset.questLocation);
+        });
+    });
 }
 
 

@@ -3,6 +3,44 @@ let activeMapType = "all";
 let activeMapRegion = "all";
 let mapSearchQuery = "";
 let selectedLocationId = null;
+let pendingMapLocationId = null;
+let mapLocationsPromise = null;
+
+// Shared loader used by both the map page and quest details.
+async function loadMapLocations() {
+    if (Array.isArray(mapLocations) && mapLocations.length) {
+        return mapLocations;
+    }
+
+    if (!mapLocationsPromise) {
+        mapLocationsPromise = fetch("data/locations.json")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Could not load locations (${response.status})`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error("locations.json must contain an array.");
+                }
+                mapLocations = data;
+                return mapLocations;
+            })
+            .catch(error => {
+                mapLocationsPromise = null;
+                throw error;
+            });
+    }
+
+    return mapLocationsPromise;
+}
+
+// Called by quest details to navigate to a specific map marker.
+function openMapLocation(locationId) {
+    pendingMapLocationId = String(locationId);
+    navigateTo("map");
+}
 
 async function showMap() {
     const content = document.getElementById("content");
@@ -135,19 +173,7 @@ async function showMap() {
     `;
 
     try {
-        const response = await fetch("data/locations.json");
-
-        if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data)) {
-            throw new Error("locations.json must contain an array.");
-        }
-
-        mapLocations = data;
+        await loadMapLocations();
         activeMapType = "all";
         activeMapRegion = "all";
         mapSearchQuery = "";
@@ -157,6 +183,22 @@ async function showMap() {
         setupMapFilters();
         setupMapViewer();
         renderFilteredMap();
+
+        // A quest may have requested a specific location before
+        // the map page finished loading.
+        if (pendingMapLocationId !== null) {
+            const location = mapLocations.find(
+                item => String(item.id) === pendingMapLocationId
+            );
+
+            if (location) {
+                selectedLocationId = String(location.id);
+                highlightSelectedMarker();
+                openLocationDetails(location);
+            }
+
+            pendingMapLocationId = null;
+        }
 
     } catch (error) {
         console.error("Could not load map locations:", error);
@@ -378,6 +420,13 @@ function openLocationDetails(location) {
     const description =
         location.description || "No details have been recorded yet.";
 
+    const relevantQuests = (Array.isArray(allQuests) ? allQuests : [])
+        .filter(quest =>
+            quest.status === "active" &&
+            Array.isArray(quest.locations) &&
+            quest.locations.some(id => String(id) === String(location.id))
+        );
+
     panel.innerHTML = `
         <div class="map-detail-header">
             <span class="map-detail-eyebrow">${escapeMapHTML(category)}</span>
@@ -393,6 +442,23 @@ function openLocationDetails(location) {
             ? `<span class="map-detail-status">${escapeMapHTML(location.status)}</span>`
             : ""}
 
+        ${relevantQuests.length ? `
+            <div class="map-detail-divider"></div>
+            <h3>Current Quests</h3>
+            <div class="map-related-quests">
+                ${relevantQuests.map(quest => `
+                    <button
+                        type="button"
+                        class="map-related-quest"
+                        data-related-quest="${escapeMapHTML(quest.id)}"
+                    >
+                        <span>${escapeMapHTML(quest.title)}</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                `).join("")}
+            </div>
+        ` : ""}
+
         <button type="button" class="map-detail-close" id="map-detail-close">
             Close details
         </button>
@@ -400,6 +466,19 @@ function openLocationDetails(location) {
 
     document.getElementById("map-detail-close")
         ?.addEventListener("click", closeLocationDetails);
+
+    panel.querySelectorAll("[data-related-quest]").forEach(button => {
+        button.addEventListener("click", () => {
+            const quest = allQuests.find(
+                item => String(item.id) === button.dataset.relatedQuest
+            );
+
+            if (quest) {
+                markQuestAsRead(quest);
+                renderQuestDetail(quest);
+            }
+        });
+    });
 }
 
 function closeLocationDetails() {

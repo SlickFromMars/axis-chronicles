@@ -5,7 +5,7 @@
         "team": "shared",
         "type": "main",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Var'Kennan's influence reaches deeper into Caeloran society.",
         "objectives": [
             {
@@ -21,6 +21,9 @@
                 "completed": false
             }
         ],
+        "locations": [
+            "high-camorant"
+        ],
         "developments": []
     },
     {
@@ -29,7 +32,7 @@
         "team": "one",
         "type": "side",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Ashton has been captured by Dyra, and the party must find him before it's too late.",
         "objectives": [
             {
@@ -44,6 +47,9 @@
                 "text": "Discover what is inside the mysterious orb.",
                 "completed": true
             }
+        ],
+        "locations": [
+            "high-camorant"
         ],
         "developments": [
             {
@@ -62,7 +68,7 @@
         "team": "shared",
         "type": "side",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "A massive glacier surrounds the island, fabled to bring death to any adventurer who goes near it.",
         "objectives": [
             {
@@ -73,6 +79,9 @@
                 "text": "Learn more about Wintheria and her connection to the party.",
                 "completed": false
             }
+        ],
+        "locations": [
+            "veloitama-trench"
         ],
         "developments": []
     },
@@ -201,7 +210,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Jorovindr travels the continent in search of purpose... and rocks.",
         "objectives": [
             {
@@ -212,6 +221,9 @@
                 "text": "Find a use for the mysterious stone from the festival.",
                 "completed": true
             }
+        ],
+        "locations": [
+            "high-camorant"
         ],
         "developments": [
             {
@@ -226,7 +238,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Maria has been stranded on Caelora with her memories clouded by amnesia.",
         "objectives": [
             {
@@ -242,6 +254,9 @@
                 "completed": false
             }
         ],
+        "locations": [
+            "the-highlands"
+        ],
         "developments": [
             {
                 "session": "Team 2, Chapter 4 - Holocene",
@@ -255,7 +270,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Oliver is no longer at sea and must come to terms with his past in order to discover his true self.",
         "objectives": [
             {
@@ -270,6 +285,9 @@
                 "text": "Find the truth behind the vision you had between life and death.",
                 "completed": false
             }
+        ],
+        "locations": [
+            "high-camorant"
         ],
         "developments": [
             {
