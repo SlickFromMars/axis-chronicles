@@ -89,7 +89,9 @@
             }
         ],
         "locations": [
-            "veloitama-trench"
+            "veloitama-trench",
+            "undersea",
+            "glaciers"
         ],
         "characters": [
             "wintheria"

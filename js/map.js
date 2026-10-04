@@ -5,6 +5,7 @@ let mapSearchQuery = "";
 let selectedLocationId = null;
 let pendingMapLocationId = null;
 let mapLocationsPromise = null;
+let coordinatePickerEnabled = false;
 
 // Shared loader used by both the map page and quest details.
 async function loadMapLocations() {
@@ -123,6 +124,25 @@ async function showMap() {
                     >
                         ⤢ Fullscreen
                     </button>
+
+                    <div class="map-coordinate-tools">
+    <button
+        type="button"
+        id="map-coordinate-toggle"
+        class="map-control-button map-coordinate-toggle"
+        aria-pressed="false"
+    >
+        Enable Coordinate Picker
+    </button>
+
+    <output
+        id="map-coordinate-output"
+        class="map-coordinate-output"
+        aria-live="polite"
+    >
+        Click the map to read coordinates
+    </output>
+</div>
                 </div>
 
                 <aside id="map-detail-panel" class="map-detail-panel" aria-live="polite">
@@ -182,6 +202,7 @@ async function showMap() {
         populateRegionFilter();
         setupMapFilters();
         setupMapViewer();
+        setupCoordinatePicker();
         renderFilteredMap();
 
         // A quest may have requested a specific location before
@@ -878,6 +899,87 @@ function handleMapResize() {
     if (!viewer || viewer.hidden) return;
 
     if (measureMapViewer()) applyMapTransform();
+}
+
+/* -----------------------------------------
+   MAP COORDINATE PICKER
+----------------------------------------- */
+
+function setupCoordinatePicker() {
+    const stage = document.getElementById("map-stage");
+    const mapImage = document.getElementById("world-map-image");
+    const toggle = document.getElementById("map-coordinate-toggle");
+    const output = document.getElementById("map-coordinate-output");
+
+    if (!stage || !mapImage || !toggle || !output) return;
+
+    coordinatePickerEnabled = false;
+
+    stage.classList.remove("coordinate-mode");
+    toggle.setAttribute("aria-pressed", "false");
+    toggle.textContent = "Enable Coordinate Picker";
+    output.textContent = "Click the map to read coordinates";
+
+    toggle.addEventListener("click", () => {
+        coordinatePickerEnabled = !coordinatePickerEnabled;
+
+        stage.classList.toggle(
+            "coordinate-mode",
+            coordinatePickerEnabled
+        );
+
+        toggle.setAttribute(
+            "aria-pressed",
+            String(coordinatePickerEnabled)
+        );
+
+        toggle.textContent = coordinatePickerEnabled
+            ? "Disable Coordinate Picker"
+            : "Enable Coordinate Picker";
+
+        output.textContent = coordinatePickerEnabled
+            ? "Click the map to read coordinates"
+            : "Click the map to read coordinates";
+    });
+
+    // Capture map clicks before the normal image click opens fullscreen.
+    stage.addEventListener("click", event => {
+        if (!coordinatePickerEnabled) return;
+
+        // Keep the fullscreen control usable.
+        if (event.target.closest("#map-fullscreen-button, #map-coordinate-toggle")) {
+            return;
+        }
+
+        const rect = mapImage.getBoundingClientRect();
+
+        // Ignore clicks outside the actual map image.
+        if (
+            event.clientX < rect.left ||
+            event.clientX > rect.right ||
+            event.clientY < rect.top ||
+            event.clientY > rect.bottom
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+        const coordinates = {
+            x: Number(x.toFixed(2)),
+            y: Number(y.toFixed(2))
+        };
+
+        output.textContent = `x: ${coordinates.x}, y: ${coordinates.y}`;
+
+        console.log(
+            `Map coordinates: x: ${coordinates.x}, y: ${coordinates.y}`
+        );
+    }, true);
 }
 
 /* -----------------------------------------

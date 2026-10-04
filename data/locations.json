@@ -228,12 +228,29 @@
         "description": "The capital city of Var'Kennan's domain. Highly dangerous, it is occupied by his legions of Flamechildren and built around Castle Pyre."
     },
     {
+        "id": "undersea",
+        "name": "The Undersea",
+        "type": "Region",
+        "x": 70.74,
+        "y": 8.95,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
         "id": "veloitama-trench",
         "name": "The Veloi'tama Trench",
         "type": "Trench",
         "region": "The Undersea",
         "x": 90.11,
         "y": 12.32,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "glaciers",
+        "name": "The Glaciers",
+        "type": "World Border",
+        "region": "The Undersea",
+        "x": 50,
+        "y": 2.9,
         "description": "TO BE DISCOVERED!"
     }
 ]
