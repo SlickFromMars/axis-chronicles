@@ -77,7 +77,7 @@ async function showMap() {
                     <img
                         id="world-map-image"
                         class="map-image"
-                        src="assets/images/caelora.png"
+                        src="assets/images/caelora.webp"
                         alt="Map of Caelora"
                     >
                     <div id="map-markers" class="map-markers"></div>
@@ -105,7 +105,7 @@ async function showMap() {
                 </button>
                 <img
                     class="map-viewer-image"
-                    src="assets/images/caelora.png"
+                    src="assets/images/caelora.webp"
                     alt="Fullscreen map of Caelora"
                 >
             </div>
