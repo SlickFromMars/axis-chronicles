@@ -243,6 +243,12 @@ function renderCharacterList(
                 character.type === "friend"
         );
 
+    const gods =
+        characters.filter(
+            character =>
+                character.type === "god"
+        );
+
     const foes =
         characters.filter(
             character =>
@@ -274,6 +280,12 @@ function renderCharacterList(
         "Player Characters",
         players,
         "players"
+    )}
+
+    ${renderCharacterCategory(
+        "Gods and Dieties",
+        gods,
+        "gods"
     )}
 
             ${renderCharacterCategory(
@@ -1019,6 +1031,9 @@ function formatCharacterType(
 
         case "player":
             return "Player Character";
+
+        case "god":
+            return "God/Diety";
 
         case "friend":
             return "Friend";

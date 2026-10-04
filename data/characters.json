@@ -38,7 +38,9 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [
+            "Known member of the Thieves' Guild, based out of the Amber Coast."
+        ]
     },
     {
         "id": "caedes",
@@ -64,7 +66,9 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [
+            "Has magical properties allowing her to communicate with whoever she bonds to."
+        ]
     },
     {
         "id": "jorovindr",
@@ -147,5 +151,137 @@
         "notes": [
             "Has a connection to Quill's crystal, and is known to manipulate it."
         ]
+    },
+    {
+        "id": "author",
+        "name": "\"Him\"",
+        "type": "god",
+        "location": "Unknown",
+        "race": "God",
+        "class": "Unknown",
+        "description": "[REDACTED]",
+        "status": "[REDACTED]",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "varkennan",
+        "name": "Var'Kennan",
+        "type": "god",
+        "location": "High Camorant",
+        "race": "God",
+        "class": "Flames and Fate",
+        "description": "The God of Flames and Fate. A malevolant ruler whose army of children terrorize the island.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [
+            "Father of Ashton and Bix, some of the few Flamechildren that the players have encountered so far."
+        ]
+    },
+    {
+        "id": "varsaron",
+        "name": "Vae'Saron",
+        "type": "god",
+        "location": "Kjerne",
+        "race": "God",
+        "class": "Life and Land",
+        "description": "The God of Life and Land. A heavy partier who is ominpresent through the flora of the island.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "witheria",
+        "name": "Witheria",
+        "type": "god",
+        "location": "Unknown",
+        "race": "Goddess",
+        "class": "Seas and Storms",
+        "description": "The elusive Godess of Seas and Storms, occasionally encountered along the coasts of the island. Her storms bring a swift end to anyone who wanders far from the shore.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "nihleia",
+        "name": "Nihleia",
+        "type": "god",
+        "location": "Unknown",
+        "race": "Goddess",
+        "class": "Souls and Sorrow",
+        "description": "The Goddess of Souls. Hardly anyone knows what she looks like, or where she resides. Believes in the sanctity of life and death.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "figure",
+        "name": "The Figure",
+        "type": "god",
+        "location": "Unknown",
+        "race": "Diety",
+        "class": "Thieves' Patron",
+        "description": "The Patron of the Thieves' Guild, in search of gold, glory, and a second life.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "jumir",
+        "name": "Wanderer Jumir",
+        "type": "god",
+        "location": "High Camorant",
+        "race": "Diety",
+        "class": "Unknown",
+        "description": "The Patron of the Stone Giants. Presumed dead or captured by Var'Kennan.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "the-book",
+        "name": "Book of Necromancy",
+        "type": "foe",
+        "location": "With Caedes",
+        "race": "Book",
+        "class": "Unknown",
+        "description": "Caedes' seemingly sentient Book of Necromancy. It searches for a new vessel, in exchange for giving Caedes power and magic.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "woodrow",
+        "name": "Woodrow",
+        "type": "friend",
+        "location": "Wigston",
+        "race": "Owlin",
+        "class": "Fixer",
+        "description": "A friendly fixer based out of Wigston, well regarded among criminals and thieves with his moral compass intact.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "voltegar",
+        "name": "Voltegar",
+        "type": "friend",
+        "location": "Avilon",
+        "race": "Air Genasi",
+        "class": "Rune Knight",
+        "description": "A formidable scholar who studies magical runes, trusted by Woodrow.",
+        "status": "Unknown",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
     }
 ]
