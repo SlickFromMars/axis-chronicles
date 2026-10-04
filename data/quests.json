@@ -5,6 +5,7 @@
         "team": "shared",
         "type": "main",
         "status": "active",
+        "updateVersion": 1,
         "description": "Var'Kennan's influence reaches deeper into Caeloran society.",
         "objectives": [
             {
@@ -13,6 +14,10 @@
             },
             {
                 "text": "Dismantle the Order of Truespawn to stop the Dwarven genocide.",
+                "completed": false
+            },
+            {
+                "text": "Sneak into High Camorant to get the lay of the land.",
                 "completed": false
             }
         ],
@@ -24,6 +29,7 @@
         "team": "one",
         "type": "side",
         "status": "active",
+        "updateVersion": 1,
         "description": "Ashton has been captured by Dyra, and the party must find him before it's too late.",
         "objectives": [
             {
@@ -41,6 +47,10 @@
         ],
         "developments": [
             {
+                "session": "Breaking the Axis, Chapter 2 - The Unforgiven",
+                "text": "We confirmed that Ashton is not in the orb that was recovered during combat with Dyra and Bix."
+            },
+            {
                 "session": "Team 1, Chapter 5 - Meet Me in the Woods",
                 "text": "Dyra captured Ashton while the team was fighting and left an ominous note."
             }
@@ -52,6 +62,7 @@
         "team": "shared",
         "type": "side",
         "status": "active",
+        "updateVersion": 1,
         "description": "A massive glacier surrounds the island, fabled to bring death to any adventurer who goes near it.",
         "objectives": [
             {
@@ -67,6 +78,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
+        "updateVersion": 1,
         "description": "A mysterious crystal connects Quill to mysterious forces and deities.",
         "objectives": [
             {
@@ -80,6 +92,10 @@
         ],
         "developments": [
             {
+                "session": "Breaking the Axis, Chapter 2 - The Unforgiven",
+                "text": "Quill acquired a featherdrive, adding another curious possession to his growing collection of discoveries."
+            },
+            {
                 "session": "Breaking the Axis, Chapter 1 - The Chain",
                 "text": "Bix managed to freeze Quill in place by connecting to the crystal."
             }
@@ -91,6 +107,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
+        "updateVersion": 1,
         "description": "Caedes' connection to the book puts him at odds with his team and the goddess of death herself.",
         "objectives": [
             {
@@ -108,6 +125,10 @@
         ],
         "developments": [
             {
+                "session": "Breaking the Axis, Chapter 2 - The Unforgiven",
+                "text": "Caedes' arm has grown slightly dimmer, a subtle change that may hint at something shifting within him due to the spell he used to save Oliver."
+            },
+            {
                 "session": "Team 1, Chapter 5 - Meet Me in the Woods",
                 "text": "Mari attempted to kill Caedes, which has festered a sense of distrust within the party."
             },
@@ -123,6 +144,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
+        "updateVersion": 1,
         "description": "A simple errand led to a chain reaction that has the humble Balthrum traveling Caelora, and it might hit closer to home than he thinks.",
         "objectives": [
             {
@@ -131,6 +153,10 @@
             },
             {
                 "text": "Dive deeper into your past memories.",
+                "completed": false
+            },
+            {
+                "text": "Assemble a ripcord-powered rocket axe, with the help of Fishsticks.",
                 "completed": false
             }
         ],
@@ -142,6 +168,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
+        "updateVersion": 1,
         "description": "Mari's origins are mostly shrouded in mystery and secrets, but somewhere deep down there's a far more complex soul than meets the eye.",
         "objectives": [
             {
@@ -170,6 +197,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
+        "updateVersion": 1,
         "description": "Jorovindr travels the continent in search of purpose... and rocks.",
         "objectives": [
             {
@@ -178,10 +206,15 @@
             },
             {
                 "text": "Find a use for the mysterious stone from the festival.",
-                "completed": false
+                "completed": true
             }
         ],
-        "developments": []
+        "developments": [
+            {
+                "session": "Breaking the Axis, Chapter 2 - The Unforgiven",
+                "text": "Jorovindr purchased an amethyst while exploring a satin cave. Meanwhile, the mysterious stone from the festival has been discovered to have the power to grow once more, returning to its former size and potentially offering a devastating new use as a crushing weapon."
+            }
+        ]
     },
     {
         "id": "maria",
@@ -189,6 +222,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
+        "updateVersion": 1,
         "description": "Maria has been stranded on Caelora with her memories clouded by amnesia.",
         "objectives": [
             {
@@ -197,6 +231,10 @@
             },
             {
                 "text": "Discover how you got to Caelora, and find a way to return home.",
+                "completed": false
+            },
+            {
+                "text": "Discover the usage for the mysterious keys.",
                 "completed": false
             }
         ],
@@ -213,14 +251,28 @@
         "team": "two",
         "type": "companion",
         "status": "active",
+        "updateVersion": 1,
         "description": "Oliver is no longer at sea and must come to terms with his past in order to discover his true self.",
         "objectives": [
             {
                 "text": "Find and free your mother.",
                 "completed": false
+            },
+            {
+                "text": "Figure out why part of your face is made of dead skin, and why it isn't healing.",
+                "completed": false
+            },
+            {
+                "text": "Find the truth behind the vision you had between life and death.",
+                "completed": false
             }
         ],
-        "developments": []
+        "developments": [
+            {
+                "session": "Breaking the Axis, Chapter 2 - The Unforgiven",
+                "text": "Oliver nearly died from his gunshot wound, and had a strange vision of a beach and a young girl before being resurrected by Caedes. He was also heard giggling in his sleep, an unusual occurrence that may hold more significance than it first appears."
+            }
+        ]
     },
     {
         "id": "glim",
@@ -228,6 +280,7 @@
         "team": "two",
         "type": "companion",
         "status": "completed",
+        "updateVersion": 1,
         "description": "Waxborns rarely wander far from their creator, and Glim has certainly done that. In search of purpose and joy, she travels the continent alongside our heroes.",
         "objectives": [
             {

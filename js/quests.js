@@ -5,6 +5,39 @@ let collapsedCategories = JSON.parse(
     localStorage.getItem("collapsedCategories") || "{}"
 );
 
+/* =========================================================
+   QUEST UPDATE NOTIFICATIONS
+   ========================================================= */
+
+const QUEST_READ_KEY = "questUpdatesRead";
+
+function getReadVersions() {
+    try {
+        return JSON.parse(
+            localStorage.getItem(QUEST_READ_KEY)
+        ) || {};
+    } catch {
+        return {};
+    }
+}
+
+function hasUnreadUpdate(quest) {
+    const readVersions = getReadVersions();
+    const currentVersion = quest.updateVersion || 0;
+
+    return currentVersion > (readVersions[quest.id] || 0);
+}
+
+function markQuestAsRead(quest) {
+    const readVersions = getReadVersions();
+
+    readVersions[quest.id] = quest.updateVersion || 0;
+
+    localStorage.setItem(
+        QUEST_READ_KEY,
+        JSON.stringify(readVersions)
+    );
+}
 
 /* =========================================================
    LOAD QUESTS
@@ -178,6 +211,7 @@ function renderQuestList(quests) {
                 );
 
                 if (quest) {
+                    markQuestAsRead(quest);
                     renderQuestDetail(quest);
                 }
             });
@@ -348,9 +382,17 @@ function renderQuestCard(quest) {
 
             </div>
 
-            <h2>
-                ${escapeHTML(quest.title)}
-            </h2>
+            <h2 class="quest-card-title">
+    <span>${escapeHTML(quest.title)}</span>
+
+    ${hasUnreadUpdate(quest) ? `
+        <span
+            class="quest-notification"
+            aria-label="Unread updates"
+            title="Unread updates"
+        ></span>
+    ` : ""}
+</h2>
 
             <p>
                 ${escapeHTML(quest.description)}
