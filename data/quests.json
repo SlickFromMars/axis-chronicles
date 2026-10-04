@@ -5,7 +5,7 @@
         "team": "shared",
         "type": "main",
         "status": "active",
-        "updateVersion": 2,
+        "updateVersion": 3,
         "description": "Var'Kennan's influence reaches deeper into Caeloran society.",
         "objectives": [
             {
@@ -21,6 +21,9 @@
                 "completed": false
             }
         ],
+        "characters": [
+            "varkennan"
+        ],
         "locations": [
             "high-camorant"
         ],
@@ -32,11 +35,11 @@
         "team": "one",
         "type": "side",
         "status": "active",
-        "updateVersion": 2,
+        "updateVersion": 3,
         "description": "Ashton has been captured by Dyra, and the party must find him before it's too late.",
         "objectives": [
             {
-                "text": "Locate and save Ashton from Dyra.",
+                "text": "Locate and save Ashton.",
                 "completed": false
             },
             {
@@ -47,6 +50,11 @@
                 "text": "Discover what is inside the mysterious orb.",
                 "completed": true
             }
+        ],
+        "characters": [
+            "ashton",
+            "dyra",
+            "bix"
         ],
         "locations": [
             "high-camorant"
@@ -68,7 +76,7 @@
         "team": "shared",
         "type": "side",
         "status": "active",
-        "updateVersion": 2,
+        "updateVersion": 3,
         "description": "A massive glacier surrounds the island, fabled to bring death to any adventurer who goes near it.",
         "objectives": [
             {
@@ -83,6 +91,9 @@
         "locations": [
             "veloitama-trench"
         ],
+        "characters": [
+            "wintheria"
+        ],
         "developments": []
     },
     {
@@ -91,7 +102,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "A mysterious crystal connects Quill to mysterious forces and deities.",
         "objectives": [
             {
@@ -102,6 +113,10 @@
                 "text": "Discover the nature of its resonant connection.",
                 "completed": false
             }
+        ],
+        "characters": [
+            "quill",
+            "ashton"
         ],
         "developments": [
             {
@@ -120,7 +135,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Caedes' connection to the book puts him at odds with his team and the goddess of death herself.",
         "objectives": [
             {
@@ -135,6 +150,11 @@
                 "text": "Keep a close eye on Mari and discover the motivations behind the attempt on your life.",
                 "completed": false
             }
+        ],
+        "characters": [
+            "caedes",
+            "the-book",
+            "nihleia"
         ],
         "developments": [
             {
@@ -157,7 +177,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "A simple errand led to a chain reaction that has the humble Balthrum traveling Caelora, and it might hit closer to home than he thinks.",
         "objectives": [
             {
@@ -173,6 +193,9 @@
                 "completed": false
             }
         ],
+        "characters": [
+            "balthrum"
+        ],
         "developments": []
     },
     {
@@ -181,7 +204,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Mari's origins are mostly shrouded in mystery and secrets, but somewhere deep down there's a far more complex soul than meets the eye.",
         "objectives": [
             {
@@ -197,6 +220,11 @@
                 "completed": true
             }
         ],
+        "characters": [
+            "mari",
+            "vera",
+            "figure"
+        ],
         "developments": [
             {
                 "session": "Team 1, Chapter 5 - Meet Me in the Woods",
@@ -210,17 +238,20 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 2,
+        "updateVersion": 3,
         "description": "Jorovindr travels the continent in search of purpose... and rocks.",
         "objectives": [
             {
-                "text": "Find the stone giants and rescue them from Var'Kennan.",
+                "text": "Find the stone giants and rescue them from the Highlands.",
                 "completed": false
             },
             {
                 "text": "Find a use for the mysterious stone from the festival.",
                 "completed": true
             }
+        ],
+        "characters": [
+            "jorovindr"
         ],
         "locations": [
             "high-camorant"
@@ -238,7 +269,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 2,
+        "updateVersion": 3,
         "description": "Maria has been stranded on Caelora with her memories clouded by amnesia.",
         "objectives": [
             {
@@ -253,6 +284,10 @@
                 "text": "Discover the usage for the mysterious keys.",
                 "completed": false
             }
+        ],
+        "characters": [
+            "maria",
+            "cody"
         ],
         "locations": [
             "the-highlands"
@@ -270,7 +305,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 2,
+        "updateVersion": 3,
         "description": "Oliver is no longer at sea and must come to terms with his past in order to discover his true self.",
         "objectives": [
             {
@@ -285,6 +320,10 @@
                 "text": "Find the truth behind the vision you had between life and death.",
                 "completed": false
             }
+        ],
+        "characters": [
+            "oliver",
+            "the-book"
         ],
         "locations": [
             "high-camorant"

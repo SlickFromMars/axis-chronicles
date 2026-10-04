@@ -194,8 +194,8 @@
         "notes": []
     },
     {
-        "id": "witheria",
-        "name": "Witheria",
+        "id": "wintheria",
+        "name": "Wintheria",
         "type": "god",
         "location": "Unknown",
         "race": "Goddess",
@@ -203,7 +203,7 @@
         "description": "The elusive Godess of Seas and Storms, occasionally encountered along the coasts of the island. Her storms bring a swift end to anyone who wanders far from the shore.",
         "status": "Active",
         "quote": null,
-        "updateVersion": 1,
+        "updateVersion": 2,
         "notes": []
     },
     {
@@ -283,5 +283,20 @@
         "quote": null,
         "updateVersion": 1,
         "notes": []
+    },
+    {
+        "id": "cody",
+        "name": "Cody",
+        "type": "friend",
+        "location": "Unknown",
+        "race": "Reptillian",
+        "class": "Explorer",
+        "description": "Maria's older brother, whose family took Maria in after an incident regarding both of her parents. A kind, perpetually tired guy with a hankering for raw meat.",
+        "status": "Unknown",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [
+            "Vae'saron told Maria that he might be somewhere in the Highlands, captured by Var'kennan."
+        ]
     }
 ]

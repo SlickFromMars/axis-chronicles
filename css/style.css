@@ -3503,3 +3503,350 @@ body.map-viewer-open {
         transition: none;
     }
 }
+
+/* =========================================================
+   QUEST ↔ MAP INTEGRATION
+   Add this section to the end of css/style.css.
+   Uses the existing Axis Chronicles theme tokens.
+   ========================================================= */
+
+.quest-locations,
+.map-related-quests {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0 20px;
+}
+
+.quest-location-link,
+.map-related-quest {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    color: var(--parchment);
+    background: linear-gradient(180deg, var(--panel-light), var(--panel));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--bevel);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.quest-location-link:hover,
+.map-related-quest:hover {
+    color: var(--parchment-bright);
+    background: var(--panel-hover);
+    border-color: var(--gold-muted);
+    box-shadow: var(--bevel), var(--gold-glow);
+    transform: translateY(-1px);
+}
+
+.quest-location-link:focus-visible,
+.map-related-quest:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+.quest-location-icon {
+    flex: 0 0 auto;
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 20px;
+    line-height: 1;
+}
+
+.quest-location-link>span:nth-child(2),
+.map-related-quest>span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.quest-location-arrow,
+.map-related-quest>span:last-child {
+    flex: 0 0 auto;
+    margin-left: auto;
+    color: var(--gold-light);
+    transition: transform 180ms ease;
+}
+
+.quest-location-link:hover .quest-location-arrow,
+.map-related-quest:hover>span:last-child {
+    transform: translateX(3px);
+}
+
+.quest-locations .objectives-hidden {
+    margin: 0;
+    padding: 10px 0;
+    color: var(--muted);
+    font-style: italic;
+}
+
+.map-related-quests {
+    margin: 10px 0 18px;
+}
+
+.map-detail-panel h3 {
+    margin-top: 22px;
+    color: var(--gold-light);
+    font-family: var(--font-label);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+
+    .quest-location-link,
+    .map-related-quest {
+        padding: 11px 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .quest-location-link,
+    .map-related-quest,
+    .quest-location-arrow,
+    .map-related-quest>span:last-child {
+        transition: none;
+    }
+}
+
+
+/* =========================================================
+   QUEST ↔ CHARACTER DISPLAY
+   ========================================================= */
+
+.quest-card-characters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-light);
+}
+
+.quest-card-characters-label {
+    margin-right: 3px;
+    color: var(--muted);
+    font-family: var(--font-label);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+}
+
+.quest-character-chip {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 4px 9px;
+    color: var(--gold-light);
+    background: var(--panel);
+    border: 1px solid var(--border-light);
+    border-radius: 999px;
+    font-family: var(--font-label);
+    font-size: 11px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.quest-detail-characters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 20px;
+}
+
+.quest-detail-character {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 9px 12px;
+    color: var(--parchment);
+    background: linear-gradient(180deg, var(--panel-light), var(--panel));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--bevel);
+}
+
+.quest-character-marker {
+    flex: 0 0 auto;
+    color: var(--gold);
+    font-size: 13px;
+}
+
+.quest-detail-character-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-label);
+    font-size: 12px;
+}
+
+.quest-detail-characters .objectives-hidden {
+    margin: 0;
+    padding: 10px 0;
+    color: var(--muted);
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .quest-card-characters {
+        gap: 5px;
+    }
+
+    .quest-character-chip {
+        padding: 4px 8px;
+    }
+
+    .quest-detail-character {
+        padding: 8px 10px;
+    }
+}
+
+/* Clickable characters in quest details */
+
+.quest-detail-character {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
+
+    color: var(--parchment);
+    font: inherit;
+    text-align: left;
+
+    background: var(--panel);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-medium);
+
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.quest-detail-character:hover {
+    background: var(--panel-hover);
+    border-color: var(--gold-muted);
+    transform: translateY(-2px);
+}
+
+.quest-detail-character:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+.quest-detail-character .quest-character-marker {
+    color: var(--gold);
+    flex-shrink: 0;
+}
+
+.quest-detail-character-name {
+    flex: 1;
+    color: var(--gold-light);
+    font-weight: 600;
+}
+
+.quest-character-arrow {
+    color: var(--gold-muted);
+    transition: transform 0.2s ease;
+}
+
+.quest-detail-character:hover .quest-character-arrow {
+    transform: translateX(4px);
+}
+
+/* =========================================================
+   CHARACTER PROFILE — RELEVANT QUESTS
+   ========================================================= */
+
+.character-profile-quests {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+}
+
+.character-profile-quests h3 {
+    margin: 0 0 12px;
+    color: var(--gold-light);
+    font-family: var(--font-label);
+    font-size: 1rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.character-profile-quest-list {
+    display: grid;
+    gap: 8px;
+}
+
+.character-profile-quest {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 14px;
+    color: var(--parchment);
+    font: inherit;
+    text-align: left;
+    background: var(--panel);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-medium);
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.character-profile-quest:hover {
+    background: var(--panel-hover);
+    border-color: var(--gold-muted);
+    transform: translateY(-1px);
+}
+
+.character-profile-quest:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+.character-profile-quest-copy {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+}
+
+.character-profile-quest-copy strong {
+    color: var(--gold-light);
+    font-weight: 600;
+}
+
+.character-profile-quest-copy span,
+.character-profile-quests-empty {
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.character-profile-quest-arrow {
+    flex: 0 0 auto;
+    color: var(--gold-muted);
+    transition: transform .2s ease;
+}
+
+.character-profile-quest:hover .character-profile-quest-arrow {
+    transform: translateX(4px);
+}

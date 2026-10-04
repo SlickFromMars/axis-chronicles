@@ -5,6 +5,53 @@ let collapsedCategories = JSON.parse(
     localStorage.getItem("collapsedCategories") || "{}"
 );
 
+// Character data is read-only here; character profiles remain unchanged.
+let questCharacterData = [];
+let questCharacterDataPromise = null;
+
+async function loadQuestCharacterData() {
+    if (questCharacterData.length) return questCharacterData;
+    if (!questCharacterDataPromise) {
+        questCharacterDataPromise = fetch("data/characters.json")
+            .then(response => {
+                if (!response.ok) throw new Error("Could not load characters");
+                return response.json();
+            })
+            .then(characters => {
+                questCharacterData = Array.isArray(characters) ? characters : [];
+                return questCharacterData;
+            })
+            .catch(error => {
+                questCharacterDataPromise = null;
+                console.error("Could not load quest character names:", error);
+                return [];
+            });
+    }
+    return questCharacterDataPromise;
+}
+
+function getQuestCharacters(quest) {
+    const linkedCharacters = Array.isArray(quest.characters) ? quest.characters : [];
+
+    return linkedCharacters.map(characterRef => {
+        // Accept character IDs (recommended), or objects with id/name fields.
+        if (characterRef && typeof characterRef === "object") {
+            const match = questCharacterData.find(character =>
+                String(character.id) === String(characterRef.id)
+            );
+            return match || {
+                id: characterRef.id || "",
+                name: characterRef.name || characterRef.id || "Unknown character"
+            };
+        }
+
+        const match = questCharacterData.find(character =>
+            String(character.id) === String(characterRef)
+        );
+        return match || { id: characterRef, name: String(characterRef) };
+    }).filter(character => character.name);
+}
+
 /* =========================================================
    QUEST UPDATE NOTIFICATIONS
    ========================================================= */
@@ -398,6 +445,15 @@ function renderQuestCard(quest) {
                 ${escapeHTML(quest.description)}
             </p>
 
+            ${getQuestCharacters(quest).length ? `
+                <div class="quest-card-characters" aria-label="Relevant characters">
+                    <span class="quest-card-characters-label">CHARACTERS</span>
+                    ${getQuestCharacters(quest).map(character => `
+                        <span class="quest-character-chip">${escapeHTML(character.name)}</span>
+                    `).join("")}
+                </div>
+            ` : ""}
+
         </button>
     `;
 }
@@ -427,6 +483,8 @@ async function renderQuestDetail(quest) {
             ))
             .filter(Boolean)
         : [];
+
+    const questCharacters = getQuestCharacters(quest);
 
     /*
         Hide completed objectives when the global setting
@@ -497,12 +555,32 @@ async function renderQuestDetail(quest) {
         }
 
             </div>
+<h3>Relevant Characters</h3>
+
+<div class="quest-detail-characters">
+    ${questCharacters.length
+            ? questCharacters.map(character => `
+            <button
+                type="button"
+                class="quest-detail-character"
+                data-quest-character="${escapeHTML(character.id)}"
+            >
+                <span class="quest-character-marker" aria-hidden="true">✦</span>
+                <span class="quest-detail-character-name">
+                    ${escapeHTML(character.name)}
+                </span>
+                <span class="quest-character-arrow" aria-hidden="true">→</span>
+            </button>
+        `).join("")
+            : `<p class="objectives-hidden">No characters linked to this quest.</p>`
+        }
+</div>
 
             <h3>Relevant Locations</h3>
 
             <div class="quest-locations">
                 ${questLocations.length
-                    ? questLocations.map(location => `
+            ? questLocations.map(location => `
                         <button
                             type="button"
                             class="quest-location-link"
@@ -513,8 +591,8 @@ async function renderQuestDetail(quest) {
                             <span class="quest-location-arrow" aria-hidden="true">→</span>
                         </button>
                     `).join("")
-                    : `<p class="objectives-hidden">No currently relevant locations.</p>`
-                }
+            : `<p class="objectives-hidden">No currently relevant locations.</p>`
+        }
             </div>
 
             <h3>
@@ -549,6 +627,34 @@ async function renderQuestDetail(quest) {
     content.querySelectorAll("[data-quest-location]").forEach(button => {
         button.addEventListener("click", () => {
             openMapLocation(button.dataset.questLocation);
+        });
+    });
+
+    content.querySelectorAll("[data-quest-character]").forEach(button => {
+        button.addEventListener("click", async () => {
+            const character = questCharacterData.find(
+                character =>
+                    String(character.id) ===
+                    String(button.dataset.questCharacter)
+            );
+
+            if (!character) {
+                console.warn("Could not find linked character.");
+                return;
+            }
+
+            // Make sure the character's portrait has been resolved.
+            if (
+                typeof loadCharacterPortraits === "function" &&
+                typeof characterPortraits !== "undefined" &&
+                !characterPortraits[character.id]
+            ) {
+                await loadCharacterPortraits([character]);
+            }
+
+            if (typeof openCharacterProfile === "function") {
+                openCharacterProfile(character);
+            }
         });
     });
 }

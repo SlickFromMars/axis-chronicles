@@ -89,6 +89,9 @@ async function initializeJournal() {
 
     try {
         allQuests = await loadQuests();
+        if (typeof loadQuestCharacterData === "function") {
+            await loadQuestCharacterData();
+        }
 
         // Open the page specified by the URL.
         // Defaults to Quests if there is no valid hash.

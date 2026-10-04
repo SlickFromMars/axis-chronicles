@@ -648,6 +648,45 @@ function openCharacterProfile(
 
 
     /* =====================================================
+       RELEVANT QUESTS
+       ===================================================== */
+
+    const relevantQuests = (Array.isArray(allQuests) ? allQuests : [])
+        .filter(quest =>
+            Array.isArray(quest.characters) &&
+            quest.characters.some(characterRef => {
+                const id = characterRef && typeof characterRef === "object"
+                    ? characterRef.id
+                    : characterRef;
+                return String(id) === String(character.id);
+            })
+        );
+
+    const relevantQuestsSection = `
+        <section class="character-profile-quests">
+            <h3>Relevant Quests</h3>
+            ${relevantQuests.length
+                ? `<div class="character-profile-quest-list">
+                    ${relevantQuests.map(quest => `
+                        <button
+                            type="button"
+                            class="character-profile-quest"
+                            data-character-quest-id="${escapeHTML(quest.id)}"
+                        >
+                            <span class="character-profile-quest-copy">
+                                <strong>${escapeHTML(quest.title || "Untitled Quest")}</strong>
+                                <span>${escapeHTML(quest.status || "Status unknown")}</span>
+                            </span>
+                            <span class="character-profile-quest-arrow" aria-hidden="true">→</span>
+                        </button>
+                    `).join("")}
+                </div>`
+                : `<p class="character-profile-quests-empty">No quests are currently linked to this character.</p>`
+            }
+        </section>
+    `;
+
+    /* =====================================================
        NOTES
        ===================================================== */
 
@@ -884,6 +923,8 @@ function openCharacterProfile(
                 </div>
 
 
+                ${relevantQuestsSection}
+
                 ${notesSection}
 
             </div>
@@ -896,6 +937,24 @@ function openCharacterProfile(
         overlay
     );
 
+    overlay.querySelectorAll("[data-character-quest-id]").forEach(button => {
+        button.addEventListener("click", () => {
+            const quest = (Array.isArray(allQuests) ? allQuests : []).find(
+                item => String(item.id) === String(button.dataset.characterQuestId)
+            );
+
+            if (!quest) return;
+
+            closeCharacterProfile();
+            if (typeof navigateTo === "function") {
+                currentTeam = "all";
+                navigateTo("quests");
+            }
+            if (typeof renderQuestDetail === "function") {
+                renderQuestDetail(quest);
+            }
+        });
+    });
 
     const closeButton =
         document.getElementById(
