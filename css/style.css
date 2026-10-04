@@ -3214,3 +3214,172 @@ body.character-profile-open {
         animation: none;
     }
 }
+
+
+/* =========================================================
+   15. MAP: FULLSCREEN PAN / ZOOM VIEWER (mobile friendly)
+   The fullscreen map keeps its markers; drag to pan, pinch or
+   scroll to zoom. Location names appear when zoomed in.
+   ========================================================= */
+
+body.map-viewer-open {
+    overflow: hidden;
+}
+
+.map-fullscreen-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 4;
+    min-height: 34px;
+    padding: 7px 12px;
+    line-height: 1.2;
+}
+
+.map-viewer {
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    cursor: default;
+}
+
+.map-viewer-canvas {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.map-viewer-canvas.dragging {
+    cursor: grabbing;
+}
+
+.map-viewer-stage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+    line-height: 0;
+    box-shadow: 0 0 0 1px var(--gold-dark), 0 24px 70px rgba(0, 0, 0, 0.75);
+}
+
+.map-viewer-stage .map-viewer-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border: 0;
+    box-shadow: none;
+    animation: none;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+/* Markers keep a readable on-screen size; JS sets --marker-scale as you zoom */
+.map-viewer-stage .map-marker {
+    transform: translate(-50%, -50%) scale(var(--marker-scale, 1));
+    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.map-viewer-stage .map-marker:hover,
+.map-viewer-stage .map-marker:focus-visible,
+.map-viewer-stage .map-marker.selected {
+    transform: translate(-50%, -50%) scale(calc(var(--marker-scale, 1) * 1.12));
+}
+
+/* Undo the shrunken mobile marker sizes; scaling is handled by JS here */
+.map-viewer-stage .map-marker-region {
+    min-height: 30px;
+    padding: 8px 12px;
+    gap: 7px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+}
+
+.map-viewer-stage .map-marker-location {
+    min-height: 25px;
+    padding: 5px 9px 5px 7px;
+    gap: 7px;
+    font-size: 10px;
+}
+
+.map-viewer-stage .map-marker-name {
+    font-size: inherit;
+}
+
+.map-viewer-stage .map-region-symbol {
+    font-size: 13px;
+}
+
+.map-viewer-stage .map-location-symbol {
+    flex-basis: 9px;
+    width: 9px;
+    height: 9px;
+}
+
+/* Zoomed in far enough: show every location name */
+.map-viewer.show-labels .map-marker-location .map-marker-name {
+    display: inline;
+}
+
+.map-viewer-close {
+    z-index: 4;
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    right: calc(14px + env(safe-area-inset-right, 0px));
+}
+
+.map-viewer-toolbar {
+    position: absolute;
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.map-viewer-toolbar .map-control-button {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0;
+}
+
+.map-viewer-hint {
+    position: absolute;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    z-index: 3;
+    max-width: calc(100% - 130px);
+    margin: 0;
+    padding: 8px 14px;
+    transform: translateX(-50%);
+    color: var(--parchment);
+    background: rgba(12, 9, 7, 0.85);
+    border: 1px solid var(--gold-dark);
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+    text-align: center;
+    text-transform: uppercase;
+    pointer-events: none;
+    animation: map-hint-fade 0.6s ease 5s forwards;
+}
+
+@keyframes map-hint-fade {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
