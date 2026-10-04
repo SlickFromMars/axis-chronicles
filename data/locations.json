@@ -226,5 +226,14 @@
         "x": 67,
         "y": 39.17,
         "description": "The capital city of Var'Kennan's domain. Highly dangerous, it is occupied by his legions of Flamechildren and built around Castle Pyre."
+    },
+    {
+        "id": "the-veloitama-trench",
+        "name": "The Veloi'tama Trench",
+        "type": "Trench",
+        "region": "The Undersea",
+        "x": 90.11,
+        "y": 12.32,
+        "description": "TO BE DISCOVERED!"
     }
 ]
