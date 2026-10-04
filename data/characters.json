@@ -1,0 +1,151 @@
+[
+    {
+        "id": "quill",
+        "name": "Quill",
+        "type": "player",
+        "team": "team-one",
+        "race": "Triton",
+        "class": "Artificer",
+        "description": "A triton cartographer caught in events far larger than he ever anticipated.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [
+            "Carries a raw, volatile crystal within his chest."
+        ]
+    },
+    {
+        "id": "balthrum",
+        "name": "Balthrum Hardbreaker",
+        "type": "player",
+        "team": "team-one",
+        "race": "Dwarf",
+        "class": "Barbarian",
+        "description": "A dwarven warrior whose answer to most problems is considerably more destructive than necessary.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "mari",
+        "name": "Mari",
+        "type": "player",
+        "team": "team-one",
+        "race": "Half-Elf",
+        "class": "Rogue",
+        "description": "A quick-witted thief with ties to a strange diety known to be somwhat untrustworthy.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "caedes",
+        "name": "Caedes Mortem",
+        "type": "player",
+        "team": "team-one",
+        "race": "Tiefling",
+        "class": "Necromancer",
+        "description": "A tiefling necromancer traveling alongside the party, influenced by his Book of Necromancy.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "vera",
+        "name": "Vera",
+        "type": "friend",
+        "location": "Wherever Mari Is",
+        "race": "Owl",
+        "class": "Pet",
+        "description": "A mysterious but friendly owl accompanying Mari.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "jorovindr",
+        "name": "Jorovindr",
+        "type": "player",
+        "team": "team-two",
+        "race": "Aarakocra",
+        "class": "Monk",
+        "description": "A monk whose journey has become entangled with the fight against Var'Kennan.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "oliver",
+        "name": "Oliver Markford",
+        "type": "player",
+        "team": "team-two",
+        "race": "Human",
+        "class": "Ranger",
+        "description": "A former pirate who has repeatedly found himself closer to danger than intended.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "maria",
+        "name": "Maria",
+        "type": "player",
+        "team": "team-two",
+        "race": "Human",
+        "class": "Blood Hunter",
+        "description": "A bubbly blood hunter from another world.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "ashton",
+        "name": "Ashton",
+        "type": "friend",
+        "location": "Unknown",
+        "race": "Tiefling",
+        "class": null,
+        "description": "A child of Var'Kennan, on the run from his past and frequently apprehended.",
+        "status": "Unknown",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [
+            "Has a connection to the strange crystal phenomena surrounding the party."
+        ]
+    },
+    {
+        "id": "dyra",
+        "name": "Dyra",
+        "type": "foe",
+        "location": "Unknown",
+        "race": "Unknown",
+        "class": "Rogue",
+        "description": "A faceless mercenary, relentlessly pursuing Ashton and the party.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "bix",
+        "name": "Bix",
+        "type": "foe",
+        "location": "Unknown",
+        "race": "Elf",
+        "class": "Unknown",
+        "description": "A talented magic caster descended from evil royalty.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [
+            "Has a connection to Quill's crystal, and is known to manipulate it."
+        ]
+    }
+]

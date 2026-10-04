@@ -10,7 +10,8 @@ const validPages = [
     "quests",
     "calendar",
     "map",
-    "music"
+    "music",
+    "characters"
 ];
 
 
@@ -71,6 +72,10 @@ function navigateTo(page, updateURL = true) {
     } else if (page === "music") {
 
         showMusic();
+
+    } else if (page === "characters") {
+
+        showCharacters();
     }
 }
 

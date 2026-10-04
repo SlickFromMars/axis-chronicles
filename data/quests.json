@@ -68,6 +68,10 @@
             {
                 "text": "Pay a visit to the Undersea to find a way to make it to the glaciers.",
                 "completed": false
+            },
+            {
+                "text": "Learn more about Wintheria and her connection to the party.",
+                "completed": false
             }
         ],
         "developments": []
