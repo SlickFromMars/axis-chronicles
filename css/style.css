@@ -5317,3 +5317,13 @@ body.session-preview-open {
     letter-spacing: 0.14em;
     text-transform: uppercase;
 }
+
+/* -----------------------------------------
+   HIDE COORDINATE PICKER ON MOBILE
+----------------------------------------- */
+
+@media (max-width: 768px) {
+    .map-coordinate-tools {
+        display: none;
+    }
+}
