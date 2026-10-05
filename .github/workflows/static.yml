@@ -32,10 +32,24 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare deployment
+        run: |
+          mkdir deploy
+
+          cp index.html deploy/
+          cp manifest.json deploy/
+
+          cp -r assets deploy/
+          cp -r css deploy/
+          cp -r data deploy/
+          cp -r js deploy/
+
+          touch deploy/.nojekyll
+
       - name: Upload website
         uses: actions/upload-pages-artifact@v4
         with:
-          path: "."
+          path: "deploy"
 
       - name: Deploy to GitHub Pages
         id: deployment
