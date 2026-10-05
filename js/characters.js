@@ -51,88 +51,110 @@ function markCharacterAsRead(character) {
     );
 }
 
-
 /* =========================================================
    CHARACTER PORTRAITS
    ========================================================= */
 
-const CHARACTER_IMAGE_PATH =
-    "assets/images/characters/";
-
-const CHARACTER_IMAGE_EXTENSIONS = [
-    "png",
-    "jpg",
-    "jpeg",
-    "webp"
-];
+const CHARACTER_PORTRAIT_MANIFEST =
+    "assets/images/characters/portrait-manifest.json";
 
 const characterPortraits = {};
 
+let characterPortraitManifestPromise = null;
+
+
+/* =========================================================
+   LOAD PORTRAIT MANIFEST
+   ========================================================= */
+
+async function loadCharacterPortraitManifest() {
+
+    if (!characterPortraitManifestPromise) {
+
+        characterPortraitManifestPromise =
+            fetch(
+                CHARACTER_PORTRAIT_MANIFEST
+            )
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Could not load character portrait manifest"
+                        );
+                    }
+
+                    return response.json();
+                })
+                .catch(error => {
+
+                    characterPortraitManifestPromise =
+                        null;
+
+                    throw error;
+                });
+    }
+
+    return characterPortraitManifestPromise;
+}
+
+
+/* =========================================================
+   FIND CHARACTER PORTRAIT
+   ========================================================= */
 
 async function findCharacterPortrait(character) {
 
-    if (!character.id) {
+    if (!character || !character.id) {
         return null;
     }
 
-    for (
-        const extension
-        of CHARACTER_IMAGE_EXTENSIONS
+    /*
+     * Avoid looking up the same character more than once.
+     */
+    if (
+        Object.prototype.hasOwnProperty.call(
+            characterPortraits,
+            character.id
+        )
     ) {
-
-        const path =
-            `${CHARACTER_IMAGE_PATH}${character.id}.${extension}`;
-
-        const exists =
-            await checkImageExists(path);
-
-        if (exists) {
-            return path;
-        }
+        return characterPortraits[character.id];
     }
 
-    return null;
+    const manifest =
+        await loadCharacterPortraitManifest();
+
+    const portrait =
+        manifest[character.id] || null;
+
+    characterPortraits[
+        character.id
+    ] = portrait;
+
+    return portrait;
 }
 
 
-function checkImageExists(path) {
-
-    return new Promise(resolve => {
-
-        const image =
-            new Image();
-
-        image.onload = () => {
-            resolve(true);
-        };
-
-        image.onerror = () => {
-            resolve(false);
-        };
-
-        image.src = path;
-    });
-}
-
+/* =========================================================
+   LOAD ALL CHARACTER PORTRAITS
+   ========================================================= */
 
 async function loadCharacterPortraits(characters) {
 
-    const checks =
-        characters.map(
-            async character => {
+    const manifest =
+        await loadCharacterPortraitManifest();
 
-                const portrait =
-                    await findCharacterPortrait(
-                        character
-                    );
+    characters.forEach(character => {
 
-                characterPortraits[
-                    character.id
-                ] = portrait;
-            }
-        );
+        if (!character || !character.id) {
+            return;
+        }
 
-    await Promise.all(checks);
+        characterPortraits[
+            character.id
+        ] =
+            manifest[character.id] || null;
+    });
 }
 
 
