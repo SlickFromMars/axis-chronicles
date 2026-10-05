@@ -21,19 +21,13 @@ OUTPUT_FILE = (
     / "portrait-manifest.json"
 )
 
-SUPPORTED_EXTENSIONS = {
-    ".webp",
-    ".png",
-    ".jpg",
-    ".jpeg"
-}
-
 
 # =========================================================
 # GENERATE MANIFEST
 # =========================================================
 
 def generate_manifest():
+
     if not CHARACTER_IMAGE_DIR.exists():
         raise FileNotFoundError(
             f"Character image directory not found: "
@@ -42,14 +36,9 @@ def generate_manifest():
 
     portraits = {}
 
-    for image_file in sorted(CHARACTER_IMAGE_DIR.iterdir()):
-        if not image_file.is_file():
-            continue
-
-        extension = image_file.suffix.lower()
-
-        if extension not in SUPPORTED_EXTENSIONS:
-            continue
+    for image_file in sorted(
+        CHARACTER_IMAGE_DIR.glob("*.webp")
+    ):
 
         character_id = image_file.stem
 
@@ -57,25 +46,13 @@ def generate_manifest():
             PROJECT_ROOT
         ).as_posix()
 
-        if character_id in portraits:
-            print(
-                f"WARNING: Multiple portraits found for "
-                f"'{character_id}'."
-            )
-            print(
-                f"  Existing: {portraits[character_id]}"
-            )
-            print(
-                f"  Ignoring: {relative_path}"
-            )
-            continue
-
         portraits[character_id] = relative_path
 
     with OUTPUT_FILE.open(
         "w",
         encoding="utf-8"
     ) as file:
+
         json.dump(
             portraits,
             file,
@@ -85,12 +62,8 @@ def generate_manifest():
         file.write("\n")
 
     print(
-        f"Generated portrait manifest with "
-        f"{len(portraits)} portraits."
-    )
-
-    print(
-        f"Output: {OUTPUT_FILE}"
+        f"Generated portrait manifest "
+        f"with {len(portraits)} portraits."
     )
 
 

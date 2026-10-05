@@ -76,6 +76,23 @@ REM ========================================================
 REM GENERATE CHARACTER PORTRAIT MANIFEST
 REM ========================================================
 
+echo Converting character portraits to WebP...
+
+python scripts\convert-character-portraits.py
+
+if errorlevel 1 (
+    echo.
+    echo ERROR: Character portrait conversion failed.
+    echo No commit was made.
+    echo.
+    pause
+    exit /b 1
+)
+
+echo Portrait conversion complete.
+echo.
+
+
 echo Generating character portrait manifest...
 
 python scripts\generate-portrait-manifest.py
