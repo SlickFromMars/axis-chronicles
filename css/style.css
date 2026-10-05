@@ -1,23 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
-/* =========================================================
-   AXIS CHRONICLES: BALDUR'S GATE 3 STYLE
-   Single, definitive stylesheet.
-   Sections:
-    1. Tokens          8. Quests
-    2. Base            9. Buttons & controls
-    3. Top bar        10. Characters
-    4. Labels         11. Map
-    5. Layout/sidebar 12. Calendar & sessions
-    6. Page headings  13. Music & misc
-    7. Panel frame    14. Responsive
-   ========================================================= */
-
-
-/* =========================================================
-   1. TOKENS
-   ========================================================= */
-
 :root {
     --background: #100d0b;
     --background-deep: #080706;
@@ -61,19 +43,16 @@
     --font-body: "Cormorant Garamond", Georgia, "Times New Roman", serif;
     --font-label: "Cinzel", Georgia, "Times New Roman", serif;
 
-    /* bright top edge, dark bottom edge: the "metal plate" bevel */
+
     --bevel:
         inset 0 1px 0 rgba(246, 226, 168, 0.10),
         inset 0 -1px 0 rgba(0, 0, 0, 0.55);
 }
 
-
-/* =========================================================
-   2. BASE
-   ========================================================= */
-
 * {
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-dark) var(--background-deep);
 }
 
 html {
@@ -92,7 +71,6 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-variant-numeric: lining-nums;
-
     background:
         radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.55) 100%),
         radial-gradient(ellipse 70% 40% at 50% -5%, rgba(201, 164, 92, 0.13), transparent 70%),
@@ -122,11 +100,6 @@ input:focus-visible {
 ::selection {
     color: #1a1712;
     background: var(--gold-light);
-}
-
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--gold-dark) var(--background-deep);
 }
 
 ::-webkit-scrollbar {
@@ -180,30 +153,21 @@ h1 {
     line-height: 1.65;
 }
 
-
-/* =========================================================
-   3. TOP BAR
-   ========================================================= */
-
 .topbar {
     position: sticky;
     top: 0;
     z-index: 100;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     height: 68px;
     padding: 0 30px;
-
     background: linear-gradient(180deg, rgba(34, 28, 21, 0.98), rgba(14, 11, 9, 0.98));
     border-bottom: 1px solid var(--gold-dark);
     box-shadow:
         0 1px 0 rgba(0, 0, 0, 0.8),
         0 2px 0 rgba(201, 164, 92, 0.10),
         0 10px 30px rgba(0, 0, 0, 0.6);
-
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 }
@@ -225,7 +189,6 @@ h1 {
     display: flex;
     align-items: center;
     gap: 13px;
-
     color: var(--gold-bright);
     font-family: var(--font-display);
     font-size: 15px;
@@ -240,10 +203,8 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 34px;
     height: 34px;
-
     color: var(--gold-light);
     background: radial-gradient(circle, rgba(201, 164, 92, 0.22), rgba(0, 0, 0, 0.4));
     border: 1px solid var(--gold);
@@ -259,11 +220,6 @@ h1 {
     border-radius: 50%;
 }
 
-
-/* =========================================================
-   4. SHARED LABEL STYLE (small caps Cinzel)
-   ========================================================= */
-
 .header-label,
 .eyebrow,
 .sidebar-heading {
@@ -275,11 +231,6 @@ h1 {
     text-transform: uppercase;
 }
 
-
-/* =========================================================
-   5. LAYOUT, SIDEBAR, NAVIGATION
-   ========================================================= */
-
 .layout {
     display: grid;
     grid-template-columns: 245px minmax(0, 1fr);
@@ -289,17 +240,14 @@ h1 {
 .sidebar {
     position: sticky;
     top: 68px;
-
     height: calc(100vh - 68px);
     overflow-y: auto;
     padding: 30px 14px;
-
     background:
         linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 8%),
         linear-gradient(180deg, #16120e, #0d0b09);
     border-right: 1px solid var(--gold-shadow);
     box-shadow: inset -1px 0 0 rgba(201, 164, 92, 0.06);
-
     scrollbar-width: thin;
     scrollbar-color: var(--gold-dark) transparent;
 }
@@ -325,28 +273,23 @@ h1 {
 
 .nav-item {
     position: relative;
-
     display: flex;
     align-items: center;
     gap: 12px;
-
     width: 100%;
     margin: 0;
     padding: 12px 14px;
-
     color: var(--muted);
     background: transparent;
     border: 0;
     border-bottom: 1px solid rgba(201, 164, 92, 0.06);
     border-radius: 0;
     cursor: pointer;
-
     font-family: var(--font-label);
     font-size: 12px;
     letter-spacing: 0.16em;
     text-align: left;
     text-transform: uppercase;
-
     transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
 
@@ -420,11 +363,6 @@ h1 {
     padding: clamp(28px, 5vw, 60px) clamp(18px, 5vw, 64px);
 }
 
-
-/* =========================================================
-   6. PAGE HEADINGS
-   ========================================================= */
-
 .page-heading,
 .characters-heading {
     position: relative;
@@ -470,12 +408,6 @@ h1 {
     line-height: 1.6;
 }
 
-
-/* =========================================================
-   7. UNIVERSAL BG3 PANEL FRAME
-   Dark fill, brass border, corner brackets, inner hairline.
-   ========================================================= */
-
 .quest-card,
 .character-card,
 .quest-detail,
@@ -487,7 +419,6 @@ h1 {
 .map-detail-panel,
 .map-controls {
     position: relative;
-
     background-color: var(--panel);
     background-image:
         linear-gradient(var(--gold), var(--gold)), linear-gradient(var(--gold), var(--gold)),
@@ -504,7 +435,6 @@ h1 {
         0 0, 0 0, 100% 0, 100% 0,
         0 100%, 0 100%, 100% 100%, 100% 100%,
         0 0;
-
     border: 1px solid var(--gold-dark);
     border-radius: var(--radius-medium);
     box-shadow:
@@ -520,7 +450,6 @@ h1 {
     overflow: hidden;
 }
 
-/* inner hairline frame */
 .quest-detail::before,
 .calendar::before,
 .placeholder::before,
@@ -535,7 +464,6 @@ h1 {
     border: 1px solid rgba(201, 164, 92, 0.14);
 }
 
-/* modal backdrops: darkened with a vignette, like opening a BG3 menu */
 .character-profile,
 .location-overlay,
 .session-preview {
@@ -549,7 +477,6 @@ h1 {
     -webkit-backdrop-filter: blur(5px);
 }
 
-/* shared close button */
 .character-profile-close,
 .location-close,
 .session-preview-close,
@@ -557,7 +484,6 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: var(--gold-light);
     background: rgba(8, 6, 5, 0.9);
     border: 1px solid var(--gold);
@@ -566,7 +492,6 @@ h1 {
     cursor: pointer;
     font-family: Arial, sans-serif;
     line-height: 1;
-
     transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
@@ -584,7 +509,6 @@ body.character-profile-open {
     overflow: hidden;
 }
 
-/* ornamental divider + back button */
 .ornament-divider {
     display: flex;
     align-items: center;
@@ -656,13 +580,11 @@ body.character-profile-open {
     border: 1px solid var(--burgundy-light);
 }
 
-
-/* =========================================================
-   8. QUESTS
-   ========================================================= */
-
 .quest-category {
     margin-bottom: 38px;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.18em;
 }
 
 .quest-card .quest-category,
@@ -674,17 +596,14 @@ body.character-profile-open {
     display: flex;
     align-items: center;
     gap: 12px;
-
     width: 100%;
     margin: 0 0 13px;
     padding: 0;
-
     color: var(--gold-light);
     background: transparent;
     border: 0;
     cursor: pointer;
     text-align: left;
-
     font-family: var(--font-label);
     font-size: 11px;
     font-weight: 600;
@@ -719,17 +638,14 @@ body.character-profile-open {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     min-width: 21px;
     height: 21px;
     padding: 0 6px;
-
     color: var(--gold-light);
     background: rgba(0, 0, 0, 0.45);
     border: 1px solid var(--gold-dark);
     border-radius: 0;
     box-shadow: var(--bevel);
-
     font-family: var(--font-label);
     font-size: 10px;
     letter-spacing: 0;
@@ -756,9 +672,6 @@ body.character-profile-open {
     display: grid;
     gap: 11px;
 }
-
-
-/* ---- quest card ---- */
 
 .quest-card {
     width: 100%;
@@ -835,12 +748,6 @@ body.character-profile-open {
     text-transform: uppercase;
 }
 
-.quest-category {
-    color: var(--gold);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-}
-
 .quest-status {
     flex-shrink: 0;
     padding: 4px 10px;
@@ -869,7 +776,6 @@ body.character-profile-open {
     border-color: rgba(189, 110, 104, 0.45);
 }
 
-/* journal "new update" ping */
 .quest-notification,
 .character-notification {
     background: radial-gradient(circle at 35% 35%, #ff8a7a, #c4352b 70%);
@@ -909,9 +815,6 @@ body.character-profile-open {
         box-shadow: 0 0 10px rgba(255, 120, 100, 0.9), 0 0 0 6px rgba(215, 71, 62, 0);
     }
 }
-
-
-/* ---- quest detail ---- */
 
 .quest-detail {
     margin-top: 20px;
@@ -996,9 +899,6 @@ body.character-profile-open {
     background: linear-gradient(90deg, var(--gold-shadow), transparent);
 }
 
-
-/* ---- objectives ---- */
-
 .objectives,
 .developments {
     position: relative;
@@ -1068,9 +968,6 @@ body.character-profile-open {
     font-style: italic;
 }
 
-
-/* ---- developments (story log) ---- */
-
 .development {
     position: relative;
     padding: 14px 16px;
@@ -1105,11 +1002,6 @@ body.character-profile-open {
     line-height: 1.55;
 }
 
-
-/* =========================================================
-   9. BUTTONS & CONTROLS
-   ========================================================= */
-
 .quest-view-controls {
     display: flex;
     flex-wrap: wrap;
@@ -1138,21 +1030,18 @@ body.character-profile-open {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     color: var(--parchment);
     background: linear-gradient(180deg, rgba(246, 226, 168, 0.07), rgba(0, 0, 0, 0.35)), #1a1510;
     border: 1px solid var(--gold-dark);
     border-radius: var(--radius-small);
     box-shadow: var(--bevel), 0 2px 6px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-
     font-family: var(--font-label);
     font-size: 10.5px;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-decoration: none;
     text-transform: uppercase;
-
     transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.1s ease;
 }
 
@@ -1165,20 +1054,21 @@ body.character-profile-open {
 }
 
 .calendar-nav-button {
-    width: 36px;
     height: 36px;
     font-family: Arial, sans-serif;
-    font-size: 17px;
+    width: 40px;
+    font-size: 1rem;
 }
 
 .calendar-today-button {
     height: 36px;
-    padding: 0 13px;
+    padding: 0 1rem;
 }
 
 .calendar-subscribe,
 .calendar-download {
-    padding: 10px 14px;
+    gap: 0.4rem;
+    padding: 0 0.9rem;
 }
 
 .map-clear-filters {
@@ -1218,7 +1108,6 @@ body.character-profile-open {
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
 }
 
-/* hide-completed checkbox */
 .quest-toggle {
     gap: 9px;
     min-height: 36px;
@@ -1254,7 +1143,6 @@ body.character-profile-open {
     box-shadow: 0 0 10px rgba(201, 164, 92, 0.3);
 }
 
-/* team filter */
 .team-filter {
     display: flex;
     align-items: center;
@@ -1306,11 +1194,6 @@ body.character-profile-open {
     font-family: var(--font-body);
     font-size: 15px;
 }
-
-
-/* =========================================================
-   10. CHARACTERS
-   ========================================================= */
 
 .characters-page {
     width: 100%;
@@ -1402,9 +1285,6 @@ body.character-profile-open {
     gap: 16px;
 }
 
-
-/* ---- character card (portrait slot + nameplate) ---- */
-
 .character-card {
     display: flex;
     flex-direction: column;
@@ -1447,7 +1327,6 @@ body.character-profile-open {
     transition: border-color 0.2s ease;
 }
 
-/* dark fade so the nameplate reads like a portrait banner */
 .character-card-image::after {
     content: "";
     position: absolute;
@@ -1519,9 +1398,6 @@ body.character-profile-open {
 .quest-card:hover .quest-notification {
     filter: brightness(1.2);
 }
-
-
-/* ---- character profile / dossier ---- */
 
 .character-profile {
     z-index: 1000;
@@ -1597,7 +1473,6 @@ body.character-profile-open {
     z-index: 6;
 }
 
-/* brackets drawn above the portrait so all four corners show */
 .character-profile-card::after {
     content: "";
     position: absolute;
@@ -1746,11 +1621,6 @@ body.character-profile-open {
     }
 }
 
-
-/* =========================================================
-   11. MAP
-   ========================================================= */
-
 .map-page {
     width: 100%;
 }
@@ -1785,8 +1655,6 @@ body.character-profile-open {
     opacity: 0.96;
     filter: brightness(1.05) contrast(1.02);
 }
-
-/* ---- search & filters ---- */
 
 .map-controls {
     display: flex;
@@ -1879,8 +1747,6 @@ body.character-profile-open {
     font-style: italic;
 }
 
-/* ---- toolbar, legend ---- */
-
 .map-toolbar {
     display: flex;
     align-items: center;
@@ -1938,8 +1804,6 @@ body.character-profile-open {
     box-shadow: 0 0 7px rgba(201, 164, 92, 0.55);
 }
 
-/* ---- stage & markers ---- */
-
 .map-layout {
     display: block;
     width: 100%;
@@ -1981,10 +1845,8 @@ body.character-profile-open {
     align-items: center;
     justify-content: center;
     gap: 7px;
-
     min-height: 26px;
     padding: 5px 8px;
-
     transform: translate(-50%, -50%);
     color: var(--parchment-bright);
     background: rgba(12, 9, 7, 0.9);
@@ -1995,7 +1857,6 @@ body.character-profile-open {
     line-height: 1;
     pointer-events: auto;
     white-space: nowrap;
-
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
@@ -2022,7 +1883,6 @@ body.character-profile-open {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* region = banner plate */
 .map-marker-region {
     min-height: 30px;
     padding: 8px 12px;
@@ -2039,7 +1899,6 @@ body.character-profile-open {
     font-size: 13px;
 }
 
-/* location = pin with on-demand label */
 .map-marker-location {
     min-height: 25px;
     padding: 5px 9px 5px 7px;
@@ -2095,12 +1954,18 @@ body.character-profile-open {
 .map-coordinate-output {
     min-height: 20px;
     margin: 12px 2px 0;
+    display: block;
+    padding: 7px 11px;
     color: var(--gold-light);
-    font-family: monospace;
-    font-size: 12px;
+    background: rgba(33, 30, 26, 0.94);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-medium);
+    font-family: var(--font-label);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
 }
 
-/* touch: selection, not hover, reveals labels */
 @media (hover: none) {
     .map-marker-location:hover .map-marker-name {
         display: none;
@@ -2111,8 +1976,6 @@ body.character-profile-open {
         display: inline;
     }
 }
-
-/* ---- detail popups ---- */
 
 .location-overlay {
     z-index: 1100;
@@ -2203,13 +2066,11 @@ body.character-profile-open {
     top: 50%;
     left: 50%;
     z-index: 1200;
-
     width: min(440px, calc(100vw - 32px));
     max-height: min(700px, calc(100vh - 40px));
     min-width: 0;
     overflow-y: auto;
     padding: 30px;
-
     transform: translate(-50%, -50%);
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.8), var(--bevel), 0 24px 70px rgba(0, 0, 0, 0.75);
 }
@@ -2277,21 +2138,18 @@ body.character-profile-open {
     margin-top: 0;
 }
 
-/* ---- fullscreen viewer ---- */
-
 .map-viewer {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
     background: rgba(0, 0, 0, 0.96);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    cursor: zoom-out;
     animation: fade-in 0.18s ease;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    cursor: default;
 }
 
 .map-viewer[hidden] {
@@ -2313,11 +2171,12 @@ body.character-profile-open {
 
 .map-viewer-close {
     position: absolute;
-    top: 18px;
-    right: 22px;
     width: 44px;
     height: 44px;
     font-size: 26px;
+    z-index: 4;
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    right: calc(14px + env(safe-area-inset-right, 0px));
 }
 
 @keyframes map-zoom-in {
@@ -2332,17 +2191,26 @@ body.character-profile-open {
     }
 }
 
-
-/* =========================================================
-   12. CALENDAR & SESSION PREVIEW
-   ========================================================= */
-
 .calendar-page {
     width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 0 4rem;
 }
 
 .calendar-heading {
-    margin-bottom: 28px;
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding: 2rem 2rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(255, 255, 255, 0.012));
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
 }
 
 .calendar-title-row {
@@ -2359,10 +2227,10 @@ body.character-profile-open {
 }
 
 .calendar-navigation {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    flex-shrink: 0;
-    gap: 6px;
+    gap: 0.4rem;
 }
 
 .calendar {
@@ -2373,9 +2241,11 @@ body.character-profile-open {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    background: linear-gradient(180deg, #2a2218, #17120d);
-    border-bottom: 1px solid var(--gold-dark);
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.18);
+    border-bottom-color: rgba(255, 255, 255, 0.09);
 }
 
 .calendar-weekdays div {
@@ -2391,87 +2261,117 @@ body.character-profile-open {
 .calendar-grid {
     position: relative;
     z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
     gap: 1px;
     background: var(--gold-shadow);
+    display: grid;
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
 }
 
 .calendar-day {
-    min-height: 120px;
-    padding: 9px;
-    background: linear-gradient(180deg, #1a1511, #130f0c);
-    transition: background 0.18s ease;
+    position: relative;
+    padding: 0.7rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition:
+        background 0.18s ease;
+    min-height: 145px;
+    background: rgba(0, 0, 0, 0.11);
+    border-right-color: rgba(255, 255, 255, 0.07);
+    border-bottom-color: rgba(255, 255, 255, 0.07);
 }
 
 .calendar-day:hover {
-    background: linear-gradient(180deg, #261e16, #1a1510);
+    background: rgba(255, 255, 255, 0.025);
 }
 
 .calendar-day.empty {
-    background: #0e0b09;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0.45;
 }
 
 .calendar-date {
-    display: block;
     margin-bottom: 8px;
-    color: var(--gold-muted);
     font-family: var(--font-label);
-    font-size: 12px;
-    font-weight: 500;
     line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    opacity: 0.65;
 }
 
 .calendar-events {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0.35rem;
 }
 
 .calendar-event {
-    display: flex;
     flex-direction: column;
     gap: 2px;
-    width: 100%;
-    padding: 7px;
-    color: var(--parchment);
-    text-align: left;
-    background: linear-gradient(90deg, rgba(201, 164, 92, 0.10), rgba(0, 0, 0, 0.4));
-    border: 1px solid rgba(201, 164, 92, 0.18);
     border-left: 3px solid var(--gold);
     box-shadow: var(--bevel);
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0.55rem 0.55rem 0.55rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: var(--parchment);
+    font: inherit;
+    text-align: left;
     cursor: pointer;
-    transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    overflow: hidden;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.035);
 }
 
 .calendar-event:hover {
-    background: linear-gradient(90deg, rgba(201, 164, 92, 0.22), rgba(0, 0, 0, 0.3));
-    border-color: var(--gold);
     box-shadow: var(--bevel), 0 0 12px rgba(201, 164, 92, 0.2);
     transform: translateX(2px);
+    background: rgba(255, 255, 255, 0.075);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .calendar-event-team {
+    margin-bottom: 0.15rem;
     color: var(--gold);
-    font-size: 9px;
-    font-weight: 600;
+    font-size: 0.55rem;
+    font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    opacity: 0.8;
 }
 
 .calendar-event-title {
-    color: var(--parchment);
     font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
+    display: block;
+    overflow: hidden;
+    font-size: 0.76rem;
     line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--parchment);
+    font-weight: 600;
 }
 
 .calendar-event-time {
-    color: var(--muted);
     font-family: var(--font-body);
-    font-size: 12px;
     font-weight: 600;
+    display: block;
+    margin-top: 0.18rem;
+    font-size: 0.63rem;
+    color: var(--muted);
+    opacity: 0.72;
 }
 
 .calendar-event.two {
@@ -2483,51 +2383,90 @@ body.character-profile-open {
 }
 
 .calendar-actions {
-    display: flex;
-    gap: 9px;
     margin-top: 17px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-/* session preview */
 .session-preview {
-    z-index: 1000;
-    padding: 20px;
-    animation: fade-in 0.18s ease;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background:
+        rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    animation:
+        session-preview-fade-in 0.18s ease-out;
 }
 
 .session-preview-card {
-    width: min(520px, 100%);
     max-height: calc(100vh - 40px);
-    overflow-y: auto;
-    padding: clamp(22px, 5vw, 34px);
+    overflow: hidden auto;
+    position: relative;
+    width: min(100%, 560px);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background:
+        linear-gradient(145deg,
+            rgba(35, 35, 35, 0.98),
+            rgba(20, 20, 20, 0.98));
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.5);
+    animation:
+        session-preview-card-in 0.22s ease-out;
 }
 
 .session-preview-card h2 {
+    color: var(--parchment-bright);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     position: relative;
     z-index: 1;
-    margin: 5px 45px 26px 0;
-    color: var(--parchment-bright);
-    font-size: clamp(22px, 5vw, 28px);
-    letter-spacing: 0.06em;
-    line-height: 1.3;
-    text-transform: uppercase;
+    margin: 1.5rem 0 0;
+    max-width: 450px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1.15;
 }
 
 .session-preview-close {
     position: absolute;
-    top: 14px;
-    right: 15px;
-    z-index: 3;
-    width: 38px;
-    height: 38px;
-    font-size: 22px;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--muted);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        color 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
 }
 
 .session-preview-details {
     position: relative;
     z-index: 1;
     display: grid;
-    gap: 13px;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
 }
 
 .session-preview-details div {
@@ -2554,24 +2493,35 @@ body.character-profile-open {
     line-height: 1.4;
 }
 
-
-/* =========================================================
-   13. MUSIC
-   ========================================================= */
-
 .music-section {
     margin-bottom: 40px;
+    position: relative;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.012));
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.14);
+    overflow: hidden;
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .music-section h2 {
     display: flex;
     align-items: center;
     gap: 11px;
-    margin: 0 0 8px;
     color: var(--gold-light);
-    font-size: 20px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    margin: 0;
+    font-size: 1.45rem;
+    line-height: 1.2;
 }
 
 .music-section h2::before {
@@ -2604,11 +2554,6 @@ body.character-profile-open {
     border-radius: var(--radius-small);
     box-shadow: var(--bevel), var(--shadow-small);
 }
-
-
-/* =========================================================
-   14. RESPONSIVE
-   ========================================================= */
 
 @media (max-width: 850px) {
     .layout {
@@ -2748,11 +2693,13 @@ body.character-profile-open {
 
     .calendar-today-button {
         display: none;
+        flex: 2;
     }
 
     .calendar-day {
-        min-height: 100px;
-        padding: 7px;
+        padding: 0.45rem;
+        min-height: 105px;
+        background: rgba(0, 0, 0, 0.12);
     }
 
     .calendar-weekdays div {
@@ -2762,19 +2709,182 @@ body.character-profile-open {
     }
 
     .calendar-event {
-        padding: 5px;
+        padding: 0.45rem 0.4rem 0.45rem 0.6rem;
     }
 
     .calendar-event-title {
-        font-size: 10px;
+        font-size: 0.65rem;
     }
 
     .calendar-event-team {
-        font-size: 6px;
+        font-size: 0.48rem;
     }
 
     .calendar-event-time {
         display: none;
+        font-size: 0.52rem;
+    }
+
+    .music-page {
+        padding-bottom: 2rem;
+    }
+
+    .music-hero {
+        gap: 1.25rem;
+        padding: 1.5rem;
+    }
+
+    .music-hero-icon {
+        width: 58px;
+        height: 58px;
+        font-size: 1.5rem;
+    }
+
+    .music-hero h1 {
+        font-size: 1.9rem;
+    }
+
+    .music-intro {
+        gap: 0.75rem;
+    }
+
+    .music-intro p {
+        font-size: 0.85rem;
+    }
+
+    .music-section {
+        padding: 1rem;
+    }
+
+    .music-section-header {
+        grid-template-columns:
+            auto 40px minmax(0, 1fr);
+        gap: 0.7rem;
+    }
+
+    .music-section-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.05rem;
+    }
+
+    .music-section h2 {
+        font-size: 1.25rem;
+    }
+
+    .music-section-heading p {
+        font-size: 0.85rem;
+    }
+
+    .music-player {
+        padding: 0.5rem;
+    }
+
+    .music-player iframe {
+        min-height: 500px;
+    }
+
+    .calendar-heading {
+        padding: 1.5rem;
+    }
+
+    .calendar-heading-top {
+        align-items: flex-start;
+    }
+
+    .calendar-heading-mark {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+    }
+
+    .calendar-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .calendar-navigation {
+        justify-content: space-between;
+    }
+
+    .calendar-nav-button {
+        flex: 1;
+    }
+
+    .calendar-actions {
+        width: 100%;
+    }
+
+    .calendar-subscribe,
+    .calendar-download {
+        flex: 1;
+    }
+
+    .calendar-weekdays>div {
+        padding: 0.65rem 0.25rem;
+        font-size: 0.58rem;
+    }
+
+    .calendar-summary-item {
+        padding: 0 0.65rem;
+    }
+
+    .calendar-summary-item strong {
+        font-size: 1rem;
+    }
+
+    .calendar-summary-item span {
+        font-size: 0.58rem;
+    }
+
+    .calendar-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .calendar-footer-note {
+        display: none;
+    }
+
+    .session-preview-card {
+        padding: 1.5rem;
+    }
+
+    .session-preview-details {
+        grid-template-columns: 1fr;
+    }
+
+    .session-preview-detail {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .session-preview-detail-icon {
+        flex: 0 0 auto;
+        width: 25px;
+        text-align: center;
+    }
+
+    .player-characters-heading {
+        align-items: flex-start;
+    }
+
+    .player-characters-mark {
+        width: 46px;
+        height: 46px;
+    }
+
+    .player-team {
+        padding: 1rem;
+    }
+
+    .player-character-card .character-card-image {
+        min-height: 210px;
+    }
+
+    .player-character-card .character-card-portrait {
+        height: 210px;
     }
 }
 
@@ -2841,6 +2951,39 @@ body.character-profile-open {
 
     .location-panel {
         padding: 28px 22px;
+    }
+
+    .quest-location-link,
+    .map-related-quest {
+        padding: 11px 12px;
+    }
+
+    .quest-card-characters {
+        gap: 5px;
+    }
+
+    .quest-character-chip {
+        padding: 4px 8px;
+    }
+
+    .quest-detail-character {
+        padding: 8px 10px;
+    }
+
+    .map-coordinate-tools {
+        top: 8px;
+        left: 8px;
+        gap: 6px;
+    }
+
+    .map-coordinate-toggle {
+        font-size: 0.8rem;
+        padding: 7px 10px;
+    }
+
+    .map-coordinate-output {
+        font-size: 0.75rem;
+        padding: 6px 8px;
     }
 }
 
@@ -3213,14 +3356,14 @@ body.character-profile-open {
     .character-notification {
         animation: none;
     }
+
+    .quest-location-link,
+    .map-related-quest,
+    .quest-location-arrow,
+    .map-related-quest>span:last-child {
+        transition: none;
+    }
 }
-
-
-/* =========================================================
-   15. MAP: FULLSCREEN PAN / ZOOM VIEWER (mobile friendly)
-   The fullscreen map keeps its markers; drag to pan, pinch or
-   scroll to zoom. Location names appear when zoomed in.
-   ========================================================= */
 
 body.map-viewer-open {
     overflow: hidden;
@@ -3234,13 +3377,6 @@ body.map-viewer-open {
     min-height: 34px;
     padding: 7px 12px;
     line-height: 1.2;
-}
-
-.map-viewer {
-    display: block;
-    padding: 0;
-    overflow: hidden;
-    cursor: default;
 }
 
 .map-viewer-canvas {
@@ -3281,7 +3417,6 @@ body.map-viewer-open {
     -webkit-user-drag: none;
 }
 
-/* Markers keep a readable on-screen size; JS sets --marker-scale as you zoom */
 .map-viewer-stage .map-marker {
     transform: translate(-50%, -50%) scale(var(--marker-scale, 1));
     transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
@@ -3293,7 +3428,6 @@ body.map-viewer-open {
     transform: translate(-50%, -50%) scale(calc(var(--marker-scale, 1) * 1.12));
 }
 
-/* Undo the shrunken mobile marker sizes; scaling is handled by JS here */
 .map-viewer-stage .map-marker-region {
     min-height: 30px;
     padding: 8px 12px;
@@ -3323,15 +3457,8 @@ body.map-viewer-open {
     height: 9px;
 }
 
-/* Zoomed in far enough: show every location name */
 .map-viewer.show-labels .map-marker-location .map-marker-name {
     display: inline;
-}
-
-.map-viewer-close {
-    z-index: 4;
-    top: calc(14px + env(safe-area-inset-top, 0px));
-    right: calc(14px + env(safe-area-inset-right, 0px));
 }
 
 .map-viewer-toolbar {
@@ -3384,12 +3511,6 @@ body.map-viewer-open {
     }
 }
 
-/* =========================================================
-   QUEST ↔ MAP INTEGRATION
-   Add this section to the end of css/style.css.
-   Uses the existing Axis Chronicles theme tokens.
-   ========================================================= */
-
 .quest-locations,
 .map-related-quests {
     position: relative;
@@ -3485,149 +3606,6 @@ body.map-viewer-open {
     letter-spacing: 0.16em;
     text-transform: uppercase;
 }
-
-@media (max-width: 600px) {
-
-    .quest-location-link,
-    .map-related-quest {
-        padding: 11px 12px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    .quest-location-link,
-    .map-related-quest,
-    .quest-location-arrow,
-    .map-related-quest>span:last-child {
-        transition: none;
-    }
-}
-
-/* =========================================================
-   QUEST ↔ MAP INTEGRATION
-   Add this section to the end of css/style.css.
-   Uses the existing Axis Chronicles theme tokens.
-   ========================================================= */
-
-.quest-locations,
-.map-related-quests {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 12px 0 20px;
-}
-
-.quest-location-link,
-.map-related-quest {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    min-width: 0;
-    padding: 12px 14px;
-    color: var(--parchment);
-    background: linear-gradient(180deg, var(--panel-light), var(--panel));
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-medium);
-    box-shadow: var(--bevel);
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-    transition:
-        background 180ms ease,
-        border-color 180ms ease,
-        box-shadow 180ms ease,
-        transform 180ms ease;
-}
-
-.quest-location-link:hover,
-.map-related-quest:hover {
-    color: var(--parchment-bright);
-    background: var(--panel-hover);
-    border-color: var(--gold-muted);
-    box-shadow: var(--bevel), var(--gold-glow);
-    transform: translateY(-1px);
-}
-
-.quest-location-link:focus-visible,
-.map-related-quest:focus-visible {
-    outline: 2px solid var(--gold-light);
-    outline-offset: 3px;
-}
-
-.quest-location-icon {
-    flex: 0 0 auto;
-    color: var(--gold);
-    font-family: var(--font-label);
-    font-size: 20px;
-    line-height: 1;
-}
-
-.quest-location-link>span:nth-child(2),
-.map-related-quest>span:first-child {
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-.quest-location-arrow,
-.map-related-quest>span:last-child {
-    flex: 0 0 auto;
-    margin-left: auto;
-    color: var(--gold-light);
-    transition: transform 180ms ease;
-}
-
-.quest-location-link:hover .quest-location-arrow,
-.map-related-quest:hover>span:last-child {
-    transform: translateX(3px);
-}
-
-.quest-locations .objectives-hidden {
-    margin: 0;
-    padding: 10px 0;
-    color: var(--muted);
-    font-style: italic;
-}
-
-.map-related-quests {
-    margin: 10px 0 18px;
-}
-
-.map-detail-panel h3 {
-    margin-top: 22px;
-    color: var(--gold-light);
-    font-family: var(--font-label);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-}
-
-@media (max-width: 600px) {
-
-    .quest-location-link,
-    .map-related-quest {
-        padding: 11px 12px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    .quest-location-link,
-    .map-related-quest,
-    .quest-location-arrow,
-    .map-related-quest>span:last-child {
-        transition: none;
-    }
-}
-
-
-/* =========================================================
-   QUEST ↔ CHARACTER DISPLAY
-   ========================================================= */
 
 .quest-card-characters {
     display: flex;
@@ -3671,16 +3649,24 @@ body.map-viewer-open {
 }
 
 .quest-detail-character {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
     min-width: 0;
-    padding: 9px 12px;
+    box-shadow: var(--bevel);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
     color: var(--parchment);
-    background: linear-gradient(180deg, var(--panel-light), var(--panel));
+    font: inherit;
+    text-align: left;
+    background: var(--panel);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-medium);
-    box-shadow: var(--bevel);
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .quest-character-marker {
@@ -3694,6 +3680,9 @@ body.map-viewer-open {
     overflow-wrap: anywhere;
     font-family: var(--font-label);
     font-size: 12px;
+    flex: 1;
+    color: var(--gold-light);
+    font-weight: 600;
 }
 
 .quest-detail-characters .objectives-hidden {
@@ -3701,44 +3690,6 @@ body.map-viewer-open {
     padding: 10px 0;
     color: var(--muted);
     font-style: italic;
-}
-
-@media (max-width: 600px) {
-    .quest-card-characters {
-        gap: 5px;
-    }
-
-    .quest-character-chip {
-        padding: 4px 8px;
-    }
-
-    .quest-detail-character {
-        padding: 8px 10px;
-    }
-}
-
-/* Clickable characters in quest details */
-
-.quest-detail-character {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 12px 14px;
-
-    color: var(--parchment);
-    font: inherit;
-    text-align: left;
-
-    background: var(--panel);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-medium);
-
-    cursor: pointer;
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
 }
 
 .quest-detail-character:hover {
@@ -3757,12 +3708,6 @@ body.map-viewer-open {
     flex-shrink: 0;
 }
 
-.quest-detail-character-name {
-    flex: 1;
-    color: var(--gold-light);
-    font-weight: 600;
-}
-
 .quest-character-arrow {
     color: var(--gold-muted);
     transition: transform 0.2s ease;
@@ -3771,10 +3716,6 @@ body.map-viewer-open {
 .quest-detail-character:hover .quest-character-arrow {
     transform: translateX(4px);
 }
-
-/* =========================================================
-   CHARACTER PROFILE — RELEVANT QUESTS
-   ========================================================= */
 
 .character-profile-quests {
     margin-top: 24px;
@@ -3851,41 +3792,20 @@ body.map-viewer-open {
     transform: translateX(4px);
 }
 
-/* -----------------------------------------
-   MAP COORDINATE PICKER
------------------------------------------ */
-
 .map-coordinate-tools {
     position: absolute;
     top: 12px;
     left: 12px;
     z-index: 20;
-
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-
     max-width: calc(100% - 24px);
 }
 
 .map-coordinate-toggle {
     cursor: pointer;
-}
-
-.map-coordinate-output {
-    display: block;
-    padding: 7px 11px;
-
-    color: var(--gold-light);
-    background: rgba(33, 30, 26, 0.94);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-medium);
-
-    font-family: var(--font-label);
-    font-size: 0.85rem;
-    font-variant-numeric: tabular-nums;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
 }
 
 .map-stage.coordinate-mode {
@@ -3905,233 +3825,139 @@ body.map-viewer-open {
     cursor: crosshair;
 }
 
-@media (max-width: 600px) {
-    .map-coordinate-tools {
-        top: 8px;
-        left: 8px;
-        gap: 6px;
-    }
-
-    .map-coordinate-toggle {
-        font-size: 0.8rem;
-        padding: 7px 10px;
-    }
-
-    .map-coordinate-output {
-        font-size: 0.75rem;
-        padding: 6px 8px;
-    }
-}
-
-/* =========================================================
-   MUSIC PAGE
-   ========================================================= */
-
 .music-page {
     max-width: 1200px;
     margin: 0 auto;
     padding-bottom: 4rem;
 }
 
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
 .music-hero {
     position: relative;
     display: flex;
     align-items: center;
     gap: 1.75rem;
-
     margin-bottom: 2rem;
     padding: 2rem 2.25rem;
-
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 14px;
-
     background:
         linear-gradient(135deg,
             rgba(255, 255, 255, 0.045),
             rgba(255, 255, 255, 0.015));
-
     box-shadow:
         0 12px 35px rgba(0, 0, 0, 0.18);
-
     overflow: hidden;
 }
 
-
-/* Decorative glow */
-
 .music-hero::before {
     content: "";
-
     position: absolute;
     top: -100px;
     right: -80px;
-
     width: 280px;
     height: 280px;
-
     border-radius: 50%;
-
-    background: var(--accent-color);
+    background: var(--gold);
     opacity: 0.045;
-
     pointer-events: none;
 }
 
-
-/* Decorative line */
-
 .music-hero::after {
     content: "";
-
     position: absolute;
     left: 0;
     bottom: 0;
-
     width: 35%;
     height: 2px;
-
     background: linear-gradient(90deg,
-            var(--accent-color),
+            var(--gold),
             transparent);
-
     opacity: 0.55;
 }
 
-
-/* =========================================================
-   HERO ICON
-   ========================================================= */
-
 .music-hero-icon {
     flex: 0 0 auto;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 76px;
     height: 76px;
-
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 50%;
-
-    color: var(--accent-color);
-
+    color: var(--gold);
     font-size: 2rem;
     line-height: 1;
-
     background:
         radial-gradient(circle,
             rgba(255, 255, 255, 0.06),
             rgba(255, 255, 255, 0.015));
-
     box-shadow:
         inset 0 0 20px rgba(255, 255, 255, 0.025),
         0 5px 20px rgba(0, 0, 0, 0.18);
 }
-
 
 .music-hero-content {
     position: relative;
     z-index: 1;
 }
 
-
 .music-eyebrow {
     display: block;
-
     margin-bottom: 0.35rem;
-
-    color: var(--accent-color);
-
+    color: var(--gold);
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-
     opacity: 0.8;
 }
 
-
 .music-hero h1 {
     margin: 0;
-
     font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.05;
 }
 
-
 .music-hero .page-description {
     max-width: 700px;
-
     margin: 0.65rem 0 0;
-
-    color: var(--text-muted);
-
+    color: var(--muted);
     font-size: 1rem;
     line-height: 1.6;
 }
-
-
-/* =========================================================
-   INTRO
-   ========================================================= */
 
 .music-intro {
     display: flex;
     align-items: center;
     gap: 1rem;
-
     margin: 2rem auto 2.5rem;
-
     max-width: 850px;
-
-    color: var(--text-muted);
-
+    color: var(--muted);
     text-align: center;
 }
 
-
 .music-intro p {
     flex: 0 0 auto;
-
     margin: 0;
-
     font-family: Georgia, "Times New Roman", serif;
-
     font-size: 0.95rem;
     font-style: italic;
-
     opacity: 0.8;
 }
 
-
 .music-intro-line {
     flex: 1;
-
     height: 1px;
-
     background: linear-gradient(90deg,
             transparent,
-            var(--border-color));
+            var(--border));
 }
-
 
 .music-intro-line:last-child {
     background: linear-gradient(90deg,
-            var(--border-color),
+            var(--border),
             transparent);
 }
-
-
-/* =========================================================
-   MUSIC SECTIONS
-   ========================================================= */
 
 .music-sections {
     display: flex;
@@ -4139,396 +3965,1355 @@ body.map-viewer-open {
     gap: 2.5rem;
 }
 
-
-.music-section {
-    position: relative;
-
-    padding: 1.5rem;
-
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
-
-    background:
-        linear-gradient(145deg,
-            rgba(255, 255, 255, 0.035),
-            rgba(255, 255, 255, 0.012));
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.14);
-
-    overflow: hidden;
-
-    transition:
-        border-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-
 .music-section:hover {
     border-color: color-mix(in srgb,
-            var(--accent-color) 45%,
-            var(--border-color));
-
+            var(--gold) 45%,
+            var(--border));
     transform: translateY(-2px);
-
     box-shadow:
         0 14px 35px rgba(0, 0, 0, 0.2);
 }
 
-
-/* =========================================================
-   SECTION HEADER
-   ========================================================= */
-
 .music-section-header {
     display: grid;
-
     grid-template-columns:
         auto 46px minmax(0, 1fr);
-
     align-items: center;
-
     gap: 1rem;
-
     margin-bottom: 1.25rem;
 }
 
-
 .music-section-number {
     align-self: start;
-
     padding-top: 0.35rem;
-
-    color: var(--text-muted);
-
+    color: var(--muted);
     font-family: Georgia, "Times New Roman", serif;
-
     font-size: 0.78rem;
     font-weight: 700;
-
     letter-spacing: 0.08em;
-
     opacity: 0.5;
 }
-
 
 .music-section-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 46px;
     height: 46px;
-
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 10px;
-
-    color: var(--accent-color);
-
+    color: var(--gold);
     font-size: 1.25rem;
-
     background: rgba(255, 255, 255, 0.025);
 }
-
 
 .music-section-heading {
     min-width: 0;
 }
 
-
 .music-section-label {
     display: block;
-
     margin-bottom: 0.25rem;
-
-    color: var(--accent-color);
-
+    color: var(--gold);
     font-size: 0.65rem;
     font-weight: 700;
-
     letter-spacing: 0.15em;
     text-transform: uppercase;
-
     opacity: 0.7;
 }
 
-
-.music-section h2 {
-    margin: 0;
-
-    font-size: 1.45rem;
-    line-height: 1.2;
-}
-
-
 .music-section-heading p {
     max-width: 850px;
-
     margin: 0.45rem 0 0;
-
-    color: var(--text-muted);
-
+    color: var(--muted);
     font-size: 0.9rem;
     line-height: 1.55;
 }
 
-
-/* =========================================================
-   SPOTIFY PLAYER
-   ========================================================= */
-
 .music-player {
     position: relative;
-
     padding: 0.75rem;
-
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 12px;
-
     background: rgba(0, 0, 0, 0.18);
 }
-
 
 .music-player-topline {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-
     padding: 0.15rem 0.25rem 0.65rem;
-
-    color: var(--text-muted);
-
+    color: var(--muted);
     font-size: 0.62rem;
     font-weight: 700;
-
     letter-spacing: 0.12em;
 }
-
 
 .music-player-dot {
     width: 4px;
     height: 4px;
-
     border-radius: 50%;
-
-    background: var(--accent-color);
-
+    background: var(--gold);
     box-shadow:
-        0 0 7px var(--accent-color);
+        0 0 7px var(--gold);
 }
-
 
 .music-player iframe {
     display: block;
-
     width: 100%;
-
     min-height: 500px;
-
     border: 0;
     border-radius: 9px;
-
     background: #121212;
 }
-
-
-/* =========================================================
-   EMPTY / ERROR STATES
-   ========================================================= */
 
 .music-empty,
 .music-error {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     padding: 4rem 2rem;
-
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 14px;
-
     text-align: center;
-
     background:
         linear-gradient(145deg,
             rgba(255, 255, 255, 0.035),
             rgba(255, 255, 255, 0.01));
 }
 
-
 .music-empty-icon,
 .music-error-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 64px;
     height: 64px;
-
     margin-bottom: 1rem;
-
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 50%;
-
-    color: var(--accent-color);
-
+    color: var(--gold);
     font-size: 1.6rem;
 }
-
 
 .music-empty h2,
 .music-error h1 {
     margin: 0;
 }
 
-
 .music-empty p,
 .music-error .page-description {
     max-width: 500px;
-
     margin: 0.6rem 0 0;
-
-    color: var(--text-muted);
+    color: var(--muted);
 }
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 700px) {
-
-    .music-page {
-        padding-bottom: 2rem;
-    }
-
-
-    .music-hero {
-        gap: 1.25rem;
-
-        padding: 1.5rem;
-    }
-
-
-    .music-hero-icon {
-        width: 58px;
-        height: 58px;
-
-        font-size: 1.5rem;
-    }
-
-
-    .music-hero h1 {
-        font-size: 1.9rem;
-    }
-
-
-    .music-intro {
-        gap: 0.75rem;
-    }
-
-
-    .music-intro p {
-        font-size: 0.85rem;
-    }
-
-
-    .music-section {
-        padding: 1rem;
-    }
-
-
-    .music-section-header {
-        grid-template-columns:
-            auto 40px minmax(0, 1fr);
-
-        gap: 0.7rem;
-    }
-
-
-    .music-section-icon {
-        width: 40px;
-        height: 40px;
-
-        font-size: 1.05rem;
-    }
-
-
-    .music-section h2 {
-        font-size: 1.25rem;
-    }
-
-
-    .music-section-heading p {
-        font-size: 0.85rem;
-    }
-
-
-    .music-player {
-        padding: 0.5rem;
-    }
-
-
-    .music-player iframe {
-        min-height: 500px;
-    }
-}
-
 
 @media (max-width: 480px) {
-
     .music-hero {
         align-items: flex-start;
     }
 
-
     .music-hero-icon {
         width: 48px;
         height: 48px;
-
         font-size: 1.25rem;
     }
-
 
     .music-eyebrow {
         font-size: 0.62rem;
     }
 
-
     .music-hero h1 {
         font-size: 1.65rem;
     }
-
 
     .music-intro-line {
         display: none;
     }
 
-
     .music-intro {
         justify-content: center;
     }
 
-
     .music-section-number {
         display: none;
     }
-
 
     .music-section-header {
         grid-template-columns:
             40px minmax(0, 1fr);
     }
 
-
     .music-section-icon {
         grid-row: 1;
         grid-column: 1;
     }
 
-
     .music-section-heading {
         grid-column: 2;
     }
+}
+
+.calendar-loading-page {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--muted);
+    text-align: center;
+}
+
+.calendar-loading-mark {
+    color: var(--gold);
+    font-size: 1.5rem;
+    animation: calendar-pulse 1.5s ease-in-out infinite;
+}
+
+.calendar-loading p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+@keyframes calendar-pulse {
+
+    0%,
+    100% {
+        opacity: 0.35;
+        transform: scale(0.95);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.calendar-error {
+    max-width: 600px;
+    margin: 5rem auto;
+    padding: 3rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.01));
+    text-align: center;
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.18);
+}
+
+.calendar-error-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 1rem;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.calendar-error h1 {
+    margin: 0;
+}
+
+.calendar-error p {
+    margin: 0.75rem auto 0;
+    max-width: 450px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.calendar-heading::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: -190px;
+    right: -100px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.035;
+    pointer-events: none;
+}
+
+.calendar-heading::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30%;
+    height: 2px;
+    background:
+        linear-gradient(90deg,
+            var(--gold),
+            transparent);
+    opacity: 0.55;
+}
+
+.calendar-heading-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.calendar-heading .eyebrow {
+    margin-bottom: 0.35rem;
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.calendar-heading h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+}
+
+.calendar-heading h1 span {
+    color: var(--muted);
+    font-weight: 400;
+    opacity: 0.65;
+}
+
+.calendar-description {
+    max-width: 650px;
+    margin: 0.7rem 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.calendar-heading-mark {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 1.7rem;
+    background:
+        radial-gradient(circle,
+            rgba(255, 255, 255, 0.045),
+            rgba(255, 255, 255, 0.01));
+    box-shadow:
+        inset 0 0 20px rgba(255, 255, 255, 0.025),
+        0 8px 25px rgba(0, 0, 0, 0.15);
+    opacity: 0.85;
+}
+
+.calendar-toolbar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+}
+
+.calendar-nav-button,
+.calendar-today-button,
+.calendar-subscribe,
+.calendar-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--parchment);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.calendar-nav-button:hover,
+.calendar-today-button:hover,
+.calendar-subscribe:hover,
+.calendar-download:hover {
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--gold);
+    transform: translateY(-1px);
+}
+
+.calendar-nav-button:active,
+.calendar-today-button:active,
+.calendar-subscribe:active,
+.calendar-download:active {
+    transform: translateY(0);
+}
+
+.calendar-subscribe span,
+.calendar-download span {
+    color: var(--gold);
+    font-size: 0.9rem;
+}
+
+.calendar-subscribe.copied {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.calendar-summary {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    margin-top: 1.35rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+}
+
+.calendar-summary-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    padding: 0 1.2rem;
+}
+
+.calendar-summary-item:first-child {
+    padding-left: 0;
+}
+
+.calendar-summary-item strong {
+    color: var(--parchment);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.calendar-summary-item span {
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.calendar-summary-divider {
+    width: 1px;
+    height: 22px;
+    background: var(--border);
+}
+
+.calendar-shell {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.12);
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-weekdays>div {
+    padding: 0.8rem 0.65rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.72;
+}
+
+.calendar-day:nth-child(7n) {
+    border-right: none;
+}
+
+.calendar-day:nth-last-child(-n + 7) {
+    border-bottom: none;
+}
+
+.calendar-day.past {
+    opacity: 0.58;
+}
+
+.calendar-day.today {
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, 0.055),
+            rgba(255, 255, 255, 0.018));
+}
+
+.calendar-day.today::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gold);
+    opacity: 0.9;
+    box-shadow:
+        0 0 8px var(--gold);
+}
+
+.calendar-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 24px;
+    margin-bottom: 0.45rem;
+}
+
+.calendar-day.today .calendar-date {
+    border-radius: 50%;
+    background: var(--gold);
+    color: #111;
+    opacity: 1;
+    font-weight: 800;
+    box-shadow:
+        0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.calendar-today-marker {
+    color: var(--gold);
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.calendar-empty-day {
+    min-height: 80px;
+}
+
+.calendar-event-accent {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--gold);
+    opacity: 0.8;
+}
+
+.calendar-event-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.calendar-event.completed {
+    opacity: 0.55;
+}
+
+.calendar-event.completed .calendar-event-accent {
+    opacity: 0.3;
+}
+
+.calendar-event.today {
+    background:
+        linear-gradient(90deg,
+            rgba(255, 255, 255, 0.075),
+            rgba(255, 255, 255, 0.035));
+    border-color: color-mix(in srgb,
+            var(--gold) 45%,
+            transparent);
+}
+
+.calendar-event.today .calendar-event-accent {
+    opacity: 1;
+    box-shadow:
+        0 0 8px var(--gold);
+}
+
+.calendar-event.upcoming .calendar-event-accent {
+    opacity: 0.8;
+}
+
+.calendar-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0.25rem;
+}
+
+.calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.calendar-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--muted);
+    font-size: 0.68rem;
+}
+
+.calendar-legend-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--muted);
+    opacity: 0.4;
+}
+
+.calendar-legend-dot.upcoming {
+    background: var(--gold);
+    opacity: 0.8;
+}
+
+.calendar-legend-dot.today {
+    background: var(--gold);
+    box-shadow:
+        0 0 7px var(--gold);
+    opacity: 1;
+}
+
+.calendar-legend-dot.completed {
+    opacity: 0.3;
+}
+
+.calendar-footer-note {
+    color: var(--muted);
+    font-size: 0.68rem;
+    opacity: 0.65;
+}
+
+body.session-preview-open {
+    overflow: hidden;
+}
+
+@keyframes session-preview-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes session-preview-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.session-preview-card::before {
+    content: "";
+    position: absolute;
+    top: -150px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.035;
+    pointer-events: none;
+}
+
+.session-preview-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40%;
+    height: 2px;
+    background:
+        linear-gradient(90deg,
+            var(--gold),
+            transparent);
+    opacity: 0.6;
+}
+
+.session-preview-close:hover {
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--gold);
+}
+
+.session-preview-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-right: 2.5rem;
+}
+
+.session-preview-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--gold);
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.session-preview-top .eyebrow {
+    margin-bottom: 0.2rem;
+    color: var(--gold);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.session-preview-status {
+    display: inline-block;
+    color: var(--muted);
+    font-size: 0.57rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.session-preview-status.today {
+    color: var(--gold);
+}
+
+.session-preview-status.completed {
+    opacity: 0.5;
+}
+
+.session-preview-divider {
+    width: 100%;
+    height: 1px;
+    margin: 1.5rem 0;
+    background:
+        linear-gradient(90deg,
+            var(--gold),
+            var(--border),
+            transparent);
+    opacity: 0.55;
+}
+
+.session-preview-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.018);
+}
+
+.session-preview-detail-icon {
+    color: var(--gold);
+    font-size: 0.95rem;
+    opacity: 0.75;
+}
+
+.session-preview-detail div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.session-preview-detail span:not(.session-preview-detail-icon) {
+    margin-bottom: 0.2rem;
+    color: var(--muted);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.session-preview-detail strong {
+    color: var(--parchment);
+    font-size: 0.76rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+    .calendar-day {
+        min-height: 125px;
+    }
+
+    .calendar-event-title {
+        font-size: 0.7rem;
+    }
+
+    .calendar-event-time {
+        font-size: 0.58rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .calendar-page {
+        padding-bottom: 2rem;
+    }
+
+    .calendar-heading {
+        padding: 1.25rem;
+    }
+
+    .calendar-heading-mark {
+        display: none;
+    }
+
+    .calendar-heading h1 {
+        font-size: 1.8rem;
+    }
+
+    .calendar-description {
+        font-size: 0.82rem;
+    }
+
+    .calendar-summary {
+        justify-content: space-between;
+    }
+
+    .calendar-summary-item {
+        flex-direction: column;
+        gap: 0.1rem;
+        padding: 0 0.45rem;
+    }
+
+    .calendar-summary-item:first-child {
+        padding-left: 0;
+    }
+
+    .calendar-summary-item strong {
+        font-size: 0.95rem;
+    }
+
+    .calendar-summary-item span {
+        font-size: 0.5rem;
+    }
+
+    .calendar-day {
+        padding: 0.3rem;
+        min-height: 85px;
+        background: rgba(0, 0, 0, 0.14);
+    }
+
+    .calendar-date {
+        width: 23px;
+        height: 23px;
+        font-size: 0.65rem;
+    }
+
+    .calendar-today-marker {
+        display: none;
+    }
+
+    .calendar-event-team {
+        display: none;
+    }
+
+    .calendar-event-title {
+        font-size: 0.6rem;
+    }
+
+    .calendar-event-time {
+        display: none;
+    }
+
+    .calendar-event {
+        padding: 0.4rem 0.3rem 0.4rem 0.5rem;
+    }
+
+    .calendar-actions {
+        flex-direction: column;
+    }
+
+    .calendar-subscribe,
+    .calendar-download {
+        width: 100%;
+    }
+
+    .calendar-legend {
+        gap: 0.65rem;
+    }
+
+    .calendar-legend-item {
+        font-size: 0.58rem;
+    }
+
+    .session-preview {
+        padding: 1rem;
+    }
+
+    .session-preview-card {
+        padding: 1.25rem;
+    }
+
+    .session-preview-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .player-character-grid .player-character-card {
+        max-width: 320px;
+    }
+
+    .player-character-card .character-card-image {
+        aspect-ratio: 5 / 4;
+        min-height: 260px;
+    }
+
+    .player-characters-heading {
+        margin-bottom: 1.25rem;
+    }
+
+    .player-characters-mark {
+        display: none;
+    }
+
+    .player-team-header {
+        align-items: flex-start;
+    }
+
+    .player-team-heading {
+        align-items: flex-start;
+    }
+
+    .player-character-card .character-card-portrait {
+        height: 260px;
+    }
+}
+
+.calendar-day.has-events .calendar-date {
+    color: var(--parchment);
+    opacity: 0.82;
+}
+
+.player-characters-section {
+    position: relative;
+    margin: 0 0 4.5rem;
+    padding: 2rem 0 0;
+}
+
+.player-characters-heading {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 0 0 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-characters-heading::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 110px;
+    height: 2px;
+    background: var(--gold);
+    box-shadow:
+        0 0 12px color-mix(in srgb,
+            var(--gold) 60%,
+            transparent);
+}
+
+.player-characters-heading h2 {
+    margin: 0.25rem 0 0.35rem;
+    font-size: clamp(1.8rem,
+            3vw,
+            2.5rem);
+    letter-spacing: -0.025em;
+}
+
+.player-characters-heading p {
+    max-width: 600px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.player-characters-mark {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    border: 1px solid color-mix(in srgb,
+            var(--gold) 30%,
+            transparent);
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 1.35rem;
+    background:
+        radial-gradient(circle,
+            color-mix(in srgb,
+                var(--gold) 12%,
+                transparent),
+            transparent 70%);
+    box-shadow:
+        0 0 25px color-mix(in srgb,
+            var(--gold) 10%,
+            transparent);
+}
+
+.player-team-sections {
+    display: grid;
+    gap: 2rem;
+}
+
+.player-team {
+    position: relative;
+    padding: 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(0, 0, 0, 0.16));
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.player-team::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background:
+        linear-gradient(90deg,
+            transparent,
+            var(--gold),
+            transparent);
+    opacity: 0.7;
+}
+
+.player-team::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    top: -180px;
+    right: -120px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle,
+            color-mix(in srgb,
+                var(--gold) 7%,
+                transparent),
+            transparent 70%);
+    pointer-events: none;
+}
+
+.player-team-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding: 0.25rem 0.25rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.player-team-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.player-team-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border: 1px solid color-mix(in srgb,
+            var(--gold) 35%,
+            transparent);
+    border-radius: 50%;
+    color: var(--gold);
+    font-family: Georgia, serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background:
+        rgba(0, 0, 0, 0.18);
+    box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.player-team-eyebrow {
+    margin-bottom: 0.1rem;
+    color: var(--gold);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.player-team-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    letter-spacing: -0.015em;
+}
+
+.player-team-header p {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.player-team-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    background:
+        rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.player-character-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.player-character-grid .player-character-card {
+    max-width: 260px;
+    flex: 0 0 220px;
+    width: 220px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.player-character-card {
+    position: relative;
+    border-color:
+        color-mix(in srgb,
+            var(--gold) 18%,
+            rgba(255, 255, 255, 0.07));
+    background:
+        linear-gradient(160deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(0, 0, 0, 0.22));
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.2);
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.player-character-card:hover {
+    transform: translateY(-5px);
+    border-color:
+        color-mix(in srgb,
+            var(--gold) 50%,
+            transparent);
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.3),
+
+        0 0 24px color-mix(in srgb,
+            var(--gold) 10%,
+            transparent);
+}
+
+.player-character-card .character-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    background: #111;
+}
+
+.player-character-card .character-card-portrait {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.player-character-card .player-card-aura {
+    position: absolute;
+    inset: auto 0 0;
+    height: 28%;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.55),
+            transparent);
+    pointer-events: none;
+}
+
+.player-character-card .character-card-portrait.unknown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+
+.player-card-aura {
+    position: absolute;
+    inset: auto 0 0;
+    height: 70%;
+    pointer-events: none;
+    background:
+        linear-gradient(to top,
+            rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0.18),
+            transparent);
+}
+
+.player-card-rank {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.28rem 0.5rem;
+    border: 1px solid color-mix(in srgb,
+            var(--gold) 32%,
+            transparent);
+    border-radius: 4px;
+    background:
+        rgba(8, 8, 8, 0.7);
+    color: var(--gold);
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    backdrop-filter: blur(5px);
+}
+
+.player-character-card,
+.player-character-card .character-card-content {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.player-character-card .character-card-content {
+    position: relative;
+    padding: 0.9rem 0.75rem 1rem;
+    overflow: visible;
+}
+
+.player-character-card .character-card-title {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 0.3rem;
+    padding: 0 0.15rem 0 0;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+    font-size: 1rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-character-card .character-card-role {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.74rem;
+    line-height: 1.4;
+}
+
+.player-character-card .character-notification {
+    z-index: 5;
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.45),
+        0 0 12px rgba(220, 50, 50, 0.7);
+}
+
+.player-profile-card {
+    border-color:
+        color-mix(in srgb,
+            var(--gold) 28%,
+            rgba(255, 255, 255, 0.1));
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 0 45px color-mix(in srgb,
+            var(--gold) 9%,
+            transparent);
+}
+
+.player-profile-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background:
+        linear-gradient(90deg,
+            transparent,
+            var(--gold),
+            transparent);
+    opacity: 0.8;
+}
+
+.player-profile-team {
+    display: inline-block;
+    margin-top: 0.45rem;
+    margin-bottom: 0.2rem;
+    color: var(--gold);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }

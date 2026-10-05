@@ -110,6 +110,19 @@
         "notes": []
     },
     {
+        "id": "grimsley",
+        "name": "UNKNOWN",
+        "type": "player",
+        "team": "team-two",
+        "race": "UNKNOWN",
+        "class": "UNKNOWN",
+        "description": "TO BE DISCOVERED.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
         "id": "ashton",
         "name": "Ashton",
         "type": "friend",
