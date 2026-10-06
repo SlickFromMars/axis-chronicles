@@ -4,20 +4,20 @@
     "shortName": "Crucible",
     "social": {
         "title": "Project: Crucible | Campaign Journal",
-        "description": "A chaotic campaign of time, space, and three level 10 adventurers.",
+        "description": "A chaotic campaign of time, space, and three powerful adventurers.",
         "imageAlt": "Project: Crucible campaign journal"
     },
-    "defaultPage": "music",
+    "defaultPage": "quests",
     "tabs": [
         {
             "id": "quests",
-            "enabled": false,
+            "enabled": true,
             "label": "Quests",
             "icon": "▤"
         },
         {
             "id": "characters",
-            "enabled": false,
+            "enabled": true,
             "label": "Characters",
             "icon": "♙"
         },
