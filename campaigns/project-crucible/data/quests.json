@@ -23,7 +23,7 @@
         "type": "companion",
         "status": "active",
         "updateVersion": 1,
-        "description": "Nikolai must familiarize himself with the nature of his mutation",
+        "description": "Nikolai must familiarize himself with the nature of his mutation.",
         "objectives": [
             {
                 "text": "Find viable sources of food in this new world.",
