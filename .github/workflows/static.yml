@@ -37,11 +37,9 @@ jobs:
           mkdir deploy
 
           cp index.html deploy/
-          cp manifest.json deploy/
 
-          cp -r assets deploy/
+          cp -r campaigns deploy/
           cp -r css deploy/
-          cp -r data deploy/
           cp -r js deploy/
 
           touch deploy/.nojekyll

@@ -5327,3 +5327,977 @@ body.session-preview-open {
         display: none;
     }
 }
+
+/* =========================================================
+   CAMPAIGN SWITCHER
+   ========================================================= */
+
+.campaign-switcher {
+    position: relative;
+}
+
+
+.campaign-switcher-button {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    margin: 0;
+    padding: 0;
+
+    color: var(--gold-bright);
+    background: transparent;
+    border: 0;
+
+    cursor: pointer;
+
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.7);
+
+    transition:
+        color 0.18s ease,
+        text-shadow 0.18s ease;
+}
+
+
+.campaign-switcher-button:hover {
+    color: var(--gold-bright);
+
+    text-shadow:
+        0 0 12px rgba(246, 226, 168, 0.35),
+        0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+
+.campaign-switcher-button.open {
+    color: var(--gold-bright);
+
+    text-shadow:
+        0 0 14px rgba(246, 226, 168, 0.45),
+        0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+
+.campaign-switcher-button[aria-disabled="true"] {
+    cursor: default;
+}
+
+
+.campaign-switcher-chevron {
+    display: inline-block;
+
+    margin-left: -4px;
+
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0;
+
+    transform-origin: center;
+
+    transition:
+        transform 0.18s ease,
+        color 0.18s ease;
+}
+
+
+.campaign-switcher-button.open .campaign-switcher-chevron {
+    color: var(--gold-bright);
+    transform: rotate(180deg);
+}
+
+
+/* ---------------------------------------------------------
+   DROPDOWN
+   --------------------------------------------------------- */
+
+.campaign-switcher-menu {
+    position: absolute;
+
+    top: calc(100% + 13px);
+    left: 0;
+
+    min-width: 245px;
+
+    padding: 7px;
+
+    background:
+        linear-gradient(180deg,
+            rgba(30, 24, 18, 0.98),
+            rgba(13, 10, 8, 0.99));
+
+    border: 1px solid var(--gold-dark);
+
+    box-shadow:
+        var(--bevel),
+        0 14px 36px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(201, 164, 92, 0.06);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    z-index: 200;
+}
+
+
+.campaign-switcher-menu::before {
+    content: "";
+
+    position: absolute;
+
+    top: -5px;
+    left: 25px;
+
+    width: 9px;
+    height: 9px;
+
+    background:
+        var(--panel);
+
+    border-left:
+        1px solid var(--gold-dark);
+
+    border-top:
+        1px solid var(--gold-dark);
+
+    transform:
+        rotate(45deg);
+}
+
+
+.campaign-option {
+    display: grid;
+
+    grid-template-columns:
+        16px minmax(0, 1fr);
+
+    align-items: center;
+
+    width: 100%;
+
+    margin: 0;
+    padding: 10px 11px;
+
+    color: var(--muted);
+
+    background: transparent;
+
+    border: 0;
+    border-bottom:
+        1px solid rgba(201, 164, 92, 0.07);
+
+    cursor: pointer;
+
+    font-family: var(--font-label);
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.14em;
+
+    text-align: left;
+    text-transform: uppercase;
+
+    transition:
+        color 0.18s ease,
+        background 0.18s ease;
+}
+
+
+.campaign-option:last-child {
+    border-bottom: 0;
+}
+
+
+.campaign-option:hover {
+    color: var(--gold-bright);
+
+    background:
+        linear-gradient(90deg,
+            rgba(201, 164, 92, 0.14),
+            transparent 90%);
+}
+
+
+.campaign-option.active {
+    color: var(--gold-bright);
+
+    background:
+        linear-gradient(90deg,
+            rgba(201, 164, 92, 0.18),
+            transparent 90%);
+}
+
+
+.campaign-option-marker {
+    color: var(--gold);
+
+    font-size: 7px;
+
+    text-align: left;
+}
+
+
+.campaign-option-name {
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   CAMPAIGN THEME BRIDGE
+   ========================================================= */
+
+/*
+    These values are derived from the campaign's existing
+    theme variables. This means the campaign master only
+    needs to provide the base palette.
+*/
+
+:root {
+
+    /* Chrome */
+
+    --chrome-top-start:
+        color-mix(in srgb,
+            var(--panel-light) 84%,
+            var(--background-deep) 16%);
+
+    --chrome-top-end:
+        color-mix(in srgb,
+            var(--background-deep) 92%,
+            var(--panel-dark) 8%);
+
+    --chrome-side-start:
+        color-mix(in srgb,
+            var(--panel-dark) 82%,
+            var(--background-deep) 18%);
+
+    --chrome-side-end:
+        var(--background-deep);
+
+
+    /* Accent transparency */
+
+    --accent-soft:
+        color-mix(in srgb,
+            var(--gold) 7%,
+            transparent);
+
+    --accent-soft-10:
+        color-mix(in srgb,
+            var(--gold) 10%,
+            transparent);
+
+    --accent-soft-16:
+        color-mix(in srgb,
+            var(--gold) 16%,
+            transparent);
+
+    --accent-soft-24:
+        color-mix(in srgb,
+            var(--gold) 24%,
+            transparent);
+
+    --accent-highlight:
+        color-mix(in srgb,
+            var(--gold-bright) 12%,
+            transparent);
+
+    --accent-highlight-20:
+        color-mix(in srgb,
+            var(--gold-bright) 20%,
+            transparent);
+
+    --accent-highlight-50:
+        color-mix(in srgb,
+            var(--gold-bright) 50%,
+            transparent);
+
+
+    /* Dark surfaces */
+
+    --surface-control:
+        color-mix(in srgb,
+            var(--panel-dark) 84%,
+            var(--background-deep) 16%);
+
+    --surface-control-hover:
+        color-mix(in srgb,
+            var(--panel-light) 82%,
+            var(--background-deep) 18%);
+
+    --surface-marker:
+        color-mix(in srgb,
+            var(--panel-dark) 90%,
+            black 10%);
+
+
+    /* Neutral dark ink used on bright accents */
+
+    --accent-ink:
+        color-mix(in srgb,
+            var(--background-deep) 92%,
+            black 8%);
+
+
+    /* Derived bevel/glow */
+
+    --bevel:
+        inset 0 1px 0 color-mix(in srgb,
+            var(--gold-bright) 10%,
+            transparent),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.55);
+
+    --gold-glow:
+        0 0 24px color-mix(in srgb,
+            var(--gold) 14%,
+            transparent);
+}
+
+
+/* =========================================================
+   PAGE BACKGROUND
+   ========================================================= */
+
+body {
+
+    background:
+        radial-gradient(ellipse at center,
+            transparent 45%,
+            rgba(0, 0, 0, 0.55) 100%),
+
+        radial-gradient(ellipse 70% 40% at 50% -5%,
+            color-mix(in srgb,
+                var(--gold) 13%,
+                transparent),
+            transparent 70%),
+
+        radial-gradient(circle at 100% 100%,
+            color-mix(in srgb,
+                var(--burgundy) 7%,
+                transparent),
+            transparent 40%),
+
+        var(--background);
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+
+    background:
+        linear-gradient(180deg,
+            var(--chrome-top-start),
+            var(--chrome-top-end));
+
+    border-bottom-color:
+        var(--gold-dark);
+
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.8),
+        0 2px 0 var(--accent-soft-10),
+        0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+
+.topbar::after {
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            var(--gold),
+            transparent);
+
+    filter:
+        drop-shadow(0 0 4px color-mix(in srgb,
+                var(--gold) 60%,
+                transparent));
+}
+
+
+/* =========================================================
+   BRAND / LOGO
+   ========================================================= */
+
+/*
+    Keep both names because the current HTML uses
+    .topbar-logo while the original stylesheet used
+    .brand-icon.
+*/
+
+.brand-icon,
+.topbar-logo {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    flex: 0 0 34px;
+
+    color: var(--gold-light);
+
+    background:
+        radial-gradient(circle,
+            color-mix(in srgb,
+                var(--gold) 22%,
+                transparent),
+            rgba(0, 0, 0, 0.4));
+
+    border:
+        1px solid var(--gold);
+
+    border-radius: 50%;
+
+    box-shadow:
+        var(--bevel),
+        0 0 14px color-mix(in srgb,
+            var(--gold) 20%,
+            transparent);
+}
+
+
+.brand-icon::before,
+.topbar-logo::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 3px;
+
+    border:
+        1px solid color-mix(in srgb,
+            var(--gold) 30%,
+            transparent);
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+
+    background:
+        linear-gradient(90deg,
+            rgba(0, 0, 0, 0.35),
+            transparent 8%),
+
+        linear-gradient(180deg,
+            var(--chrome-side-start),
+            var(--chrome-side-end));
+
+    border-right-color:
+        var(--gold-shadow);
+
+    box-shadow:
+        inset -1px 0 0 color-mix(in srgb,
+            var(--gold) 6%,
+            transparent);
+
+    scrollbar-color:
+        var(--gold-dark) transparent;
+}
+
+
+/*
+    This also overrides the mobile sidebar background,
+    which was previously hardcoded to a brown-black value.
+*/
+
+@media (max-width: 900px) {
+
+    .sidebar {
+
+        background:
+            linear-gradient(180deg,
+                var(--chrome-side-start),
+                var(--chrome-side-end));
+
+        border-bottom-color:
+            var(--gold-dark);
+    }
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.nav-item {
+
+    border-bottom-color:
+        color-mix(in srgb,
+            var(--gold) 6%,
+            transparent);
+}
+
+
+.nav-item:hover {
+
+    background:
+        linear-gradient(90deg,
+            var(--accent-soft-16),
+            transparent 85%);
+
+    text-shadow:
+        0 0 10px color-mix(in srgb,
+            var(--gold-bright) 45%,
+            transparent);
+}
+
+
+.nav-item.active {
+
+    background:
+        linear-gradient(90deg,
+            var(--accent-soft-24),
+            var(--accent-soft));
+
+    border-bottom-color:
+        var(--gold-dark);
+
+    box-shadow:
+        inset 2px 0 var(--gold-bright),
+
+        inset 0 0 20px color-mix(in srgb,
+            var(--gold) 5%,
+            transparent);
+
+    text-shadow:
+        0 0 12px color-mix(in srgb,
+            var(--gold-bright) 50%,
+            transparent);
+}
+
+
+.quest-subnav-item.active {
+
+    background:
+        linear-gradient(90deg,
+            var(--accent-soft-10),
+            transparent);
+}
+
+
+/* =========================================================
+   PAGE HEADINGS
+   ========================================================= */
+
+h1 {
+
+    text-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.6),
+
+        0 0 22px color-mix(in srgb,
+            var(--gold) 8%,
+            transparent);
+}
+
+
+.page-heading::after,
+.characters-heading::after {
+
+    background:
+        linear-gradient(90deg,
+            var(--gold),
+            var(--gold-dark) 60%,
+            transparent);
+}
+
+
+/* =========================================================
+   STANDARD PANELS
+   ========================================================= */
+
+.quest-card,
+.character-card,
+.quest-detail,
+.calendar,
+.placeholder,
+.session-preview-card,
+.location-panel,
+.character-profile-card,
+.map-detail-panel,
+.map-controls {
+
+    border-color:
+        var(--gold-dark);
+
+    box-shadow:
+        var(--bevel),
+        inset 0 0 40px rgba(0, 0, 0, 0.35),
+        var(--shadow-medium);
+}
+
+
+.quest-detail::before,
+.calendar::before,
+.placeholder::before,
+.session-preview-card::before,
+.location-panel::before,
+.character-profile-card::before {
+
+    border-color:
+        color-mix(in srgb,
+            var(--gold) 14%,
+            transparent);
+}
+
+
+/* =========================================================
+   BUTTONS / CONTROLS
+   ========================================================= */
+
+.quest-control-button,
+.map-control-button,
+.calendar-nav-button,
+.calendar-today-button,
+.calendar-subscribe,
+.calendar-download,
+.map-clear-filters,
+.map-detail-close,
+.quest-toggle,
+.team-filter-select {
+
+    background:
+        linear-gradient(180deg,
+            color-mix(in srgb,
+                var(--gold-bright) 7%,
+                transparent),
+            rgba(0, 0, 0, 0.35)),
+
+        var(--surface-control);
+}
+
+
+.quest-control-button:hover,
+.map-control-button:hover,
+.map-control-button[aria-pressed="true"],
+.calendar-nav-button:hover,
+.calendar-today-button:hover,
+.calendar-subscribe:hover,
+.calendar-download:hover,
+.map-clear-filters:hover,
+.map-detail-close:hover,
+.quest-toggle:hover,
+.team-filter-select:hover {
+
+    background:
+        linear-gradient(180deg,
+            color-mix(in srgb,
+                var(--gold-bright) 20%,
+                transparent),
+            var(--accent-soft-10)),
+
+        var(--surface-control-hover);
+
+    border-color:
+        var(--gold);
+}
+
+
+/* =========================================================
+   QUEST STATUS
+   ========================================================= */
+
+.quest-status.active {
+
+    background:
+        var(--accent-soft-10);
+}
+
+
+.quest-status.completed {
+
+    border-color:
+        color-mix(in srgb,
+            var(--success) 40%,
+            transparent);
+}
+
+
+.quest-status.failed {
+
+    border-color:
+        color-mix(in srgb,
+            var(--failure) 45%,
+            transparent);
+}
+
+
+/* =========================================================
+   CHARACTER CARDS
+   ========================================================= */
+
+.character-card::after {
+
+    border-color:
+        color-mix(in srgb,
+            var(--gold) 12%,
+            transparent);
+}
+
+
+.character-card:hover {
+
+    box-shadow:
+        var(--bevel),
+        0 14px 30px rgba(0, 0, 0, 0.65),
+
+        0 0 24px color-mix(in srgb,
+            var(--gold) 18%,
+            transparent);
+}
+
+
+.character-card-image {
+
+    background:
+        radial-gradient(circle at center,
+            color-mix(in srgb,
+                var(--gold) 8%,
+                transparent),
+            transparent 65%),
+
+        var(--background-deep);
+}
+
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.map-marker {
+
+    background:
+        color-mix(in srgb,
+            var(--panel-dark) 92%,
+            black 8%);
+
+    border-color:
+        var(--gold);
+}
+
+
+.map-marker:hover,
+.map-marker:focus-visible,
+.map-marker-location.selected {
+
+    background:
+        color-mix(in srgb,
+            var(--panel-light) 94%,
+            var(--gold) 6%);
+
+    border-color:
+        var(--gold-bright);
+
+    box-shadow:
+        var(--bevel),
+
+        0 0 0 2px color-mix(in srgb,
+            var(--gold-bright) 18%,
+            transparent),
+
+        0 0 20px color-mix(in srgb,
+            var(--gold-bright) 50%,
+            transparent);
+}
+
+
+.map-region-symbol {
+
+    color:
+        var(--gold);
+}
+
+
+.map-location-symbol {
+
+    background:
+        var(--gold);
+
+    border-color:
+        var(--gold-bright);
+
+    box-shadow:
+        0 0 6px color-mix(in srgb,
+            var(--gold-bright) 55%,
+            transparent);
+}
+
+
+/* =========================================================
+   OVERLAYS
+   ========================================================= */
+
+.character-profile,
+.location-overlay,
+.session-preview {
+
+    background:
+        radial-gradient(ellipse at center,
+            color-mix(in srgb,
+                var(--background-deep) 78%,
+                transparent),
+            rgba(0, 0, 0, 0.94));
+}
+
+
+/* =========================================================
+   CLOSE BUTTONS
+   ========================================================= */
+
+.character-profile-close,
+.location-close,
+.session-preview-close,
+.map-viewer-close {
+
+    color:
+        var(--gold-light);
+
+    background:
+        color-mix(in srgb,
+            var(--background-deep) 90%,
+            black 10%);
+
+    border-color:
+        var(--gold);
+}
+
+
+.character-profile-close:hover,
+.location-close:hover,
+.session-preview-close:hover,
+.map-viewer-close:hover {
+
+    color:
+        var(--accent-ink);
+
+    background:
+        var(--gold-bright);
+
+    border-color:
+        var(--gold-bright);
+
+    box-shadow:
+        0 0 0 3px rgba(8, 6, 5, 0.8),
+
+        0 0 18px color-mix(in srgb,
+            var(--gold-bright) 50%,
+            transparent);
+}
+
+
+/* =========================================================
+   CAMPAIGN SWITCHER
+   ========================================================= */
+
+.campaign-switcher-button {
+
+    color:
+        var(--gold-bright);
+
+    background:
+        transparent;
+
+    border:
+        0;
+}
+
+
+.campaign-switcher-button:hover,
+.campaign-switcher-button.open {
+
+    color:
+        var(--gold-bright);
+}
+
+
+.campaign-switcher-menu {
+
+    background:
+        linear-gradient(180deg,
+            color-mix(in srgb,
+                var(--panel-light) 94%,
+                transparent),
+            color-mix(in srgb,
+                var(--background-deep) 98%,
+                black 2%));
+
+    border-color:
+        var(--gold-dark);
+}
+
+
+.campaign-switcher-menu::before {
+
+    background:
+        var(--panel);
+
+    border-color:
+        var(--gold-dark);
+}
+
+
+.campaign-option {
+
+    color:
+        var(--muted);
+
+    border-bottom-color:
+        color-mix(in srgb,
+            var(--gold) 7%,
+            transparent);
+}
+
+
+.campaign-option:hover {
+
+    color:
+        var(--gold-bright);
+
+    background:
+        linear-gradient(90deg,
+            var(--accent-soft-16),
+            transparent 90%);
+}
+
+
+.campaign-option.active {
+
+    color:
+        var(--gold-bright);
+
+    background:
+        linear-gradient(90deg,
+            var(--accent-soft-16),
+            transparent 90%);
+}
+
+
+.campaign-option-marker {
+
+    color:
+        var(--gold);
+}

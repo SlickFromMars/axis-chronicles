@@ -2,6 +2,7 @@
     "recommendations": [
         "ritwickdey.LiveServer",
         "ecmel.vscode-html-css",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "anseki.vscode-color"
     ]
 }

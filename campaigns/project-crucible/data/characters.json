@@ -1,0 +1,15 @@
+[
+    {
+        "id": "nikolai",
+        "name": "Nikolai Netopyrev",
+        "type": "player",
+        "team": "team-one",
+        "race": "Vampire",
+        "class": "Blood Hunter",
+        "description": "An arrogant scientist who's curiousity brought his life to ruin, exploring the Crucible cautiously but with questionable intent.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    }
+]

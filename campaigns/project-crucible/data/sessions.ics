@@ -1,0 +1,8 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Project: Crucible//Campaign Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Project: Crucible
+X-WR-TIMEZONE:America/New_York
+END:VCALENDAR

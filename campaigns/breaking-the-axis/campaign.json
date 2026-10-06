@@ -1,0 +1,197 @@
+{
+    "id": "breaking-the-axis",
+    "name": "Breaking the Axis",
+    "shortName": "Axis Chronicles",
+    "social": {
+        "title": "Breaking the Axis | Axis Chronicles",
+        "description": "Explore the world of Caelora, its characters, quests, and unfolding story.",
+        "imageAlt": "Breaking the Axis — an epic fantasy campaign in the world of Caelora"
+    },
+    "defaultPage": "quests",
+    "tabs": [
+        {
+            "id": "quests",
+            "enabled": true,
+            "label": "Quests",
+            "icon": "▤"
+        },
+        {
+            "id": "characters",
+            "enabled": true,
+            "label": "Characters",
+            "icon": "♙"
+        },
+        {
+            "id": "map",
+            "enabled": true,
+            "label": "Map",
+            "icon": "⌖"
+        },
+        {
+            "id": "calendar",
+            "enabled": true,
+            "label": "Calendar",
+            "icon": "□"
+        },
+        {
+            "id": "music",
+            "enabled": true,
+            "label": "Music",
+            "icon": "♫"
+        }
+    ],
+    "theme": {
+        "background": "#100d0b",
+        "backgroundDeep": "#080706",
+        "panel": "#1b1612",
+        "panelLight": "#261e17",
+        "panelHover": "#302519",
+        "panelDark": "#120f0c",
+        "accent": "#c9a45c",
+        "accentLight": "#e2c785",
+        "accentBright": "#f6e2a8",
+        "accentDark": "#6b5330",
+        "accentShadow": "#3d2f1b",
+        "accentMuted": "#9a7f4c",
+        "text": "#e6d9bc",
+        "textBright": "#f4e9d0",
+        "muted": "#a89d88",
+        "mutedDark": "#70675a",
+        "secondary": "#672b2b",
+        "secondaryLight": "#8c4140",
+        "success": "#9aaa76",
+        "failure": "#bd6e68",
+        "border": "#392d1f",
+        "borderLight": "#55432b"
+    },
+    "data": {
+        "quests": "data/quests.json",
+        "characters": "data/characters.json",
+        "locations": "data/locations.json",
+        "sessions": "data/sessions.json",
+        "music": "data/music.json",
+        "calendar": "data/sessions.ics"
+    },
+    "assets": {
+        "map": "assets/map/caelora.webp",
+        "portraitManifest": "assets/characters/portrait-manifest.json",
+        "favicon": "assets/branding/favicon.png",
+        "appIcon180": "assets/branding/app-icon-180.png",
+        "appIcon192": "assets/branding/app-icon-192.png",
+        "appIcon512": "assets/branding/app-icon-512.png",
+        "socialPreview": "assets/branding/discord-preview.png"
+    },
+    "manifest": "manifest.json",
+    "text": {
+        "header": {
+            "brand": "BREAKING THE AXIS",
+            "label": "CAMPAIGN JOURNAL"
+        },
+        "navigation": {
+            "heading": "JOURNAL"
+        },
+        "home": {
+            "eyebrow": "THE ADVENTURER'S JOURNAL",
+            "title": "The Axis Chronicles",
+            "description": "A record of the trials, discoveries, and deeds of the daring adventurers of Caelora."
+        },
+        "quests": {
+            "categories": {
+                "main": {
+                    "label": "Main Quests",
+                    "singular": "Main Quest"
+                },
+                "side": {
+                    "label": "Side Quests",
+                    "singular": "Side Quest"
+                },
+                "companion": {
+                    "label": "Companion Quests",
+                    "singular": "Companion Quest"
+                }
+            }
+        },
+        "characters": {
+            "page": {
+                "eyebrow": "THE PEOPLE OF CAELORA",
+                "title": "Characters",
+                "description": "Heroes, allies, enemies, and others caught in the events of Breaking the Axis."
+            },
+            "players": {
+                "eyebrow": "THE CHOSEN FEW",
+                "title": "Player Characters",
+                "description": "The people at the heart of Breaking the Axis.",
+                "partyLabel": "PARTY"
+            }
+        },
+        "map": {
+            "pageTitle": "Map of Caelora",
+            "worldName": "Caelora"
+        },
+        "calendar": {
+            "eyebrow": "SESSION SCHEDULE",
+            "description": "Keep track of the journeys, encounters, and sessions ahead."
+        },
+        "music": {
+            "eyebrow": "THE SOUND OF CAELORA"
+        }
+    },
+    "quests": {
+        "categoryOrder": [
+            "main",
+            "side",
+            "companion"
+        ],
+        "teamFilterEnabled": true
+    },
+    "party": {
+        "teams": [
+            {
+                "id": "team-one",
+                "label": "Team One",
+                "symbol": "I",
+                "description": ""
+            },
+            {
+                "id": "team-two",
+                "label": "Team Two",
+                "symbol": "II",
+                "description": ""
+            },
+            {
+                "id": "shared",
+                "label": "Shared",
+                "symbol": "◆",
+                "description": "Characters connected to both teams."
+            }
+        ]
+    },
+    "characters": {
+        "categories": [
+            {
+                "id": "gods",
+                "type": "god",
+                "label": "Gods and Deities",
+                "enabled": true
+            },
+            {
+                "id": "friends",
+                "type": "friend",
+                "label": "Friends",
+                "enabled": true
+            },
+            {
+                "id": "foes",
+                "type": "foe",
+                "label": "Foes",
+                "enabled": true
+            }
+        ],
+        "playerSection": {
+            "enabled": true
+        }
+    },
+    "map": {
+        "coordinatePickerEnabled": true
+    }
+}

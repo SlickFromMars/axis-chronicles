@@ -3,121 +3,305 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="theme-color" content="#211e1a">
+
     <meta name="mobile-web-app-capable" content="yes">
 
-    <title>Breaking the Axis | Axis Chronicles</title>
+    <title>Campaign Journal</title>
 
-    <!-- Primary metadata -->
-    <meta name="description"
-        content="Explore the world of Caelora in Breaking the Axis. Follow the quests, discover its characters, and uncover the story of a twisted world caught between gods and mortals.">
+
+    <!-- =====================================================
+         PRIMARY METADATA
+         ===================================================== -->
+
+    <meta id="campaign-meta-description" name="description"
+        content="Explore the world, characters, quests, and stories of this campaign.">
+
     <link rel="canonical" href="https://slickfrommars.github.io/axis-chronicles/">
 
-    <!-- Open Graph / Discord Embed -->
+
+    <!-- =====================================================
+         OPEN GRAPH / DISCORD
+         ===================================================== -->
+
     <meta property="og:type" content="website">
+
     <meta property="og:site_name" content="Axis Chronicles">
-    <meta property="og:title" content="Breaking the Axis | Axis Chronicles">
-    <meta property="og:description"
-        content="A world shaped by gods, fractured by fate, and changed by the choices of its heroes. Explore the campaign, its characters, and its unfolding quests.">
+
+    <meta id="campaign-og-title" property="og:title" content="Campaign Journal">
+
+    <meta id="campaign-og-description" property="og:description"
+        content="Explore the world, characters, quests, and stories of this campaign.">
+
     <meta property="og:url" content="https://slickfrommars.github.io/axis-chronicles/">
-    <meta property="og:image"
-        content="https://slickfrommars.github.io/axis-chronicles/assets/images/discord-preview.png">
-    <meta property="og:image:secure_url"
-        content="https://slickfrommars.github.io/axis-chronicles/assets/images/discord-preview.png">
+
+    <meta id="campaign-og-image" property="og:image"
+        content="https://slickfrommars.github.io/axis-chronicles/campaigns/breaking-the-axis/assets/branding/discord-preview.png">
+
+    <meta id="campaign-og-image-secure" property="og:image:secure_url"
+        content="https://slickfrommars.github.io/axis-chronicles/campaigns/breaking-the-axis/assets/branding/discord-preview.png">
+
     <meta property="og:image:type" content="image/png">
+
     <meta property="og:image:width" content="1200">
+
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Breaking the Axis — an epic fantasy campaign in the world of Caelora">
 
-    <!-- Discord / Twitter-compatible large preview -->
+    <meta id="campaign-og-image-alt" property="og:image:alt" content="Campaign journal">
+
+
+    <!-- =====================================================
+         TWITTER / LARGE SOCIAL PREVIEW
+         ===================================================== -->
+
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Breaking the Axis | Axis Chronicles">
-    <meta name="twitter:description"
-        content="Explore the world of Caelora, its characters, quests, and unfolding story.">
-    <meta name="twitter:image"
-        content="https://slickfrommars.github.io/axis-chronicles/assets/images/discord-preview.png">
 
-    <!-- Website favicon -->
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <meta id="campaign-twitter-title" name="twitter:title" content="Campaign Journal">
 
-    <!-- Web app manifest -->
-    <link rel="manifest" href="manifest.json">
+    <meta id="campaign-twitter-description" name="twitter:description"
+        content="Explore the world, characters, quests, and stories of this campaign.">
 
-    <!-- iPhone / iPad Home Screen settings -->
+    <meta id="campaign-twitter-image" name="twitter:image"
+        content="https://slickfrommars.github.io/axis-chronicles/campaigns/breaking-the-axis/assets/branding/discord-preview.png">
+
+
+    <!-- =====================================================
+         FAVICON
+         ===================================================== -->
+
+    <link id="campaign-favicon" rel="icon" type="image/png"
+        href="campaigns/breaking-the-axis/assets/branding/favicon.png">
+
+
+    <!-- =====================================================
+         WEB APP MANIFEST
+         ===================================================== -->
+
+    <link id="campaign-manifest" rel="manifest" href="campaigns/breaking-the-axis/manifest.json">
+
+
+    <!-- =====================================================
+         APPLE / MOBILE WEB APP
+         ===================================================== -->
+
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Axis Chronicles">
+
+    <meta id="campaign-apple-title" name="apple-mobile-web-app-title" content="Campaign Journal">
+
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Home Screen icon -->
-    <link rel="apple-touch-icon" href="assets/images/app-icon-180.png">
+    <link id="campaign-apple-icon" rel="apple-touch-icon"
+        href="campaigns/breaking-the-axis/assets/branding/app-icon-180.png">
 
-    <!-- Stylesheet -->
+
+    <!-- =====================================================
+         STYLESHEET
+         ===================================================== -->
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 
+
 <body>
+
     <div class="app">
+
+
+        <!-- =================================================
+             TOPBAR
+             ================================================= -->
+
         <header class="topbar">
-            <div class="brand">
-                <span class="topbar-logo">✦</span>
-                <span>BREAKING THE AXIS</span>
+
+            <div class="campaign-switcher" id="campaign-switcher">
+
+                <button type="button" class="
+                        brand
+                        campaign-switcher-button
+                    " id="campaign-switcher-button" aria-haspopup="menu" aria-expanded="false">
+
+                    <span class="topbar-logo" aria-hidden="true">
+                        ✦
+                    </span>
+
+
+                    <span id="campaign-brand">
+                        CAMPAIGN JOURNAL
+                    </span>
+
+
+                    <span class="campaign-switcher-chevron" aria-hidden="true">
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <div class="campaign-switcher-menu" id="campaign-switcher-menu" role="menu" hidden></div>
+
             </div>
 
-            <span class="header-label">CAMPAIGN JOURNAL</span>
+
+            <span id="campaign-header-label" class="header-label">
+                CAMPAIGN JOURNAL
+            </span>
+
         </header>
 
-        <div class="layout">
-            <aside class="sidebar" aria-label="Campaign journal navigation">
-                <div class="sidebar-heading">JOURNAL</div>
 
-                <button class="nav-item active" data-page="quests">
-                    <span>▤</span> Quests
+        <!-- =================================================
+             MAIN LAYOUT
+             ================================================= -->
+
+        <div class="layout">
+
+
+            <!-- =================================================
+                 SIDEBAR
+                 ================================================= -->
+
+            <aside class="sidebar" aria-label="Campaign journal navigation">
+
+                <div id="campaign-navigation-heading" class="sidebar-heading">
+                    JOURNAL
+                </div>
+
+
+                <button type="button" class="nav-item active" data-page="quests">
+
+                    <span aria-hidden="true">
+                        ▤
+                    </span>
+
+                    Quests
+
                 </button>
+
 
                 <button type="button" class="nav-item" data-page="characters">
-                    <span>♙</span> Characters
+
+                    <span aria-hidden="true">
+                        ♙
+                    </span>
+
+                    Characters
+
                 </button>
 
-                <button class="nav-item" data-page="map">
-                    <span>⌖</span> Map
+
+                <button type="button" class="nav-item" data-page="map">
+
+                    <span aria-hidden="true">
+                        ⌖
+                    </span>
+
+                    Map
+
                 </button>
 
-                <button class="nav-item" data-page="calendar">
-                    <span>□</span> Calendar
+
+                <button type="button" class="nav-item" data-page="calendar">
+
+                    <span aria-hidden="true">
+                        □
+                    </span>
+
+                    Calendar
+
                 </button>
+
 
                 <button type="button" class="nav-item" data-page="music">
-                    <span>♫</span> Music
+
+                    <span aria-hidden="true">
+                        ♫
+                    </span>
+
+                    Music
+
                 </button>
+
             </aside>
 
+
+            <!-- =================================================
+                 MAIN CONTENT
+                 ================================================= -->
+
             <main id="main-content" class="main-content">
+
+
+                <!-- =================================================
+                     DEFAULT PAGE HEADING
+
+                     These are generic fallback values.
+                     campaigns.js replaces them with the
+                     active campaign's text.
+                     ================================================= -->
+
                 <div class="page-heading">
-                    <div class="eyebrow">THE ADVENTURER'S JOURNAL</div>
 
-                    <h1>The Axis Chronicles</h1>
+                    <div id="campaign-home-eyebrow" class="eyebrow">
+                        THE ADVENTURER'S JOURNAL
+                    </div>
 
-                    <p>
-                        A record of the trials, discoveries,
-                        and deeds of the daring adventurers of
-                        Caelora.
+
+                    <h1 id="campaign-home-title">
+                        Campaign Journal
+                    </h1>
+
+
+                    <p id="campaign-home-description">
+                        Explore the world, characters,
+                        quests, and stories of this campaign.
                     </p>
+
                 </div>
+
+
+                <!-- =================================================
+                     APPLICATION CONTENT
+                     ================================================= -->
 
                 <div id="content">
-                    <p class="loading">Fetching chronicles...</p>
+
+                    <p class="loading">
+                        Loading campaign...
+                    </p>
+
                 </div>
+
             </main>
+
         </div>
+
     </div>
 
+
+    <!-- =====================================================
+         APPLICATION SCRIPTS
+
+         campaigns.js MUST load first because all other
+         modules depend on the active campaign.
+         ===================================================== -->
+
+    <script src="js/campaigns.js"></script>
+
     <script src="js/quests.js"></script>
+
     <script src="js/calendar.js"></script>
+
     <script src="js/map.js"></script>
+
     <script src="js/music.js"></script>
+
     <script src="js/characters.js"></script>
+
     <script src="js/app.js"></script>
+
 </body>
 
 </html>

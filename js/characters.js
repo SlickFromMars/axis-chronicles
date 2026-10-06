@@ -1,66 +1,287 @@
 /* =========================================================
+   CHARACTER CONFIGURATION
+   ========================================================= */
+
+const DEFAULT_CHARACTER_CONFIG = {
+    page: {
+        eyebrow: "THE PEOPLE OF CAELORA",
+        title: "Characters",
+        description:
+            "Heroes, allies, enemies, and others caught in the events of Breaking the Axis."
+    },
+
+    playerSection: {
+        enabled: true,
+        eyebrow: "THE CHOSEN FEW",
+        title: "Player Characters",
+        description:
+            "The people at the heart of Breaking the Axis.",
+        partyLabel: "PARTY"
+    },
+
+    categories: [
+        {
+            id: "gods",
+            type: "god",
+            label: "Gods and Deities",
+            enabled: true
+        },
+        {
+            id: "friends",
+            type: "friend",
+            label: "Friends",
+            enabled: true
+        },
+        {
+            id: "foes",
+            type: "foe",
+            label: "Foes",
+            enabled: true
+        }
+    ]
+};
+
+
+function getCharacterConfig() {
+
+    if (
+        typeof activeCampaign === "undefined" ||
+        !activeCampaign
+    ) {
+        return DEFAULT_CHARACTER_CONFIG;
+    }
+
+    const configured =
+        activeCampaign.characters || {};
+
+    const text =
+        activeCampaign.text?.characters || {};
+
+    return {
+
+        ...DEFAULT_CHARACTER_CONFIG,
+
+        ...configured,
+
+        page: {
+            ...DEFAULT_CHARACTER_CONFIG.page,
+            ...(text.page || {})
+        },
+
+        playerSection: {
+            ...DEFAULT_CHARACTER_CONFIG.playerSection,
+            ...(configured.playerSection || {}),
+            ...(text.players || {})
+        },
+
+        categories:
+            Array.isArray(configured.categories)
+                ? configured.categories
+                : DEFAULT_CHARACTER_CONFIG.categories
+
+    };
+}
+
+
+/* =========================================================
    CHARACTER UPDATE NOTIFICATIONS
    ========================================================= */
 
-const CHARACTER_READ_KEY = "characterUpdatesRead";
+const CHARACTER_READ_KEY =
+    "characterUpdatesRead";
+
+
+function getCharacterReadStorageKey() {
+
+    if (
+        typeof getCampaignStorageKey ===
+        "function"
+    ) {
+        return getCampaignStorageKey(
+            CHARACTER_READ_KEY
+        );
+    }
+
+    return CHARACTER_READ_KEY;
+}
+
+function resolveCharacterPortraitPath(
+    portraitPath
+) {
+
+    if (!portraitPath) {
+        return null;
+    }
+
+    return new URL(
+        portraitPath,
+        getCharacterPortraitManifestPath()
+    ).href;
+}
 
 
 function getCharacterReadVersions() {
 
-    try {
-        return JSON.parse(
+    const storageKey =
+        getCharacterReadStorageKey();
+
+
+    /*
+        Preserve existing Breaking the Axis
+        notification state when the campaign
+        storage system is introduced.
+    */
+
+    if (
+        typeof campaignRegistry !==
+            "undefined" &&
+        campaignRegistry &&
+        typeof activeCampaign !==
+            "undefined" &&
+        activeCampaign &&
+        activeCampaign.id ===
+            campaignRegistry.defaultCampaign
+    ) {
+
+        const existingCampaignValue =
+            localStorage.getItem(
+                storageKey
+            );
+
+        const oldGlobalValue =
             localStorage.getItem(
                 CHARACTER_READ_KEY
+            );
+
+        if (
+            existingCampaignValue ===
+                null &&
+            oldGlobalValue !== null
+        ) {
+            localStorage.setItem(
+                storageKey,
+                oldGlobalValue
+            );
+        }
+    }
+
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                storageKey
             )
         ) || {};
 
     } catch {
+
         return {};
     }
 }
 
 
-function hasUnreadCharacterUpdate(character) {
+function hasUnreadCharacterUpdate(
+    character
+) {
 
     const readVersions =
         getCharacterReadVersions();
 
     const currentVersion =
-        Number(character.updateVersion) || 0;
+        Number(
+            character.updateVersion
+        ) || 0;
 
     const readVersion =
         Number(
-            readVersions[character.id]
+            readVersions[
+                character.id
+            ]
         ) || 0;
 
-    return currentVersion > readVersion;
+    return currentVersion >
+        readVersion;
 }
 
 
-function markCharacterAsRead(character) {
+function markCharacterAsRead(
+    character
+) {
 
     const readVersions =
         getCharacterReadVersions();
 
-    readVersions[character.id] =
-        Number(character.updateVersion) || 0;
+    readVersions[
+        character.id
+    ] =
+        Number(
+            character.updateVersion
+        ) || 0;
+
 
     localStorage.setItem(
-        CHARACTER_READ_KEY,
-        JSON.stringify(readVersions)
+        getCharacterReadStorageKey(),
+        JSON.stringify(
+            readVersions
+        )
     );
 }
+
 
 /* =========================================================
    CHARACTER PORTRAITS
    ========================================================= */
 
-const CHARACTER_PORTRAIT_MANIFEST =
-    "assets/images/characters/portrait-manifest.json";
-
 const characterPortraits = {};
 
-let characterPortraitManifestPromise = null;
+let characterPortraitManifestPromise =
+    null;
+
+let characterPortraitManifestCampaignId =
+    null;
+
+
+/* =========================================================
+   PORTRAIT MANIFEST PATH
+   ========================================================= */
+
+function getCharacterPortraitManifestPath() {
+
+    if (
+        typeof getCampaignAssetPath ===
+        "function"
+    ) {
+
+        const configuredPath =
+            getCampaignAssetPath(
+                "portraitManifest"
+            );
+
+        if (configuredPath) {
+            return configuredPath;
+        }
+    }
+
+
+    /*
+        Fallback keeps the original
+        Breaking the Axis structure usable
+        if the campaign master does not
+        define the manifest yet.
+    */
+
+    if (
+        typeof activeCampaignRoot !== "undefined" &&
+        activeCampaignRoot
+    ) {
+        return resolveCampaignPath(
+            "assets/characters/portrait-manifest.json"
+        );
+    }
+
+    return null;
+}
 
 
 /* =========================================================
@@ -69,11 +290,49 @@ let characterPortraitManifestPromise = null;
 
 async function loadCharacterPortraitManifest() {
 
-    if (!characterPortraitManifestPromise) {
+    const campaignId =
+        typeof activeCampaign !==
+            "undefined" &&
+        activeCampaign
+            ? activeCampaign.id
+            : "default";
+
+
+    /*
+        Clear the cached manifest if the
+        active campaign changes.
+    */
+
+    if (
+        characterPortraitManifestCampaignId !==
+        campaignId
+    ) {
+
+        characterPortraitManifestPromise =
+            null;
+
+        Object.keys(
+            characterPortraits
+        ).forEach(
+            key => {
+                delete characterPortraits[
+                    key
+                ];
+            }
+        );
+
+        characterPortraitManifestCampaignId =
+            campaignId;
+    }
+
+
+    if (
+        !characterPortraitManifestPromise
+    ) {
 
         characterPortraitManifestPromise =
             fetch(
-                CHARACTER_PORTRAIT_MANIFEST
+                getCharacterPortraitManifestPath()
             )
                 .then(response => {
 
@@ -95,6 +354,7 @@ async function loadCharacterPortraitManifest() {
                 });
     }
 
+
     return characterPortraitManifestPromise;
 }
 
@@ -103,33 +363,49 @@ async function loadCharacterPortraitManifest() {
    FIND CHARACTER PORTRAIT
    ========================================================= */
 
-async function findCharacterPortrait(character) {
+async function findCharacterPortrait(
+    character
+) {
 
-    if (!character || !character.id) {
+    if (
+        !character ||
+        !character.id
+    ) {
         return null;
     }
 
+
     /*
-     * Avoid looking up the same character more than once.
-     */
+        Avoid looking up the same character
+        more than once.
+    */
+
     if (
         Object.prototype.hasOwnProperty.call(
             characterPortraits,
             character.id
         )
     ) {
-        return characterPortraits[character.id];
+        return characterPortraits[
+            character.id
+        ];
     }
+
 
     const manifest =
         await loadCharacterPortraitManifest();
 
+
     const portrait =
-        manifest[character.id] || null;
+    resolveCharacterPortraitPath(
+        manifest[character.id]
+    );
+
 
     characterPortraits[
         character.id
     ] = portrait;
+
 
     return portrait;
 }
@@ -139,22 +415,33 @@ async function findCharacterPortrait(character) {
    LOAD ALL CHARACTER PORTRAITS
    ========================================================= */
 
-async function loadCharacterPortraits(characters) {
+async function loadCharacterPortraits(
+    characters
+) {
 
     const manifest =
         await loadCharacterPortraitManifest();
 
-    characters.forEach(character => {
 
-        if (!character || !character.id) {
-            return;
+    characters.forEach(
+        character => {
+
+            if (
+                !character ||
+                !character.id
+            ) {
+                return;
+            }
+
+
+            characterPortraits[
+    character.id
+] =
+    resolveCharacterPortraitPath(
+        manifest[character.id]
+    );
         }
-
-        characterPortraits[
-            character.id
-        ] =
-            manifest[character.id] || null;
-    });
+    );
 }
 
 
@@ -164,10 +451,28 @@ async function loadCharacterPortraits(characters) {
 
 async function loadCharacters() {
 
+    const characterPath =
+        typeof getCampaignDataPath ===
+            "function"
+            ? getCampaignDataPath(
+                "characters"
+            )
+            : "data/characters.json";
+
+
+    if (!characterPath) {
+
+        throw new Error(
+            "No character data path configured for this campaign."
+        );
+    }
+
+
     const response =
         await fetch(
-            "data/characters.json"
+            characterPath
         );
+
 
     if (!response.ok) {
 
@@ -175,6 +480,7 @@ async function loadCharacters() {
             "Could not load characters"
         );
     }
+
 
     return await response.json();
 }
@@ -191,9 +497,11 @@ async function showCharacters() {
             "content"
         );
 
+
     if (!content) {
         return;
     }
+
 
     content.innerHTML = `
         <p class="loading">
@@ -201,22 +509,27 @@ async function showCharacters() {
         </p>
     `;
 
+
     try {
 
         const characters =
             await loadCharacters();
 
+
         await loadCharacterPortraits(
             characters
         );
+
 
         renderCharacterList(
             characters
         );
 
+
     } catch (error) {
 
         console.error(error);
+
 
         content.innerHTML = `
             <p class="error">
@@ -233,41 +546,39 @@ async function showCharacters() {
    RENDER CHARACTER LIST
    ========================================================= */
 
-function renderCharacterList(characters) {
+function renderCharacterList(
+    characters
+) {
 
     const content =
         document.getElementById(
             "content"
         );
 
+
     if (!content) {
         return;
     }
 
 
+    const config =
+        getCharacterConfig();
+
+
     const players =
         characters.filter(
             character =>
-                character.type === "player"
+                character.type ===
+                "player"
         );
 
-    const friends =
-        characters.filter(
-            character =>
-                character.type === "friend"
-        );
 
-    const gods =
-        characters.filter(
-            character =>
-                character.type === "god"
-        );
-
-    const foes =
-        characters.filter(
-            character =>
-                character.type === "foe"
-        );
+    const configuredCategories =
+        config.categories
+            .filter(
+                category =>
+                    category.enabled !== false
+            );
 
 
     content.innerHTML = `
@@ -280,17 +591,21 @@ function renderCharacterList(characters) {
             <div class="characters-heading">
 
                 <div class="eyebrow">
-                    THE PEOPLE OF CAELORA
+                    ${escapeHTML(
+                        config.page.eyebrow
+                    )}
                 </div>
 
                 <h1>
-                    Characters
+                    ${escapeHTML(
+                        config.page.title
+                    )}
                 </h1>
 
                 <p>
-                    Heroes, allies, enemies, and others
-                    caught in the events of
-                    Breaking the Axis.
+                    ${escapeHTML(
+                        config.page.description
+                    )}
                 </p>
 
             </div>
@@ -300,30 +615,39 @@ function renderCharacterList(characters) {
                  PLAYER CHARACTERS
                  ========================================= -->
 
-            ${renderPlayerCharacters(players)}
+            ${
+                config.playerSection.enabled !== false
+                    ? renderPlayerCharacters(
+                        players
+                    )
+                    : ""
+            }
 
 
             <!-- =========================================
                  OTHER CHARACTERS
                  ========================================= -->
 
-            ${renderCharacterCategory(
-        "Gods and Deities",
-        gods,
-        "gods"
-    )}
+            ${
+                configuredCategories
+                    .map(category => {
 
-            ${renderCharacterCategory(
-        "Friends",
-        friends,
-        "friends"
-    )}
+                        const categoryCharacters =
+                            characters.filter(
+                                character =>
+                                    character.type ===
+                                    category.type
+                            );
 
-            ${renderCharacterCategory(
-        "Foes",
-        foes,
-        "foes"
-    )}
+
+                        return renderCharacterCategory(
+                            category.label,
+                            categoryCharacters,
+                            category.id
+                        );
+                    })
+                    .join("")
+            }
 
         </section>
     `;
@@ -337,42 +661,50 @@ function renderCharacterList(characters) {
         .querySelectorAll(
             "[data-character-id]"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const character =
-                        characters.find(
-                            character =>
-                                character.id ===
-                                button.dataset.characterId
+                        const character =
+                            characters.find(
+                                character =>
+                                    character.id ===
+                                    button.dataset
+                                        .characterId
+                            );
+
+
+                        if (!character) {
+                            return;
+                        }
+
+
+                        markCharacterAsRead(
+                            character
                         );
 
-                    if (!character) {
-                        return;
-                    }
 
-                    markCharacterAsRead(
-                        character
-                    );
+                        const notification =
+                            button.querySelector(
+                                ".character-notification"
+                            );
 
-                    const notification =
-                        button.querySelector(
-                            ".character-notification"
+
+                        if (notification) {
+                            notification.remove();
+                        }
+
+
+                        openCharacterProfile(
+                            character
                         );
-
-                    if (notification) {
-                        notification.remove();
                     }
-
-                    openCharacterProfile(
-                        character
-                    );
-                }
-            );
-        });
+                );
+            }
+        );
 
 
     /* =====================================================
@@ -383,43 +715,57 @@ function renderCharacterList(characters) {
         .querySelectorAll(
             "[data-character-category]"
         )
-        .forEach(section => {
+        .forEach(
+            section => {
 
-            const toggle =
-                section.querySelector(
-                    ".character-category-toggle"
-                );
+                const toggle =
+                    section.querySelector(
+                        ".character-category-toggle"
+                    );
 
-            const grid =
-                section.querySelector(
-                    ".character-grid"
-                );
 
-            if (!toggle || !grid) {
-                return;
-            }
+                const grid =
+                    section.querySelector(
+                        ".character-grid"
+                    );
 
-            toggle.addEventListener(
-                "click",
-                () => {
 
-                    const isCollapsed =
-                        section.classList.toggle(
-                            "collapsed"
+                if (
+                    !toggle ||
+                    !grid
+                ) {
+                    return;
+                }
+
+
+                toggle.addEventListener(
+                    "click",
+                    () => {
+
+                        const isCollapsed =
+                            section.classList.toggle(
+                                "collapsed"
+                            );
+
+
+                        toggle.setAttribute(
+                            "aria-expanded",
+                            String(
+                                !isCollapsed
+                            )
                         );
 
-                    toggle.setAttribute(
-                        "aria-expanded",
-                        String(!isCollapsed)
-                    );
 
-                    grid.setAttribute(
-                        "aria-hidden",
-                        String(isCollapsed)
-                    );
-                }
-            );
-        });
+                        grid.setAttribute(
+                            "aria-hidden",
+                            String(
+                                isCollapsed
+                            )
+                        );
+                    }
+                );
+            }
+        );
 }
 
 
@@ -427,31 +773,138 @@ function renderCharacterList(characters) {
    PLAYER CHARACTERS
    ========================================================= */
 
-function renderPlayerCharacters(players) {
+function renderPlayerCharacters(
+    players
+) {
 
-    if (players.length === 0) {
+    if (
+        players.length === 0
+    ) {
         return "";
     }
 
 
-    const teamOne =
+    const config =
+        getCharacterConfig();
+
+
+    const playerSection =
+        config.playerSection;
+
+
+    const teams =
+        getCharacterTeams();
+
+
+    const renderedTeams = [];
+
+
+    const assignedCharacterIds =
+        new Set();
+
+
+    teams.forEach(
+        team => {
+
+            const teamCharacters =
+                players.filter(
+                    character => {
+
+                        const matches =
+                            String(
+                                character.team
+                            ) ===
+                            String(
+                                team.id
+                            );
+
+
+                        if (matches) {
+
+                            assignedCharacterIds.add(
+                                character.id
+                            );
+                        }
+
+
+                        return matches;
+                    }
+                );
+
+
+            if (
+                teamCharacters.length === 0
+            ) {
+                return;
+            }
+
+
+            renderedTeams.push(
+                renderPlayerTeam(
+                    team.label,
+                    teamCharacters,
+                    team.id,
+                    team.description ||
+                        "",
+                    team.symbol ||
+                        "◆"
+                )
+            );
+        }
+    );
+
+
+    /*
+        Preserve the original behavior:
+        characters with no recognized team
+        fall into Shared when Shared exists.
+    */
+
+    const unassignedPlayers =
         players.filter(
             character =>
-                character.team === "team-one"
+                !assignedCharacterIds.has(
+                    character.id
+                )
         );
 
-    const teamTwo =
-        players.filter(
-            character =>
-                character.team === "team-two"
-        );
 
-    const shared =
-        players.filter(
-            character =>
-                character.team !== "team-one" &&
-                character.team !== "team-two"
+    if (
+        unassignedPlayers.length > 0
+    ) {
+
+        const sharedTeam =
+            teams.find(
+                team =>
+                    team.id ===
+                    "shared"
+            );
+
+
+        renderedTeams.push(
+            renderPlayerTeam(
+                sharedTeam
+                    ? sharedTeam.label
+                    : "Shared",
+                unassignedPlayers,
+                sharedTeam
+                    ? sharedTeam.id
+                    : "shared",
+                sharedTeam
+                    ? (
+                        sharedTeam.description ||
+                        ""
+                    )
+                    : "Characters connected to both teams.",
+                sharedTeam
+                    ? (
+                        sharedTeam.symbol ||
+                        "◆"
+                    )
+                    : "◆"
+            )
         );
+    }
 
 
     return `
@@ -460,18 +913,25 @@ function renderPlayerCharacters(players) {
             <div class="player-characters-heading">
 
                 <div>
+
                     <div class="eyebrow">
-                        THE CHOSEN FEW
+                        ${escapeHTML(
+                            playerSection.eyebrow
+                        )}
                     </div>
 
                     <h2>
-                        Player Characters
+                        ${escapeHTML(
+                            playerSection.title
+                        )}
                     </h2>
 
                     <p>
-                        The people at the heart of
-                        Breaking the Axis.
+                        ${escapeHTML(
+                            playerSection.description
+                        )}
                     </p>
+
                 </div>
 
                 <div
@@ -486,34 +946,58 @@ function renderPlayerCharacters(players) {
 
             <div class="player-team-sections">
 
-                ${renderPlayerTeam(
-        "Team One",
-        teamOne,
-        "team-one",
-        ""
-    )}
-
-                ${renderPlayerTeam(
-        "Team Two",
-        teamTwo,
-        "team-two",
-        ""
-    )}
-
-                ${shared.length
-            ? renderPlayerTeam(
-                "Shared",
-                shared,
-                "shared",
-                "Characters connected to both teams."
-            )
-            : ""
-        }
+                ${renderedTeams.join("")}
 
             </div>
 
         </section>
     `;
+}
+
+
+/* =========================================================
+   PLAYER TEAMS
+   ========================================================= */
+
+function getCharacterTeams() {
+
+    if (
+        typeof activeCampaign !==
+            "undefined" &&
+        activeCampaign &&
+        activeCampaign.party &&
+        Array.isArray(
+            activeCampaign.party.teams
+        )
+    ) {
+
+        return activeCampaign.party.teams;
+    }
+
+
+    return [
+        {
+            id: "team-one",
+            label: "Team One",
+            symbol: "I",
+            description: ""
+        },
+
+        {
+            id: "team-two",
+            label: "Team Two",
+            symbol: "II",
+            description: ""
+        },
+
+        {
+            id: "shared",
+            label: "Shared",
+            symbol: "◆",
+            description:
+                "Characters connected to both teams."
+        }
+    ];
 }
 
 
@@ -525,10 +1009,13 @@ function renderPlayerTeam(
     title,
     characters,
     teamId,
-    description
+    description,
+    symbol
 ) {
 
-    if (characters.length === 0) {
+    if (
+        characters.length === 0
+    ) {
         return "";
     }
 
@@ -537,53 +1024,79 @@ function renderPlayerTeam(
         <section
             class="
                 player-team
-                ${escapeHTML(teamId)}
+                ${escapeHTML(
+                    getSafeTeamClass(
+                        teamId
+                    )
+                )}
             "
-            data-player-team="${escapeHTML(teamId)}"
+            data-player-team="${escapeHTML(
+                teamId
+            )}"
         >
 
             <div class="player-team-header">
 
                 <div class="player-team-heading">
 
-                    <span class="player-team-symbol">
-                        ${teamId === "team-one"
-            ? "I"
-            : teamId === "team-two"
-                ? "II"
-                : "◆"}
+                    <span
+                        class="player-team-symbol"
+                    >
+                        ${escapeHTML(
+                            symbol
+                        )}
                     </span>
+
 
                     <div>
 
-                        <div class="player-team-eyebrow">
-                            PARTY
+                        <div
+                            class="player-team-eyebrow"
+                        >
+                            ${escapeHTML(
+                                getCharacterConfig()
+                                    .playerSection
+                                    .partyLabel
+                            )}
                         </div>
 
+
                         <h3>
-                            ${escapeHTML(title)}
+                            ${escapeHTML(
+                                title
+                            )}
                         </h3>
 
+
                         <p>
-                            ${escapeHTML(description)}
+                            ${escapeHTML(
+                                description
+                            )}
                         </p>
 
                     </div>
 
                 </div>
 
-                <span class="player-team-count">
+
+                <span
+                    class="player-team-count"
+                >
                     ${characters.length}
                 </span>
 
             </div>
 
 
-            <div class="player-character-grid">
+            <div
+                class="player-character-grid"
+            >
 
                 ${characters
-            .map(renderPlayerCard)
-            .join("")}
+                    .map(
+                        renderPlayerCard
+                    )
+                    .join("")}
 
             </div>
 
@@ -593,25 +1106,50 @@ function renderPlayerTeam(
 
 
 /* =========================================================
+   SAFE TEAM CLASS
+   ========================================================= */
+
+function getSafeTeamClass(
+    teamId
+) {
+
+    return String(
+        teamId ||
+        "team"
+    )
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9_-]+/g,
+            "-"
+        );
+}
+
+
+/* =========================================================
    PLAYER CARD
    ========================================================= */
 
-function renderPlayerCard(character) {
+function renderPlayerCard(
+    character
+) {
 
     const portraitPath =
         characterPortraits[
-        character.id
+            character.id
         ];
+
 
     const portrait =
         portraitPath
             ? `
                 <img
-                    src="${escapeHTML(portraitPath)}"
+                    src="${escapeHTML(
+                        portraitPath
+                    )}"
                     alt="${escapeHTML(
-                character.name ||
-                "Unknown"
-            )}"
+                        character.name ||
+                        "Unknown"
+                    )}"
                     class="character-card-portrait"
                     loading="lazy"
                 >
@@ -632,6 +1170,7 @@ function renderPlayerCard(character) {
     const name =
         character.name ||
         "Unknown";
+
 
     const subtitle =
         getCharacterSubtitle(
@@ -661,18 +1200,20 @@ function renderPlayerCard(character) {
                 player-character-card
             "
             data-character-id="${escapeHTML(
-        character.id
-    )}"
+                character.id
+            )}"
         >
 
             <div class="character-card-image">
 
                 ${portrait}
 
+
                 <div
                     class="player-card-aura"
                     aria-hidden="true"
                 ></div>
+
 
                 <div
                     class="player-card-rank"
@@ -681,27 +1222,42 @@ function renderPlayerCard(character) {
                     PLAYER
                 </div>
 
+
                 ${notification}
 
             </div>
 
 
-            <div class="character-card-content">
+            <div
+                class="character-card-content"
+            >
 
-                <h3 class="character-card-title">
-                    ${escapeHTML(name)}
+                <h3
+                    class="character-card-title"
+                >
+                    ${escapeHTML(
+                        name
+                    )}
                 </h3>
 
-                <p class="character-card-role">
-                    ${escapeHTML(subtitle)}
+
+                <p
+                    class="character-card-role"
+                >
+                    ${escapeHTML(
+                        subtitle
+                    )}
                 </p>
 
-                <span class="player-card-team">
+
+                <span
+                    class="player-card-team"
+                >
                     ${escapeHTML(
-        formatCharacterTeam(
-            character.team
-        )
-    )}
+                        formatCharacterTeam(
+                            character.team
+                        )
+                    )}
                 </span>
 
             </div>
@@ -721,7 +1277,9 @@ function renderCharacterCategory(
     categoryId
 ) {
 
-    if (characters.length === 0) {
+    if (
+        characters.length === 0
+    ) {
         return "";
     }
 
@@ -730,8 +1288,8 @@ function renderCharacterCategory(
         <section
             class="character-category"
             data-character-category="${escapeHTML(
-        categoryId
-    )}"
+                categoryId
+            )}"
         >
 
             <button
@@ -739,8 +1297,8 @@ function renderCharacterCategory(
                 class="character-category-toggle"
                 aria-expanded="true"
                 aria-controls="character-grid-${escapeHTML(
-        categoryId
-    )}"
+                    categoryId
+                )}"
             >
 
                 <span
@@ -750,8 +1308,11 @@ function renderCharacterCategory(
                     <span
                         class="character-category-title"
                     >
-                        ${escapeHTML(title)}
+                        ${escapeHTML(
+                            title
+                        )}
                     </span>
+
 
                     <span
                         class="character-category-count"
@@ -760,6 +1321,7 @@ function renderCharacterCategory(
                     </span>
 
                 </span>
+
 
                 <span
                     class="character-category-chevron"
@@ -774,15 +1336,15 @@ function renderCharacterCategory(
             <div
                 class="character-grid"
                 id="character-grid-${escapeHTML(
-        categoryId
-    )}"
+                    categoryId
+                )}"
             >
 
                 ${characters
-            .map(
-                renderCharacterCard
-            )
-            .join("")}
+                    .map(
+                        renderCharacterCard
+                    )
+                    .join("")}
 
             </div>
 
@@ -795,31 +1357,37 @@ function renderCharacterCategory(
    NORMAL CHARACTER CARD
    ========================================================= */
 
-function renderCharacterCard(character) {
+function renderCharacterCard(
+    character
+) {
 
     const portraitPath =
         characterPortraits[
-        character.id
+            character.id
         ];
+
 
     const portrait =
         portraitPath
             ? `
                 <img
                     src="${escapeHTML(
-                portraitPath
-            )}"
+                        portraitPath
+                    )}"
                     alt="${escapeHTML(
-                character.name ||
-                "Unknown"
-            )}"
+                        character.name ||
+                        "Unknown"
+                    )}"
                     class="character-card-portrait"
                     loading="lazy"
                 >
             `
             : `
                 <div
-                    class="character-card-portrait unknown"
+                    class="
+                        character-card-portrait
+                        unknown
+                    "
                     aria-label="Portrait unknown"
                 >
                     ?
@@ -830,6 +1398,7 @@ function renderCharacterCard(character) {
     const name =
         character.name ||
         "Unknown";
+
 
     const subtitle =
         getCharacterSubtitle(
@@ -856,11 +1425,13 @@ function renderCharacterCard(character) {
             type="button"
             class="character-card"
             data-character-id="${escapeHTML(
-        character.id
-    )}"
+                character.id
+            )}"
         >
 
-            <div class="character-card-image">
+            <div
+                class="character-card-image"
+            >
 
                 ${portrait}
 
@@ -868,14 +1439,26 @@ function renderCharacterCard(character) {
 
             </div>
 
-            <div class="character-card-content">
 
-                <h3 class="character-card-title">
-                    ${escapeHTML(name)}
+            <div
+                class="character-card-content"
+            >
+
+                <h3
+                    class="character-card-title"
+                >
+                    ${escapeHTML(
+                        name
+                    )}
                 </h3>
 
-                <p class="character-card-role">
-                    ${escapeHTML(subtitle)}
+
+                <p
+                    class="character-card-role"
+                >
+                    ${escapeHTML(
+                        subtitle
+                    )}
                 </p>
 
             </div>
@@ -889,15 +1472,19 @@ function renderCharacterCard(character) {
    CHARACTER SUBTITLE
    ========================================================= */
 
-function getCharacterSubtitle(character) {
+function getCharacterSubtitle(
+    character
+) {
 
     const race =
         character.race ||
         "Unknown";
 
+
     const characterClass =
         character.class ||
         "Unknown";
+
 
     return `${race} • ${characterClass}`;
 }
@@ -907,12 +1494,15 @@ function getCharacterSubtitle(character) {
    OPEN CHARACTER PROFILE
    ========================================================= */
 
-function openCharacterProfile(character) {
+function openCharacterProfile(
+    character
+) {
 
     const existingProfile =
         document.getElementById(
             "character-profile"
         );
+
 
     if (existingProfile) {
         existingProfile.remove();
@@ -921,7 +1511,7 @@ function openCharacterProfile(character) {
 
     const portraitPath =
         characterPortraits[
-        character.id
+            character.id
         ];
 
 
@@ -930,12 +1520,12 @@ function openCharacterProfile(character) {
             ? `
                 <img
                     src="${escapeHTML(
-                portraitPath
-            )}"
+                        portraitPath
+                    )}"
                     alt="${escapeHTML(
-                character.name ||
-                "Unknown"
-            )}"
+                        character.name ||
+                        "Unknown"
+                    )}"
                     class="character-profile-portrait"
                 >
             `
@@ -957,40 +1547,51 @@ function openCharacterProfile(character) {
        ===================================================== */
 
     const relevantQuests =
-        (Array.isArray(allQuests)
-            ? allQuests
-            : []
-        ).filter(
-            quest =>
-                Array.isArray(
-                    quest.characters
-                ) &&
-                quest.characters.some(
-                    characterRef => {
+        (
+            Array.isArray(allQuests)
+                ? allQuests
+                : []
+        )
+            .filter(
+                quest =>
+                    Array.isArray(
+                        quest.characters
+                    ) &&
+                    quest.characters.some(
+                        characterRef => {
 
-                        const id =
-                            characterRef &&
+                            const id =
+                                characterRef &&
                                 typeof characterRef ===
-                                "object"
-                                ? characterRef.id
-                                : characterRef;
+                                    "object"
+                                    ? characterRef.id
+                                    : characterRef;
 
-                        return String(id) ===
-                            String(character.id);
-                    }
-                )
-        );
+
+                            return String(
+                                id
+                            ) ===
+                            String(
+                                character.id
+                            );
+                        }
+                    )
+            );
 
 
     const relevantQuestsSection = `
-        <section class="character-profile-quests">
+        <section
+            class="character-profile-quests"
+        >
 
             <h3>
                 Relevant Quests
             </h3>
 
-            ${relevantQuests.length
-            ? `
+
+            ${
+                relevantQuests.length
+                    ? `
                         <div
                             class="
                                 character-profile-quest-list
@@ -998,16 +1599,17 @@ function openCharacterProfile(character) {
                         >
 
                             ${relevantQuests
-                .map(
-                    quest => `
+                                .map(
+                                    quest =>
+                                        `
                                         <button
                                             type="button"
                                             class="
                                                 character-profile-quest
                                             "
                                             data-character-quest-id="${escapeHTML(
-                        quest.id
-                    )}"
+                                                quest.id
+                                            )}"
                                         >
 
                                             <span
@@ -1015,21 +1617,23 @@ function openCharacterProfile(character) {
                                                     character-profile-quest-copy
                                                 "
                                             >
+
                                                 <strong>
                                                     ${escapeHTML(
-                        quest.title ||
-                        "Untitled Quest"
-                    )}
+                                                        quest.title ||
+                                                        "Untitled Quest"
+                                                    )}
                                                 </strong>
 
                                                 <span>
                                                     ${escapeHTML(
-                        quest.status ||
-                        "Status unknown"
-                    )}
+                                                        quest.status ||
+                                                        "Status unknown"
+                                                    )}
                                                 </span>
 
                                             </span>
+
 
                                             <span
                                                 class="
@@ -1042,12 +1646,12 @@ function openCharacterProfile(character) {
 
                                         </button>
                                     `
-                )
-                .join("")}
+                                )
+                                .join("")}
 
                         </div>
                     `
-            : `
+                    : `
                         <p
                             class="
                                 character-profile-quests-empty
@@ -1057,7 +1661,7 @@ function openCharacterProfile(character) {
                             to this character.
                         </p>
                     `
-        }
+            }
 
         </section>
     `;
@@ -1080,7 +1684,9 @@ function openCharacterProfile(character) {
                 .map(
                     note => `
                         <li>
-                            ${escapeHTML(note)}
+                            ${escapeHTML(
+                                note
+                            )}
                         </li>
                     `
                 )
@@ -1099,6 +1705,7 @@ function openCharacterProfile(character) {
                         Known Information
                     </h3>
 
+
                     <ul>
                         ${notes}
                     </ul>
@@ -1116,11 +1723,13 @@ function openCharacterProfile(character) {
         character.quote
             ? `
                 <blockquote
-                    class="character-profile-quote"
+                    class="
+                        character-profile-quote
+                    "
                 >
                     "${escapeHTML(
-                character.quote
-            )}"
+                        character.quote
+                    )}"
                 </blockquote>
             `
             : "";
@@ -1130,17 +1739,21 @@ function openCharacterProfile(character) {
         character.name ||
         "Unknown";
 
+
     const description =
         character.description ||
         "Unknown";
+
 
     const status =
         character.status ||
         "Unknown";
 
+
     const race =
         character.race ||
         "Unknown";
+
 
     const characterClass =
         character.class ||
@@ -1174,8 +1787,10 @@ function openCharacterProfile(character) {
             "div"
         );
 
+
     overlay.className =
         "character-profile";
+
 
     overlay.id =
         "character-profile";
@@ -1185,9 +1800,12 @@ function openCharacterProfile(character) {
         <div
             class="
                 character-profile-card
-                ${character.type === "player"
-            ? "player-profile-card"
-            : ""}
+                ${
+                    character.type ===
+                    "player"
+                        ? "player-profile-card"
+                        : ""
+                }
             "
             role="dialog"
             aria-modal="true"
@@ -1210,37 +1828,53 @@ function openCharacterProfile(character) {
 
                 ${portrait}
 
+
                 <div
                     class="character-profile-heading"
                 >
 
                     <div class="eyebrow">
-                        ${escapeHTML(type)}
+                        ${escapeHTML(
+                            type
+                        )}
                     </div>
 
-                    ${character.type === "player"
-            ? `
-                                <div class="player-profile-team">
+
+                    ${
+                        character.type ===
+                        "player"
+                            ? `
+                                <div
+                                    class="
+                                        player-profile-team
+                                    "
+                                >
                                     ${escapeHTML(
-                formatCharacterTeam(
-                    character.team
-                )
-            )}
+                                        formatCharacterTeam(
+                                            character.team
+                                        )
+                                    )}
                                 </div>
                             `
-            : ""
-        }
+                            : ""
+                    }
 
-                    <h2 id="character-profile-name">
-                        ${escapeHTML(name)}
+
+                    <h2
+                        id="character-profile-name"
+                    >
+                        ${escapeHTML(
+                            name
+                        )}
                     </h2>
+
 
                     <p>
                         ${escapeHTML(
-            getCharacterSubtitle(
-                character
-            )
-        )}
+                            getCharacterSubtitle(
+                                character
+                            )
+                        )}
                     </p>
 
                 </div>
@@ -1255,22 +1889,30 @@ function openCharacterProfile(character) {
                 <div
                     class="character-profile-status"
                 >
-                    ${escapeHTML(status)}
+                    ${escapeHTML(
+                        status
+                    )}
                 </div>
 
+
                 <p
-                    class="character-profile-description"
+                    class="
+                        character-profile-description
+                    "
                 >
                     ${escapeHTML(
-            description
-        )}
+                        description
+                    )}
                 </p>
+
 
                 ${quote}
 
 
                 <div
-                    class="character-profile-details"
+                    class="
+                        character-profile-details
+                    "
                 >
 
                     <div>
@@ -1279,8 +1921,11 @@ function openCharacterProfile(character) {
                             Race
                         </span>
 
+
                         <strong>
-                            ${escapeHTML(race)}
+                            ${escapeHTML(
+                                race
+                            )}
                         </strong>
 
                     </div>
@@ -1292,10 +1937,11 @@ function openCharacterProfile(character) {
                             Class
                         </span>
 
+
                         <strong>
                             ${escapeHTML(
-            characterClass
-        )}
+                                characterClass
+                            )}
                         </strong>
 
                     </div>
@@ -1305,14 +1951,15 @@ function openCharacterProfile(character) {
 
                         <span>
                             ${escapeHTML(
-            infoLabel
-        )}
+                                infoLabel
+                            )}
                         </span>
+
 
                         <strong>
                             ${escapeHTML(
-            infoValue
-        )}
+                                infoValue
+                            )}
                         </strong>
 
                     </div>
@@ -1321,6 +1968,7 @@ function openCharacterProfile(character) {
 
 
                 ${relevantQuestsSection}
+
 
                 ${notesSection}
 
@@ -1339,53 +1987,68 @@ function openCharacterProfile(character) {
         .querySelectorAll(
             "[data-character-quest-id]"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const quest =
-                        (
-                            Array.isArray(
-                                allQuests
-                            )
-                                ? allQuests
-                                : []
-                        ).find(
-                            item =>
-                                String(item.id) ===
-                                String(
-                                    button.dataset
-                                        .characterQuestId
+                        const quest =
+                            (
+                                Array.isArray(
+                                    allQuests
                                 )
-                        );
+                                    ? allQuests
+                                    : []
+                            ).find(
+                                item =>
+                                    String(
+                                        item.id
+                                    ) ===
+                                    String(
+                                        button.dataset
+                                            .characterQuestId
+                                    )
+                            );
 
-                    if (!quest) {
-                        return;
+
+                        if (!quest) {
+                            return;
+                        }
+
+
+                        closeCharacterProfile();
+
+
+                        if (
+                            typeof navigateTo ===
+                            "function"
+                        ) {
+
+                            currentTeam =
+                                "all";
+
+
+                            navigateTo(
+                                "quests"
+                            );
+                        }
+
+
+                        if (
+                            typeof renderQuestDetail ===
+                            "function"
+                        ) {
+
+                            renderQuestDetail(
+                                quest
+                            );
+                        }
                     }
-
-                    closeCharacterProfile();
-
-                    if (
-                        typeof navigateTo ===
-                        "function"
-                    ) {
-                        currentTeam = "all";
-                        navigateTo("quests");
-                    }
-
-                    if (
-                        typeof renderQuestDetail ===
-                        "function"
-                    ) {
-                        renderQuestDetail(
-                            quest
-                        );
-                    }
-                }
-            );
-        });
+                );
+            }
+        );
 
 
     const closeButton =
@@ -1411,6 +2074,7 @@ function openCharacterProfile(character) {
                 event.target ===
                 overlay
             ) {
+
                 closeCharacterProfile();
             }
         }
@@ -1433,13 +2097,18 @@ function openCharacterProfile(character) {
    CHARACTER INFO LABEL
    ========================================================= */
 
-function getCharacterInfoLabel(character) {
+function getCharacterInfoLabel(
+    character
+) {
 
     if (
-        character.type === "player"
+        character.type ===
+        "player"
     ) {
+
         return "Team";
     }
+
 
     return "Location";
 }
@@ -1449,16 +2118,20 @@ function getCharacterInfoLabel(character) {
    CHARACTER INFO VALUE
    ========================================================= */
 
-function getCharacterInfoValue(character) {
+function getCharacterInfoValue(
+    character
+) {
 
     if (
-        character.type === "player"
+        character.type ===
+        "player"
     ) {
 
         return formatCharacterTeam(
             character.team
         );
     }
+
 
     return character.location ||
         "Unknown";
@@ -1476,13 +2149,16 @@ function closeCharacterProfile() {
             "character-profile"
         );
 
+
     if (profile) {
         profile.remove();
     }
 
+
     document.body.classList.remove(
         "character-profile-open"
     );
+
 
     document.removeEventListener(
         "keydown",
@@ -1495,9 +2171,15 @@ function closeCharacterProfile() {
    ESCAPE KEY
    ========================================================= */
 
-function handleCharacterProfileEscape(event) {
+function handleCharacterProfileEscape(
+    event
+) {
 
-    if (event.key === "Escape") {
+    if (
+        event.key ===
+        "Escape"
+    ) {
+
         closeCharacterProfile();
     }
 }
@@ -1507,7 +2189,9 @@ function handleCharacterProfileEscape(event) {
    CHARACTER TYPE
    ========================================================= */
 
-function formatCharacterType(type) {
+function formatCharacterType(
+    type
+) {
 
     switch (type) {
 
@@ -1533,20 +2217,27 @@ function formatCharacterType(type) {
    CHARACTER TEAM
    ========================================================= */
 
-function formatCharacterTeam(team) {
+function formatCharacterTeam(
+    team
+) {
 
-    switch (team) {
+    const configuredTeam =
+        getCharacterTeams().find(
+            configured =>
+                String(
+                    configured.id
+                ) ===
+                String(team)
+        );
 
-        case "team-one":
-            return "Team One";
 
-        case "team-two":
-            return "Team Two";
+    if (
+        configuredTeam
+    ) {
 
-        case "shared":
-            return "Shared";
-
-        default:
-            return "Unknown";
+        return configuredTeam.label;
     }
+
+
+    return "Unknown";
 }

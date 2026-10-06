@@ -1,18 +1,234 @@
 let currentCalendarDate = new Date();
 
+let calendarSessions = [];
+let calendarSessionsPromise = null;
+let calendarSessionsCampaignId = null;
+
+
+/* =========================================================
+   CALENDAR CONFIGURATION
+   ========================================================= */
+
+const DEFAULT_CALENDAR_TEXT = {
+    eyebrow: "SESSION SCHEDULE",
+    description:
+        "Keep track of the journeys, encounters, and sessions ahead."
+};
+
+/* =========================================================
+   CALENDAR PATHS
+   ========================================================= */
+
+
+function getCalendarText() {
+
+    if (
+        typeof activeCampaign === "undefined" ||
+        !activeCampaign
+    ) {
+        return DEFAULT_CALENDAR_TEXT;
+    }
+
+    return {
+        ...DEFAULT_CALENDAR_TEXT,
+        ...(activeCampaign.text?.calendar || {})
+    };
+}
+
+
+function getCalendarCampaignId() {
+
+    if (
+        typeof activeCampaign !== "undefined" &&
+        activeCampaign
+    ) {
+        return activeCampaign.id;
+    }
+
+    return "default";
+}
+
 
 /* =========================================================
    LOAD SESSIONS
    ========================================================= */
 
 async function loadSessions() {
-    const response = await fetch("data/sessions.json");
 
-    if (!response.ok) {
-        throw new Error("Could not load sessions");
+    const campaignId =
+        getCalendarCampaignId();
+
+
+    /*
+        Clear the cache if the active campaign changes.
+    */
+
+    if (
+        calendarSessionsCampaignId !==
+        campaignId
+    ) {
+
+        calendarSessions = [];
+        calendarSessionsPromise = null;
+
+        calendarSessionsCampaignId =
+            campaignId;
     }
 
-    return await response.json();
+
+    if (
+        Array.isArray(calendarSessions)
+    ) {
+
+        if (
+            calendarSessions.length ||
+            calendarSessionsPromise === null &&
+            calendarSessionsCampaignId ===
+                campaignId &&
+            calendarSessions.length === 0
+        ) {
+
+            /*
+                Do not use this shortcut until
+                a campaign path has actually been
+                requested below.
+            */
+
+        }
+    }
+
+
+    if (
+        calendarSessionsPromise
+    ) {
+        return calendarSessionsPromise;
+    }
+
+
+    const sessionPath =
+        typeof getCampaignDataPath ===
+            "function"
+            ? getCampaignDataPath(
+                "sessions"
+            )
+            : "campaigns/breaking-the-axis/data/sessions.json";
+
+
+    if (!sessionPath) {
+
+        throw new Error(
+            "No session data path configured for this campaign."
+        );
+    }
+
+
+    calendarSessionsPromise =
+        fetch(sessionPath)
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Could not load sessions (${response.status})`
+                    );
+                }
+
+
+                return response.json();
+            })
+            .then(data => {
+
+                if (
+                    !Array.isArray(data)
+                ) {
+
+                    throw new Error(
+                        "sessions.json must contain an array."
+                    );
+                }
+
+
+                calendarSessions =
+                    data;
+
+
+                return calendarSessions;
+            })
+            .catch(error => {
+
+                calendarSessionsPromise =
+                    null;
+
+                throw error;
+            });
+
+
+    return calendarSessionsPromise;
+}
+
+
+/* =========================================================
+   CALENDAR PATHS
+   ========================================================= */
+
+function getCalendarFilePath() {
+
+    if (
+        typeof getCampaignDataPath === "function"
+    ) {
+
+        const configuredPath =
+            getCampaignDataPath("calendar");
+
+        if (configuredPath) {
+            return configuredPath;
+        }
+    }
+
+    /*
+        Legacy fallback.
+
+        This keeps the calendar functional if a campaign
+        does not define an ICS file.
+    */
+    return "data/sessions.ics";
+}
+
+function hasCalendarFile() {
+
+    return Boolean(
+        getCalendarFilePath()
+    );
+}
+
+
+/* =========================================================
+   CALENDAR DOWNLOAD NAME
+   ========================================================= */
+
+function getCalendarDownloadName() {
+
+    const campaignId =
+        typeof activeCampaign !==
+            "undefined" &&
+        activeCampaign
+            ? activeCampaign.id
+            : "campaign";
+
+
+    return `${String(
+        campaignId
+    )
+        .trim()
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9]+/g,
+            "-"
+        )
+        .replace(
+            /^-+|-+$/g,
+            ""
+        ) || "campaign"}.ics`;
 }
 
 
@@ -21,46 +237,92 @@ async function loadSessions() {
    ========================================================= */
 
 async function showCalendar() {
-    const content = document.getElementById("content");
+
+    const content =
+        document.getElementById(
+            "content"
+        );
+
 
     if (!content) {
-        console.error("Calendar could not load: #content was not found.");
+
+        console.error(
+            "Calendar could not load: #content was not found."
+        );
+
         return;
     }
 
+
     content.innerHTML = `
-        <section class="calendar-page calendar-loading-page">
+        <section
+            class="calendar-page
+                   calendar-loading-page"
+        >
+
             <div class="calendar-loading">
-                <div class="calendar-loading-mark">◆</div>
-                <p>Loading session calendar...</p>
+
+                <div
+                    class="calendar-loading-mark"
+                    aria-hidden="true"
+                >
+                    ◆
+                </div>
+
+                <p>
+                    Loading session calendar...
+                </p>
+
             </div>
+
         </section>
     `;
 
-    try {
-        const sessions = await loadSessions();
 
-        renderCalendar(sessions);
+    try {
+
+        const sessions =
+            await loadSessions();
+
+
+        renderCalendar(
+            sessions
+        );
+
 
     } catch (error) {
-        console.error(error);
+
+        console.error(
+            error
+        );
+
 
         content.innerHTML = `
             <section class="calendar-page">
+
                 <div class="calendar-error">
 
-                    <div class="calendar-error-icon">
+                    <div
+                        class="calendar-error-icon"
+                        aria-hidden="true"
+                    >
                         !
                     </div>
 
-                    <h1>Calendar Unavailable</h1>
+
+                    <h1>
+                        Calendar Unavailable
+                    </h1>
+
 
                     <p>
-                        The campaign calendar could not be loaded.
-                        Check your session data file and try again.
+                        The campaign calendar could not
+                        be loaded. Check your session data
+                        file and try again.
                     </p>
 
                 </div>
+
             </section>
         `;
     }
@@ -71,68 +333,122 @@ async function showCalendar() {
    RENDER CALENDAR
    ========================================================= */
 
-function renderCalendar(sessions) {
-    const content = document.getElementById("content");
+function renderCalendar(
+    sessions
+) {
+
+    const content =
+        document.getElementById(
+            "content"
+        );
+
 
     if (!content) {
         return;
     }
 
+
+    const calendarText =
+        getCalendarText();
+
+
     const year =
         currentCalendarDate.getFullYear();
+
 
     const month =
         currentCalendarDate.getMonth();
 
+
     const monthName =
-        new Intl.DateTimeFormat("en-US", {
-            month: "long"
-        }).format(currentCalendarDate);
+        new Intl.DateTimeFormat(
+            "en-US",
+            {
+                month: "long"
+            }
+        ).format(
+            currentCalendarDate
+        );
+
 
     const firstDay =
-        new Date(year, month, 1).getDay();
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
 
     const daysInMonth =
-        new Date(year, month + 1, 0).getDate();
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
 
 
     const today =
         new Date();
 
+
     const todayString =
-        formatCalendarDate(today);
+        formatCalendarDate(
+            today
+        );
 
 
     const monthSessions =
-        sessions.filter(session => {
+        sessions.filter(
+            session => {
 
-            if (!session.date) {
-                return false;
+                if (
+                    !session.date
+                ) {
+                    return false;
+                }
+
+
+                const [
+                    sessionYear,
+                    sessionMonth
+                ] =
+                    session.date
+                        .split("-")
+                        .map(Number);
+
+
+                return (
+                    sessionYear ===
+                        year &&
+                    sessionMonth ===
+                        month + 1
+                );
             }
-
-            const [sessionYear, sessionMonth] =
-                session.date.split("-").map(Number);
-
-            return (
-                sessionYear === year &&
-                sessionMonth === month + 1
-            );
-        });
+        );
 
 
     const upcomingCount =
-        monthSessions.filter(session =>
-            session.date >= todayString
+        monthSessions.filter(
+            session =>
+                session.date >=
+                todayString
         ).length;
 
 
     const pastCount =
-        monthSessions.filter(session =>
-            session.date < todayString
+        monthSessions.filter(
+            session =>
+                session.date <
+                todayString
         ).length;
 
 
+    const calendarFileAvailable =
+        hasCalendarFile();
+
+
     let calendarHTML = `
+
         <section class="calendar-page">
 
             <!-- =========================================
@@ -144,22 +460,40 @@ function renderCalendar(sessions) {
                 <div class="calendar-heading-top">
 
                     <div>
+
                         <div class="eyebrow">
-                            SESSION SCHEDULE
+                            ${escapeHTML(
+                                calendarText.eyebrow
+                            )}
                         </div>
 
+
                         <h1>
-                            ${escapeHTML(monthName)}
-                            <span>${year}</span>
+                            ${escapeHTML(
+                                monthName
+                            )}
+
+                            <span>
+                                ${year}
+                            </span>
                         </h1>
 
-                        <p class="calendar-description">
-                            Keep track of the journeys,
-                            encounters, and sessions ahead.
+
+                        <p
+                            class="calendar-description"
+                        >
+                            ${escapeHTML(
+                                calendarText.description
+                            )}
                         </p>
+
                     </div>
 
-                    <div class="calendar-heading-mark" aria-hidden="true">
+
+                    <div
+                        class="calendar-heading-mark"
+                        aria-hidden="true"
+                    >
                         ◈
                     </div>
 
@@ -180,8 +514,11 @@ function renderCalendar(sessions) {
                             id="calendar-previous"
                             aria-label="Previous month"
                         >
-                            <span>←</span>
+                            <span>
+                                ←
+                            </span>
                         </button>
+
 
                         <button
                             type="button"
@@ -191,13 +528,16 @@ function renderCalendar(sessions) {
                             Today
                         </button>
 
+
                         <button
                             type="button"
                             class="calendar-nav-button"
                             id="calendar-next"
                             aria-label="Next month"
                         >
-                            <span>→</span>
+                            <span>
+                                →
+                            </span>
                         </button>
 
                     </div>
@@ -205,23 +545,45 @@ function renderCalendar(sessions) {
 
                     <div class="calendar-actions">
 
-                        <button
-                            type="button"
-                            class="calendar-subscribe"
-                            id="calendar-subscribe"
-                        >
-                            <span aria-hidden="true">↗</span>
-                            Subscribe
-                        </button>
+                        ${
+                            calendarFileAvailable
+                                ? `
+                                    <button
+                                        type="button"
+                                        class="calendar-subscribe"
+                                        id="calendar-subscribe"
+                                    >
+                                        <span
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
 
-                        <a
-                            class="calendar-download"
-                            href="data/sessions.ics"
-                            download="breaking-the-axis.ics"
-                        >
-                            <span aria-hidden="true">↓</span>
-                            Download
-                        </a>
+                                        Subscribe
+                                    </button>
+
+
+                                    <a
+                                        class="calendar-download"
+                                        id="calendar-download"
+                                        href="${escapeHTML(
+                                            getCalendarFilePath()
+                                        )}"
+                                        download="${escapeHTML(
+                                            getCalendarDownloadName()
+                                        )}"
+                                    >
+                                        <span
+                                            aria-hidden="true"
+                                        >
+                                            ↓
+                                        </span>
+
+                                        Download
+                                    </a>
+                                `
+                                : ""
+                        }
 
                     </div>
 
@@ -234,28 +596,40 @@ function renderCalendar(sessions) {
 
                 <div class="calendar-summary">
 
-                    <div class="calendar-summary-item">
+                    <div
+                        class="calendar-summary-item"
+                    >
 
                         <strong>
                             ${monthSessions.length}
                         </strong>
 
+
                         <span>
-                            ${monthSessions.length === 1
-            ? "Session"
-            : "Sessions"
-        }
+                            ${
+                                monthSessions.length ===
+                                1
+                                    ? "Session"
+                                    : "Sessions"
+                            }
                         </span>
 
                     </div>
 
-                    <div class="calendar-summary-divider"></div>
 
-                    <div class="calendar-summary-item">
+                    <div
+                        class="calendar-summary-divider"
+                    ></div>
+
+
+                    <div
+                        class="calendar-summary-item"
+                    >
 
                         <strong>
                             ${upcomingCount}
                         </strong>
+
 
                         <span>
                             Upcoming
@@ -263,13 +637,20 @@ function renderCalendar(sessions) {
 
                     </div>
 
-                    <div class="calendar-summary-divider"></div>
 
-                    <div class="calendar-summary-item">
+                    <div
+                        class="calendar-summary-divider"
+                    ></div>
+
+
+                    <div
+                        class="calendar-summary-item"
+                    >
 
                         <strong>
                             ${pastCount}
                         </strong>
+
 
                         <span>
                             Completed
@@ -300,6 +681,7 @@ function renderCalendar(sessions) {
 
                 </div>
 
+
                 <div class="calendar-grid">
     `;
 
@@ -308,7 +690,11 @@ function renderCalendar(sessions) {
        EMPTY CELLS
        ===================================================== */
 
-    for (let i = 0; i < firstDay; i++) {
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
 
         calendarHTML += `
             <div class="calendar-day empty">
@@ -328,69 +714,106 @@ function renderCalendar(sessions) {
     ) {
 
         const date =
-            `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            `${year}-${String(
+                month + 1
+            ).padStart(
+                2,
+                "0"
+            )}-${String(
+                day
+            ).padStart(
+                2,
+                "0"
+            )}`;
 
 
         const daySessions =
             sessions.filter(
-                session => session.date === date
+                session =>
+                    session.date ===
+                    date
             );
 
 
         const isToday =
-            date === todayString;
+            date ===
+            todayString;
 
 
         const isPast =
-            date < todayString;
+            date <
+            todayString;
 
 
         const dayClasses = [
             "calendar-day",
-            isToday ? "today" : "",
-            isPast ? "past" : "",
-            daySessions.length ? "has-events" : ""
+            isToday
+                ? "today"
+                : "",
+            isPast
+                ? "past"
+                : "",
+            daySessions.length
+                ? "has-events"
+                : ""
         ]
             .filter(Boolean)
             .join(" ");
 
 
         calendarHTML += `
+
             <div
                 class="${dayClasses}"
                 data-calendar-date="${date}"
             >
 
-                <div class="calendar-day-header">
+                <div
+                    class="calendar-day-header"
+                >
 
-                    <span class="calendar-date">
+                    <span
+                        class="calendar-date"
+                    >
                         ${day}
                     </span>
 
-                    ${isToday
-                ? `
-                                <span class="calendar-today-marker">
+
+                    ${
+                        isToday
+                            ? `
+                                <span
+                                    class="calendar-today-marker"
+                                >
                                     TODAY
                                 </span>
                             `
-                : ""
-            }
+                            : ""
+                    }
 
                 </div>
 
-                ${daySessions.length
-                ? `
-                            <div class="calendar-events">
+
+                ${
+                    daySessions.length
+                        ? `
+                            <div
+                                class="calendar-events"
+                            >
                                 ${daySessions
-                    .map(renderCalendarSession)
-                    .join("")}
+                                    .map(
+                                        renderCalendarSession
+                                    )
+                                    .join("")}
                             </div>
                         `
-                : `
-                            <div class="calendar-empty-day">
+                        : `
+                            <div
+                                class="calendar-empty-day"
+                            >
                             </div>
                         `
-            }
+                }
 
             </div>
         `;
@@ -398,7 +821,9 @@ function renderCalendar(sessions) {
 
 
     calendarHTML += `
+
                 </div>
+
             </div>
 
 
@@ -407,7 +832,10 @@ function renderCalendar(sessions) {
                  ========================================= -->
 
             <div class="calendar-footer">
-                <div class="calendar-footer-note">
+
+                <div
+                    class="calendar-footer-note"
+                >
                     Select a session to view its details.
                 </div>
 
@@ -431,17 +859,21 @@ function renderCalendar(sessions) {
    CALENDAR LISTENERS
    ========================================================= */
 
-function attachCalendarListeners(sessions) {
+function attachCalendarListeners(
+    sessions
+) {
 
     const previousButton =
         document.getElementById(
             "calendar-previous"
         );
 
+
     const nextButton =
         document.getElementById(
             "calendar-next"
         );
+
 
     const todayButton =
         document.getElementById(
@@ -449,39 +881,53 @@ function attachCalendarListeners(sessions) {
         );
 
 
-    if (previousButton) {
+    if (
+        previousButton
+    ) {
 
         previousButton.addEventListener(
             "click",
             () => {
 
                 currentCalendarDate.setMonth(
-                    currentCalendarDate.getMonth() - 1
+                    currentCalendarDate.getMonth() -
+                    1
                 );
 
-                renderCalendar(sessions);
+
+                renderCalendar(
+                    sessions
+                );
             }
         );
     }
 
 
-    if (nextButton) {
+    if (
+        nextButton
+    ) {
 
         nextButton.addEventListener(
             "click",
             () => {
 
                 currentCalendarDate.setMonth(
-                    currentCalendarDate.getMonth() + 1
+                    currentCalendarDate.getMonth() +
+                    1
                 );
 
-                renderCalendar(sessions);
+
+                renderCalendar(
+                    sessions
+                );
             }
         );
     }
 
 
-    if (todayButton) {
+    if (
+        todayButton
+    ) {
 
         todayButton.addEventListener(
             "click",
@@ -490,7 +936,10 @@ function attachCalendarListeners(sessions) {
                 currentCalendarDate =
                     new Date();
 
-                renderCalendar(sessions);
+
+                renderCalendar(
+                    sessions
+                );
             }
         );
     }
@@ -506,17 +955,21 @@ function attachCalendarListeners(sessions) {
         );
 
 
-    if (subscribeButton) {
+    if (
+        subscribeButton
+    ) {
 
         subscribeButton.addEventListener(
             "click",
             async () => {
 
                 const calendarURL =
-                    new URL(
-                        "data/sessions.ics",
-                        window.location.href
-                    ).href;
+                    getCalendarFilePath();
+
+
+                if (!calendarURL) {
+                    return;
+                }
 
 
                 try {
@@ -527,7 +980,12 @@ function attachCalendarListeners(sessions) {
 
 
                     subscribeButton.innerHTML = `
-                        <span aria-hidden="true">✓</span>
+                        <span
+                            aria-hidden="true"
+                        >
+                            ✓
+                        </span>
+
                         URL Copied
                     `;
 
@@ -537,23 +995,50 @@ function attachCalendarListeners(sessions) {
                     );
 
 
-                    setTimeout(() => {
+                    setTimeout(
+                        () => {
 
-                        subscribeButton.innerHTML = `
-                            <span aria-hidden="true">↗</span>
-                            Subscribe
-                        `;
+                            /*
+                                Don't assume that the
+                                button still exists after
+                                the timeout.
+                            */
 
-                        subscribeButton.classList.remove(
-                            "copied"
-                        );
+                            if (
+                                !document.body.contains(
+                                    subscribeButton
+                                )
+                            ) {
+                                return;
+                            }
 
-                    }, 2000);
+
+                            subscribeButton.innerHTML = `
+                                <span
+                                    aria-hidden="true"
+                                >
+                                    ↗
+                                </span>
+
+                                Subscribe
+                            `;
+
+
+                            subscribeButton.classList.remove(
+                                "copied"
+                            );
+
+                        },
+                        2000
+                    );
 
 
                 } catch (error) {
 
-                    console.error(error);
+                    console.error(
+                        error
+                    );
+
 
                     prompt(
                         "Copy this calendar subscription URL:",
@@ -570,29 +1055,37 @@ function attachCalendarListeners(sessions) {
        ===================================================== */
 
     document
-        .querySelectorAll("[data-session-id]")
-        .forEach(button => {
+        .querySelectorAll(
+            "[data-session-id]"
+        )
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const session =
-                        sessions.find(
-                            session =>
-                                session.id ===
-                                button.dataset.sessionId
-                        );
+                        const session =
+                            sessions.find(
+                                session =>
+                                    session.id ===
+                                    button.dataset
+                                        .sessionId
+                            );
 
 
-                    if (session) {
-                        openSessionPreview(
+                        if (
                             session
-                        );
+                        ) {
+
+                            openSessionPreview(
+                                session
+                            );
+                        }
                     }
-                }
-            );
-        });
+                );
+            }
+        );
 }
 
 
@@ -600,10 +1093,13 @@ function attachCalendarListeners(sessions) {
    CALENDAR SESSION
    ========================================================= */
 
-function renderCalendarSession(session) {
+function renderCalendarSession(
+    session
+) {
 
     const sessionDate =
-        session.date || "";
+        session.date ||
+        "";
 
 
     const today =
@@ -613,48 +1109,69 @@ function renderCalendarSession(session) {
 
 
     const status =
-        sessionDate < today
+        sessionDate <
+            today
             ? "completed"
-            : sessionDate === today
+            : sessionDate ===
+                today
                 ? "today"
                 : "upcoming";
 
 
     return `
+
         <button
             type="button"
             class="
                 calendar-event
-                ${escapeHTML(session.team || "")}
+                ${escapeHTML(
+                    session.team ||
+                    ""
+                )}
                 ${status}
             "
-            data-session-id="${escapeHTML(session.id)}"
+            data-session-id="${escapeHTML(
+                session.id
+            )}"
         >
 
-            <span class="calendar-event-accent"></span>
+            <span
+                class="calendar-event-accent"
+            ></span>
 
-            <span class="calendar-event-content">
 
-                <span class="calendar-event-team">
+            <span
+                class="calendar-event-content"
+            >
+
+                <span
+                    class="calendar-event-team"
+                >
                     ${escapeHTML(
-        formatTeam(
-            session.team
-        )
-    )}
+                        formatTeam(
+                            session.team
+                        )
+                    )}
                 </span>
 
-                <span class="calendar-event-title">
+
+                <span
+                    class="calendar-event-title"
+                >
                     ${escapeHTML(
-        session.title
-    )}
+                        session.title
+                    )}
                 </span>
 
-                <span class="calendar-event-time">
+
+                <span
+                    class="calendar-event-time"
+                >
                     ${escapeHTML(
-        formatSessionTime(
-            session.time
-        )
-    )}
+                        formatSessionTime(
+                            session.time
+                        )
+                    )}
                 </span>
 
             </span>
@@ -668,13 +1185,17 @@ function renderCalendarSession(session) {
    SESSION PREVIEW
    ========================================================= */
 
-function openSessionPreview(session) {
+function openSessionPreview(
+    session
+) {
 
     closeSessionPreview();
 
 
     const overlay =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     overlay.className =
@@ -712,22 +1233,32 @@ function openSessionPreview(session) {
     let statusText =
         "UPCOMING";
 
+
     let statusClass =
         "upcoming";
 
 
-    if (session.date < today) {
+    if (
+        session.date <
+        today
+    ) {
 
         statusText =
             "COMPLETED";
 
+
         statusClass =
             "completed";
 
-    } else if (session.date === today) {
+
+    } else if (
+        session.date ===
+        today
+    ) {
 
         statusText =
             "TODAY";
+
 
         statusClass =
             "today";
@@ -735,6 +1266,7 @@ function openSessionPreview(session) {
 
 
     overlay.innerHTML = `
+
         <div
             class="
                 session-preview-card
@@ -755,21 +1287,30 @@ function openSessionPreview(session) {
             </button>
 
 
-            <div class="session-preview-top">
+            <div
+                class="session-preview-top"
+            >
 
-                <div class="session-preview-mark">
+                <div
+                    class="session-preview-mark"
+                    aria-hidden="true"
+                >
                     ◈
                 </div>
 
+
                 <div>
 
-                    <div class="eyebrow">
+                    <div
+                        class="eyebrow"
+                    >
                         ${escapeHTML(
-        formatTeam(
-            session.team
-        )
-    )}
+                            formatTeam(
+                                session.team
+                            )
+                        )}
                     </div>
+
 
                     <span
                         class="
@@ -785,23 +1326,35 @@ function openSessionPreview(session) {
             </div>
 
 
-            <h2 id="session-preview-title">
+            <h2
+                id="session-preview-title"
+            >
                 ${escapeHTML(
-        session.title
-    )}
+                    session.title
+                )}
             </h2>
 
 
-            <div class="session-preview-divider"></div>
+            <div
+                class="session-preview-divider"
+            ></div>
 
 
-            <div class="session-preview-details">
+            <div
+                class="session-preview-details"
+            >
 
-                <div class="session-preview-detail">
+                <div
+                    class="session-preview-detail"
+                >
 
-                    <span class="session-preview-detail-icon">
+                    <span
+                        class="session-preview-detail-icon"
+                        aria-hidden="true"
+                    >
                         ◷
                     </span>
+
 
                     <div>
 
@@ -809,10 +1362,11 @@ function openSessionPreview(session) {
                             Date
                         </span>
 
+
                         <strong>
                             ${escapeHTML(
-        formattedDate
-    )}
+                                formattedDate
+                            )}
                         </strong>
 
                     </div>
@@ -820,11 +1374,17 @@ function openSessionPreview(session) {
                 </div>
 
 
-                <div class="session-preview-detail">
+                <div
+                    class="session-preview-detail"
+                >
 
-                    <span class="session-preview-detail-icon">
+                    <span
+                        class="session-preview-detail-icon"
+                        aria-hidden="true"
+                    >
                         ⌚
                     </span>
+
 
                     <div>
 
@@ -832,12 +1392,13 @@ function openSessionPreview(session) {
                             Time
                         </span>
 
+
                         <strong>
                             ${escapeHTML(
-        formatSessionTime(
-            session.time
-        )
-    )}
+                                formatSessionTime(
+                                    session.time
+                                )
+                            )}
                         </strong>
 
                     </div>
@@ -845,29 +1406,47 @@ function openSessionPreview(session) {
                 </div>
 
 
-                <div class="session-preview-detail">
+                ${
+                    session.chapter !==
+                    undefined &&
+                    session.chapter !==
+                    null &&
+                    session.chapter !==
+                    ""
+                        ? `
+                            <div
+                                class="session-preview-detail"
+                            >
 
-                    <span class="session-preview-detail-icon">
-                        §
-                    </span>
+                                <span
+                                    class="session-preview-detail-icon"
+                                    aria-hidden="true"
+                                >
+                                    §
+                                </span>
 
-                    <div>
 
-                        <span>
-                            Chapter
-                        </span>
+                                <div>
 
-                        <strong>
-                            ${escapeHTML(
-        String(
-            session.chapter
-        )
-    )}
-                        </strong>
+                                    <span>
+                                        Chapter
+                                    </span>
 
-                    </div>
 
-                </div>
+                                    <strong>
+                                        ${escapeHTML(
+                                            String(
+                                                session.chapter
+                                            )
+                                        )}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+                        `
+                        : ""
+                }
 
             </div>
 
@@ -886,7 +1465,9 @@ function openSessionPreview(session) {
         );
 
 
-    if (closeButton) {
+    if (
+        closeButton
+    ) {
 
         closeButton.addEventListener(
             "click",
@@ -903,6 +1484,7 @@ function openSessionPreview(session) {
                 event.target ===
                 overlay
             ) {
+
                 closeSessionPreview();
             }
         }
@@ -920,7 +1502,10 @@ function openSessionPreview(session) {
     );
 
 
-    if (closeButton) {
+    if (
+        closeButton
+    ) {
+
         closeButton.focus();
     }
 }
@@ -938,7 +1523,10 @@ function closeSessionPreview() {
         );
 
 
-    if (preview) {
+    if (
+        preview
+    ) {
+
         preview.remove();
     }
 
@@ -959,9 +1547,15 @@ function closeSessionPreview() {
    ESCAPE KEY
    ========================================================= */
 
-function handleSessionPreviewEscape(event) {
+function handleSessionPreviewEscape(
+    event
+) {
 
-    if (event.key === "Escape") {
+    if (
+        event.key ===
+        "Escape"
+    ) {
+
         closeSessionPreview();
     }
 }
@@ -971,21 +1565,29 @@ function handleSessionPreviewEscape(event) {
    SESSION TIME
    ========================================================= */
 
-function formatSessionTime(time) {
+function formatSessionTime(
+    time
+) {
 
     if (!time) {
         return "Time TBD";
     }
 
 
-    const [hours, minutes] =
-        time.split(":").map(Number);
+    const [
+        hours,
+        minutes
+    ] =
+        time
+            .split(":")
+            .map(Number);
 
 
     if (
         Number.isNaN(hours) ||
         Number.isNaN(minutes)
     ) {
+
         return time;
     }
 
@@ -1016,16 +1618,27 @@ function formatSessionTime(time) {
    DATE HELPERS
    ========================================================= */
 
-function formatCalendarDate(date) {
+function formatCalendarDate(
+    date
+) {
 
     return [
         date.getFullYear(),
+
         String(
             date.getMonth() + 1
-        ).padStart(2, "0"),
+        ).padStart(
+            2,
+            "0"
+        ),
+
         String(
             date.getDate()
-        ).padStart(2, "0")
+        ).padStart(
+            2,
+            "0"
+        )
+
     ].join("-");
 }
 
@@ -1034,7 +1647,9 @@ function formatCalendarDate(date) {
    HTML ESCAPING
    ========================================================= */
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
     return String(
         value ?? ""
@@ -1043,12 +1658,23 @@ function escapeHTML(value) {
         character => {
 
             const entities = {
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#39;"
+
+                "&":
+                    "&amp;",
+
+                "<":
+                    "&lt;",
+
+                ">":
+                    "&gt;",
+
+                '"':
+                    "&quot;",
+
+                "'":
+                    "&#39;"
             };
+
 
             return entities[
                 character

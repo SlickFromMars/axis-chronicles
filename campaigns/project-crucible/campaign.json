@@ -1,0 +1,167 @@
+{
+    "id": "project-crucible",
+    "name": "Project: Crucible",
+    "shortName": "Crucible",
+    "social": {
+        "title": "Project: Crucible | Campaign Journal",
+        "description": "A chaotic campaign of time, space, and three level 10 adventurers.",
+        "imageAlt": "Project: Crucible campaign journal"
+    },
+    "defaultPage": "music",
+    "tabs": [
+        {
+            "id": "quests",
+            "enabled": false,
+            "label": "Quests",
+            "icon": "▤"
+        },
+        {
+            "id": "characters",
+            "enabled": false,
+            "label": "Characters",
+            "icon": "♙"
+        },
+        {
+            "id": "calendar",
+            "enabled": true,
+            "label": "Calendar",
+            "icon": "□"
+        },
+        {
+            "id": "music",
+            "enabled": true,
+            "label": "Music",
+            "icon": "♫"
+        }
+    ],
+    "theme": {
+        "background": "#090b16",
+        "backgroundDeep": "#05060c",
+        "panel": "#11152a",
+        "panelLight": "#191f38",
+        "panelHover": "#222a48",
+        "panelDark": "#080a13",
+        "accent": "#718cff",
+        "accentLight": "#aebcff",
+        "accentBright": "#dfe4ff",
+        "accentDark": "#394b96",
+        "accentShadow": "#202b60",
+        "accentMuted": "#7180bc",
+        "text": "#d9dcf0",
+        "textBright": "#f0f2ff",
+        "muted": "#9298b2",
+        "mutedDark": "#5e647c",
+        "secondary": "#754b9e",
+        "secondaryLight": "#9b6bc7",
+        "success": "#78b88b",
+        "failure": "#c97878",
+        "border": "#29304c",
+        "borderLight": "#3d4668"
+    },
+    "data": {
+        "quests": "data/quests.json",
+        "characters": "data/characters.json",
+        "locations": "data/locations.json",
+        "sessions": "data/sessions.json",
+        "music": "data/music.json",
+        "calendar": "data/sessions.ics"
+    },
+    "assets": {
+        "portraitManifest": "assets/characters/portrait-manifest.json"
+    },
+    "manifest": "manifest.json",
+    "text": {
+        "header": {
+            "brand": "PROJECT: CRUCIBLE",
+            "label": "CAMPAIGN JOURNAL"
+        },
+        "navigation": {
+            "heading": "CRUCIBLE"
+        },
+        "home": {
+            "eyebrow": "THE CHOSEN'S JOURNAL",
+            "title": "Project: Crucible",
+            "description": "Three adventurers caught in a collision of time, space, and impossible worlds."
+        },
+        "quests": {
+            "categories": {
+                "main": {
+                    "label": "Main Quests",
+                    "singular": "Main Quest"
+                },
+                "side": {
+                    "label": "Side Quests",
+                    "singular": "Side Quest"
+                },
+                "companion": {
+                    "label": "Companion Quests",
+                    "singular": "Companion Quest"
+                }
+            }
+        },
+        "characters": {
+            "page": {
+                "eyebrow": "THE SURVIVORS",
+                "title": "Characters",
+                "description": "The adventurers caught inside the Crucible."
+            },
+            "players": {
+                "eyebrow": "THE CHOSEN",
+                "title": "Player Characters",
+                "description": "Three powerful adventurers thrown into an impossible world.",
+                "partyLabel": "THE CRUCIBLE"
+            }
+        },
+        "calendar": {
+            "eyebrow": "THE CRUCIBLE SCHEDULE",
+            "description": "Sessions, encounters, and shenangians."
+        },
+        "music": {
+            "eyebrow": "SOUNDS OF THE CRUCIBLE",
+            "description": "Music behind the creation of Project: Crucible."
+        }
+    },
+    "quests": {
+        "categoryOrder": [
+            "main",
+            "side",
+            "companion"
+        ],
+        "teamFilterEnabled": false
+    },
+    "party": {
+        "teams": [
+            {
+                "id": "team-one",
+                "label": "The Chosen",
+                "symbol": "✦",
+                "description": "The three adventurers trapped inside the Crucible."
+            }
+        ]
+    },
+    "characters": {
+        "categories": [
+            {
+                "id": "gods",
+                "type": "god",
+                "label": "Gods and Deities",
+                "enabled": true
+            },
+            {
+                "id": "friends",
+                "type": "friend",
+                "label": "Allies",
+                "enabled": true
+            },
+            {
+                "id": "foes",
+                "type": "foe",
+                "label": "Enemies",
+                "enabled": true
+            }
+        ],
+        "playerSection": {
+            "enabled": true
+        }
+    }
+}

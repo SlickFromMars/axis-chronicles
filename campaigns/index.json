@@ -1,0 +1,15 @@
+{
+    "defaultCampaign": "breaking-the-axis",
+    "campaigns": [
+        {
+            "id": "breaking-the-axis",
+            "name": "Breaking the Axis",
+            "master": "campaigns/breaking-the-axis/campaign.json"
+        },
+        {
+            "id": "project-crucible",
+            "name": "Project Crucible",
+            "master": "campaigns/project-crucible/campaign.json"
+        }
+    ]
+}

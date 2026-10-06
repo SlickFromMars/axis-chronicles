@@ -1,11 +1,15 @@
 @echo off
-setlocal
+
+setlocal EnableDelayedExpansion
 
 echo.
 echo ========================================
-echo   Breaking the Axis - Prepare
+echo   Axis Chronicles - Prepare
+echo ========================================
+echo   Processing all campaigns
 echo ========================================
 echo.
+
 
 REM ========================================================
 REM CHECK PYTHON
@@ -52,71 +56,154 @@ echo.
 
 
 REM ========================================================
-REM GENERATE CALENDAR
+REM PROCESS CAMPAIGNS
 REM ========================================================
 
-echo Generating calendar...
+echo ========================================
+echo   Processing campaigns
+echo ========================================
+echo.
 
-python scripts\generate-ics.py
 
-if errorlevel 1 (
+set "FOUND_CAMPAIGN=0"
+
+for /D %%D in ("campaigns\*") do (
+
+    if exist "%%D\campaign.json" (
+
+        set "FOUND_CAMPAIGN=1"
+        set "CAMPAIGN=%%~nxD"
+
+        echo.
+        echo ----------------------------------------
+        echo   Campaign: !CAMPAIGN!
+        echo ----------------------------------------
+        echo.
+
+
+        REM ====================================================
+        REM GENERATE CALENDAR
+        REM ====================================================
+
+        echo Generating calendar...
+
+        python scripts\generate-ics.py "!CAMPAIGN!"
+
+        if errorlevel 1 (
+            echo.
+            echo ERROR: Calendar generation failed for !CAMPAIGN!.
+            echo No commit was made.
+            echo.
+            pause
+            exit /b 1
+        )
+
+        echo Calendar generated.
+        echo.
+
+
+        REM ====================================================
+        REM UPDATE LEGACY BTA CALENDAR
+        REM ====================================================
+
+        if /I "!CAMPAIGN!"=="breaking-the-axis" (
+
+            echo Updating legacy Breaking the Axis calendar...
+
+            if not exist "data" (
+                mkdir "data"
+            )
+
+            copy /Y ^
+                "campaigns\breaking-the-axis\data\sessions.ics" ^
+                "data\sessions.ics" >nul
+
+            if errorlevel 1 (
+                echo.
+                echo ERROR: Could not update the legacy calendar.
+                echo No commit was made.
+                echo.
+                pause
+                exit /b 1
+            )
+
+            echo Legacy calendar updated.
+            echo.
+        )
+
+
+        REM ====================================================
+        REM CONVERT CHARACTER PORTRAITS
+        REM ====================================================
+
+        echo Converting character portraits to WebP...
+
+        python scripts\convert-character-portraits.py "!CAMPAIGN!"
+
+        if errorlevel 1 (
+            echo.
+            echo ERROR: Character portrait conversion failed for !CAMPAIGN!.
+            echo No commit was made.
+            echo.
+            pause
+            exit /b 1
+        )
+
+        echo Portrait conversion complete.
+        echo.
+
+
+        REM ====================================================
+        REM GENERATE PORTRAIT MANIFEST
+        REM ====================================================
+
+        echo Generating character portrait manifest...
+
+        python scripts\generate-portrait-manifest.py "!CAMPAIGN!"
+
+        if errorlevel 1 (
+            echo.
+            echo ERROR: Portrait manifest generation failed for !CAMPAIGN!.
+            echo No commit was made.
+            echo.
+            pause
+            exit /b 1
+        )
+
+        echo Portrait manifest generated.
+        echo.
+
+    )
+)
+
+
+REM ========================================================
+REM CHECK THAT AT LEAST ONE CAMPAIGN WAS FOUND
+REM ========================================================
+
+if "!FOUND_CAMPAIGN!"=="0" (
     echo.
-    echo ERROR: Calendar generation failed.
-    echo No commit was made.
+    echo ERROR: No campaign folders were found.
+    echo.
+    echo Expected:
+    echo   campaigns\campaign-name\campaign.json
     echo.
     pause
     exit /b 1
 )
 
-echo Calendar generated.
+
+REM ========================================================
+REM VALIDATE CAMPAIGN JSON
+REM ========================================================
+
+echo.
+echo ========================================
+echo   Validating campaign JSON
+echo ========================================
 echo.
 
-
-REM ========================================================
-REM GENERATE CHARACTER PORTRAIT MANIFEST
-REM ========================================================
-
-echo Converting character portraits to WebP...
-
-python scripts\convert-character-portraits.py
-
-if errorlevel 1 (
-    echo.
-    echo ERROR: Character portrait conversion failed.
-    echo No commit was made.
-    echo.
-    pause
-    exit /b 1
-)
-
-echo Portrait conversion complete.
-echo.
-
-
-echo Generating character portrait manifest...
-
-python scripts\generate-portrait-manifest.py
-
-if errorlevel 1 (
-    echo.
-    echo ERROR: Character portrait manifest generation failed.
-    echo No commit was made.
-    echo.
-    pause
-    exit /b 1
-)
-
-echo Portrait manifest generated.
-echo.
-
-
-REM ========================================================
-REM VALIDATE JSON FILES
-REM ========================================================
-
-echo Validating generated JSON files...
-
-python -c "import json; from pathlib import Path; files=list(Path('data').glob('*.json')) + [Path('assets/images/characters/portrait-manifest.json')]; failed=False; [print('ERROR:', f) or (globals().__setitem__('failed', True)) if (lambda p: (json.load(open(p, encoding='utf-8')), True)[1] if True else False)(f) is None else None for f in []]"
+python scripts\validate-json.py
 
 if errorlevel 1 (
     echo.
@@ -140,12 +227,14 @@ echo   Preparation complete!
 echo ========================================
 echo.
 
-echo Generated files have been updated.
+echo All campaigns have been processed.
 echo.
 
 echo Git status:
 echo ----------------------------------------
+
 git status
+
 echo ----------------------------------------
 echo.
 

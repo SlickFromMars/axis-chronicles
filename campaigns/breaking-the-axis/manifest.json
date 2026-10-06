@@ -2,33 +2,33 @@
     "name": "Breaking the Axis",
     "short_name": "Axis Chronicles",
     "description": "The campaign journal for Breaking the Axis.",
-    "start_url": "https://slickfrommars.github.io/axis-chronicles/",
-    "scope": "https://slickfrommars.github.io/axis-chronicles/",
+    "start_url": "../../?campaign=breaking-the-axis",
+    "scope": "../../",
     "display": "standalone",
-    "background_color": "#211e1a",
-    "theme_color": "#211e1a",
+    "background_color": "#100d0b",
+    "theme_color": "#100d0b",
     "orientation": "any",
     "icons": [
         {
-            "src": "assets/images/app-icon-192.png",
+            "src": "assets/branding/app-icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "assets/images/app-icon-192.png",
+            "src": "assets/branding/app-icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "assets/images/app-icon-512.png",
+            "src": "assets/branding/app-icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "assets/images/app-icon-512.png",
+            "src": "assets/branding/app-icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
