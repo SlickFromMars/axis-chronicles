@@ -16,5 +16,14 @@
         "team": "shared",
         "chapter": 3,
         "title": "Breaking the Axis, Chapter 3 - Smooth Criminals"
+    },
+    {
+        "id": "crossover-chapter-4",
+        "date": "2026-10-21",
+        "time": "21:00",
+        "duration": 150,
+        "team": "shared",
+        "chapter": 4,
+        "title": "Breaking the Axis, Chapter 4 - Wind of Change"
     }
 ]
