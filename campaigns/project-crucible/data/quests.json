@@ -1,7 +1,7 @@
 [
     {
         "id": "main-quest",
-        "title": "Baptism by Cosmos",
+        "title": "Into the Crucible",
         "team": "shared",
         "type": "main",
         "status": "active",
@@ -23,7 +23,7 @@
         "type": "companion",
         "status": "active",
         "updateVersion": 1,
-        "description": "Nikolai must familiarize himself with the nature of his mutation.",
+        "description": "Nikolai must familiarize himself with the nature of his mutation and the structure of this fractured realm.",
         "objectives": [
             {
                 "text": "Find viable sources of food in this new world.",
