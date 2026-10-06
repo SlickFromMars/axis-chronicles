@@ -21,6 +21,10 @@ jobs:
     name: Deploy Website
     runs-on: ubuntu-latest
 
+    # Automatically deploy only when YOU pushed.
+    # workflow_dispatch always allows a manual deployment.
+    if: github.event_name == 'workflow_dispatch' || github.actor == 'SlickFromMars'
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
