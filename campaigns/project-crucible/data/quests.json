@@ -1,7 +1,7 @@
 [
     {
         "id": "main-quest",
-        "title": "Into the Crucible",
+        "title": "Strange Trails",
         "team": "shared",
         "type": "main",
         "status": "active",
@@ -18,12 +18,12 @@
     },
     {
         "id": "nikolai",
-        "title": "Born Again",
+        "title": "The Price to Perfection",
         "team": "shared",
         "type": "companion",
         "status": "active",
         "updateVersion": 1,
-        "description": "Nikolai must familiarize himself with the nature of his mutation and the structure of this fractured realm.",
+        "description": "Nikolai must familiarize himself with this strange realm to satisfy his insatiable hunger and twisted mind.",
         "objectives": [
             {
                 "text": "Find viable sources of food in this new world.",
@@ -32,6 +32,44 @@
         ],
         "characters": [
             "nikolai"
+        ],
+        "developments": []
+    },
+    {
+        "id": "erin",
+        "title": "Heir of Nowhere",
+        "team": "shared",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "Erin must change her way of living if she wants to survive in a world that doesn't throw itself at her feet.",
+        "objectives": [
+            {
+                "text": "Attempt to understand the magical nature of this world.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "erin"
+        ],
+        "developments": []
+    },
+    {
+        "id": "voira",
+        "title": "The One Who Remembers",
+        "team": "shared",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "Ripped from her life in the middle of a groundbreaking discovery, Voira must now decipher the workings of a whole new realm.",
+        "objectives": [
+            {
+                "text": "See how your runes react with this twisted realm.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "voira"
         ],
         "developments": []
     }
