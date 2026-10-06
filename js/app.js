@@ -731,22 +731,8 @@ async function initializeJournal() {
 
 function showQuests() {
 
-    const filteredQuests =
-        allQuests.filter(
-            quest =>
-                currentTeam === "all" ||
-                quest.team ===
-                    currentTeam ||
-                quest.team ===
-                    "shared"
-        );
-
-
-    renderQuestList(
-        filteredQuests
-    );
+    renderQuestList(allQuests);
 }
-
 
 /* Update the selected team. */
 

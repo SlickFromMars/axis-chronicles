@@ -2,6 +2,10 @@ let hideCompleted = false;
 
 let collapsedCategories = {};
 
+// Fallback team filter, used only if the rest of the site doesn't
+// define a global `currentTeam`.
+let questTeamFilterFallback = "all";
+
 
 // Character data is read-only here; character profiles remain unchanged.
 let questCharacterData = [];
@@ -72,7 +76,6 @@ function getQuestConfig() {
         return {};
     }
 
-
     return activeCampaign.quests || {};
 }
 
@@ -86,10 +89,8 @@ function getQuestText() {
         return DEFAULT_QUEST_TEXT;
     }
 
-
     const configured =
         activeCampaign.text?.quests || {};
-
 
     return {
 
@@ -97,30 +98,25 @@ function getQuestText() {
 
         ...configured,
 
-
         controls: {
             ...DEFAULT_QUEST_TEXT.controls,
             ...(configured.controls || {})
         },
-
 
         teamFilter: {
             ...DEFAULT_QUEST_TEXT.teamFilter,
             ...(configured.teamFilter || {})
         },
 
-
         categories: {
             ...DEFAULT_QUEST_TEXT.categories,
             ...(configured.categories || {})
         },
 
-
         statuses: {
             ...DEFAULT_QUEST_TEXT.statuses,
             ...(configured.statuses || {})
         },
-
 
         labels: {
             ...DEFAULT_QUEST_TEXT.labels,
@@ -136,15 +132,11 @@ function getQuestCategories() {
     const config =
         getQuestConfig();
 
-
     const text =
         getQuestText();
 
-
     const categoryOrder =
-        Array.isArray(
-            config.categoryOrder
-        )
+        Array.isArray(config.categoryOrder)
             ? config.categoryOrder
             : [
                 "main",
@@ -152,14 +144,11 @@ function getQuestCategories() {
                 "companion"
             ];
 
-
     return categoryOrder.map(
         type => {
 
             const category =
-                text.categories[type] ||
-                {};
-
+                text.categories[type] || {};
 
             return {
 
@@ -169,7 +158,6 @@ function getQuestCategories() {
                     category.label ||
                     type.charAt(0).toUpperCase() +
                     type.slice(1),
-
 
                 singular:
                     category.singular ||
@@ -194,14 +182,10 @@ function getQuestTeams() {
         typeof activeCampaign !== "undefined" &&
         activeCampaign &&
         activeCampaign.party &&
-        Array.isArray(
-            activeCampaign.party.teams
-        )
+        Array.isArray(activeCampaign.party.teams)
     ) {
-
         return activeCampaign.party.teams;
     }
-
 
     return [
 
@@ -228,62 +212,92 @@ function getQuestTeams() {
    TEAM NORMALIZATION
    ========================================================= */
 
-function normalizeQuestTeam(
-    team
-) {
+function normalizeQuestTeam(team) {
 
     const value =
-        String(
-            team ??
-            "shared"
-        )
+        String(team ?? "shared")
             .trim()
             .toLowerCase();
-
 
     /*
         Accept both the original quest IDs
         and the newer campaign team IDs.
     */
 
-    const aliases = {
+    if (value === "shared") {
+        return "shared";
+    }
 
-        "one":
-            "team-one",
+    /*
+        Collapse formats like "one", "1", "team1", "team-1",
+        "Team 1", "team_one" into one canonical id: "team-one".
+    */
 
-        "1":
-            "team-one",
-
-        "team1":
-            "team-one",
-
-        "team-1":
-            "team-one",
-
-
-        "two":
-            "team-two",
-
-        "2":
-            "team-two",
-
-        "team2":
-            "team-two",
-
-        "team-2":
-            "team-two",
-
-
-        "shared":
-            "shared"
-
+    const words = {
+        one: "1",
+        two: "2",
+        three: "3",
+        four: "4"
     };
 
-
-    return (
-        aliases[value] ||
+    const stripped =
         value
-    );
+            .replace(/^team/, "")
+            .replace(/[^a-z0-9]/g, "");
+
+    const digit =
+        words[stripped] || stripped;
+
+    const numberWords = {
+        "1": "one",
+        "2": "two",
+        "3": "three",
+        "4": "four"
+    };
+
+    if (numberWords[digit]) {
+        return "team-" + numberWords[digit];
+    }
+
+    return value;
+}
+
+
+/* =========================================================
+   SELECTED TEAM (team filter state)
+   ========================================================= */
+
+function getSelectedQuestTeam() {
+
+    const raw =
+        typeof currentTeam !== "undefined"
+            ? currentTeam
+            : questTeamFilterFallback;
+
+    const value =
+        String(raw ?? "all")
+            .trim()
+            .toLowerCase();
+
+    if (
+        value === "" ||
+        value === "all"
+    ) {
+        return "all";
+    }
+
+    return normalizeQuestTeam(value);
+}
+
+
+function setSelectedQuestTeam(team) {
+
+    // Keep the site-wide global in sync if it exists.
+    if (typeof currentTeam !== "undefined") {
+        currentTeam = team;
+    }
+
+    questTeamFilterFallback = team;
 }
 
 
@@ -291,29 +305,20 @@ function normalizeQuestTeam(
    TEAM RANK
    ========================================================= */
 
-function getQuestTeamRank(
-    team
-) {
+function getQuestTeamRank(team) {
 
     const normalizedTeam =
-        normalizeQuestTeam(
-            team
-        );
-
+        normalizeQuestTeam(team);
 
     const teams =
         getQuestTeams();
 
-
     const index =
         teams.findIndex(
             configuredTeam =>
-                normalizeQuestTeam(
-                    configuredTeam.id
-                ) ===
+                normalizeQuestTeam(configuredTeam.id) ===
                 normalizedTeam
         );
-
 
     /*
         Campaign-configured teams always sort
@@ -330,25 +335,16 @@ function getQuestTeamRank(
    QUEST STATUS HELPERS
    ========================================================= */
 
-function isQuestCompleted(
-    quest
-) {
+function isQuestCompleted(quest) {
 
-    if (
-        !quest
-    ) {
+    if (!quest) {
         return false;
     }
 
-
     return (
-        String(
-            quest.status ||
-            ""
-        )
+        String(quest.status || "")
             .trim()
-            .toLowerCase() ===
-        "completed"
+            .toLowerCase() === "completed"
     ) ||
     quest.completed === true;
 }
@@ -358,10 +354,7 @@ function isQuestCompleted(
    QUEST SORTING
    ========================================================= */
 
-function compareQuests(
-    a,
-    b
-) {
+function compareQuests(a, b) {
 
     /*
         FIRST:
@@ -369,28 +362,14 @@ function compareQuests(
     */
 
     const completedA =
-        isQuestCompleted(a)
-            ? 1
-            : 0;
-
+        isQuestCompleted(a) ? 1 : 0;
 
     const completedB =
-        isQuestCompleted(b)
-            ? 1
-            : 0;
+        isQuestCompleted(b) ? 1 : 0;
 
-
-    if (
-        completedA !==
-        completedB
-    ) {
-
-        return (
-            completedA -
-            completedB
-        );
+    if (completedA !== completedB) {
+        return completedA - completedB;
     }
-
 
     /*
         SECOND:
@@ -398,42 +377,22 @@ function compareQuests(
     */
 
     const teamA =
-        getQuestTeamRank(
-            a.team
-        );
-
+        getQuestTeamRank(a.team);
 
     const teamB =
-        getQuestTeamRank(
-            b.team
-        );
+        getQuestTeamRank(b.team);
 
-
-    if (
-        teamA !==
-        teamB
-    ) {
-
-        return (
-            teamA -
-            teamB
-        );
+    if (teamA !== teamB) {
+        return teamA - teamB;
     }
-
 
     /*
         THIRD:
         Alphabetical by quest title.
     */
 
-    return String(
-        a.title ||
-        ""
-    ).localeCompare(
-        String(
-            b.title ||
-            ""
-        ),
+    return String(a.title || "").localeCompare(
+        String(b.title || ""),
         undefined,
         {
             sensitivity: "base"
@@ -449,16 +408,10 @@ function compareQuests(
 function initializeQuestPreferences() {
 
     const hideKey =
-        getCampaignStorageKey(
-            "hideCompleted"
-        );
-
+        getCampaignStorageKey("hideCompleted");
 
     const collapsedKey =
-        getCampaignStorageKey(
-            "collapsedCategories"
-        );
-
+        getCampaignStorageKey("collapsedCategories");
 
     /*
         Preserve the old Breaking the Axis
@@ -466,72 +419,46 @@ function initializeQuestPreferences() {
     */
 
     const isDefaultCampaign =
-        typeof campaignRegistry !==
-            "undefined" &&
+        typeof campaignRegistry !== "undefined" &&
         campaignRegistry &&
         activeCampaign &&
-        activeCampaign.id ===
-            campaignRegistry.defaultCampaign;
-
+        activeCampaign.id === campaignRegistry.defaultCampaign;
 
     if (
         isDefaultCampaign &&
-        localStorage.getItem(
-            hideKey
-        ) === null &&
-        localStorage.getItem(
-            "hideCompleted"
-        ) !== null
+        localStorage.getItem(hideKey) === null &&
+        localStorage.getItem("hideCompleted") !== null
     ) {
-
         localStorage.setItem(
             hideKey,
-            localStorage.getItem(
-                "hideCompleted"
-            )
+            localStorage.getItem("hideCompleted")
         );
     }
-
 
     if (
         isDefaultCampaign &&
-        localStorage.getItem(
-            collapsedKey
-        ) === null &&
-        localStorage.getItem(
-            "collapsedCategories"
-        ) !== null
+        localStorage.getItem(collapsedKey) === null &&
+        localStorage.getItem("collapsedCategories") !== null
     ) {
-
         localStorage.setItem(
             collapsedKey,
-            localStorage.getItem(
-                "collapsedCategories"
-            )
+            localStorage.getItem("collapsedCategories")
         );
     }
 
-
     hideCompleted =
-        localStorage.getItem(
-            hideKey
-        ) === "true";
-
+        localStorage.getItem(hideKey) === "true";
 
     try {
 
         collapsedCategories =
             JSON.parse(
-                localStorage.getItem(
-                    collapsedKey
-                ) ||
-                "{}"
+                localStorage.getItem(collapsedKey) || "{}"
             ) || {};
 
     } catch {
 
-        collapsedCategories =
-            {};
+        collapsedCategories = {};
     }
 }
 
@@ -542,27 +469,16 @@ function initializeQuestPreferences() {
 
 async function loadQuestCharacterData() {
 
-    if (
-        questCharacterData.length
-    ) {
-
+    if (questCharacterData.length) {
         return questCharacterData;
     }
 
-
-    if (
-        !questCharacterDataPromise
-    ) {
+    if (!questCharacterDataPromise) {
 
         const characterPath =
-            getCampaignDataPath(
-                "characters"
-            );
+            getCampaignDataPath("characters");
 
-
-        if (
-            !characterPath
-        ) {
+        if (!characterPath) {
 
             console.error(
                 "No character data path configured for this campaign."
@@ -571,24 +487,17 @@ async function loadQuestCharacterData() {
             return [];
         }
 
-
         questCharacterDataPromise =
-            fetch(
-                characterPath
-            )
+            fetch(characterPath)
 
                 .then(
                     response => {
 
-                        if (
-                            !response.ok
-                        ) {
-
+                        if (!response.ok) {
                             throw new Error(
                                 "Could not load characters"
                             );
                         }
-
 
                         return response.json();
                     }
@@ -598,12 +507,9 @@ async function loadQuestCharacterData() {
                     characters => {
 
                         questCharacterData =
-                            Array.isArray(
-                                characters
-                            )
+                            Array.isArray(characters)
                                 ? characters
                                 : [];
-
 
                         return questCharacterData;
                     }
@@ -612,37 +518,42 @@ async function loadQuestCharacterData() {
                 .catch(
                     error => {
 
-                        questCharacterDataPromise =
-                            null;
-
+                        questCharacterDataPromise = null;
 
                         console.error(
                             "Could not load quest character names:",
                             error
                         );
 
-
                         return [];
                     }
                 );
     }
 
-
     return questCharacterDataPromise;
 }
 
 
-function getQuestCharacters(
-    quest
-) {
+// Turns an id like "the-book" into "The Book" when no character
+// record is found, instead of showing the raw lowercase id.
+function prettifyCharacterId(id) {
+
+    return String(id ?? "")
+        .replace(/[-_]+/g, " ")
+        .trim()
+        .replace(
+            /\b\w/g,
+            letter => letter.toUpperCase()
+        );
+}
+
+
+function getQuestCharacters(quest) {
 
     const linkedCharacters =
-        Array.isArray(
-            quest.characters
-        )
+        Array.isArray(quest.characters)
             ? quest.characters
             : [];
-
 
     return linkedCharacters
 
@@ -651,68 +562,49 @@ function getQuestCharacters(
 
                 if (
                     characterRef &&
-                    typeof characterRef ===
-                        "object"
+                    typeof characterRef === "object"
                 ) {
 
                     const match =
                         questCharacterData.find(
                             character =>
-                                String(
-                                    character.id
-                                ) ===
-                                String(
-                                    characterRef.id
-                                )
+                                String(character.id) ===
+                                String(characterRef.id)
                         );
-
 
                     return (
                         match ||
                         {
                             id:
-                                characterRef.id ||
-                                "",
+                                characterRef.id || "",
 
                             name:
                                 characterRef.name ||
-                                characterRef.id ||
+                                prettifyCharacterId(characterRef.id) ||
                                 "Unknown character"
                         }
                     );
                 }
 
-
                 const match =
                     questCharacterData.find(
                         character =>
-                            String(
-                                character.id
-                            ) ===
-                            String(
-                                characterRef
-                            )
+                            String(character.id) ===
+                            String(characterRef)
                     );
-
 
                 return (
                     match ||
                     {
-                        id:
-                            characterRef,
-
-                        name:
-                            String(
-                                characterRef
-                            )
+                        id: characterRef,
+                        name: prettifyCharacterId(characterRef)
                     }
                 );
             }
         )
 
         .filter(
-            character =>
-                character.name
+            character => character.name
         );
 }
 
@@ -728,10 +620,7 @@ const QUEST_READ_KEY =
 function getReadVersions() {
 
     const storageKey =
-        getCampaignStorageKey(
-            QUEST_READ_KEY
-        );
-
+        getCampaignStorageKey(QUEST_READ_KEY);
 
     /*
         Preserve existing Breaking the Axis
@@ -739,39 +628,26 @@ function getReadVersions() {
     */
 
     const isDefaultCampaign =
-        typeof campaignRegistry !==
-            "undefined" &&
+        typeof campaignRegistry !== "undefined" &&
         campaignRegistry &&
         activeCampaign &&
-        activeCampaign.id ===
-            campaignRegistry.defaultCampaign;
-
+        activeCampaign.id === campaignRegistry.defaultCampaign;
 
     if (
         isDefaultCampaign &&
-        localStorage.getItem(
-            storageKey
-        ) === null &&
-        localStorage.getItem(
-            QUEST_READ_KEY
-        ) !== null
+        localStorage.getItem(storageKey) === null &&
+        localStorage.getItem(QUEST_READ_KEY) !== null
     ) {
-
         localStorage.setItem(
             storageKey,
-            localStorage.getItem(
-                QUEST_READ_KEY
-            )
+            localStorage.getItem(QUEST_READ_KEY)
         );
     }
-
 
     try {
 
         return JSON.parse(
-            localStorage.getItem(
-                storageKey
-            )
+            localStorage.getItem(storageKey)
         ) || {};
 
     } catch {
@@ -781,52 +657,32 @@ function getReadVersions() {
 }
 
 
-function hasUnreadUpdate(
-    quest
-) {
+function hasUnreadUpdate(quest) {
 
     const readVersions =
         getReadVersions();
 
-
     const currentVersion =
-        quest.updateVersion ||
-        0;
-
+        quest.updateVersion || 0;
 
     return (
         currentVersion >
-        (
-            readVersions[
-                quest.id
-            ] || 0
-        )
+        (readVersions[quest.id] || 0)
     );
 }
 
 
-function markQuestAsRead(
-    quest
-) {
+function markQuestAsRead(quest) {
 
     const readVersions =
         getReadVersions();
 
-
-    readVersions[
-        quest.id
-    ] =
-        quest.updateVersion ||
-        0;
-
+    readVersions[quest.id] =
+        quest.updateVersion || 0;
 
     localStorage.setItem(
-        getCampaignStorageKey(
-            QUEST_READ_KEY
-        ),
-        JSON.stringify(
-            readVersions
-        )
+        getCampaignStorageKey(QUEST_READ_KEY),
+        JSON.stringify(readVersions)
     );
 }
 
@@ -839,54 +695,35 @@ async function loadQuests() {
 
     initializeQuestPreferences();
 
-
     const questPath =
-        getCampaignDataPath(
-            "quests"
-        );
+        getCampaignDataPath("quests");
 
-
-    if (
-        !questPath
-    ) {
+    if (!questPath) {
 
         throw new Error(
             "No quest data path configured for this campaign."
         );
     }
 
-
     const response =
-        await fetch(
-            questPath
-        );
+        await fetch(questPath);
 
-
-    if (
-        !response.ok
-    ) {
+    if (!response.ok) {
 
         throw new Error(
             "Could not load quests"
         );
     }
 
-
     const quests =
         await response.json();
 
-
-    if (
-        !Array.isArray(
-            quests
-        )
-    ) {
+    if (!Array.isArray(quests)) {
 
         throw new Error(
             "quests.json must contain an array."
         );
     }
-
 
     return quests;
 }
@@ -896,68 +733,83 @@ async function loadQuests() {
    QUEST LIST
    ========================================================= */
 
-function renderQuestList(
-    quests
-) {
+function renderQuestList(quests) {
 
     const content =
-        document.getElementById(
-            "content"
-        );
-
+        document.getElementById("content");
 
     /*
-        Hide completed quests when enabled.
+        Filter by:
+            1. Hide Completed toggle
+            2. Selected team
+               ("all" shows everything; shared quests
+               stay visible for every team)
     */
 
+    const selectedTeam =
+        getSelectedQuestTeam();
+
     const visibleQuests =
-        hideCompleted
+        quests.filter(
+            quest => {
 
-            ? quests.filter(
-                quest =>
-                    !isQuestCompleted(
-                        quest
-                    )
-            )
+                if (
+                    hideCompleted &&
+                    isQuestCompleted(quest)
+                ) {
+                    return false;
+                }
 
-            : quests;
+                if (selectedTeam !== "all") {
 
+                    const questTeam =
+                        normalizeQuestTeam(quest.team);
+
+                    if (
+                        questTeam !== "shared" &&
+                        questTeam !== selectedTeam
+                    ) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        );
+
+    console.log(
+        "[quests] selected team:", selectedTeam,
+        "| global currentTeam:",
+        typeof currentTeam !== "undefined" ? currentTeam : "(not defined)",
+        "| configured teams:",
+        getQuestTeams().map(t => t.id),
+        "| showing", visibleQuests.length, "of", quests.length
+    );
 
     let questHTML =
         renderQuestControls();
 
-
-    if (
-        visibleQuests.length === 0
-    ) {
+    if (visibleQuests.length === 0) {
 
         const text =
             getQuestText();
 
-
         questHTML += `
             <p class="empty-state">
-                ${escapeHTML(
-                    text.emptyState
-                )}
+                ${escapeHTML(text.emptyState)}
             </p>
         `;
-
 
         content.innerHTML =
             questHTML;
 
-
         attachQuestControls();
-
 
         return;
     }
 
-
     const categories =
         getQuestCategories();
-
 
     categories.forEach(
         category => {
@@ -974,83 +826,52 @@ function renderQuestList(
                 visibleQuests
                     .filter(
                         quest =>
-                            quest.type ===
-                            category.type
+                            quest.type === category.type
                     )
-                    .sort(
-                        compareQuests
-                    );
+                    .sort(compareQuests);
 
-
-            if (
-                categoryQuests.length ===
-                0
-            ) {
+            if (categoryQuests.length === 0) {
                 return;
             }
 
-
             const isCollapsed =
-                collapsedCategories[
-                    category.type
-                ] === true;
-
+                collapsedCategories[category.type] === true;
 
             questHTML += `
                 <section
-                    class="quest-category
-                        ${isCollapsed
-                            ? "collapsed"
-                            : ""}"
+                    class="quest-category ${isCollapsed ? "collapsed" : ""}"
                 >
 
                     <button
                         type="button"
                         class="quest-category-heading"
-                        data-category-toggle="${escapeHTML(
-                            category.type
-                        )}"
+                        data-category-toggle="${escapeHTML(category.type)}"
                         aria-expanded="${!isCollapsed}"
                     >
 
-                        <span
-                            class="category-title"
-                        >
-                            ${escapeHTML(
-                                category.label
-                            )}
+                        <span class="category-title">
+                            ${escapeHTML(category.label)}
                         </span>
 
-
-                        <span
-                            class="category-count"
-                        >
+                        <span class="category-count">
                             ${categoryQuests.length}
                         </span>
-
 
                         <span
                             class="category-chevron"
                             aria-hidden="true"
                         >
-                            ${isCollapsed
-                                ? "▸"
-                                : "▾"}
+                            ${isCollapsed ? "▸" : "▾"}
                         </span>
 
                     </button>
 
-
                     <div
                         class="quest-list"
-                        ${isCollapsed
-                            ? "hidden"
-                            : ""}
+                        ${isCollapsed ? "hidden" : ""}
                     >
                         ${categoryQuests
-                            .map(
-                                renderQuestCard
-                            )
+                            .map(renderQuestCard)
                             .join("")}
                     </div>
 
@@ -1059,15 +880,11 @@ function renderQuestList(
         }
     );
 
-
     content.innerHTML =
         questHTML;
 
-
     content
-        .querySelectorAll(
-            "[data-category-toggle]"
-        )
+        .querySelectorAll("[data-category-toggle]")
         .forEach(
             button => {
 
@@ -1076,27 +893,15 @@ function renderQuestList(
                     () => {
 
                         const category =
-                            button.dataset
-                                .categoryToggle;
+                            button.dataset.categoryToggle;
 
-
-                        collapsedCategories[
-                            category
-                        ] =
-                            !collapsedCategories[
-                                category
-                            ];
-
+                        collapsedCategories[category] =
+                            !collapsedCategories[category];
 
                         localStorage.setItem(
-                            getCampaignStorageKey(
-                                "collapsedCategories"
-                            ),
-                            JSON.stringify(
-                                collapsedCategories
-                            )
+                            getCampaignStorageKey("collapsedCategories"),
+                            JSON.stringify(collapsedCategories)
                         );
-
 
                         showQuests();
                     }
@@ -1104,15 +909,12 @@ function renderQuestList(
             }
         );
 
-
     /*
         QUEST CARD CLICK HANDLERS
     */
 
     content
-        .querySelectorAll(
-            "[data-quest-id]"
-        )
+        .querySelectorAll("[data-quest-id]")
         .forEach(
             button => {
 
@@ -1123,30 +925,19 @@ function renderQuestList(
                         const quest =
                             quests.find(
                                 q =>
-                                    q.id ===
-                                    button.dataset
-                                        .questId
+                                    q.id === button.dataset.questId
                             );
 
+                        if (quest) {
 
-                        if (
-                            quest
-                        ) {
+                            markQuestAsRead(quest);
 
-                            markQuestAsRead(
-                                quest
-                            );
-
-
-                            renderQuestDetail(
-                                quest
-                            );
+                            renderQuestDetail(quest);
                         }
                     }
                 );
             }
         );
-
 
     attachQuestControls();
 }
@@ -1156,34 +947,22 @@ function renderQuestList(
    QUEST CONTROLS
    ========================================================= */
 
-function setAllCategoriesCollapsed(
-    collapsed
-) {
+function setAllCategoriesCollapsed(collapsed) {
 
     const categories =
         getQuestCategories();
 
-
     categories.forEach(
         category => {
-
-            collapsedCategories[
-                category.type
-            ] =
+            collapsedCategories[category.type] =
                 collapsed;
         }
     );
 
-
     localStorage.setItem(
-        getCampaignStorageKey(
-            "collapsedCategories"
-        ),
-        JSON.stringify(
-            collapsedCategories
-        )
+        getCampaignStorageKey("collapsedCategories"),
+        JSON.stringify(collapsedCategories)
     );
-
 
     showQuests();
 }
@@ -1194,21 +973,24 @@ function renderQuestControls() {
     const text =
         getQuestText();
 
-
     const config =
         getQuestConfig();
-
 
     const teams =
         getQuestTeams();
 
-
     const teamFilterEnabled =
-        config.teamFilterEnabled !==
-            false &&
-        teams.length >
-            0;
+        config.teamFilterEnabled !== false &&
+        teams.length > 0;
 
+    const selectedTeam =
+        getSelectedQuestTeam();
+
+    /*
+        NOTE: id / for / value attributes must stay on a
+        single line. Whitespace or line breaks inside them
+        become part of the value and break lookups.
+    */
 
     return `
         <div class="quest-controls">
@@ -1220,151 +1002,83 @@ function renderQuestControls() {
                     id="collapse-all"
                     class="quest-control-button"
                 >
-                    ${escapeHTML(
-                        text.controls
-                            .collapseAll
-                    )}
+                    ${escapeHTML(text.controls.collapseAll)}
                 </button>
-
 
                 <button
                     type="button"
                     id="expand-all"
                     class="quest-control-button"
                 >
-                    ${escapeHTML(
-                        text.controls
-                            .expandAll
-                    )}
+                    ${escapeHTML(text.controls.expandAll)}
                 </button>
 
             </div>
-
 
             <label class="quest-toggle">
 
                 <input
                     type="checkbox"
                     id="hide-completed-toggle"
-                    ${hideCompleted
-                        ? "checked"
-                        : ""}
+                    ${hideCompleted ? "checked" : ""}
                 >
 
-
-                <span
-                    class="quest-toggle-box"
-                >
-                    ${hideCompleted
-                        ? "✓"
-                        : ""}
+                <span class="quest-toggle-box">
+                    ${hideCompleted ? "✓" : ""}
                 </span>
 
-
-                <span
-                    class="quest-toggle-text"
-                >
-                    ${escapeHTML(
-                        text.controls
-                            .hideCompleted
-                    )}
+                <span class="quest-toggle-text">
+                    ${escapeHTML(text.controls.hideCompleted)}
                 </span>
 
             </label>
 
-
             ${
                 teamFilterEnabled
-
                     ? `
-                        <div
-                            class="team-filter"
-                        >
+                        <div class="team-filter">
 
                             <label
-                                class="
-                                    team-filter-label
-                                "
-                                for="
-                                    team-filter-select
-                                "
+                                class="team-filter-label"
+                                for="team-filter-select"
                             >
-                                ${escapeHTML(
-                                    text.teamFilter
-                                        .label
-                                )}
+                                ${escapeHTML(text.teamFilter.label)}
                             </label>
 
-
-                            <div
-                                class="
-                                    team-filter-select-wrapper
-                                "
-                            >
+                            <div class="team-filter-select-wrapper">
 
                                 <select
-                                    id="
-                                        team-filter-select
-                                    "
-                                    class="
-                                        team-filter-select
-                                    "
+                                    id="team-filter-select"
+                                    class="team-filter-select"
                                 >
 
                                     <option
                                         value="all"
-                                        ${
-                                            currentTeam ===
-                                            "all"
-                                                ? "selected"
-                                                : ""
-                                        }
+                                        ${selectedTeam === "all" ? "selected" : ""}
                                     >
-                                        ${escapeHTML(
-                                            text.teamFilter
-                                                .allLabel
-                                        )}
+                                        ${escapeHTML(text.teamFilter.allLabel)}
                                     </option>
-
 
                                     ${teams
                                         .filter(
                                             team =>
-                                                normalizeQuestTeam(
-                                                    team.id
-                                                ) !==
-                                                "shared"
+                                                normalizeQuestTeam(team.id) !== "shared"
                                         )
                                         .map(
                                             team => {
 
                                                 const teamId =
-                                                    normalizeQuestTeam(
-                                                        team.id
-                                                    );
-
+                                                    normalizeQuestTeam(team.id);
 
                                                 const selected =
-                                                    normalizeQuestTeam(
-                                                        currentTeam
-                                                    ) ===
-                                                    teamId;
-
+                                                    selectedTeam === teamId;
 
                                                 return `
                                                     <option
-                                                        value="${escapeHTML(
-                                                            teamId
-                                                        )}"
-                                                        ${
-                                                            selected
-                                                                ? "selected"
-                                                                : ""
-                                                        }
+                                                        value="${escapeHTML(teamId)}"
+                                                        ${selected ? "selected" : ""}
                                                     >
-                                                        ${escapeHTML(
-                                                            team.label
-                                                        )}
+                                                        ${escapeHTML(team.label)}
                                                     </option>
                                                 `;
                                             }
@@ -1377,7 +1091,6 @@ function renderQuestControls() {
 
                         </div>
                     `
-
                     : ""
             }
 
@@ -1389,32 +1102,18 @@ function renderQuestControls() {
 function attachQuestControls() {
 
     const toggle =
-        document.getElementById(
-            "hide-completed-toggle"
-        );
-
+        document.getElementById("hide-completed-toggle");
 
     const teamFilter =
-        document.getElementById(
-            "team-filter-select"
-        );
-
+        document.getElementById("team-filter-select");
 
     const collapseAll =
-        document.getElementById(
-            "collapse-all"
-        );
-
+        document.getElementById("collapse-all");
 
     const expandAll =
-        document.getElementById(
-            "expand-all"
-        );
+        document.getElementById("expand-all");
 
-
-    if (
-        toggle
-    ) {
+    if (toggle) {
 
         toggle.addEventListener(
             "change",
@@ -1423,68 +1122,45 @@ function attachQuestControls() {
                 hideCompleted =
                     toggle.checked;
 
-
                 localStorage.setItem(
-                    getCampaignStorageKey(
-                        "hideCompleted"
-                    ),
-                    String(
-                        hideCompleted
-                    )
+                    getCampaignStorageKey("hideCompleted"),
+                    String(hideCompleted)
                 );
-
 
                 showQuests();
             }
         );
     }
 
-
-    if (
-        teamFilter
-    ) {
+    if (teamFilter) {
 
         teamFilter.addEventListener(
             "change",
             () => {
 
-                currentTeam =
-                    teamFilter.value;
-
+                setSelectedQuestTeam(teamFilter.value);
 
                 showQuests();
             }
         );
     }
 
-
-    if (
-        collapseAll
-    ) {
+    if (collapseAll) {
 
         collapseAll.addEventListener(
             "click",
             () => {
-
-                setAllCategoriesCollapsed(
-                    true
-                );
+                setAllCategoriesCollapsed(true);
             }
         );
     }
 
-
-    if (
-        expandAll
-    ) {
+    if (expandAll) {
 
         expandAll.addEventListener(
             "click",
             () => {
-
-                setAllCategoriesCollapsed(
-                    false
-                );
+                setAllCategoriesCollapsed(false);
             }
         );
     }
@@ -1495,162 +1171,85 @@ function attachQuestControls() {
    QUEST CARD
    ========================================================= */
 
-function renderQuestCard(
-    quest
-) {
+function renderQuestCard(quest) {
 
     const category =
-        formatCategory(
-            quest.type
-        );
-
+        formatCategory(quest.type);
 
     const normalizedTeam =
-        normalizeQuestTeam(
-            quest.team
-        );
-
+        normalizeQuestTeam(quest.team);
 
     const team =
-        normalizedTeam !==
-            "shared"
-
-            ? ` · ${formatTeam(
-                quest.team
-            )}`
-
+        normalizedTeam !== "shared"
+            ? ` · ${formatTeam(quest.team)}`
             : "";
-
 
     const text =
         getQuestText();
 
+    const characters =
+        getQuestCharacters(quest);
 
     return `
         <button
             type="button"
             class="quest-card"
-            data-quest-id="${escapeHTML(
-                quest.id
-            )}"
+            data-quest-id="${escapeHTML(quest.id)}"
         >
 
-            <div
-                class="quest-card-top"
-            >
+            <div class="quest-card-top">
 
-                <span
-                    class="quest-category"
-                >
-                    ${escapeHTML(
-                        category +
-                        team
-                    )}
+                <span class="quest-category">
+                    ${escapeHTML(category + team)}
                 </span>
 
-
-                <span
-                    class="quest-status
-                        ${escapeHTML(
-                            quest.status
-                        )}"
-                >
-                    ${escapeHTML(
-                        formatStatus(
-                            quest.status
-                        )
-                    )}
+                <span class="quest-status ${escapeHTML(quest.status)}">
+                    ${escapeHTML(formatStatus(quest.status))}
                 </span>
 
             </div>
 
-
-            <h2
-                class="quest-card-title"
-            >
+            <h2 class="quest-card-title">
 
                 <span>
-                    ${escapeHTML(
-                        quest.title
-                    )}
+                    ${escapeHTML(quest.title)}
                 </span>
 
-
                 ${
-                    hasUnreadUpdate(
-                        quest
-                    )
-
+                    hasUnreadUpdate(quest)
                         ? `
                             <span
-                                class="
-                                    quest-notification
-                                "
-                                aria-label="${escapeHTML(
-                                    text.labels
-                                        .unreadUpdates
-                                )}"
-                                title="${escapeHTML(
-                                    text.labels
-                                        .unreadUpdates
-                                )}"
+                                class="quest-notification"
+                                aria-label="${escapeHTML(text.labels.unreadUpdates)}"
+                                title="${escapeHTML(text.labels.unreadUpdates)}"
                             ></span>
                         `
-
                         : ""
                 }
 
             </h2>
 
-
             <p>
-                ${escapeHTML(
-                    quest.description
-                )}
+                ${escapeHTML(quest.description)}
             </p>
 
-
             ${
-                getQuestCharacters(
-                    quest
-                ).length
-
+                characters.length
                     ? `
                         <div
-                            class="
-                                quest-card-characters
-                            "
-                            aria-label="${escapeHTML(
-                                text.labels
-                                    .relevantCharactersAria
-                            )}"
+                            class="quest-card-characters"
+                            aria-label="${escapeHTML(text.labels.relevantCharactersAria)}"
                         >
 
-                            <span
-                                class="
-                                    quest-card-characters-label
-                                "
-                            >
-                                ${escapeHTML(
-                                    text.labels
-                                        .characters
-                                )}
+                            <span class="quest-card-characters-label">
+                                ${escapeHTML(text.labels.characters)}
                             </span>
 
-
-                            ${getQuestCharacters(
-                                quest
-                            )
+                            ${characters
                                 .map(
                                     character => `
-                                        <span
-                                            class="
-                                                quest-character-chip
-                                            "
-                                        >
-                                            ${escapeHTML(
-                                                character.name
-                                            )}
+                                        <span class="quest-character-chip">
+                                            ${escapeHTML(character.name)}
                                         </span>
                                     `
                                 )
@@ -1658,7 +1257,6 @@ function renderQuestCard(
 
                         </div>
                     `
-
                     : ""
             }
 
@@ -1671,19 +1269,13 @@ function renderQuestCard(
    QUEST DETAIL
    ========================================================= */
 
-async function renderQuestDetail(
-    quest
-) {
+async function renderQuestDetail(quest) {
 
     const content =
-        document.getElementById(
-            "content"
-        );
-
+        document.getElementById("content");
 
     const text =
         getQuestText();
-
 
     /*
         Load map data on demand so
@@ -1691,10 +1283,7 @@ async function renderQuestDetail(
         before visiting Map.
     */
 
-    if (
-        typeof loadMapLocations ===
-        "function"
-    ) {
+    if (typeof loadMapLocations === "function") {
 
         try {
 
@@ -1709,47 +1298,29 @@ async function renderQuestDetail(
         }
     }
 
-
     const questLocations =
-        quest.status ===
-            "active"
+        !isQuestCompleted(quest)
 
-            ? (
-                quest.locations ||
-                []
-            )
+            ? (quest.locations || [])
                 .map(
                     locationId =>
                         mapLocations.find(
                             location =>
-                                String(
-                                    location.id
-                                ) ===
-                                String(
-                                    locationId
-                                )
+                                String(location.id) ===
+                                String(locationId)
                         )
                 )
-                .filter(
-                    Boolean
-                )
+                .filter(Boolean)
 
             : [];
-
 
     const questCharacters =
-        getQuestCharacters(
-            quest
-        );
-
+        getQuestCharacters(quest);
 
     const objectives =
-        Array.isArray(
-            quest.objectives
-        )
+        Array.isArray(quest.objectives)
             ? quest.objectives
             : [];
-
 
     /*
         Hide completed objectives
@@ -1758,14 +1329,10 @@ async function renderQuestDetail(
 
     const visibleObjectives =
         hideCompleted
-
             ? objectives.filter(
-                objective =>
-                    !objective.completed
+                objective => !objective.completed
             )
-
             : objectives;
-
 
     content.innerHTML = `
 
@@ -1774,169 +1341,85 @@ async function renderQuestDetail(
             class="back-button"
             id="back-button"
         >
-            ${escapeHTML(
-                text.labels.back
-            )}
+            ${escapeHTML(text.labels.back)}
         </button>
 
+        <div class="quest-detail">
 
-        <div
-            class="quest-detail"
-        >
+            <div class="quest-card-top">
 
-            <div
-                class="quest-card-top"
-            >
-
-                <span
-                    class="quest-category"
-                >
-                    ${escapeHTML(
-                        formatCategory(
-                            quest.type
-                        )
-                    )}
+                <span class="quest-category">
+                    ${escapeHTML(formatCategory(quest.type))}
                 </span>
 
-
-                <span
-                    class="
-                        quest-status
-                        ${escapeHTML(
-                            quest.status
-                        )}
-                    "
-                >
-                    ${escapeHTML(
-                        formatStatus(
-                            quest.status
-                        )
-                    )}
+                <span class="quest-status ${escapeHTML(quest.status)}">
+                    ${escapeHTML(formatStatus(quest.status))}
                 </span>
 
             </div>
 
-
-            <div
-                class="quest-detail-team"
-            >
-                ${escapeHTML(
-                    formatTeam(
-                        quest.team
-                    )
-                )}
+            <div class="quest-detail-team">
+                ${escapeHTML(formatTeam(quest.team))}
             </div>
-
 
             <h2>
-                ${escapeHTML(
-                    quest.title
-                )}
+                ${escapeHTML(quest.title)}
             </h2>
 
-
-            <p
-                class="quest-description"
-            >
-                ${escapeHTML(
-                    quest.description
-                )}
+            <p class="quest-description">
+                ${escapeHTML(quest.description)}
             </p>
 
-
             <h3>
-                ${escapeHTML(
-                    text.labels.objectives
-                )}
+                ${escapeHTML(text.labels.objectives)}
             </h3>
 
-
-            <div
-                class="objectives"
-            >
+            <div class="objectives">
 
                 ${
-                    visibleObjectives.length >
-                    0
-
+                    visibleObjectives.length > 0
                         ? visibleObjectives
-                            .map(
-                                renderObjective
-                            )
+                            .map(renderObjective)
                             .join("")
-
                         : `
-                            <p
-                                class="
-                                    objectives-hidden
-                                "
-                            >
-                                ${escapeHTML(
-                                    text.labels
-                                        .allObjectivesCompleted
-                                )}
+                            <p class="objectives-hidden">
+                                ${escapeHTML(text.labels.allObjectivesCompleted)}
                             </p>
                         `
                 }
 
             </div>
 
-
             <h3>
-                ${escapeHTML(
-                    text.labels
-                        .relevantCharacters
-                )}
+                ${escapeHTML(text.labels.relevantCharacters)}
             </h3>
 
-
-            <div
-                class="
-                    quest-detail-characters
-                "
-            >
+            <div class="quest-detail-characters">
 
                 ${
                     questCharacters.length
-
                         ? questCharacters
                             .map(
                                 character => `
                                     <button
                                         type="button"
-                                        class="
-                                            quest-detail-character
-                                        "
-                                        data-quest-character="${escapeHTML(
-                                            character.id
-                                        )}"
+                                        class="quest-detail-character"
+                                        data-quest-character="${escapeHTML(character.id)}"
                                     >
 
                                         <span
-                                            class="
-                                                quest-character-marker
-                                            "
+                                            class="quest-character-marker"
                                             aria-hidden="true"
                                         >
                                             ✦
                                         </span>
 
-
-                                        <span
-                                            class="
-                                                quest-detail-character-name
-                                            "
-                                        >
-                                            ${escapeHTML(
-                                                character.name
-                                            )}
+                                        <span class="quest-detail-character-name">
+                                            ${escapeHTML(character.name)}
                                         </span>
 
-
                                         <span
-                                            class="
-                                                quest-character-arrow
-                                            "
+                                            class="quest-character-arrow"
                                             aria-hidden="true"
                                         >
                                             →
@@ -1946,73 +1429,45 @@ async function renderQuestDetail(
                                 `
                             )
                             .join("")
-
                         : `
-                            <p
-                                class="
-                                    objectives-hidden
-                                "
-                            >
-                                ${escapeHTML(
-                                    text.labels
-                                        .noCharacters
-                                )}
+                            <p class="objectives-hidden">
+                                ${escapeHTML(text.labels.noCharacters)}
                             </p>
                         `
                 }
 
             </div>
 
-
             <h3>
-                ${escapeHTML(
-                    text.labels
-                        .relevantLocations
-                )}
+                ${escapeHTML(text.labels.relevantLocations)}
             </h3>
 
-
-            <div
-                class="quest-locations"
-            >
+            <div class="quest-locations">
 
                 ${
                     questLocations.length
-
                         ? questLocations
                             .map(
                                 location => `
                                     <button
                                         type="button"
-                                        class="
-                                            quest-location-link
-                                        "
-                                        data-quest-location="${escapeHTML(
-                                            location.id
-                                        )}"
+                                        class="quest-location-link"
+                                        data-quest-location="${escapeHTML(location.id)}"
                                     >
 
                                         <span
-                                            class="
-                                                quest-location-icon
-                                            "
+                                            class="quest-location-icon"
                                             aria-hidden="true"
                                         >
                                             ⌖
                                         </span>
 
-
                                         <span>
-                                            ${escapeHTML(
-                                                location.name
-                                            )}
+                                            ${escapeHTML(location.name)}
                                         </span>
 
-
                                         <span
-                                            class="
-                                                quest-location-arrow
-                                            "
+                                            class="quest-location-arrow"
                                             aria-hidden="true"
                                         >
                                             →
@@ -2022,52 +1477,30 @@ async function renderQuestDetail(
                                 `
                             )
                             .join("")
-
                         : `
-                            <p
-                                class="
-                                    objectives-hidden
-                                "
-                            >
-                                ${escapeHTML(
-                                    text.labels
-                                        .noLocations
-                                )}
+                            <p class="objectives-hidden">
+                                ${escapeHTML(text.labels.noLocations)}
                             </p>
                         `
                 }
 
             </div>
 
-
             <h3>
-                ${escapeHTML(
-                    text.labels
-                        .recentDevelopments
-                )}
+                ${escapeHTML(text.labels.recentDevelopments)}
             </h3>
 
-
-            <div
-                class="developments"
-            >
+            <div class="developments">
 
                 ${
                     quest.developments &&
                     quest.developments.length
-
                         ? quest.developments
-                            .map(
-                                renderDevelopment
-                            )
+                            .map(renderDevelopment)
                             .join("")
-
                         : `
                             <p>
-                                ${escapeHTML(
-                                    text.labels
-                                        .noDevelopments
-                                )}
+                                ${escapeHTML(text.labels.noDevelopments)}
                             </p>
                         `
                 }
@@ -2077,45 +1510,33 @@ async function renderQuestDetail(
         </div>
     `;
 
-
     document
-        .getElementById(
-            "back-button"
-        )
+        .getElementById("back-button")
         .addEventListener(
             "click",
             () => {
-
                 showQuests();
             }
         );
 
-
     content
-        .querySelectorAll(
-            "[data-quest-location]"
-        )
+        .querySelectorAll("[data-quest-location]")
         .forEach(
             button => {
 
                 button.addEventListener(
                     "click",
                     () => {
-
                         openMapLocation(
-                            button.dataset
-                                .questLocation
+                            button.dataset.questLocation
                         );
                     }
                 );
             }
         );
 
-
     content
-        .querySelectorAll(
-            "[data-quest-character]"
-        )
+        .querySelectorAll("[data-quest-character]")
         .forEach(
             button => {
 
@@ -2126,28 +1547,18 @@ async function renderQuestDetail(
                         const character =
                             questCharacterData.find(
                                 character =>
-                                    String(
-                                        character.id
-                                    ) ===
-                                    String(
-                                        button.dataset
-                                            .questCharacter
-                                    )
+                                    String(character.id) ===
+                                    String(button.dataset.questCharacter)
                             );
 
-
-                        if (
-                            !character
-                        ) {
+                        if (!character) {
 
                             console.warn(
                                 "Could not find linked character."
                             );
 
-
                             return;
                         }
-
 
                         /*
                             Make sure the character's
@@ -2155,29 +1566,15 @@ async function renderQuestDetail(
                         */
 
                         if (
-                            typeof loadCharacterPortraits ===
-                                "function" &&
-                            typeof characterPortraits !==
-                                "undefined" &&
-                            !characterPortraits[
-                                character.id
-                            ]
+                            typeof loadCharacterPortraits === "function" &&
+                            typeof characterPortraits !== "undefined" &&
+                            !characterPortraits[character.id]
                         ) {
-
-                            await loadCharacterPortraits(
-                                [character]
-                            );
+                            await loadCharacterPortraits([character]);
                         }
 
-
-                        if (
-                            typeof openCharacterProfile ===
-                            "function"
-                        ) {
-
-                            openCharacterProfile(
-                                character
-                            );
+                        if (typeof openCharacterProfile === "function") {
+                            openCharacterProfile(character);
                         }
                     }
                 );
@@ -2190,36 +1587,49 @@ async function renderQuestDetail(
    OBJECTIVES
    ========================================================= */
 
-function renderObjective(
-    objective
-) {
+function isObjectiveFailed(objective) {
+
+    // Objectives like "Dispose of Caedes Mortem. (FAILED)"
+    // are marked completed in the data, but didn't succeed.
+    return /\(\s*failed\s*\)/i.test(
+        String(objective.text || "")
+    );
+}
+
+
+function renderObjective(objective) {
+
+    const failed =
+        isObjectiveFailed(objective);
+
+    // Strip the "(FAILED)" tag from the text; the ✗ icon
+    // and .failed styling convey it instead.
+    const displayText =
+        failed
+            ? String(objective.text)
+                .replace(/\s*\(\s*failed\s*\)\s*/i, " ")
+                .trim()
+            : objective.text;
+
+    const stateClass =
+        failed
+            ? "completed failed"
+            : objective.completed
+                ? "completed"
+                : "";
 
     return `
-        <div
-            class="
-                objective
-                ${objective.completed
-                    ? "completed"
-                    : ""}
-            "
-        >
+        <div class="objective ${stateClass}">
 
             <span
                 class="objective-checkbox"
                 aria-hidden="true"
             >
-                ${objective.completed
-                    ? "✓"
-                    : ""}
+                ${failed ? "✗" : objective.completed ? "✓" : ""}
             </span>
 
-
-            <span
-                class="objective-text"
-            >
-                ${escapeHTML(
-                    objective.text
-                )}
+            <span class="objective-text">
+                ${escapeHTML(displayText)}
             </span>
 
         </div>
@@ -2231,28 +1641,17 @@ function renderObjective(
    DEVELOPMENTS
    ========================================================= */
 
-function renderDevelopment(
-    development
-) {
+function renderDevelopment(development) {
 
     return `
-        <div
-            class="development"
-        >
+        <div class="development">
 
-            <span
-                class="development-session"
-            >
-                ${escapeHTML(
-                    development.session
-                )}
+            <span class="development-session">
+                ${escapeHTML(development.session)}
             </span>
 
-
             <p>
-                ${escapeHTML(
-                    development.text
-                )}
+                ${escapeHTML(development.text)}
             </p>
 
         </div>
@@ -2264,120 +1663,74 @@ function renderDevelopment(
    FORMATTING
    ========================================================= */
 
-function formatCategory(
-    type
-) {
+function formatCategory(type) {
 
     const text =
         getQuestText();
 
-
     const category =
         text.categories[type];
 
-
-    if (
-        category
-    ) {
-
+    if (category) {
         return (
             category.singular ||
             category.label
         );
     }
 
-
     return (
-        String(
-            type ||
-            "quest"
-        )
+        String(type || "quest")
             .charAt(0)
             .toUpperCase() +
-        String(
-            type ||
-            "quest"
-        ).slice(1)
+        String(type || "quest").slice(1)
     );
 }
 
 
-function formatTeam(
-    team
-) {
+function formatTeam(team) {
 
     const normalizedTeam =
-        normalizeQuestTeam(
-            team
-        );
-
+        normalizeQuestTeam(team);
 
     const match =
         getQuestTeams().find(
             configuredTeam =>
-                normalizeQuestTeam(
-                    configuredTeam.id
-                ) ===
+                normalizeQuestTeam(configuredTeam.id) ===
                 normalizedTeam
         );
 
-
-    if (
-        match
-    ) {
-
+    if (match) {
         return match.label;
     }
-
 
     return "Shared";
 }
 
 
-function formatStatus(
-    status
-) {
+function formatStatus(status) {
 
     const text =
         getQuestText();
 
-
     const normalizedStatus =
-        String(
-            status ||
-            ""
-        )
+        String(status || "")
             .trim()
             .toLowerCase();
 
-
     if (
         text.statuses &&
-        text.statuses[
-            normalizedStatus
-        ]
+        text.statuses[normalizedStatus]
     ) {
-
-        return text.statuses[
-            normalizedStatus
-        ];
+        return text.statuses[normalizedStatus];
     }
 
-
-    if (
-        !status
-    ) {
-
+    if (!status) {
         return "";
     }
 
-
     return (
-        String(status)
-            .charAt(0)
-            .toUpperCase() +
-        String(status)
-            .slice(1)
+        String(status).charAt(0).toUpperCase() +
+        String(status).slice(1)
     );
 }
 
@@ -2386,33 +1739,18 @@ function formatStatus(
    HTML SAFETY
    ========================================================= */
 
-function escapeHTML(
-    value
-) {
+function escapeHTML(value) {
 
-    return String(
-        value ?? ""
-    ).replace(
+    return String(value ?? "").replace(
         /[&<>"']/g,
         character => ({
 
-            "&":
-                "&amp;",
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
 
-            "<":
-                "&lt;",
-
-            ">":
-                "&gt;",
-
-            '"':
-                "&quot;",
-
-            "'":
-                "&#39;"
-
-        })[
-            character
-        ]
+        })[character]
     );
 }
