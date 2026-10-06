@@ -1,1 +1,38 @@
-[]
+[
+    {
+        "id": "main-quest",
+        "title": "Baptism by Cosmos",
+        "team": "shared",
+        "type": "main",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "Find your way home, by any means necessary.",
+        "objectives": [
+            {
+                "text": "Orientate yourself in this strange new world.",
+                "completed": false
+            }
+        ],
+        "characters": [],
+        "developments": []
+    },
+    {
+        "id": "nikolai",
+        "title": "Born Again",
+        "team": "shared",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "Nikolai must familiarize himself with the nature of his mutation",
+        "objectives": [
+            {
+                "text": "Find viable sources of food in this new world.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "nikolai"
+        ],
+        "developments": []
+    }
+]
