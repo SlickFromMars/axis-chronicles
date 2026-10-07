@@ -254,3 +254,99 @@ body {
     padding: 30px 10px;
     text-align: center;
 }
+
+/* =========================================
+   ARCHIVE TERMINAL
+   ========================================= */
+
+.archive-console {
+    margin-top: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #08090d;
+    font-family: monospace;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.02),
+        0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.console-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: #888;
+}
+
+.console-status {
+    color: #6f9;
+}
+
+.console-output {
+    min-height: 120px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 1rem;
+    line-height: 1.7;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.console-output .error {
+    color: #a66;
+}
+
+.console-output .warning {
+    color: #b09a65;
+}
+
+.console-output .success {
+    color: #82a889;
+}
+
+.console-input {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.console-input .prompt {
+    padding-left: 1rem;
+    color: #777;
+    font-family: monospace;
+}
+
+.console-input input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #ccc;
+    padding: 0.9rem 0.6rem;
+    font-family: monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.console-input input::placeholder {
+    color: #444;
+}
+
+.console-input button {
+    border: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    background: transparent;
+    color: #777;
+    padding: 0.9rem 1rem;
+    font-family: monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+}
+
+.console-input button:hover {
+    color: #ccc;
+    background: rgba(255, 255, 255, 0.03);
+}

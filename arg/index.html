@@ -10,30 +10,92 @@
 
 <body>
     <main class="archive">
+
         <header class="archive-header">
-            <div class="classification"> ARCHIVAL RECORD </div>
-            <h1 id="archive-title"> Loading... </h1>
-            <p class="subtitle" id="archive-subtitle"> Loading... </p>
+            <div class="classification">ARCHIVAL RECORD</div>
+
+            <h1 id="archive-title">Loading...</h1>
+
+            <p class="subtitle" id="archive-subtitle">
+                Loading...
+            </p>
+
             <div class="header-line"></div>
         </header>
+
+
         <section class="archive-info">
-            <div> <span class="label"> ARCHIVE STATUS </span> <span class="value status" id="archive-status"> — </span>
+
+            <div>
+                <span class="label">ARCHIVE STATUS</span>
+                <span class="value status" id="archive-status">—</span>
             </div>
-            <div> <span class="label"> RECORDS INDEXED </span> <span class="value" id="records-indexed"> — </span>
+
+            <div>
+                <span class="label">RECORDS INDEXED</span>
+                <span class="value" id="records-indexed">—</span>
             </div>
-            <div> <span class="label"> LAST UPDATED </span> <span class="value" id="last-updated"> — </span> </div>
+
         </section>
+
+
         <section class="records">
+
             <h2>Records</h2>
+
             <div id="record-list">
-                <p class="loading"> Loading archival records... </p>
+                <p class="loading">
+                    Loading archival records...
+                </p>
             </div>
+
         </section>
+
+
+        <!--
+            ARCHIVE TERMINAL
+        -->
+
+        <section class="archive-console">
+
+            <div class="console-header">
+                <span>AXIS TERMINAL</span>
+                <span class="console-status">ONLINE</span>
+            </div>
+
+            <div class="console-output" id="console-output" aria-live="polite">
+                <div>&gt; ARCHIVE TERMINAL READY.</div>
+                <div>&gt; ENTER ACCESS CODE.</div>
+            </div>
+
+            <form id="console-form" class="console-input">
+
+                <span class="prompt">&gt;</span>
+
+                <input type="text" id="console-code" autocomplete="off" spellcheck="false" placeholder="ENTER CODE"
+                    aria-label="Archive access code">
+
+                <button type="submit">
+                    ENTER
+                </button>
+
+            </form>
+
+        </section>
+
+
         <footer class="archive-footer">
-            <p> ARCHIVE SYSTEM</p>
-            <p class="footer-warning"> Some records may be incomplete, corrupted, or unavailable. </p>
+
+            <p>ARCHIVE SYSTEM</p>
+
+            <p class="footer-warning">
+                Some records may be incomplete, corrupted, or unavailable.
+            </p>
+
         </footer>
+
     </main>
+
     <script src="js/archive.js"></script>
 </body>
 

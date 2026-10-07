@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Record 002</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #090909;
+            color: #b8b8b8;
+
+            font-family:
+                "Courier New",
+                Courier,
+                monospace;
+        }
+
+        .container {
+            width: min(650px, 90%);
+            border: 1px solid #292929;
+            padding: 3rem;
+
+            background: #0d0d0d;
+
+            box-shadow:
+                0 0 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .classification {
+            margin-bottom: 2rem;
+
+            color: #666;
+
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+        }
+
+        .status {
+            margin-bottom: 1.5rem;
+
+            color: #9a6b6b;
+
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+        }
+
+        h1 {
+            margin: 0 0 1rem;
+
+            color: #d0d0d0;
+
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+        }
+
+        .description {
+            color: #777;
+
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .divider {
+            height: 1px;
+            margin: 2rem 0;
+
+            background: #252525;
+        }
+
+        .technical {
+            color: #555;
+
+            font-size: 0.7rem;
+            line-height: 1.8;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 2rem;
+
+            color: #777;
+            text-decoration: none;
+
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+
+            transition:
+                color 0.2s ease;
+        }
+
+        .back:hover {
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <div class="classification">
+            ARCHIVAL RECORD
+        </div>
+
+        <div class="status">
+            RECOVERY INCOMPLETE
+        </div>
+
+        <h1>Coming Soon</h1>
+
+        <p class="description">
+            This record has been successfully recovered
+            but its contents have not yet been deciphered.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="technical">
+            RECORD STATUS: PARTIALLY DECIPHERED<br>
+            CONTENT STATUS: UNAVAILABLE<br>
+            SOURCE: UNKNOWN
+        </div>
+
+        <a class="back" href="index.html">
+            &lt; RETURN TO ARCHIVE
+        </a>
+
+    </main>
+
+</body>
+
+</html>

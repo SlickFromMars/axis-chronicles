@@ -195,3 +195,29 @@ body {
         font-size: 0.55rem;
     }
 }
+
+/* =========================================
+   BACK BUTTON
+   ========================================= */
+
+.back-button {
+    display: inline-block;
+
+    margin-bottom: 2rem;
+
+    color: #666;
+    text-decoration: none;
+
+    font-family: monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.back-button:hover {
+    color: #aaa;
+    transform: translateX(-3px);
+}

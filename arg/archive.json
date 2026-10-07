@@ -1,16 +1,25 @@
 {
     "title": "Recovered Documents",
     "subtitle": "A Historical Archive of Caeloran Lore",
-    "status": "FULLY RECOVERED",
+    "status": "PARTIALLY RECOVERED",
     "recordsIndexed": 1,
-    "lastUpdated": "UNKNOWN",
     "records": [
         {
             "id": "001",
             "title": "Personal Note",
             "description": "Recovered from the heroes' hotel in Avilan.",
             "status": "recovered",
+            "unlocked": true,
             "link": "notes/see-dad.html"
+        },
+        {
+            "id": "002",
+            "title": "Recovered Material",
+            "description": "Additional material recovered from an unknown source.",
+            "status": "recovered",
+            "unlocked": false,
+            "code": "620191313254",
+            "link": "coming-soon.html"
         }
     ]
 }
