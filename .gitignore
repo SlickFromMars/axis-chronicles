@@ -1,2 +1,6 @@
 # Local calendar generation state
 **/.sessions.ics.state.json
+
+# macOS
+.DS_Store
+**/.DS_STORE

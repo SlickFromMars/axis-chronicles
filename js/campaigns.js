@@ -397,9 +397,7 @@ function applyCampaignTheme() {
 
 function applyCampaignBranding() {
 
-    if (
-        !activeCampaign
-    ) {
+    if (!activeCampaign) {
         return;
     }
 
@@ -415,8 +413,7 @@ function applyCampaignBranding() {
 
 
     const homeText =
-        activeCampaign.text
-            ?.home ||
+        activeCampaign.text?.home ||
         {};
 
 
@@ -482,8 +479,7 @@ function applyCampaignBranding() {
 
     setMetaContent(
         'meta[name="theme-color"]',
-        activeCampaign.theme
-            ?.background ||
+        activeCampaign.theme?.background ||
         ""
     );
 
@@ -508,9 +504,7 @@ function applyCampaignBranding() {
         );
 
 
-    if (
-        canonical
-    ) {
+    if (canonical) {
 
         canonical.href =
             campaignURLString;
@@ -557,9 +551,7 @@ function applyCampaignBranding() {
         );
 
 
-    if (
-        socialPreview
-    ) {
+    if (socialPreview) {
 
         setMetaContent(
             'meta[property="og:image"]',
@@ -597,7 +589,7 @@ function applyCampaignBranding() {
 
 
     /* -----------------------------------------------------
-       Favicon
+       FAVICON
        ----------------------------------------------------- */
 
     const favicon =
@@ -606,25 +598,59 @@ function applyCampaignBranding() {
         );
 
 
-    if (
-        favicon
-    ) {
+    if (favicon) {
 
-        const faviconLink =
-            document.querySelector(
+        /*
+            Remove any existing favicon links so the browser
+            cannot continue using the default campaign icon.
+        */
+
+        document
+            .querySelectorAll(
                 'link[rel="icon"]'
+            )
+            .forEach(
+                link => link.remove()
             );
 
 
-        if (
-            faviconLink
-        ) {
+        /*
+            Create a fresh favicon link for the active
+            campaign.
 
-            faviconLink.href =
-                `${favicon}?v=${encodeURIComponent(
-                    activeCampaign.id
-                )}`;
-        }
+            The campaign ID is used as a cache-buster so
+            different campaigns cannot accidentally share
+            the same cached favicon.
+        */
+
+        const faviconLink =
+            document.createElement(
+                "link"
+            );
+
+
+        faviconLink.rel =
+            "icon";
+
+
+        faviconLink.type =
+            "image/png";
+
+
+        const faviconVersion =
+            activeCampaign.assets?.faviconVersion ||
+            "1";
+
+
+        faviconLink.href =
+            `${favicon}?v=${encodeURIComponent(
+                `${activeCampaign.id}-${faviconVersion}`
+            )}`;
+
+
+        document.head.appendChild(
+            faviconLink
+        );
     }
 
 
@@ -648,23 +674,38 @@ function applyCampaignBranding() {
         );
 
 
-    if (
-        appleIcon
-    ) {
+    if (appleIcon) {
 
-        const appleIconLink =
+        let appleIconLink =
             document.querySelector(
                 'link[rel="apple-touch-icon"]'
             );
 
 
-        if (
-            appleIconLink
-        ) {
+        /*
+            Create the element if it doesn't already exist.
+        */
 
-            appleIconLink.href =
-                appleIcon;
+        if (!appleIconLink) {
+
+            appleIconLink =
+                document.createElement(
+                    "link"
+                );
+
+
+            appleIconLink.rel =
+                "apple-touch-icon";
+
+
+            document.head.appendChild(
+                appleIconLink
+            );
         }
+
+
+        appleIconLink.href =
+            appleIcon;
     }
 
 
@@ -673,32 +714,47 @@ function applyCampaignBranding() {
        ----------------------------------------------------- */
 
     const manifestPath =
-    activeCampaign.manifest
-        ? resolveCampaignPath(
-            activeCampaign.manifest
-        )
-        : getCampaignAssetPath(
-            "manifest"
-        );
+        activeCampaign.manifest
+            ? resolveCampaignPath(
+                activeCampaign.manifest
+            )
+            : getCampaignAssetPath(
+                "manifest"
+            );
 
 
-    if (
-        manifestPath
-    ) {
+    if (manifestPath) {
 
-        const manifestLink =
+        let manifestLink =
             document.querySelector(
                 'link[rel="manifest"]'
             );
 
 
-        if (
-            manifestLink
-        ) {
+        /*
+            Create the manifest link if necessary.
+        */
 
-            manifestLink.href =
-                manifestPath;
+        if (!manifestLink) {
+
+            manifestLink =
+                document.createElement(
+                    "link"
+                );
+
+
+            manifestLink.rel =
+                "manifest";
+
+
+            document.head.appendChild(
+                manifestLink
+            );
         }
+
+
+        manifestLink.href =
+            manifestPath;
     }
 }
 
@@ -939,13 +995,13 @@ function applyCampaignShell() {
                 button.innerHTML = `
                     <span>
                         ${escapeCampaignHTML(
-                            tab.icon || ""
-                        )}
+                    tab.icon || ""
+                )}
                     </span>
 
                     ${escapeCampaignHTML(
-                        tab.label || page
-                    )}
+                    tab.label || page
+                )}
                 `;
             }
         );
