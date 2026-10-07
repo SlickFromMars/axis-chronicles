@@ -1,8 +1,8 @@
 {
-    "name": "Breaking the Axis",
-    "short_name": "Axis Chronicles",
-    "description": "The campaign journal for Breaking the Axis.",
-    "start_url": "../../?campaign=breaking-the-axis",
+    "name": "Glory of the Gods",
+    "short_name": "Gojirin Library",
+    "description": "The campaign journal for Glory of the Gods.",
+    "start_url": "../../?campaign=glory-of-the-gods",
     "scope": "../../",
     "display": "standalone",
     "background_color": "#100d0b",
