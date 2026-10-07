@@ -22,11 +22,20 @@
         },
         {
             "id": "003",
+            "title": "Recovered File Fragments",
+            "description": "A corrupted dossier split into fragments.",
+            "status": "corrupted",
+            "unlocked": false,
+            "code": "RETURNED",
+            "link": "notes/dossier.html"
+        },
+        {
+            "id": "004",
             "title": "Recovered Material",
             "description": "Additional material recovered from an unknown source.",
             "status": "recovered",
             "unlocked": false,
-            "code": "RETURNED",
+            "code": "STIRGE",
             "link": "coming-soon.html"
         }
     ]

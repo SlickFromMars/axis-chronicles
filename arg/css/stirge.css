@@ -1,0 +1,352 @@
+/* =========================================================
+   RECORD 003 // DATA RECOVERY
+   ========================================================= */
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.dossier-header {
+    margin-bottom: 25px;
+}
+
+.record-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.record-number-large {
+    font-family: "Courier New", monospace;
+    font-size: 4rem;
+    line-height: 1;
+    opacity: 0.12;
+    user-select: none;
+}
+
+
+/* =========================================================
+   WARNING
+   ========================================================= */
+
+.dossier-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    margin: 25px 0;
+    padding: 15px 18px;
+
+    border: 1px solid rgba(100, 55, 35, 0.35);
+
+    background: rgba(100, 55, 35, 0.055);
+
+    font-family: "Courier New", monospace;
+    font-size: 0.75rem;
+}
+
+.warning-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 25px;
+    height: 25px;
+
+    border: 1px solid rgba(100, 55, 35, 0.5);
+
+    font-weight: bold;
+    color: #694a2d;
+}
+
+.dossier-warning strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+}
+
+.dossier-warning p {
+    margin: 0;
+
+    line-height: 1.5;
+    opacity: 0.7;
+}
+
+
+/* =========================================================
+   INFORMATION
+   ========================================================= */
+
+.dossier-info {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+
+/* =========================================================
+   RECOVERY NOTICE
+   ========================================================= */
+
+.recovery-notice {
+    margin-top: 35px;
+    padding: 25px;
+
+    border: 1px solid rgba(48, 41, 30, 0.25);
+
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.18),
+            rgba(255, 255, 255, 0.05));
+
+    box-shadow:
+        inset 0 0 35px rgba(70, 50, 25, 0.035);
+}
+
+.recovery-notice .document-label {
+    margin-bottom: 18px;
+}
+
+.recovery-notice p {
+    max-width: 700px;
+
+    margin: 8px 0;
+
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.recovery-warning {
+    margin-top: 20px;
+    padding-top: 15px;
+
+    border-top: 1px dashed rgba(48, 41, 30, 0.25);
+
+    font-family: "Courier New", monospace;
+    font-size: 0.65rem;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+
+    opacity: 0.55;
+}
+
+
+/* =========================================================
+   FRAGMENT SECTION
+   ========================================================= */
+
+.fragment-section {
+    margin-top: 35px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid rgba(48, 41, 30, 0.25);
+
+    font-family: "Courier New", monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+
+    opacity: 0.65;
+}
+
+
+/* =========================================================
+   FRAGMENT LIST
+   ========================================================= */
+
+.fragment-list {
+    border-left: 1px solid rgba(48, 41, 30, 0.2);
+    border-right: 1px solid rgba(48, 41, 30, 0.2);
+}
+
+.fragment {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    min-height: 70px;
+    padding: 12px 14px;
+
+    border-bottom: 1px solid rgba(48, 41, 30, 0.18);
+}
+
+.fragment:last-child {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   FILE ICON
+   ========================================================= */
+
+.fragment-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 43px;
+    height: 43px;
+
+    border: 1px solid rgba(48, 41, 30, 0.35);
+
+    font-family: "Courier New", monospace;
+    font-size: 0.55rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+
+    opacity: 0.65;
+}
+
+
+/* =========================================================
+   FILE INFORMATION
+   ========================================================= */
+
+.fragment-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.fragment-name {
+    font-family: "Courier New", monospace;
+    font-size: 0.78rem;
+
+    word-break: break-all;
+}
+
+.fragment-meta {
+    margin-top: 4px;
+
+    font-family: "Courier New", monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+
+    opacity: 0.45;
+}
+
+
+/* =========================================================
+   DOWNLOAD BUTTON
+   ========================================================= */
+
+.download-button {
+    display: inline-block;
+
+    flex-shrink: 0;
+
+    padding: 9px 12px;
+
+    border: 1px solid rgba(48, 41, 30, 0.4);
+
+    color: #30291e;
+
+    text-decoration: none;
+
+    font-family: "Courier New", monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.download-button:hover {
+    background: rgba(48, 41, 30, 0.08);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TECHNICAL NOTE
+   ========================================================= */
+
+.technical-recovery {
+    margin-top: 30px;
+    padding: 18px;
+
+    border-left: 3px solid rgba(48, 41, 30, 0.22);
+
+    background: rgba(48, 41, 30, 0.035);
+}
+
+.technical-label {
+    margin-bottom: 10px;
+
+    font-family: "Courier New", monospace;
+    font-size: 0.62rem;
+    font-weight: bold;
+    letter-spacing: 0.13em;
+
+    opacity: 0.6;
+}
+
+.technical-recovery p {
+    margin: 5px 0;
+
+    font-size: 0.8rem;
+    line-height: 1.55;
+
+    opacity: 0.65;
+}
+
+.technical-code {
+    margin-top: 14px !important;
+
+    font-family: "Courier New", monospace;
+    font-size: 0.62rem !important;
+
+    line-height: 1.7 !important;
+
+    opacity: 0.45 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .record-heading {
+        gap: 15px;
+    }
+
+    .record-number-large {
+        font-size: 2.5rem;
+    }
+
+    .dossier-warning {
+        padding: 12px;
+    }
+
+    .recovery-notice {
+        padding: 18px;
+    }
+
+    .fragment {
+        align-items: flex-start;
+    }
+
+    .fragment-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .download-button {
+        padding: 8px;
+    }
+
+}
