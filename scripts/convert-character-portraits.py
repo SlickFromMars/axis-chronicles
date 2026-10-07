@@ -15,27 +15,25 @@ SOURCE_EXTENSIONS = {
 WEBP_QUALITY = 90
 DEFAULT_CAMPAIGN = "breaking-the-axis"
 
+ARG_ASSET_DIR = Path(
+    r"C:\Users\wchur\OneDrive\Documents\GitHub\axis-chronicles\arg\assets"
+)
+
 
 def get_campaign_dir(campaign_id):
     return PROJECT_ROOT / "campaigns" / campaign_id
 
 
-def convert_portraits(campaign_id):
-    character_image_dir = (
-        get_campaign_dir(campaign_id)
-        / "assets"
-        / "characters"
-    )
-
-    if not character_image_dir.exists():
+def convert_images(image_dir, label):
+    if not image_dir.exists():
         raise FileNotFoundError(
-            f"Character image directory not found: {character_image_dir}"
+            f"{label} image directory not found: {image_dir}"
         )
 
     converted = 0
     skipped = 0
 
-    for image_file in sorted(character_image_dir.iterdir()):
+    for image_file in sorted(image_dir.iterdir()):
         if not image_file.is_file():
             continue
 
@@ -71,19 +69,82 @@ def convert_portraits(campaign_id):
         except Exception as error:
             if output_file.exists():
                 output_file.unlink()
+
             raise RuntimeError(
                 f"Failed to convert {image_file.name}: {error}"
             )
 
+    return converted, skipped
+
+
+def convert_portraits(campaign_id):
+    character_image_dir = (
+        get_campaign_dir(campaign_id)
+        / "assets"
+        / "characters"
+    )
+
+    print("=" * 60)
+    print(f"Converting campaign portraits: {campaign_id}")
+    print("=" * 60)
+
+    converted, skipped = convert_images(
+        character_image_dir,
+        f"Campaign '{campaign_id}' character"
+    )
+
     print()
     print(f"Campaign: {campaign_id}")
-    print("Portrait conversion complete.")
     print(f"Converted: {converted}")
     print(f"Already WebP: {skipped}")
+
+    return converted, skipped
+
+
+def convert_arg_assets():
+    print()
+    print("=" * 60)
+    print("Converting ARG assets")
+    print("=" * 60)
+
+    converted, skipped = convert_images(
+        ARG_ASSET_DIR,
+        "ARG asset"
+    )
+
+    print()
+    print("ARG assets:")
+    print(f"Converted: {converted}")
+    print(f"Already WebP: {skipped}")
+
+    return converted, skipped
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("campaign", nargs="?", default=DEFAULT_CAMPAIGN)
+    parser.add_argument(
+        "campaign",
+        nargs="?",
+        default=DEFAULT_CAMPAIGN
+    )
+
     args = parser.parse_args()
-    convert_portraits(args.campaign)
+
+    campaign_converted, campaign_skipped = convert_portraits(
+        args.campaign
+    )
+
+    arg_converted, arg_skipped = convert_arg_assets()
+
+    print()
+    print("=" * 60)
+    print("ALL CONVERSIONS COMPLETE")
+    print("=" * 60)
+    print(
+        f"Campaign: {campaign_converted} converted, "
+        f"{campaign_skipped} already WebP"
+    )
+    print(
+        f"ARG:      {arg_converted} converted, "
+        f"{arg_skipped} already WebP"
+    )
