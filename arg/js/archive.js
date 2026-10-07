@@ -3,6 +3,8 @@ const STORAGE_KEY = "axisArchiveProgress";
 let archiveData = null;
 let responseData = null;
 
+let currentSearch = "";
+
 
 /*
  * =========================================
@@ -45,19 +47,15 @@ function saveProgress(progress) {
 
 
 function isRecordUnlocked(record) {
+
     /*
-     * Records marked unlocked in the JSON are
-     * available from the beginning.
+     * Records marked unlocked in the JSON
+     * are available from the beginning.
      */
 
     if (record.unlocked === true) {
         return true;
     }
-
-
-    /*
-     * Check the player's saved progress.
-     */
 
     const progress = getProgress();
 
@@ -72,6 +70,7 @@ function isRecordUnlocked(record) {
  */
 
 function getArchiveStatus() {
+
     const totalRecords =
         archiveData.records.length;
 
@@ -102,13 +101,15 @@ function getArchiveStatus() {
  */
 
 async function loadArchive() {
+
     try {
+
         const archiveResponse =
             await fetch("archive.json");
 
         if (!archiveResponse.ok) {
             throw new Error(
-                `Failed to load archive: ${archiveResponse.status}`
+                `Failed to load archive: ${archiveResponse.status} `
             );
         }
 
@@ -121,7 +122,7 @@ async function loadArchive() {
 
         if (!responsesResponse.ok) {
             throw new Error(
-                `Failed to load responses: ${responsesResponse.status}`
+                `Failed to load responses: ${responsesResponse.status} `
             );
         }
 
@@ -131,21 +132,29 @@ async function loadArchive() {
 
         renderArchive();
 
+        setupRecordControls();
+
+        setupTerminalJump();
+
         setupConsole();
 
     } catch (error) {
+
         console.error(
             "Archive loading error:",
             error
         );
 
-        document.getElementById(
-            "record-list"
-        ).innerHTML = `
-            <p class="loading">
-                ARCHIVE ERROR: RECORD DATABASE UNAVAILABLE
-            </p>
-        `;
+        const recordList =
+            document.getElementById("record-list");
+
+        if (recordList) {
+            recordList.innerHTML = `
+    < p class="loading" >
+        ARCHIVE ERROR: RECORD DATABASE UNAVAILABLE
+                </p >
+    `;
+        }
     }
 }
 
@@ -175,7 +184,7 @@ function renderArchive() {
 
 
     /*
-     * Dynamically calculate recovery state.
+     * Determine recovered records.
      */
 
     const unlockedRecords =
@@ -188,19 +197,18 @@ function renderArchive() {
         archiveData.records.length;
 
 
-    const status =
-        getArchiveStatus();
-
+    /*
+     * Archive status.
+     */
 
     document.getElementById(
         "archive-status"
     ).textContent =
-        status;
+        getArchiveStatus();
 
 
     /*
-     * Dynamically calculate the number
-     * of records currently recovered.
+     * Records indexed.
      */
 
     document.getElementById(
@@ -210,27 +218,312 @@ function renderArchive() {
 
 
     /*
-     * Records
+     * Render records.
      */
 
+    renderRecords(unlockedRecords);
+}
+
+
+/*
+ * =========================================
+ * RECORD SEARCH
+ * =========================================
+ */
+
+function renderRecords(unlockedRecords) {
+
     const recordList =
-        document.getElementById(
-            "record-list"
-        );
+        document.getElementById("record-list");
+
+    if (!recordList) {
+        return;
+    }
+
 
     recordList.innerHTML = "";
 
 
     /*
-     * Only display records the player
-     * has actually recovered.
+     * Search only.
      */
 
-    unlockedRecords.forEach(record => {
-        renderRecord(
-            record,
-            recordList
+    const visibleRecords =
+        unlockedRecords.filter(record =>
+            recordMatchesSearch(record)
         );
+
+
+    /*
+     * No results.
+     */
+
+    if (visibleRecords.length === 0) {
+
+        const noResults =
+            document.createElement("p");
+
+        noResults.className =
+            "no-results";
+
+
+        if (unlockedRecords.length === 0) {
+
+            noResults.textContent =
+                "NO RECOVERED RECORDS.";
+
+        } else {
+
+            noResults.textContent =
+                "NO RECORDS MATCH CURRENT SEARCH.";
+        }
+
+
+        recordList.appendChild(noResults);
+
+    } else {
+
+        visibleRecords.forEach(record => {
+
+            renderRecord(
+                record,
+                recordList
+            );
+
+        });
+    }
+
+
+    /*
+     * Update count.
+     */
+
+    updateRecordCount(
+        visibleRecords.length,
+        unlockedRecords.length
+    );
+}
+
+
+/*
+ * =========================================
+ * SEARCH MATCHING
+ * =========================================
+ */
+
+function recordMatchesSearch(record) {
+
+    /*
+     * Empty search shows all recovered records.
+     */
+
+    if (!currentSearch) {
+        return true;
+    }
+
+
+    const searchText =
+        currentSearch.toLowerCase();
+
+
+    /*
+     * Fields included in search.
+     */
+
+    const searchableText = [
+        record.id,
+        record.title,
+        record.description,
+        record.status
+    ]
+        .filter(value =>
+            value !== undefined &&
+            value !== null
+        )
+        .join(" ")
+        .toLowerCase();
+
+
+    return searchableText.includes(searchText);
+}
+
+
+/*
+ * =========================================
+ * RECORD COUNT
+ * =========================================
+ */
+
+function updateRecordCount(
+    visibleCount,
+    recoveredCount
+) {
+
+    const countElement =
+        document.getElementById("record-count");
+
+
+    if (!countElement) {
+        return;
+    }
+
+
+    if (currentSearch) {
+
+        countElement.textContent =
+            `${visibleCount} / ${recoveredCount} SHOWN`;
+
+    } else {
+
+        countElement.textContent =
+            `${recoveredCount} RECOVERED`;
+    }
+}
+
+
+/*
+ * =========================================
+ * RECORD CONTROLS
+ * =========================================
+ */
+
+function setupRecordControls() {
+
+    const searchInput =
+        document.getElementById("record-search");
+
+    const clearButton =
+        document.getElementById("clear-search");
+
+
+    /*
+     * Search input.
+     */
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            event => {
+
+                currentSearch =
+                    event.target.value.trim();
+
+                rerenderRecordsOnly();
+            }
+        );
+    }
+
+
+    /*
+     * Clear search.
+     */
+
+    if (clearButton) {
+
+        clearButton.addEventListener(
+            "click",
+            () => {
+
+                if (!searchInput) {
+                    return;
+                }
+
+                searchInput.value = "";
+
+                currentSearch = "";
+
+                rerenderRecordsOnly();
+
+                searchInput.focus();
+            }
+        );
+    }
+}
+
+
+/*
+ * =========================================
+ * RE-RENDER RECORDS
+ * =========================================
+ */
+
+function rerenderRecordsOnly() {
+
+    if (!archiveData) {
+        return;
+    }
+
+
+    const unlockedRecords =
+        archiveData.records.filter(record =>
+            isRecordUnlocked(record)
+        );
+
+
+    renderRecords(unlockedRecords);
+}
+
+
+/*
+ * =========================================
+ * TERMINAL JUMP
+ * =========================================
+ */
+
+function setupTerminalJump() {
+
+    const jumpButtons =
+        document.querySelectorAll(".terminal-jump");
+
+
+    if (!jumpButtons.length) {
+        return;
+    }
+
+
+    jumpButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+
+                const terminal =
+                    document.querySelector(
+                        ".archive-console"
+                    );
+
+
+                if (!terminal) {
+                    return;
+                }
+
+
+                terminal.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+
+                const input =
+                    document.getElementById(
+                        "console-code"
+                    );
+
+
+                if (input) {
+
+                    setTimeout(() => {
+                        input.focus();
+                    }, 500);
+
+                }
+            }
+        );
+
     });
 }
 
@@ -241,16 +534,20 @@ function renderArchive() {
  * =========================================
  */
 
-function renderRecord(record, recordList) {
+function renderRecord(
+    record,
+    recordList
+) {
 
     const article =
         document.createElement("article");
 
-    article.className = "record";
+    article.className =
+        "record";
 
 
     /*
-     * Missing records get a different appearance.
+     * Missing records.
      */
 
     if (record.status === "missing") {
@@ -259,7 +556,7 @@ function renderRecord(record, recordList) {
 
 
     /*
-     * Record number
+     * Record number.
      */
 
     const number =
@@ -273,7 +570,7 @@ function renderRecord(record, recordList) {
 
 
     /*
-     * Record content
+     * Record content.
      */
 
     const content =
@@ -284,16 +581,12 @@ function renderRecord(record, recordList) {
 
 
     /*
-     * Title
+     * Title.
      */
 
     const title =
         document.createElement("h3");
 
-
-    /*
-     * Records with links become clickable.
-     */
 
     if (record.link) {
 
@@ -316,7 +609,7 @@ function renderRecord(record, recordList) {
 
 
     /*
-     * Description
+     * Description.
      */
 
     const description =
@@ -327,7 +620,7 @@ function renderRecord(record, recordList) {
 
 
     /*
-     * Status
+     * Status.
      */
 
     const status =
@@ -341,7 +634,7 @@ function renderRecord(record, recordList) {
 
 
     /*
-     * Assemble record
+     * Assemble.
      */
 
     content.appendChild(title);
@@ -388,14 +681,18 @@ function setupConsole() {
 
             event.preventDefault();
 
+
             const code =
                 input.value.trim();
+
 
             if (!code) {
                 return;
             }
 
+
             processCode(code);
+
 
             input.value = "";
 
@@ -420,7 +717,7 @@ function processCode(inputCode) {
 
 
     /*
-     * Terminal commands
+     * Terminal commands.
      */
 
     if (code === "CLEAR PROGRESS") {
@@ -428,10 +725,6 @@ function processCode(inputCode) {
         return;
     }
 
-
-    /*
-     * Optional shorter version.
-     */
 
     if (code === "CLEAR") {
         clearProgress();
@@ -453,13 +746,12 @@ function processCode(inputCode) {
 
 
     /*
-     * Check for a special response.
-     *
-     * These are defined in responses.json.
+     * Special responses.
      */
 
     const specialResponses =
         responseData?.specialResponses || {};
+
 
     if (
         Object.prototype.hasOwnProperty.call(
@@ -467,6 +759,7 @@ function processCode(inputCode) {
             code
         )
     ) {
+
         saveProgress(progress);
 
         addConsoleMessage(
@@ -479,8 +772,7 @@ function processCode(inputCode) {
 
 
     /*
-     * Find a locked record whose code
-     * matches the submitted code.
+     * Find matching locked record.
      */
 
     const record =
@@ -502,7 +794,7 @@ function processCode(inputCode) {
 
 
     /*
-     * No matching code.
+     * Invalid code.
      */
 
     if (!record) {
@@ -532,7 +824,7 @@ function processCode(inputCode) {
 
 
         /*
-         * Attempt-based default hint.
+         * Attempt hints.
          */
 
         const hints =
@@ -548,6 +840,7 @@ function processCode(inputCode) {
 
 
         if (hint) {
+
             addConsoleMessage(
                 hint.message,
                 hint.type || "warning"
@@ -560,7 +853,7 @@ function processCode(inputCode) {
 
 
     /*
-     * Unlock the record.
+     * Unlock record.
      */
 
     if (
@@ -568,6 +861,7 @@ function processCode(inputCode) {
             record.id
         )
     ) {
+
         progress.unlockedRecords.push(
             record.id
         );
@@ -578,7 +872,7 @@ function processCode(inputCode) {
 
 
     /*
-     * Notify the player.
+     * Success messages.
      */
 
     addConsoleMessage(
@@ -601,9 +895,7 @@ function processCode(inputCode) {
 
 
     /*
-     * Re-render the archive so that
-     * the status and record count update
-     * immediately.
+     * Update archive.
      */
 
     renderArchive();
@@ -622,11 +914,6 @@ function clearProgress() {
         getProgress();
 
 
-    /*
-     * Don't erase anything if the player
-     * hasn't actually unlocked anything.
-     */
-
     if (progress.unlockedRecords.length === 0) {
 
         addConsoleMessage(
@@ -638,10 +925,6 @@ function clearProgress() {
         return;
     }
 
-
-    /*
-     * Require confirmation.
-     */
 
     const confirmed =
         window.confirm(
@@ -664,7 +947,7 @@ function clearProgress() {
 
 
     /*
-     * Remove saved progress.
+     * Remove progress.
      */
 
     localStorage.removeItem(
@@ -673,7 +956,23 @@ function clearProgress() {
 
 
     /*
-     * Update the archive immediately.
+     * Reset search too.
+     */
+
+    currentSearch = "";
+
+    const searchInput =
+        document.getElementById(
+            "record-search"
+        );
+
+    if (searchInput) {
+        searchInput.value = "";
+    }
+
+
+    /*
+     * Update archive.
      */
 
     renderArchive();
@@ -688,6 +987,7 @@ function clearProgress() {
         "ARCHIVE PROGRESS CLEARED.",
         "success"
     );
+
 
     addConsoleMessage(
         responseData?.defaults?.clearRestored ||
@@ -712,6 +1012,11 @@ function addConsoleMessage(
         document.getElementById(
             "console-output"
         );
+
+
+    if (!output) {
+        return;
+    }
 
 
     const line =

@@ -7,7 +7,9 @@
             "INVALID ARCHIVAL REFERENCE.",
             "NOTHING FOUND.",
             "THE ARCHIVE DOES NOT RECOGNIZE THAT ENTRY.",
-            "VERA WOULD BE DISAPPOINTED."
+            "VERA WOULD BE DISAPPOINTED.",
+            "HOW... UNFORTUNATE.",
+            "WE BELIEVE IN YOU."
         ],
         "accessGranted": "ACCESS GRANTED.",
         "recordRecovered": "RECORD {id} RECOVERED."

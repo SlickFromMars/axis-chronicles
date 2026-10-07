@@ -4,77 +4,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Archive</title>
+
     <link rel="stylesheet" href="css/archive.css">
 </head>
 
 <body>
+
     <main class="archive">
 
+        <!-- RETURN -->
         <a href="../index.html" class="back-button">
             &lt; RETURN TO JOURNAL
         </a>
 
-        <header class="archive-header">
-            <div class="classification">ARCHIVAL RECORD</div>
 
-            <h1 id="archive-title">Loading...</h1>
+        <!-- HEADER -->
+        <header class="archive-header">
+
+            <div class="classification">
+                ARCHIVAL RECORD
+            </div>
+
+            <h1 id="archive-title">
+                Loading...
+            </h1>
 
             <p class="subtitle" id="archive-subtitle">
                 Loading...
             </p>
 
             <div class="header-line"></div>
+
         </header>
 
 
+        <!-- ARCHIVE INFORMATION -->
         <section class="archive-info">
 
             <div>
-                <span class="label">ARCHIVE STATUS</span>
-                <span class="value status" id="archive-status">—</span>
+                <span class="label">
+                    ARCHIVE STATUS
+                </span>
+
+                <span class="value status" id="archive-status">
+                    —
+                </span>
             </div>
 
             <div>
-                <span class="label">RECORDS INDEXED</span>
-                <span class="value" id="records-indexed">—</span>
+                <span class="label">
+                    RECORDS INDEXED
+                </span>
+
+                <span class="value" id="records-indexed">
+                    —
+                </span>
             </div>
 
         </section>
 
 
+        <!-- RECORDS -->
         <section class="records">
+            <div class="records-header">
+                <div>
+                    <h2>Records</h2>
+                    <p class="record-count" id="record-count">—</p>
+                </div>
+            </div>
 
-            <h2>Records</h2>
+            <div class="record-controls">
+                <div class="record-search">
+                    <span class="search-symbol" aria-hidden="true">&gt;_</span>
+
+                    <input type="search" id="record-search" placeholder="SEARCH ARCHIVE..." autocomplete="off"
+                        spellcheck="false" aria-label="Search archive records">
+
+                    <button type="button" id="clear-search" aria-label="Clear search">
+                        CLEAR
+                    </button>
+                </div>
+
+                <button type="button" class="terminal-jump terminal-button">
+                    <span class="terminal-arrow" aria-hidden="true">▸</span>
+                    ACCESS AXIS TERMINAL
+                </button>
+            </div>
 
             <div id="record-list">
-                <p class="loading">
-                    Loading archival records...
-                </p>
+                <p class="loading">Loading archival records...</p>
             </div>
-
         </section>
 
 
-        <!--
-            ARCHIVE TERMINAL
-        -->
 
+        <!-- ARCHIVE TERMINAL -->
         <section class="archive-console">
 
             <div class="console-header">
-                <span>AXIS TERMINAL</span>
-                <span class="console-status">ONLINE</span>
+
+                <span>
+                    AXIS TERMINAL
+                </span>
+
+                <span class="console-status">
+                    ONLINE
+                </span>
+
             </div>
 
+
             <div class="console-output" id="console-output" aria-live="polite">
-                <div>&gt; ARCHIVE TERMINAL READY.</div>
-                <div>&gt; ENTER ACCESS CODE.</div>
+
+                <div>
+                    &gt; AXIS TERMINAL READY.
+                </div>
+
+                <div>
+                    &gt; ENTER ACCESS CODE.
+                </div>
+
             </div>
+
 
             <form id="console-form" class="console-input">
 
-                <span class="prompt">&gt;</span>
+                <span class="prompt">
+                    &gt;
+                </span>
 
                 <input type="text" id="console-code" autocomplete="off" spellcheck="false" placeholder="ENTER CODE"
                     aria-label="Archive access code">
@@ -88,9 +147,12 @@
         </section>
 
 
+        <!-- FOOTER -->
         <footer class="archive-footer">
 
-            <p>ARCHIVE SYSTEM</p>
+            <p>
+                ARCHIVE SYSTEM
+            </p>
 
             <p class="footer-warning">
                 Some records may be incomplete, corrupted, or unavailable.
@@ -100,7 +162,9 @@
 
     </main>
 
+
     <script src="js/archive.js"></script>
+
 </body>
 
 </html>
