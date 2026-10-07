@@ -1,6 +1,7 @@
 const STORAGE_KEY = "axisArchiveProgress";
 
 let archiveData = null;
+let responseData = null;
 
 
 /*
@@ -102,17 +103,30 @@ function getArchiveStatus() {
 
 async function loadArchive() {
     try {
-        const response =
+        const archiveResponse =
             await fetch("archive.json");
 
-        if (!response.ok) {
+        if (!archiveResponse.ok) {
             throw new Error(
-                `Failed to load archive: ${response.status}`
+                `Failed to load archive: ${archiveResponse.status}`
             );
         }
 
         archiveData =
-            await response.json();
+            await archiveResponse.json();
+
+
+        const responsesResponse =
+            await fetch("responses.json");
+
+        if (!responsesResponse.ok) {
+            throw new Error(
+                `Failed to load responses: ${responsesResponse.status}`
+            );
+        }
+
+        responseData =
+            await responsesResponse.json();
 
 
         renderArchive();
@@ -439,6 +453,32 @@ function processCode(inputCode) {
 
 
     /*
+     * Check for a special response.
+     *
+     * These are defined in responses.json.
+     */
+
+    const specialResponses =
+        responseData?.specialResponses || {};
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            specialResponses,
+            code
+        )
+    ) {
+        saveProgress(progress);
+
+        addConsoleMessage(
+            specialResponses[code],
+            "warning"
+        );
+
+        return;
+    }
+
+
+    /*
      * Find a locked record whose code
      * matches the submitted code.
      */
@@ -469,25 +509,19 @@ function processCode(inputCode) {
 
         saveProgress(progress);
 
-        const responses = [
-            "ACCESS DENIED.",
-            "CODE NOT RECOGNIZED.",
-            "NO MATCH FOUND IN ARCHIVE INDEX.",
-            "INVALID ARCHIVAL REFERENCE.",
-            "THAT CODE DOES NOT CORRESPOND TO A RECOVERED RECORD.",
-            "ACCESS DENIED. PLEASE REFER TO THE AVAILABLE MATERIAL.",
-            "NOTHING FOUND.",
-            "THE ARCHIVE DOES NOT RECOGNIZE THAT ENTRY.",
-            "VERA WOULD BE DISAPPOINTED."
-        ];
+
+        const responses =
+            responseData?.defaults?.invalidCode || [
+                "ACCESS DENIED."
+            ];
 
 
         const response =
             responses[
-                Math.floor(
-                    Math.random() *
-                    responses.length
-                )
+            Math.floor(
+                Math.random() *
+                responses.length
+            )
             ];
 
 
@@ -497,11 +531,26 @@ function processCode(inputCode) {
         );
 
 
-        if (progress.attempts === 10) {
+        /*
+         * Attempt-based default hint.
+         */
 
+        const hints =
+            responseData?.defaults?.attemptHints || [];
+
+
+        const hint =
+            hints.find(
+                entry =>
+                    entry.attempt ===
+                    progress.attempts
+            );
+
+
+        if (hint) {
             addConsoleMessage(
-                "PERHAPS THE AVAILABLE RECORDS CONTAIN THE ANSWER.",
-                "warning"
+                hint.message,
+                hint.type || "warning"
             );
         }
 
@@ -533,12 +582,20 @@ function processCode(inputCode) {
      */
 
     addConsoleMessage(
+        responseData?.defaults?.accessGranted ||
         "ACCESS GRANTED.",
         "success"
     );
 
+
     addConsoleMessage(
-        `RECORD ${record.id} RECOVERED.`,
+        (
+            responseData?.defaults?.recordRecovered ||
+            "RECORD {id} RECOVERED."
+        ).replace(
+            "{id}",
+            record.id
+        ),
         "success"
     );
 
@@ -573,6 +630,7 @@ function clearProgress() {
     if (progress.unlockedRecords.length === 0) {
 
         addConsoleMessage(
+            responseData?.defaults?.clearNoProgress ||
             "NO RECOVERED PROGRESS FOUND.",
             "warning"
         );
@@ -596,6 +654,7 @@ function clearProgress() {
     if (!confirmed) {
 
         addConsoleMessage(
+            responseData?.defaults?.clearCancelled ||
             "CLEAR OPERATION CANCELLED.",
             "warning"
         );
@@ -625,16 +684,17 @@ function clearProgress() {
      */
 
     addConsoleMessage(
+        responseData?.defaults?.clearSuccess ||
         "ARCHIVE PROGRESS CLEARED.",
         "success"
     );
 
     addConsoleMessage(
+        responseData?.defaults?.clearRestored ||
         "RECOVERY STATE RESTORED TO INITIAL CONDITION.",
         "success"
     );
 }
-
 
 
 /*

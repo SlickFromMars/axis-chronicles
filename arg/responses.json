@@ -1,0 +1,21 @@
+{
+    "defaults": {
+        "invalidCode": [
+            "ACCESS DENIED.",
+            "CODE NOT RECOGNIZED.",
+            "NO MATCH FOUND IN ARCHIVE INDEX.",
+            "INVALID ARCHIVAL REFERENCE.",
+            "NOTHING FOUND.",
+            "THE ARCHIVE DOES NOT RECOGNIZE THAT ENTRY.",
+            "VERA WOULD BE DISAPPOINTED."
+        ],
+        "accessGranted": "ACCESS GRANTED.",
+        "recordRecovered": "RECORD {id} RECOVERED."
+    },
+    "specialResponses": {
+        "HELP": "THERE IS NO HELP AVAILABLE.",
+        "HINT": "THE ARCHIVE CONTAINS EVERYTHING YOU NEED.",
+        "STATUS": "WHAT EXACTLY IS A \"STATUS\"?",
+        "FTSMMYD": "THERE MUST BE SOMETHING MORE YOU CAN DO."
+    }
+}
