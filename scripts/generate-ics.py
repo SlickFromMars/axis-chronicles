@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import json
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -29,7 +30,9 @@ def load_campaign(campaign_id):
     campaign_file = campaign_dir / "campaign.json"
 
     if not campaign_file.exists():
-        raise FileNotFoundError(f"Campaign file not found: {campaign_file}")
+        raise FileNotFoundError(
+            f"Campaign file not found: {campaign_file}"
+        )
 
     with campaign_file.open("r", encoding="utf-8") as file:
         campaign = json.load(file)
@@ -56,11 +59,18 @@ def generate_event(session, campaign_id, team_labels, tz):
     now = datetime.now(timezone.utc)
 
     summary = session["title"]
-    team = team_labels.get(str(session.get("team")), session.get("team", "Shared"))
+
+    team = team_labels.get(
+        str(session.get("team")),
+        session.get("team", "Shared")
+    )
 
     description_parts = [team]
+
     if session.get("chapter") not in (None, ""):
-        description_parts.append(f"Chapter {session['chapter']}")
+        description_parts.append(
+            f"Chapter {session['chapter']}"
+        )
 
     description = " - ".join(description_parts)
 
@@ -77,17 +87,113 @@ def generate_event(session, campaign_id, team_labels, tz):
     ])
 
 
-def main(campaign_id):
+def calculate_calendar_state(sessions_file, campaign):
+    """
+    Create a hash representing everything that affects the
+    generated calendar.
+
+    If none of these values change, the existing ICS file can
+    safely be reused.
+    """
+
+    with sessions_file.open("rb") as file:
+        sessions_hash = hashlib.sha256(
+            file.read()
+        ).hexdigest()
+
+    calendar_state = {
+        "sessions_hash": sessions_hash,
+        "timezone": campaign.get(
+            "calendar", {}
+        ).get(
+            "timezone",
+            DEFAULT_TIMEZONE
+        ),
+        "campaign_name": campaign.get("name", ""),
+        "team_labels": get_team_labels(campaign)
+    }
+
+    state_json = json.dumps(
+        calendar_state,
+        sort_keys=True,
+        ensure_ascii=False
+    )
+
+    return hashlib.sha256(
+        state_json.encode("utf-8")
+    ).hexdigest()
+
+
+def load_previous_state(state_file):
+    if not state_file.exists():
+        return None
+
+    try:
+        with state_file.open("r", encoding="utf-8") as file:
+            state = json.load(file)
+
+        return state.get("calendar_hash")
+
+    except (json.JSONDecodeError, OSError):
+        return None
+
+
+def save_state(state_file, calendar_hash):
+    state = {
+        "calendar_hash": calendar_hash
+    }
+
+    state_file.write_text(
+        json.dumps(state, indent=4) + "\n",
+        encoding="utf-8"
+    )
+
+
+def main(campaign_id, force=False):
     campaign_dir, campaign = load_campaign(campaign_id)
+
     data_dir = campaign_dir / "data"
     sessions_file = data_dir / "sessions.json"
     output_file = data_dir / "sessions.ics"
 
+    # This file is local build state and should be ignored by Git.
+    state_file = data_dir / ".sessions.ics.state.json"
+
+    if not sessions_file.exists():
+        raise FileNotFoundError(
+            f"Sessions file not found: {sessions_file}"
+        )
+
     with sessions_file.open("r", encoding="utf-8") as file:
         sessions = json.load(file)
 
-    timezone_name = campaign.get("calendar", {}).get("timezone", DEFAULT_TIMEZONE)
+    calendar_hash = calculate_calendar_state(
+        sessions_file,
+        campaign
+    )
+
+    previous_hash = load_previous_state(state_file)
+
+    # If the calendar already exists and nothing affecting it
+    # has changed, don't touch the ICS file.
+    if (
+        not force
+        and output_file.exists()
+        and previous_hash == calendar_hash
+    ):
+        print(f"Calendar is already up to date: {output_file}")
+        print("No calendar file was regenerated.")
+        return False
+
+    timezone_name = campaign.get(
+        "calendar", {}
+    ).get(
+        "timezone",
+        DEFAULT_TIMEZONE
+    )
+
     tz = ZoneInfo(timezone_name)
+
     team_labels = get_team_labels(campaign)
     campaign_name = campaign.get("name", campaign_id)
 
@@ -118,11 +224,34 @@ def main(campaign_id):
         encoding="utf-8"
     )
 
+    save_state(
+        state_file,
+        calendar_hash
+    )
+
     print(f"Generated: {output_file}")
+
+    return True
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("campaign", nargs="?", default=DEFAULT_CAMPAIGN)
+
+    parser.add_argument(
+        "campaign",
+        nargs="?",
+        default=DEFAULT_CAMPAIGN
+    )
+
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Regenerate the calendar even if nothing changed."
+    )
+
     args = parser.parse_args()
-    main(args.campaign)
+
+    main(
+        args.campaign,
+        force=args.force
+    )

@@ -1,5 +1,6 @@
 from pathlib import Path
 import argparse
+
 from PIL import Image
 
 
@@ -15,9 +16,8 @@ SOURCE_EXTENSIONS = {
 WEBP_QUALITY = 90
 DEFAULT_CAMPAIGN = "breaking-the-axis"
 
-ARG_ASSET_DIR = Path(
-    r"C:\Users\wchur\OneDrive\Documents\GitHub\axis-chronicles\arg\assets"
-)
+# ARG assets are stored inside the repository.
+ARG_ASSET_DIR = PROJECT_ROOT / "arg" / "assets"
 
 
 def get_campaign_dir(campaign_id):
@@ -122,6 +122,7 @@ def convert_arg_assets():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+
     parser.add_argument(
         "campaign",
         nargs="?",
@@ -140,10 +141,12 @@ if __name__ == "__main__":
     print("=" * 60)
     print("ALL CONVERSIONS COMPLETE")
     print("=" * 60)
+
     print(
         f"Campaign: {campaign_converted} converted, "
         f"{campaign_skipped} already WebP"
     )
+
     print(
         f"ARG:      {arg_converted} converted, "
         f"{arg_skipped} already WebP"
