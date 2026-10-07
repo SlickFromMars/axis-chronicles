@@ -478,7 +478,7 @@ function processCode(inputCode) {
             "ACCESS DENIED. PLEASE REFER TO THE AVAILABLE MATERIAL.",
             "NOTHING FOUND.",
             "THE ARCHIVE DOES NOT RECOGNIZE THAT ENTRY.",
-            "VERA WOULD BE DISAPOINTED."
+            "VERA WOULD BE DISAPPOINTED."
         ];
 
 
