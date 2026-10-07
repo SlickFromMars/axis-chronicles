@@ -91,9 +91,9 @@
         "race": "Human",
         "class": "Ranger",
         "description": "A former pirate who has repeatedly found himself closer to danger than intended.",
-        "status": "Active",
+        "status": "RETURNED",
         "quote": null,
-        "updateVersion": 1,
+        "updateVersion": 2,
         "notes": []
     },
     {

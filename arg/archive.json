@@ -2,7 +2,6 @@
     "title": "Recovered Documents",
     "subtitle": "A Historical Archive of Caeloran Lore",
     "status": "PARTIALLY RECOVERED",
-    "recordsIndexed": 1,
     "records": [
         {
             "id": "001",
@@ -14,11 +13,20 @@
         },
         {
             "id": "002",
+            "title": "Dream Account",
+            "description": "Transcription from an interview with Oliver about a strange dream.",
+            "status": "recovered",
+            "unlocked": false,
+            "code": "620191313254",
+            "link": "notes/oliver-dream.html"
+        },
+        {
+            "id": "003",
             "title": "Recovered Material",
             "description": "Additional material recovered from an unknown source.",
             "status": "recovered",
             "unlocked": false,
-            "code": "620191313254",
+            "code": "RETURNED",
             "link": "coming-soon.html"
         }
     ]
