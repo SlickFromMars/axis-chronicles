@@ -1,26 +1,8 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Breaking the Axis//Campaign Calendar//EN
+PRODID:-//Glory of the Gods//Campaign Calendar//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Breaking the Axis
+X-WR-CALNAME:Glory of the Gods
 X-WR-TIMEZONE:America/New_York
-BEGIN:VEVENT
-UID:crossover-chapter-2@breaking-the-axis
-DTSTAMP:20261006T140135Z
-DTSTART:20261004T000000Z
-DTEND:20261004T030000Z
-SUMMARY:Breaking the Axis\, Chapter 2 - The Unforgiven
-DESCRIPTION:Shared - Chapter 2
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:theft-mini-session@breaking-the-axis
-DTSTAMP:20261006T140135Z
-DTSTART:20261012T003000Z
-DTEND:20261012T033000Z
-SUMMARY:Breaking the Axis\, Chapter 3 - Smooth Criminals
-DESCRIPTION:Shared - Chapter 3
-STATUS:CONFIRMED
-END:VEVENT
 END:VCALENDAR

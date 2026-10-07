@@ -1,7 +1,7 @@
 [
     {
         "id": "act-1",
-        "title": "Act 1 -   A Path of Conquest and Destruction",
+        "title": "Act 1 - A Path of Conquest and Destruction",
         "team": "shared",
         "type": "main",
         "status": "active",
@@ -110,7 +110,7 @@
         "description": "Jasper is on a journey that will put his home of Reiwa in the center of a possible conflict.",
         "objectives": [
             {
-                "text": "It seem the Crystal has been trying to communicate with you, probably best to find out what he wants",
+                "text": "It seem the Crystal has been trying to communicate with you, probably best to find out what he wants.",
                 "completed": false
             }
         ],
