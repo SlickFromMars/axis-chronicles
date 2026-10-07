@@ -350,3 +350,25 @@ body {
     color: #ccc;
     background: rgba(255, 255, 255, 0.03);
 }
+
+.back-button {
+    display: inline-block;
+
+    margin-bottom: 2rem;
+
+    color: var(--text-muted);
+    text-decoration: none;
+
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.back-button:hover {
+    color: var(--text-primary);
+    transform: translateX(-3px);
+}

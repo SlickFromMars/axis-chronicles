@@ -38,6 +38,12 @@
             "enabled": true,
             "label": "Music",
             "icon": "♫"
+        },
+        {
+            "id": "archives",
+            "enabled": true,
+            "label": "Archives",
+            "icon": "▥"
         }
     ],
     "theme": {

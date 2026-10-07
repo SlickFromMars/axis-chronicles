@@ -68,7 +68,7 @@ function updatePageURL(page) {
 
     if (
         typeof activeCampaign !==
-            "undefined" &&
+        "undefined" &&
         activeCampaign
     ) {
 
@@ -187,6 +187,14 @@ function navigateTo(
         showMusic();
 
 
+    }
+    else if (
+        page ===
+        "archives"
+    ) {
+
+        window.location.href =
+            "arg/";
     } else if (
         page ===
         "characters"
@@ -194,6 +202,7 @@ function navigateTo(
 
         showCharacters();
     }
+
 }
 
 
@@ -312,7 +321,7 @@ function renderCampaignSwitcher() {
         !button ||
         !menu ||
         typeof campaignRegistry ===
-            "undefined" ||
+        "undefined" ||
         !campaignRegistry
     ) {
         return;
@@ -381,15 +390,15 @@ function renderCampaignSwitcher() {
 
                     const isCurrent =
                         typeof activeCampaign !==
-                            "undefined" &&
+                        "undefined" &&
                         activeCampaign &&
                         activeCampaign.id ===
-                            campaignId;
+                        campaignId;
 
 
                     const label =
                         isCurrent &&
-                        activeCampaign.name
+                            activeCampaign.name
                             ? activeCampaign.name
                             : formatCampaignId(
                                 campaignId
@@ -402,8 +411,8 @@ function renderCampaignSwitcher() {
                             class="
                                 campaign-option
                                 ${isCurrent
-                                    ? "active"
-                                    : ""}
+                            ? "active"
+                            : ""}
                             "
                             data-campaign-id="${escapeAppHTML(
                                 campaignId
@@ -412,19 +421,18 @@ function renderCampaignSwitcher() {
                                 masterPath
                             )}"
                             ${isCurrent
-                                ? 'aria-current="true"'
-                                : ""}
+                            ? 'aria-current="true"'
+                            : ""}
                         >
 
                             <span
                                 class="campaign-option-marker"
                                 aria-hidden="true"
                             >
-                                ${
-                                    isCurrent
-                                        ? "◆"
-                                        : ""
-                                }
+                                ${isCurrent
+                            ? "◆"
+                            : ""
+                        }
                             </span>
 
 
@@ -432,8 +440,8 @@ function renderCampaignSwitcher() {
                                 class="campaign-option-name"
                             >
                                 ${escapeAppHTML(
-                                    label
-                                )}
+                            label
+                        )}
                             </span>
 
                         </button>
@@ -572,7 +580,7 @@ function switchCampaign(
     if (
         activeCampaign &&
         activeCampaign.id ===
-            campaignId
+        campaignId
     ) {
 
         setCampaignSwitcherOpen(
@@ -763,9 +771,9 @@ function showPlaceholder(
 
             <h2>
                 ${escapeAppHTML(
-                    page.charAt(0).toUpperCase() +
-                    page.slice(1)
-                )}
+        page.charAt(0).toUpperCase() +
+        page.slice(1)
+    )}
             </h2>
 
 
@@ -821,7 +829,7 @@ document
                     if (
                         button.hidden ||
                         button.style.display ===
-                            "none"
+                        "none"
                     ) {
                         return;
                     }
