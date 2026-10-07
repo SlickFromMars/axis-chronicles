@@ -45,6 +45,7 @@ jobs:
           cp -r campaigns deploy/
           cp -r css deploy/
           cp -r js deploy/
+          cp -r arg deploy/
 
           touch deploy/.nojekyll
 
