@@ -1,0 +1,16 @@
+{
+    "title": "Campaign Music",
+    "description": "The music behind the world of Caelora.",
+    "sections": [
+        {
+            "title": "Campaign Inspiration",
+            "description": "Songs that inspired the characters, locations, stories, and atmosphere of Breaking the Axis.",
+            "playlist": "https://open.spotify.com/embed/playlist/2n4tFMIR5GfEudPK51svuO?utm_source=generator&si=53fa386e79614ed9"
+        },
+        {
+            "title": "Session Soundtrack",
+            "description": "Music used during our actual sessions.",
+            "playlist": "https://open.spotify.com/embed/playlist/4WpsBbXWCIL5zXoZzuM4Ck?utm_source=generator&theme=0&si=27fd1ec0b0db4e89"
+        }
+    ]
+}

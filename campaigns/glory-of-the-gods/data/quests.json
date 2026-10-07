@@ -1,0 +1,226 @@
+[
+    {
+        "id": "act-1",
+        "title": "Act 1 -   A Path of Conquest and Destruction",
+        "team": "shared",
+        "type": "main",
+        "status": "active",
+        "updateVersion": 3,
+        "description": "The Dragon and Devil want to bring havoc onto the island, two groups must take each down before it's too late.",
+        "objectives": [
+            {
+                "text": "Work with the gods to make a plan to take down one of the gods.",
+                "completed": false
+            },
+            {
+                "text": "Take down the Dragon and his floating castle.",
+                "completed": false
+            },
+            {
+                "text": "Lock the vault before the Devil escapes.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "ghidorah",
+            "destroyah"
+        ],
+        "locations": [],
+        "developments": []
+    },
+    {
+        "id": "unitas",
+        "title": "The Drunkard Farmer",
+        "team": "one",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 2,
+        "description": "A humble farmer looking to find more about his lineage.",
+        "objectives": [
+            {
+                "text": "Find more info on your ancestry.",
+                "completed": false
+            },
+            {
+                "text": "Talk with the Knight about his gift.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "unitas",
+            "gigan"
+        ],
+        "developments": [
+            {
+                "session": "Team 1, Session 3",
+                "text": "Unitas had proven himself in combat to earn the respect of the Knight, now the god has a gift for him when they meet again."
+            }
+        ]
+    },
+    {
+        "id": "sahaero",
+        "title": "The Sweet Prince",
+        "team": "one",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 2,
+        "description": "Sahaero has ran from his past but what will he do when his past catches up to him.",
+        "objectives": [
+            {
+                "text": "Jet Jaguar has seen guards that were sent by your family on the island. Maybe he knows more info?",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "sahaero"
+        ],
+        "developments": [
+            {
+                "session": "Team 1, Session 5: The Sweet Prince and the Hero ",
+                "text": "Jet Jaguar seemed to know that you were on the run and explains that he saw guards from your home kingdom arriving on the island."
+            }
+        ]
+    },
+    {
+        "id": "seldorl",
+        "title": "The inbetween of Hatred and Love",
+        "team": "one",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 2,
+        "description": "After escaping his death by the help of the Queen, Seldorl must now walk a new path from a past of hatred.",
+        "objectives": [
+            {
+                "text": "You've been sent to help aid the team as a way to walk your new path, help complete the mission.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "seldorl"
+        ],
+        "developments": []
+    },
+    {
+        "id": "jasper",
+        "title": "Hail to the King",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 3,
+        "description": "Jasper is on a journey that will put his home of Reiwa in the center of a possible conflict.",
+        "objectives": [
+            {
+                "text": "It seem the Crystal has been trying to communicate with you, probably best to find out what he wants",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "jasper",
+            "space-godzilla"
+        ],
+        "locations": [],
+        "developments": [
+            {
+                "session": "Team 2, Session 5: Aliban and the Empire Ants",
+                "text": "When you went to the underdark to find the Bug, the crystals around you hummed in dissapointment. Is the Crystal trying to get your attention?"
+            },
+            {
+                "session": "Team 2, Session 4: Made of Flesh and Machine",
+                "text": "A familiar voice woke you up in the middle of the night telling you that Von was a traitor. When you went to kill him, a different voice was trying to stop you but it was being smothered."
+            }
+        ]
+    },
+    {
+        "id": "zettai",
+        "title": "In the Flesh",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 3,
+        "description": "After being kicked out of his family due to his mutation, Zettai had made a deal with the Flesh to stop it... but at what cost?",
+        "objectives": [
+            {
+                "text": "Continue to feast on the flesh of fallen enemies... or don't.",
+                "completed": false
+            },
+            {
+                "text": "Find any info on where your sister is.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "zettai",
+            "hedorah"
+        ],
+        "locations": [],
+        "developments": [
+            {
+                "session": "Team 2, Session 4: Made of Flesh and Machine",
+                "text": "After walking back to Hedoron, the leader of the cult, Zagreth, took your flesh core and plunged it into your chest. He also stated he saw your sister somewhat recently and described her as powerful."
+            },
+            {
+                "session": "Team 2, Session 3",
+                "text": "On the road towards Biorante, you found a corpse with a flesh core."
+            }
+        ]
+    },
+    {
+        "id": "azarn",
+        "title": "Welcome to the Family",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 3,
+        "description": "Azarn has been accepted to be the a warlock to the Mech after being almost killed by his brother and family.",
+        "objectives": [
+            {
+                "text": "Find and take back the Mech's tools from your brother.",
+                "completed": false
+            },
+            {
+                "text": "Meet with the Mech and ask about your new arm.",
+                "completed": false
+            },
+            {
+                "text": "Find more metal and tech for the Mech.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "Azarn",
+            "mechagodzilla"
+        ],
+        "locations": [],
+        "developments": [
+            {
+                "session": "Team 2, Session 4: Made of Flesh and Machine",
+                "text": "The Mech said that your brother came in and stole some of his tech for an unknown reason and sent you to go find him. You also asked about a new arm and he seemed to want to make a new one for you."
+            }
+        ]
+    },
+    {
+        "id": "aliban",
+        "title": "Empire Ants",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "After a voice woke him up one night and told him about a team. Aliban has now joined forces with the team and reconnecting with his distant family.",
+        "objectives": [
+            {
+                "text": "Find the Bug and talk more about your family connections.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "aliban",
+            "megalon"
+        ],
+        "developments": [
+            {
+                "session": "Team 2, Session 5: Aliban and the Empire Ants",
+                "text": "You've met and talked to the Bug and brought up your long distant family connection. He seemed very intrigued by this wanted to talk more about it soon."
+            }
+        ]
+    }
+]

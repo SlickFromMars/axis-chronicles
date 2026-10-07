@@ -1,0 +1,197 @@
+{
+    "id": "glory-of-the-gods",
+    "name": "Glory of the Gods",
+    "shortName": "Gojirin Library",
+    "social": {
+        "title": "Glory of the Gods | Gojirin Library",
+        "description": "Explore the world of Gojirin, its characters, gods, quests, and unfolding story.",
+        "imageAlt": "Glory of the Gods — an epic fantasy campaign in the world of Gojirin"
+    },
+    "defaultPage": "quests",
+    "tabs": [
+        {
+            "id": "quests",
+            "enabled": true,
+            "label": "Quests",
+            "icon": "▤"
+        },
+        {
+            "id": "characters",
+            "enabled": true,
+            "label": "Characters",
+            "icon": "♙"
+        },
+        {
+            "id": "map",
+            "enabled": false,
+            "label": "Map",
+            "icon": "⌖"
+        },
+        {
+            "id": "calendar",
+            "enabled": false,
+            "label": "Calendar",
+            "icon": "□"
+        },
+        {
+            "id": "music",
+            "enabled": false,
+            "label": "Music",
+            "icon": "♫"
+        }
+    ],
+    "theme": {
+        "background": "#0b0c10",
+        "backgroundDeep": "#050609",
+        "panel": "#14161b",
+        "panelLight": "#1d2027",
+        "panelHover": "#282c34",
+        "panelDark": "#090a0d",
+        "accent": "#b83a46",
+        "accentLight": "#d96a74",
+        "accentBright": "#f0a0a7",
+        "accentDark": "#79252f",
+        "accentShadow": "#42171d",
+        "accentMuted": "#a05b63",
+        "text": "#d4d6db",
+        "textBright": "#f2f3f5",
+        "muted": "#969aa3",
+        "mutedDark": "#5e626b",
+        "secondary": "#8b9099",
+        "secondaryLight": "#b9bdc5",
+        "success": "#78a889",
+        "failure": "#c65c64",
+        "border": "#30343c",
+        "borderLight": "#484d57"
+    },
+    "data": {
+        "quests": "data/quests.json",
+        "characters": "data/characters.json",
+        "locations": "data/locations.json",
+        "sessions": "data/sessions.json",
+        "music": "data/music.json",
+        "calendar": "data/sessions.ics"
+    },
+    "assets": {
+        "map": "assets/map/caelora.webp",
+        "portraitManifest": "assets/characters/portrait-manifest.json",
+        "favicon": "assets/branding/favicon.png",
+        "appIcon180": "assets/branding/app-icon-180.png",
+        "appIcon192": "assets/branding/app-icon-192.png",
+        "appIcon512": "assets/branding/app-icon-512.png",
+        "socialPreview": "assets/branding/discord-preview.png"
+    },
+    "manifest": "manifest.json",
+    "text": {
+        "header": {
+            "brand": "GLORY OF THE GODS",
+            "label": "CAMPAIGN JOURNAL"
+        },
+        "navigation": {
+            "heading": "JOURNAL"
+        },
+        "home": {
+            "eyebrow": "A Story Played Out Long Ago",
+            "title": "The Gojirin Library ",
+            "description": "A retelling of a story long ago."
+        },
+        "quests": {
+            "categories": {
+                "main": {
+                    "label": "Main Quests",
+                    "singular": "Main Quest"
+                },
+                "side": {
+                    "label": "Side Quests",
+                    "singular": "Side Quest"
+                },
+                "companion": {
+                    "label": "Companion Quests",
+                    "singular": "Companion Quest"
+                }
+            }
+        },
+        "characters": {
+            "page": {
+                "eyebrow": "THE PEOPLE OF GOJIRIN",
+                "title": "Characters",
+                "description": "Heroes, allies, enemies, and others caught in the events of Glory of the Gods."
+            },
+            "players": {
+                "eyebrow": "X's CHOSEN",
+                "title": "Player Characters",
+                "description": "The people at the heart of Glory of the Gods.",
+                "partyLabel": "PARTY"
+            }
+        },
+        "map": {
+            "pageTitle": "Map of Gojirin",
+            "worldName": "Gojirin"
+        },
+        "calendar": {
+            "eyebrow": "SESSION SCHEDULE",
+            "description": "Keep track of the journeys, encounters, and sessions ahead."
+        },
+        "music": {
+            "eyebrow": "THE TUNES OF GOJIRIN"
+        }
+    },
+    "quests": {
+        "categoryOrder": [
+            "main",
+            "side",
+            "companion"
+        ],
+        "teamFilterEnabled": true
+    },
+    "party": {
+        "teams": [
+            {
+                "id": "team-one",
+                "label": "Team One",
+                "symbol": "I",
+                "description": ""
+            },
+            {
+                "id": "team-two",
+                "label": "Team Two",
+                "symbol": "II",
+                "description": ""
+            },
+            {
+                "id": "shared",
+                "label": "Shared",
+                "symbol": "◆",
+                "description": "Characters connected to both teams."
+            }
+        ]
+    },
+    "characters": {
+        "categories": [
+            {
+                "id": "gods",
+                "type": "god",
+                "label": "Gods of the Island",
+                "enabled": true
+            },
+            {
+                "id": "friends",
+                "type": "friend",
+                "label": "Friends",
+                "enabled": true
+            },
+            {
+                "id": "foes",
+                "type": "foe",
+                "label": "Foes",
+                "enabled": true
+            }
+        ],
+        "playerSection": {
+            "enabled": true
+        }
+    },
+    "map": {
+        "coordinatePickerEnabled": true
+    }
+}

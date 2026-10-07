@@ -1,0 +1,256 @@
+[
+    {
+        "id": "bronzeguard-kingdom",
+        "name": "Bronzeguard Kingdom",
+        "type": "Region",
+        "x": 25,
+        "y": 45,
+        "description": "The kingdom of the dwarves, exporting raw minerals, weapons, and armor. It is currently at war with the Order of Truespawn."
+    },
+    {
+        "id": "homeward-reach",
+        "name": "Homeward Reach",
+        "type": "Region",
+        "x": 41.85,
+        "y": 23.75,
+        "description": "A dense taiga zone at high elevation, filled with secrets and serving as the ancestral home of the Waxborn."
+    },
+    {
+        "id": "amber-coast",
+        "name": "Amber Coast",
+        "type": "Region",
+        "x": 78.27,
+        "y": 53.12,
+        "description": "A coastal region lined with spires of sedimentary rock along the waterline. It is home to thieves, con artists, and some of the less fortunate people of Caelora."
+    },
+    {
+        "id": "verdant-expanse",
+        "name": "Verdant Expanses",
+        "type": "Region",
+        "x": 51.36,
+        "y": 50.56,
+        "description": "A vast expanse of plains in the center of Caelora, dotted with small settlements. It serves as a connection point for the island's various factions and regions."
+    },
+    {
+        "id": "the-highlands",
+        "name": "The Highlands",
+        "type": "Region",
+        "x": 75,
+        "y": 35,
+        "description": "The Highlands of Caelora, once home to the stone giants and now under the dominion of Var'Kennan."
+    },
+    {
+        "id": "starfall-forest",
+        "name": "Starfall Forest",
+        "type": "Region",
+        "x": 58,
+        "y": 78,
+        "description": "A forested region of Caelora, filled with wondrous sights and dangerous wild magic. It is home to many of the more exotic races that inhabit the island."
+    },
+    {
+        "id": "marcheon",
+        "name": "Marcheon",
+        "type": "Settlement",
+        "region": "Bronzeguard Kingdom",
+        "x": 24.46,
+        "y": 36.8,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "fort-clob",
+        "name": "Fort Clob",
+        "type": "Fort",
+        "region": "Verdant Expanses",
+        "x": 43,
+        "y": 39.5,
+        "description": "HERE BE CLOBBERIN!!! WE GOBLINS'LL GUT YOU AND EAT YOU FOR BREAKFAST!!"
+    },
+    {
+        "id": "kjerne",
+        "name": "Kjerne",
+        "type": "Settlement",
+        "region": "Verdant Expanses",
+        "x": 49.5,
+        "y": 54.5,
+        "description": "The true center of Caelora, built around the enormous Great Tree of Kjerne. It is home to Vae'Saron and those who worship him, and is frequently alive with parties, festivals, and celebrations of the blessing of life.\n\nNotable Landmarks: Wedding Platform, Grandroot Bathhouse, The Root & Branch, Whispering Garden, Canopy Market"
+    },
+    {
+        "id": "wigston",
+        "name": "Wigston",
+        "type": "Settlement",
+        "region": "Verdant Expanses",
+        "x": 67,
+        "y": 49.5,
+        "description": "A quaint town that serves as a checkpoint between Starfall Forest, the Highlands, and the Amber Coast.\n\nNotable Landmarks: Drift Provisions, Tidemark Shrine, The Steel Talon, The Good Rock"
+    },
+    {
+        "id": "varinthall",
+        "name": "Varinthall",
+        "type": "Settlement",
+        "region": "Starfall Forest",
+        "x": 61.48,
+        "y": 68.1,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "avilan",
+        "name": "Avilan",
+        "type": "Settlement",
+        "region": "Starfall Forest",
+        "x": 47.84,
+        "y": 71.1,
+        "description": "Home to the avian races of Caelora. Built among the towering trees of Starfall Forest, it is a peaceful place of wonder where many of the greatest spellcasters alive reside."
+    },
+    {
+        "id": "staglepeak",
+        "name": "Staglepeak",
+        "type": "Settlement",
+        "region": "Starfall Forest",
+        "x": 72.42,
+        "y": 69.7,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "chord",
+        "name": "Chord",
+        "type": "Settlement",
+        "region": "Verdant Expanses",
+        "x": 56.24,
+        "y": 59.11,
+        "description": "A destitute town built into a gaping ravine and suspended by ropes and pulleys. It is known for its high-quality threads and serves as a religious center for Nihleia.\n\nNotable Landmarks: Raven Bridge, Mossen Alcove, Threadmaker's District, Willow's Roost, Raven's Rest"
+    },
+    {
+        "id": "huron",
+        "name": "Huron",
+        "type": "Settlement",
+        "region": "Verdant Expanses",
+        "x": 40.2,
+        "y": 59.91,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "talisann",
+        "name": "Talisann",
+        "type": "Settlement",
+        "region": "Verdant Expanses",
+        "x": 35.25,
+        "y": 41.33,
+        "description": "A crescent-shaped town built around a lake, currently under siege by the fanatical Order of Truespawn."
+    },
+    {
+        "id": "ponthier",
+        "name": "Ponthier",
+        "type": "Settlement",
+        "region": "Amber Coast",
+        "x": 80.22,
+        "y": 58.11,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "fangcourt",
+        "name": "Fangcourt",
+        "type": "Settlement",
+        "region": "Amber Coast",
+        "x": 87.26,
+        "y": 57.31,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "vjernost",
+        "name": "Vjernost",
+        "type": "Settlement",
+        "region": "Bronzeguard Kingdom",
+        "x": 28.66,
+        "y": 49.32,
+        "description": "Once a dwarven mining colony that exported powerful crystals and magic items, Vjernost has since been razed and transformed into an authoritarian state by the Order of Truespawn."
+    },
+    {
+        "id": "hilrihm",
+        "name": "Hilrihm",
+        "type": "Settlement",
+        "region": "Bronzeguard Kingdom",
+        "x": 18.32,
+        "y": 52.16,
+        "description": "The capital of the Bronzeguard Kingdom. TO BE DISCOVERED!"
+    },
+    {
+        "id": "kassa",
+        "name": "Kassa",
+        "type": "Settlement",
+        "region": "Homeward Reach",
+        "x": 43.05,
+        "y": 29.94,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "belleur",
+        "name": "Belleur",
+        "type": "Settlement",
+        "region": "Homeward Reach",
+        "x": 54.59,
+        "y": 29.74,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "jumira",
+        "name": "Jumira",
+        "type": "Settlement",
+        "region": "The Highlands",
+        "x": 74.37,
+        "y": 25.95,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "bearart",
+        "name": "Bearart",
+        "type": "Settlement",
+        "region": "The Highlands",
+        "x": 87.26,
+        "y": 37.33,
+        "description": "A seaside outpost occupied by Var'Kennan and his forces. It is also the original home of the legendary pirate Winwood \"Black Sea\" Markford."
+    },
+    {
+        "id": "newbon",
+        "name": "Newbon",
+        "type": "Settlement",
+        "region": "The Highlands",
+        "x": 80.85,
+        "y": 41.35,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "high-camorant",
+        "name": "High Camorant",
+        "type": "Settlement",
+        "region": "The Highlands",
+        "x": 67,
+        "y": 39.17,
+        "description": "The capital city of Var'Kennan's domain. Highly dangerous, it is occupied by his legions of Flamechildren and built around Castle Pyre."
+    },
+    {
+        "id": "undersea",
+        "name": "The Undersea",
+        "type": "Region",
+        "x": 70.74,
+        "y": 8.95,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "veloitama-trench",
+        "name": "The Veloi'tama Trench",
+        "type": "Trench",
+        "region": "The Undersea",
+        "x": 90.11,
+        "y": 12.32,
+        "description": "TO BE DISCOVERED!"
+    },
+    {
+        "id": "glaciers",
+        "name": "The Glaciers",
+        "type": "World Border",
+        "region": "The Undersea",
+        "x": 50,
+        "y": 2.9,
+        "description": "TO BE DISCOVERED!"
+    }
+]
