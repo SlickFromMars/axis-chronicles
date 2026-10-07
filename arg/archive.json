@@ -1,0 +1,16 @@
+{
+    "title": "Recovered Documents",
+    "subtitle": "A Historical Archive of Caeloran Lore",
+    "status": "FULLY RECOVERED",
+    "recordsIndexed": 1,
+    "lastUpdated": "UNKNOWN",
+    "records": [
+        {
+            "id": "001",
+            "title": "Personal Note",
+            "description": "Recovered from the heroes' hotel in Avilon.",
+            "status": "recovered",
+            "link": "notes/see-dad.html"
+        }
+    ]
+}

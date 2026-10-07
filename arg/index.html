@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive</title>
+    <link rel="stylesheet" href="css/archive.css">
+</head>
+
+<body>
+    <main class="archive">
+        <header class="archive-header">
+            <div class="classification"> ARCHIVAL RECORD </div>
+            <h1 id="archive-title"> Loading... </h1>
+            <p class="subtitle" id="archive-subtitle"> Loading... </p>
+            <div class="header-line"></div>
+        </header>
+        <section class="archive-info">
+            <div> <span class="label"> ARCHIVE STATUS </span> <span class="value status" id="archive-status"> — </span>
+            </div>
+            <div> <span class="label"> RECORDS INDEXED </span> <span class="value" id="records-indexed"> — </span>
+            </div>
+            <div> <span class="label"> LAST UPDATED </span> <span class="value" id="last-updated"> — </span> </div>
+        </section>
+        <section class="records">
+            <h2>Records</h2>
+            <div id="record-list">
+                <p class="loading"> Loading archival records... </p>
+            </div>
+        </section>
+        <footer class="archive-footer">
+            <p> ARCHIVE SYSTEM</p>
+            <p class="footer-warning"> Some records may be incomplete, corrupted, or unavailable. </p>
+        </footer>
+    </main>
+    <script src="js/archive.js"></script>
+</body>
+
+</html>
