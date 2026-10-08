@@ -5131,6 +5131,7 @@ body.session-preview-open {
     width: 220px;
     min-width: 0;
     box-sizing: border-box;
+    height: auto;
 }
 
 .player-character-card {
@@ -5248,22 +5249,26 @@ body.session-preview-open {
 }
 
 .player-character-card .character-card-title {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: 0 0 0.3rem;
-    padding: 0 0.15rem 0 0;
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    overflow-wrap: anywhere;
-    word-break: normal;
-    hyphens: auto;
-    font-size: 1rem;
-    line-height: 1.2;
+    margin: 0;
+    color: var(--gold-bright);
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 1.25;
+    text-transform: uppercase;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.player-character-card .character-card-title.shrunk {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    line-height: 1.25;
+
+    /* Preserve the same vertical space as the normal title */
+    padding-top: 1px;
+    padding-bottom: 2px;
 }
 
 .player-character-card .character-card-role {

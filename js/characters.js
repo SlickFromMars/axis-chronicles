@@ -84,6 +84,217 @@ function getCharacterConfig() {
 
 
 /* =========================================================
+   CHARACTER NAME FITTING
+   ========================================================= */
+
+/*
+    Long character names can be slightly smaller than
+    normal names so they remain on one line.
+
+    The CSS class:
+
+        .character-card-title.shrunk
+
+    controls the smaller font size.
+*/
+
+function fitCharacterCardNames() {
+
+    const titles =
+        document.querySelectorAll(
+            ".character-card-title"
+        );
+
+
+    titles.forEach(title => {
+
+        /*
+            Always begin by removing the class.
+
+            This is important because a card may become
+            wider after a resize. A name that previously
+            needed shrinking may no longer need it.
+        */
+
+        title.classList.remove(
+            "shrunk"
+        );
+
+
+        /*
+            Force the browser to finish layout before
+            measuring the title.
+        */
+
+        void title.offsetWidth;
+
+
+        /*
+            If the text fits normally, leave it alone.
+        */
+
+        if (
+            title.scrollWidth <=
+            title.clientWidth
+        ) {
+            return;
+        }
+
+
+        /*
+            The name does not fit, so activate the
+            smaller CSS style.
+        */
+
+        title.classList.add(
+            "shrunk"
+        );
+
+    });
+}
+
+
+/*
+    Run the fitting after the browser has completed
+    rendering the cards and fonts.
+*/
+
+function scheduleCharacterNameFitting() {
+
+    requestAnimationFrame(() => {
+
+        requestAnimationFrame(() => {
+
+            fitCharacterCardNames();
+
+        });
+
+    });
+
+
+    /*
+        If the display font loads after the cards render,
+        measure the names again.
+    */
+
+    if (
+        document.fonts &&
+        document.fonts.ready
+    ) {
+
+        document.fonts.ready.then(
+            () => {
+
+                fitCharacterCardNames();
+
+            }
+        );
+
+    }
+}
+
+
+/*
+    Keep names fitted when the available card width
+    changes.
+*/
+
+let characterNameResizeTimer = null;
+
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        clearTimeout(
+            characterNameResizeTimer
+        );
+
+
+        characterNameResizeTimer =
+            setTimeout(
+                () => {
+
+                    fitCharacterCardNames();
+
+                },
+                100
+            );
+
+    }
+);
+
+
+/*
+    ResizeObserver handles layout changes that do not
+    necessarily trigger a window resize.
+
+    For example:
+    - sidebar changes
+    - responsive layout changes
+    - browser zoom
+    - card container changes
+*/
+
+let characterNameResizeObserver =
+    null;
+
+
+function observeCharacterNameContainer() {
+
+    if (
+        typeof ResizeObserver ===
+        "undefined"
+    ) {
+        return;
+    }
+
+
+    if (
+        characterNameResizeObserver
+    ) {
+
+        characterNameResizeObserver.disconnect();
+
+    }
+
+
+    const grids =
+        document.querySelectorAll(
+            ".player-character-grid, .character-grid"
+        );
+
+
+    if (
+        grids.length === 0
+    ) {
+        return;
+    }
+
+
+    characterNameResizeObserver =
+        new ResizeObserver(
+            () => {
+
+                fitCharacterCardNames();
+
+            }
+        );
+
+
+    grids.forEach(
+        grid => {
+
+            characterNameResizeObserver.observe(
+                grid
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
    CHARACTER UPDATE NOTIFICATIONS
    ========================================================= */
 
@@ -104,6 +315,7 @@ function getCharacterReadStorageKey() {
 
     return CHARACTER_READ_KEY;
 }
+
 
 function resolveCharacterPortraitPath(
     portraitPath
@@ -397,9 +609,9 @@ async function findCharacterPortrait(
 
 
     const portrait =
-    resolveCharacterPortraitPath(
-        manifest[character.id]
-    );
+        resolveCharacterPortraitPath(
+            manifest[character.id]
+        );
 
 
     characterPortraits[
@@ -435,11 +647,12 @@ async function loadCharacterPortraits(
 
 
             characterPortraits[
-    character.id
-] =
-    resolveCharacterPortraitPath(
-        manifest[character.id]
-    );
+                character.id
+            ] =
+                resolveCharacterPortraitPath(
+                    manifest[character.id]
+                );
+
         }
     );
 }
@@ -653,6 +866,16 @@ function renderCharacterList(
     `;
 
 
+    /*
+        Fit long character names after the browser
+        has had a chance to lay out the cards.
+    */
+
+    scheduleCharacterNameFitting();
+
+    observeCharacterNameContainer();
+
+
     /* =====================================================
        CHARACTER CARDS
        ===================================================== */
@@ -762,6 +985,15 @@ function renderCharacterList(
                                 isCollapsed
                             )
                         );
+
+
+                        /*
+                            Recalculate after a category
+                            changes state.
+                        */
+
+                        scheduleCharacterNameFitting();
+
                     }
                 );
             }

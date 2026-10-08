@@ -98,7 +98,7 @@
     },
     {
         "id": "maria",
-        "name": "Maria",
+        "name": "Maria Blasco",
         "type": "player",
         "team": "team-two",
         "race": "Human",
@@ -273,7 +273,7 @@
     },
     {
         "id": "woodrow",
-        "name": "Woodrow",
+        "name": "Woodrow Blackwell",
         "type": "friend",
         "location": "Wigston",
         "race": "Owlin",
@@ -286,7 +286,7 @@
     },
     {
         "id": "voltegar",
-        "name": "Voltegar",
+        "name": "Voltegar Havensworth",
         "type": "friend",
         "location": "Avilon",
         "race": "Air Genasi",
@@ -299,7 +299,7 @@
     },
     {
         "id": "cody",
-        "name": "Cody",
+        "name": "Cody Blasco",
         "type": "friend",
         "location": "Unknown",
         "race": "Reptillian",
