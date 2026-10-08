@@ -1,0 +1,509 @@
+/* =========================================================
+   RECORD 004 // FIELD RECORDING
+   ========================================================= */
+
+
+/* =========================================================
+   RECORDING
+   ========================================================= */
+
+.recording {
+    margin-top: 35px;
+
+    padding: 20px;
+
+    background:
+        #171714;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   RECORDING HEADER
+   ========================================================= */
+
+.recording-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 15px;
+
+    border-bottom:
+        1px solid rgba(200, 195, 183, 0.14);
+}
+
+.recording-label {
+    color:
+        rgba(200, 195, 183, 0.4);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.58rem;
+
+    letter-spacing:
+        0.16em;
+}
+
+.recording-file {
+    margin-top: 5px;
+
+    color:
+        rgba(200, 195, 183, 0.8);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.75rem;
+
+    letter-spacing:
+        0.08em;
+}
+
+.recording-status {
+    flex-shrink: 0;
+
+    padding:
+        5px 7px;
+
+    border:
+        1px solid rgba(150, 120, 75, 0.35);
+
+    color:
+        rgba(170, 145, 100, 0.7);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.55rem;
+
+    letter-spacing:
+        0.1em;
+}
+
+
+/* =========================================================
+   WAVEFORM
+   ========================================================= */
+
+.waveform {
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    height: 105px;
+
+    margin:
+        22px 0 15px;
+
+    padding:
+        0 5px;
+
+    border-top:
+        1px solid rgba(200, 195, 183, 0.08);
+
+    border-bottom:
+        1px solid rgba(200, 195, 183, 0.08);
+
+    cursor: pointer;
+}
+
+.waveform span {
+    flex: 1;
+
+    min-width: 2px;
+
+    height:
+        var(--height);
+
+    max-height: 80px;
+
+    background:
+        rgba(200, 195, 183, 0.28);
+
+    transition:
+        background 0.08s ease,
+        opacity 0.08s ease;
+}
+
+.waveform span.played {
+    background:
+        rgba(200, 195, 183, 0.75);
+}
+
+.waveform:hover span {
+    opacity: 0.85;
+}
+
+
+/* =========================================================
+   AUDIO CONTROLS
+   ========================================================= */
+
+.audio-controls {
+    display: grid;
+
+    grid-template-columns:
+        auto auto 1fr auto;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+   ========================================================= */
+
+.play-button,
+.volume-button {
+    border:
+        1px solid rgba(200, 195, 183, 0.25);
+
+    background:
+        transparent;
+
+    color:
+        rgba(200, 195, 183, 0.7);
+
+    padding:
+        8px 11px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.6rem;
+
+    letter-spacing:
+        0.1em;
+
+    cursor:
+        pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.play-button:hover,
+.volume-button:hover {
+    color:
+        #d0d0d0;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border-color:
+        rgba(200, 195, 183, 0.5);
+}
+
+
+/* =========================================================
+   TIME
+   ========================================================= */
+
+.time-display {
+    display: flex;
+
+    gap: 5px;
+
+    color:
+        rgba(200, 195, 183, 0.5);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.62rem;
+
+    letter-spacing:
+        0.05em;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+.progress,
+.volume {
+    width: 100%;
+
+    height: 3px;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    background:
+        rgba(200, 195, 183, 0.15);
+
+    cursor:
+        pointer;
+}
+
+
+/* Chrome / Edge / Safari */
+
+.progress::-webkit-slider-thumb,
+.volume::-webkit-slider-thumb {
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background:
+        #aaa;
+
+    cursor:
+        pointer;
+}
+
+
+/* Firefox */
+
+.progress::-moz-range-thumb,
+.volume::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+
+    border:
+        none;
+
+    border-radius: 50%;
+
+    background:
+        #aaa;
+
+    cursor:
+        pointer;
+}
+
+
+/* =========================================================
+   VOLUME
+   ========================================================= */
+
+.volume-container {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid rgba(200, 195, 183, 0.08);
+
+    color:
+        rgba(200, 195, 183, 0.35);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.55rem;
+
+    letter-spacing:
+        0.1em;
+}
+
+.volume-container .volume {
+    max-width: 120px;
+}
+
+
+/* =========================================================
+   RECORDING FOOTER
+   ========================================================= */
+
+.recording-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 15px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid rgba(200, 195, 183, 0.08);
+
+    color:
+        rgba(200, 195, 183, 0.3);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.52rem;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+/* =========================================================
+   TRANSCRIPT WARNING
+   ========================================================= */
+
+.transcript-warning {
+    margin-top: 35px;
+
+    padding:
+        20px;
+
+    border:
+        1px solid rgba(100, 90, 70, 0.25);
+
+    background:
+        rgba(100, 90, 70, 0.035);
+}
+
+.transcript-warning p {
+    margin:
+        8px 0 15px;
+
+    color:
+        #777;
+
+    font-size:
+        0.82rem;
+
+    line-height:
+        1.7;
+}
+
+.transcript-code {
+    padding-top:
+        12px;
+
+    border-top:
+        1px dashed rgba(200, 195, 183, 0.15);
+
+    color:
+        rgba(200, 195, 183, 0.3);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.58rem;
+
+    letter-spacing:
+        0.1em;
+}
+
+
+/* =========================================================
+   AUDIO STATUS
+   ========================================================= */
+
+#audio-status {
+    transition:
+        color 0.2s ease;
+}
+
+.audio-record.is-playing #audio-status {
+    color:
+        rgba(160, 180, 150, 0.7);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .recording {
+        padding:
+            14px;
+    }
+
+    .recording-header {
+        flex-direction:
+            column;
+    }
+
+    .recording-status {
+        align-self:
+            flex-start;
+    }
+
+    .waveform {
+        height:
+            80px;
+
+        gap:
+            2px;
+    }
+
+    .audio-controls {
+        grid-template-columns:
+            auto 1fr auto;
+    }
+
+    .time-display {
+        grid-column:
+            2;
+        grid-row:
+            1;
+
+        justify-content:
+            center;
+    }
+
+    .progress {
+        grid-column:
+            1 / -1;
+
+        grid-row:
+            2;
+    }
+
+    .recording-footer {
+        flex-direction:
+            column;
+
+        gap:
+            6px;
+    }
+
+}

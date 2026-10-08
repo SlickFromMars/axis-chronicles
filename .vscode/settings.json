@@ -21,5 +21,14 @@
         "*.css": "css",
         "*.js": "javascript",
         "*.json": "json"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.jj": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.sessions.ics.state.json": true
     }
 }

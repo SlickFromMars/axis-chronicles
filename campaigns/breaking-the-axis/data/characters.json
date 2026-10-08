@@ -58,7 +58,7 @@
     {
         "id": "vera",
         "name": "Vera",
-        "type": "player",
+        "type": "friend",
         "team": "team-one",
         "race": "Arianrhod Owl",
         "class": "Companion",
