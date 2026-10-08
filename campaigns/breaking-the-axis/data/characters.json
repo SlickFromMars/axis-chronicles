@@ -89,7 +89,7 @@
         "type": "player",
         "team": "team-two",
         "race": "Human",
-        "class": "Ranger",
+        "class": "Ranger/Rogue",
         "description": "A former pirate who has repeatedly found himself closer to danger than intended.",
         "status": "RETURNED",
         "quote": null,
