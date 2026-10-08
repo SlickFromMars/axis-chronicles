@@ -6328,6 +6328,12 @@ h1 {
         flex: none !important;
         box-sizing: border-box;
     }
+
+    .player-character-card .character-card-title.shrunk {
+        font-size: 11px;
+        padding-top: 2px;
+        padding-bottom: 3px;
+    }
 }
 
 /* =========================================================
