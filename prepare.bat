@@ -56,6 +56,33 @@ echo.
 
 
 REM ========================================================
+REM ENFORCE CHARACTER IMAGE SIZES
+REM ========================================================
+
+echo ========================================
+echo   Optimizing character image sizes
+echo ========================================
+echo.
+
+echo Enforcing maximum character image dimension...
+
+python scripts\enforce-character-sizes.py
+
+if errorlevel 1 (
+    echo.
+    echo ERROR: Character image size enforcement failed.
+    echo No commit was made.
+    echo.
+    pause
+    exit /b 1
+)
+
+echo.
+echo Character image sizes optimized.
+echo.
+
+
+REM ========================================================
 REM PROCESS CAMPAIGNS
 REM ========================================================
 
