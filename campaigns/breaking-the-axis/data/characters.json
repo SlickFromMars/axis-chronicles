@@ -5,7 +5,7 @@
         "type": "player",
         "team": "team-one",
         "race": "Triton",
-        "class": "Artificer",
+        "class": "Artificer/Talent",
         "description": "A triton cartographer caught in events far larger than he ever anticipated.",
         "status": "Active",
         "quote": null,
