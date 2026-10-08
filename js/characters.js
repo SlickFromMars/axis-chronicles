@@ -756,6 +756,106 @@ async function showCharacters() {
 
 
 /* =========================================================
+   CHARACTER SEARCH
+   ========================================================= */
+
+function setupCharacterSearch(content, characters) {
+    const input = content.querySelector("#character-search-input");
+    const clearButton = content.querySelector("#character-search-clear");
+    const emptyMessage = content.querySelector("#character-search-empty");
+
+    if (!input || !clearButton || !emptyMessage) {
+        return;
+    }
+
+    function filterCharacters() {
+        const query = input.value.trim().toLowerCase();
+        let visibleCount = 0;
+        let visiblePlayers = 0;
+
+        content.querySelectorAll("[data-character-id]").forEach(card => {
+            const character = characters.find(
+                item => String(item.id) === String(card.dataset.characterId)
+            );
+
+            if (!character) {
+                card.hidden = true;
+                return;
+            }
+
+            const searchableText = [
+                character.name,
+                character.race,
+                character.class,
+                character.type,
+                character.team,
+                character.description,
+                character.status,
+                character.location,
+                character.quote,
+                ...(Array.isArray(character.notes) ? character.notes : [])
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+            const matches = searchableText.includes(query);
+
+            card.hidden = !matches;
+
+            if (matches) {
+                visibleCount++;
+
+                if (character.type === "player") {
+                    visiblePlayers++;
+                }
+            }
+        });
+
+        // Hide player teams that have no matching cards.
+        content.querySelectorAll(".player-team").forEach(team => {
+            const hasVisibleCards = Array.from(
+                team.querySelectorAll("[data-character-id]")
+            ).some(card => !card.hidden);
+
+            team.hidden = !hasVisibleCards;
+        });
+
+        // Hide normal character categories with no matches.
+        content.querySelectorAll(".character-category").forEach(category => {
+            const hasVisibleCards = Array.from(
+                category.querySelectorAll("[data-character-id]")
+            ).some(card => !card.hidden);
+
+            category.hidden = !hasVisibleCards;
+        });
+
+        // Hide the entire player section if no player characters match.
+        const playerSection = content.querySelector(
+            ".player-characters-section"
+        );
+
+        if (playerSection) {
+            playerSection.hidden = visiblePlayers === 0;
+        }
+
+        emptyMessage.hidden = visibleCount !== 0;
+        clearButton.hidden = query.length === 0;
+
+        scheduleCharacterNameFitting();
+    }
+
+    input.addEventListener("input", filterCharacters);
+
+    clearButton.addEventListener("click", () => {
+        input.value = "";
+        filterCharacters();
+        input.focus();
+    });
+}
+
+
+/* =========================================================
    RENDER CHARACTER LIST
    ========================================================= */
 
@@ -824,6 +924,32 @@ function renderCharacterList(
             </div>
 
 
+<div class="character-search">
+    <span class="character-search-icon" aria-hidden="true">⌕</span>
+    <input
+        type="search"
+        id="character-search-input"
+        placeholder="Search characters by name, race, class..."
+        aria-label="Search characters"
+        autocomplete="off"
+    >
+    <button
+        type="button"
+        id="character-search-clear"
+        aria-label="Clear character search"
+        hidden
+    >×</button>
+</div>
+
+<p
+    class="character-search-empty"
+    id="character-search-empty"
+    hidden
+>
+    No characters found. Try another search.
+</p>
+
+
             <!-- =========================================
                  PLAYER CHARACTERS
                  ========================================= -->
@@ -871,6 +997,7 @@ function renderCharacterList(
         has had a chance to lay out the cards.
     */
 
+    setupCharacterSearch(content, characters);
     scheduleCharacterNameFitting();
 
     observeCharacterNameContainer();
