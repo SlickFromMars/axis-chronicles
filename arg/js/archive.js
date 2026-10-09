@@ -1040,10 +1040,46 @@ function addConsoleMessage(
 }
 
 
+
 /*
  * =========================================
  * START
  * =========================================
  */
 
+
+function playArchiveIntro() {
+    const intro = document.getElementById("archive-intro");
+    const archive = document.querySelector(".archive");
+    const shouldPlay = document.documentElement.classList.contains(
+        "play-archive-intro"
+    );
+
+    if (!shouldPlay || !intro || !archive) {
+        intro?.remove();
+        archive?.classList.add("archive-revealed");
+        return;
+    }
+
+    // Mark it as played so returning to the archive skips the intro.
+    sessionStorage.setItem("archiveIntroPlayed", "true");
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const revealDelay = reducedMotion ? 50 : 5000;
+    const cleanupDelay = reducedMotion ? 100 : 5500;
+
+    window.setTimeout(() => {
+        archive.classList.add("archive-revealed");
+        document.documentElement.classList.remove("play-archive-intro");
+    }, revealDelay);
+
+    window.setTimeout(() => {
+        intro.remove();
+    }, cleanupDelay);
+}
+
+playArchiveIntro();
 loadArchive();

@@ -188,13 +188,13 @@ function navigateTo(
 
 
     }
+
     else if (
         page ===
         "archives"
     ) {
-
-        window.location.href =
-            "arg/";
+        sessionStorage.removeItem("archiveIntroPlayed");
+        window.location.href = "arg/";
     } else if (
         page ===
         "characters"

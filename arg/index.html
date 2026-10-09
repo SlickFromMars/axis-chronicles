@@ -5,17 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Archive</title>
+    <title>The Archives</title>
 
     <link rel="stylesheet" href="css/archive.css">
+
+    <link id="campaign-favicon" rel="icon" type="image/png" href="favicon.png">
+
+    <script>
+        if (!sessionStorage.getItem("archiveIntroPlayed")) {
+            document.documentElement.classList.add("play-archive-intro");
+        }
+    </script>
 </head>
 
 <body>
 
+    <!-- ARG ARCHIVE BOOT SEQUENCE -->
+    <div id="archive-intro" aria-hidden="true">
+        <div class="intro-scanlines"></div>
+        <div class="intro-vignette"></div>
+        <div class="intro-noise"></div>
+
+        <div class="intro-terminal">
+            <div class="intro-system">
+                AXIS ARCHIVAL NETWORK
+                <span class="intro-indicator"></span>
+            </div>
+
+            <div class="intro-log">
+                <p class="boot-line" style="--delay: 0.25s">
+                    INITIALIZING ARCHIVE INTERFACE...
+                </p>
+                <p class="boot-line" style="--delay: 0.65s">
+                    ESTABLISHING SECURE CONNECTION...
+                </p>
+                <p class="boot-line" style="--delay: 1.05s">
+                    RECOVERING DAMAGED RECORDS...
+                </p>
+                <p class="boot-line boot-warning" style="--delay: 1.55s">
+                    WARNING: UNAUTHORIZED ACCESS DETECTED
+                </p>
+            </div>
+
+            <div class="intro-progress">
+                <div class="intro-progress-fill"></div>
+            </div>
+
+            <div class="intro-footer">
+                <span>ARCHIVE NODE // CAELORA</span>
+                <span>CONNECTION UNSTABLE</span>
+            </div>
+        </div>
+
+        <div class="intro-flash"></div>
+        <div class="intro-stamp">ACCESS GRANTED</div>
+    </div>
+
     <main class="archive">
 
         <!-- RETURN -->
-        <a href="../index.html" class="back-button">
+        <a href="../" class="back-button">
             &lt; RETURN TO JOURNAL
         </a>
 

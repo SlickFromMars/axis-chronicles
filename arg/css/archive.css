@@ -891,3 +891,383 @@ body {
 .terminal-button:active {
     transform: translateY(1px);
 }
+
+/* =========================================================
+   ARG ARCHIVE — CINEMATIC BOOT SEQUENCE
+   ========================================================= */
+
+html.play-archive-intro body {
+    overflow: hidden;
+}
+
+/* Keep the existing parchment archive hidden until reveal. */
+
+html.play-archive-intro .archive {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+    filter: blur(3px);
+}
+
+.archive {
+    transition:
+        opacity 0.8s ease,
+        transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+        filter 0.8s ease;
+}
+
+.archive-booting .archive.archive-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+
+/* Full-screen terminal */
+
+#archive-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #050608;
+    color: #b9c9b4;
+    font-family: "Courier New", monospace;
+    animation: intro-power-off 0.5s ease 2.85s forwards;
+}
+
+.intro-terminal {
+    position: relative;
+    z-index: 3;
+    width: min(680px, 86vw);
+    padding: 28px 0;
+    animation: terminal-flicker 3s linear both;
+}
+
+.intro-system {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(170, 205, 160, 0.2);
+    color: #c6d6bd;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+}
+
+.intro-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #91bc81;
+    box-shadow: 0 0 10px #91bc81;
+    animation: indicator-blink 0.8s steps(2) infinite;
+}
+
+.intro-log {
+    min-height: 170px;
+    padding-top: 22px;
+}
+
+.boot-line {
+    margin: 0 0 16px;
+    color: rgba(192, 210, 185, 0.78);
+    font-size: clamp(10px, 2.2vw, 13px);
+    letter-spacing: 0.07em;
+    opacity: 0;
+    animation: terminal-type 0.3s ease var(--delay) forwards;
+}
+
+.boot-line::before {
+    content: "> ";
+    color: #769b6c;
+}
+
+.boot-warning {
+    color: #d16d65;
+    animation:
+        terminal-type 0.3s ease var(--delay) forwards,
+        warning-flicker 0.16s steps(2) 1.95s 3;
+}
+
+.boot-warning::before {
+    color: #d16d65;
+}
+
+.intro-progress {
+    height: 2px;
+    overflow: hidden;
+    background: rgba(190, 210, 180, 0.12);
+}
+
+.intro-progress-fill {
+    width: 0;
+    height: 100%;
+    background: #a8c69b;
+    box-shadow: 0 0 10px rgba(168, 198, 155, 0.6);
+    animation: progress-load 2.35s ease 0.15s forwards;
+}
+
+.intro-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    color: rgba(190, 210, 180, 0.35);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+}
+
+/* CRT effects */
+
+.intro-scanlines,
+.intro-vignette,
+.intro-noise {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.intro-scanlines {
+    z-index: 2;
+    opacity: 0.18;
+    background: repeating-linear-gradient(to bottom,
+            transparent 0,
+            transparent 3px,
+            rgba(0, 0, 0, 0.8) 4px);
+}
+
+.intro-vignette {
+    z-index: 2;
+    background: radial-gradient(ellipse at center,
+            transparent 25%,
+            rgba(0, 0, 0, 0.75) 100%);
+}
+
+.intro-noise {
+    z-index: 1;
+    opacity: 0.08;
+    background-image: repeating-radial-gradient(circle at 17% 31%,
+            transparent 0,
+            rgba(255, 255, 255, 0.4) 1px,
+            transparent 2px,
+            transparent 4px);
+    background-size: 7px 7px;
+    animation: noise-shift 0.15s steps(2) infinite;
+}
+
+/* Brief interference before the archive appears. */
+
+.intro-flash {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    background: #d5d0b9;
+    opacity: 0;
+    pointer-events: none;
+    animation: signal-flash 2.65s steps(1) forwards;
+}
+
+.intro-stamp {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    padding: 10px 18px;
+    border: 3px solid #a83f36;
+    color: #a83f36;
+    font-size: clamp(20px, 5vw, 36px);
+    font-weight: bold;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-8deg) scale(1.7);
+    animation: stamp-impact 0.45s ease 2.15s forwards;
+}
+
+/* Animation definitions */
+
+@keyframes terminal-type {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes indicator-blink {
+    50% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes progress-load {
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes terminal-flicker {
+
+    0%,
+    10%,
+    12%,
+    60%,
+    62%,
+    100% {
+        opacity: 1;
+    }
+
+    11%,
+    61% {
+        opacity: 0.35;
+    }
+}
+
+@keyframes warning-flicker {
+    50% {
+        opacity: 0.25;
+    }
+}
+
+@keyframes noise-shift {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(2%, -1%);
+    }
+
+    50% {
+        transform: translate(-1%, 2%);
+    }
+
+    75% {
+        transform: translate(1%, 1%);
+    }
+}
+
+@keyframes signal-flash {
+
+    0%,
+    77%,
+    83%,
+    89%,
+    100% {
+        opacity: 0;
+    }
+
+    78% {
+        opacity: 0.9;
+    }
+
+    79% {
+        opacity: 0.05;
+    }
+
+    84% {
+        opacity: 0.65;
+    }
+
+    85% {
+        opacity: 0;
+    }
+
+    90% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes stamp-impact {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-8deg) scale(1.7);
+    }
+
+    35% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-8deg) scale(0.92);
+    }
+
+    55%,
+    100% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) rotate(-8deg) scale(1);
+    }
+}
+
+@keyframes intro-power-off {
+    0% {
+        opacity: 1;
+        visibility: visible;
+        clip-path: inset(0 0 0 0);
+    }
+
+    35% {
+        opacity: 1;
+        clip-path: inset(48% 0 48% 0);
+    }
+
+    65% {
+        opacity: 0.8;
+        clip-path: inset(50% 0 50% 0);
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        clip-path: inset(50% 0 50% 0);
+    }
+}
+
+/* Mobile adjustments */
+
+@media (max-width: 480px) {
+    .intro-terminal {
+        width: 88vw;
+    }
+
+    .intro-footer {
+        font-size: 7px;
+        letter-spacing: 0.04em;
+    }
+
+    .intro-log {
+        min-height: 165px;
+    }
+}
+
+/* Accessibility: respect reduced-motion preferences. */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .intro-noise,
+    .intro-indicator,
+    .intro-terminal,
+    .boot-line,
+    .boot-warning,
+    .intro-progress-fill,
+    .intro-flash,
+    .intro-stamp,
+    #archive-intro {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        animation-iteration-count: 1 !important;
+    }
+
+    .archive {
+        transition-duration: 0.01ms;
+    }
+}
+
+/* Remove the browser's default search clear button */
+#record-search::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
