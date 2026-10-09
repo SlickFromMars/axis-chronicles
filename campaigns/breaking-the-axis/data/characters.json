@@ -34,7 +34,7 @@
         "team": "team-one",
         "race": "Half-Elf",
         "class": "Rogue",
-        "description": "A quick-witted thief with ties to a strange diety known to be somwhat untrustworthy.",
+        "description": "A quick-witted thief with ties to a strange diety known to be somewhat untrustworthy.",
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
@@ -157,7 +157,7 @@
         "location": "Unknown",
         "race": "Elf",
         "class": "Unknown",
-        "description": "A talented magic caster descended from Var'kennan.",
+        "description": "A talented magic caster descended from Var'Kennan.",
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
@@ -185,7 +185,7 @@
         "location": "High Camorant",
         "race": "God",
         "class": "Flames and Fate",
-        "description": "The God of Flames and Fate. A malevolant ruler whose army of children terrorize the island.",
+        "description": "The God of Flames and Fate. A malevolent ruler whose army of children terrorize the island.",
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
@@ -200,7 +200,7 @@
         "location": "Kjerne",
         "race": "God",
         "class": "Life and Land",
-        "description": "The God of Life and Land. A heavy partier who is ominpresent through the flora of the island.",
+        "description": "The God of Life and Land. A heavy partier who is omnipresent through the flora of the island.",
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
@@ -213,7 +213,7 @@
         "location": "Unknown",
         "race": "Goddess",
         "class": "Seas and Storms",
-        "description": "The elusive Godess of Seas and Storms, occasionally encountered along the coasts of the island. Her storms bring a swift end to anyone who wanders far from the shore.",
+        "description": "The elusive Goddess of Seas and Storms, occasionally encountered along the coasts of the island. Her storms bring a swift end to anyone who wanders far from the shore.",
         "status": "Active",
         "quote": null,
         "updateVersion": 2,
@@ -302,14 +302,14 @@
         "name": "Cody Blasco",
         "type": "friend",
         "location": "Unknown",
-        "race": "Reptillian",
+        "race": "Reptilian",
         "class": "Explorer",
         "description": "Maria's older brother, whose family took her in after an incident regarding both of her parents. A kind, perpetually tired guy with a hankering for raw meat.",
         "status": "Unknown",
         "quote": null,
         "updateVersion": 1,
         "notes": [
-            "Vae'saron told Maria that he might be somewhere in the Highlands, captured by Var'kennan."
+            "Vae'saron told Maria that he might be somewhere in the Highlands, captured by Var'Kennan."
         ]
     }
 ]
