@@ -1,6 +1,31 @@
+
 # Local calendar generation state
 **/.sessions.ics.state.json
 
-# macOS
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example
+
+# Operating system files
 .DS_Store
-**/.DS_STORE
+**/.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor-local files
+.idea/
+*.swp
+*.swo

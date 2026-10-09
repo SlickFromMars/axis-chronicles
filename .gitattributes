@@ -1,2 +1,40 @@
-# Auto detect text files and perform LF normalization
+
+# Default: detect text files and normalize line endings.
 * text=auto
+
+# Web source and structured data.
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.py text eol=lf
+*.txt text eol=lf
+*.xml text eol=lf
+*.svg text eol=lf
+*.ics text eol=lf
+*.gitattributes text eol=lf
+*.gitignore text eol=lf
+
+# Windows scripts.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Images and other binary assets.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.mp3 binary
+*.ogg binary
+*.wav binary
+*.mp4 binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
