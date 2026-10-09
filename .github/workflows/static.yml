@@ -41,6 +41,7 @@ jobs:
           mkdir deploy
 
           cp index.html deploy/
+          cp 404.html deploy/
 
           cp -r campaigns deploy/
           cp -r css deploy/
