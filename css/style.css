@@ -5719,12 +5719,6 @@ body {
 
 .topbar::after {
 
-    background:
-        linear-gradient(90deg,
-            transparent,
-            var(--gold),
-            transparent);
-
     filter:
         drop-shadow(0 0 4px color-mix(in srgb,
                 var(--gold) 60%,
@@ -5879,9 +5873,6 @@ body {
             var(--accent-soft-24),
             var(--accent-soft));
 
-    border-bottom-color:
-        var(--gold-dark);
-
     box-shadow:
         inset 2px 0 var(--gold-bright),
 
@@ -5916,17 +5907,6 @@ h1 {
 
         0 0 22px color-mix(in srgb,
             var(--gold) 8%,
-            transparent);
-}
-
-
-.page-heading::after,
-.characters-heading::after {
-
-    background:
-        linear-gradient(90deg,
-            var(--gold),
-            var(--gold-dark) 60%,
             transparent);
 }
 
@@ -6016,9 +5996,6 @@ h1 {
             var(--accent-soft-10)),
 
         var(--surface-control-hover);
-
-    border-color:
-        var(--gold);
 }
 
 
@@ -6030,24 +6007,6 @@ h1 {
 
     background:
         var(--accent-soft-10);
-}
-
-
-.quest-status.completed {
-
-    border-color:
-        color-mix(in srgb,
-            var(--success) 40%,
-            transparent);
-}
-
-
-.quest-status.failed {
-
-    border-color:
-        color-mix(in srgb,
-            var(--failure) 45%,
-            transparent);
 }
 
 
@@ -6064,31 +6023,6 @@ h1 {
 }
 
 
-.character-card:hover {
-
-    box-shadow:
-        var(--bevel),
-        0 14px 30px rgba(0, 0, 0, 0.65),
-
-        0 0 24px color-mix(in srgb,
-            var(--gold) 18%,
-            transparent);
-}
-
-
-.character-card-image {
-
-    background:
-        radial-gradient(circle at center,
-            color-mix(in srgb,
-                var(--gold) 8%,
-                transparent),
-            transparent 65%),
-
-        var(--background-deep);
-}
-
-
 /* =========================================================
    MAP
    ========================================================= */
@@ -6099,9 +6033,6 @@ h1 {
         color-mix(in srgb,
             var(--panel-dark) 92%,
             black 8%);
-
-    border-color:
-        var(--gold);
 }
 
 
@@ -6113,9 +6044,6 @@ h1 {
         color-mix(in srgb,
             var(--panel-light) 94%,
             var(--gold) 6%);
-
-    border-color:
-        var(--gold-bright);
 
     box-shadow:
         var(--bevel),
@@ -6130,17 +6058,7 @@ h1 {
 }
 
 
-.map-region-symbol {
-
-    color:
-        var(--gold);
-}
-
-
 .map-location-symbol {
-
-    background:
-        var(--gold);
 
     border-color:
         var(--gold-bright);
@@ -6199,12 +6117,6 @@ h1 {
     color:
         var(--accent-ink);
 
-    background:
-        var(--gold-bright);
-
-    border-color:
-        var(--gold-bright);
-
     box-shadow:
         0 0 0 3px rgba(8, 6, 5, 0.8),
 
@@ -6257,18 +6169,12 @@ h1 {
 
 .campaign-switcher-menu::before {
 
-    background:
-        var(--panel);
-
     border-color:
         var(--gold-dark);
 }
 
 
 .campaign-option {
-
-    color:
-        var(--muted);
 
     border-bottom-color:
         color-mix(in srgb,
@@ -6279,9 +6185,6 @@ h1 {
 
 .campaign-option:hover {
 
-    color:
-        var(--gold-bright);
-
     background:
         linear-gradient(90deg,
             var(--accent-soft-16),
@@ -6291,21 +6194,12 @@ h1 {
 
 .campaign-option.active {
 
-    color:
-        var(--gold-bright);
-
     background:
         linear-gradient(90deg,
             var(--accent-soft-16),
             transparent 90%);
 }
 
-
-.campaign-option-marker {
-
-    color:
-        var(--gold);
-}
 
 /* =========================================================
    MOBILE PLAYER CHARACTER GRID
