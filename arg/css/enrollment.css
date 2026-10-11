@@ -1,0 +1,578 @@
+/* =========================================================
+   ENROLLMENT POSTER / ARG ARTIFACT PAGE
+   ========================================================= */
+
+:root {
+    color-scheme: dark;
+    --page-background: #101310;
+    --panel-background: #171a16;
+    --panel-highlight: #1d211b;
+    --text-primary: #d8d2c2;
+    --text-muted: #8a897b;
+    --text-faint: #5d6055;
+    --accent: #a18a59;
+    --line: rgba(190, 177, 137, 0.19);
+    --line-strong: rgba(190, 177, 137, 0.34);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 36px 20px 28px;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(95, 83, 55, 0.12),
+            transparent 52%
+        ),
+        var(--page-background);
+
+    color: var(--text-primary);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+}
+
+/* =========================================================
+   PAGE LAYOUT
+   ========================================================= */
+
+.artifact-page {
+    width: min(880px, 100%);
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 30px;
+
+    color: var(--text-muted);
+    font-family: "Courier New", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+
+    transition:
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+    color: var(--text-primary);
+    transform: translateX(-3px);
+}
+
+.back-link:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 5px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.page-header {
+    max-width: 640px;
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-family: "Courier New", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.19em;
+    text-transform: uppercase;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: normal;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+}
+
+.intro {
+    max-width: 580px;
+    margin: 15px 0 0;
+    color: #aaa99b;
+    font-size: 0.98rem;
+}
+
+/* =========================================================
+   ARTIFACT PANEL
+   ========================================================= */
+
+.artifact {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.018),
+            transparent 45%
+        ),
+        var(--panel-background);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+}
+
+.artifact-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--line);
+
+    color: var(--text-muted);
+    font-family: "Courier New", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.09em;
+}
+
+.artifact-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-indicator {
+    width: 6px;
+    height: 6px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(161, 138, 89, 0.25);
+}
+
+/* =========================================================
+   POSTER OBJECT
+   Aspect ratio matches the final 1546 × 2048 artwork.
+   The wrapper scales down responsively without cropping.
+   ========================================================= */
+
+.poster-figure {
+    width: min(100%, 680px);
+    margin: 0 auto;
+    padding: clamp(14px, 3vw, 28px);
+}
+
+.poster-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1546 / 2048;
+    overflow: hidden;
+
+    border: 1px solid rgba(190, 177, 137, 0.24);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.025),
+            transparent 40%
+        ),
+        #11130f;
+}
+
+/* Use this class for the real poster image once it exists. */
+.poster-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1546 / 2048;
+    object-fit: contain;
+}
+
+/* Temporary visual until the artist's image is ready. */
+.poster-placeholder {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    padding: 24px;
+    color: var(--text-faint);
+    font-family: "Courier New", monospace;
+    text-align: center;
+}
+
+.placeholder-rule {
+    display: block;
+    width: min(42%, 180px);
+    height: 1px;
+    background: var(--line-strong);
+}
+
+.placeholder-label {
+    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+    letter-spacing: 0.24em;
+}
+
+.placeholder-dimensions {
+    color: #44483e;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+}
+
+.poster-figure figcaption {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 7px 18px;
+
+    margin-top: 12px;
+    color: var(--text-faint);
+    font-family: "Courier New", monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.07em;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   ARTIFACT METADATA
+   ========================================================= */
+
+.artifact-notes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+
+    padding: 18px;
+    border-top: 1px solid var(--line);
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.note-block {
+    min-width: 0;
+}
+
+.note-label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-faint);
+    font-family: "Courier New", monospace;
+    font-size: 0.59rem;
+    letter-spacing: 0.13em;
+}
+
+.note-block p {
+    margin: 0;
+    color: #b3b0a2;
+    font-size: 0.86rem;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.page-footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+
+    color: var(--text-faint);
+    font-family: "Courier New", monospace;
+    font-size: 0.59rem;
+    letter-spacing: 0.1em;
+}
+
+.page-footer p {
+    margin: 0;
+}
+
+.page-footer p:first-child span {
+    padding: 0 5px;
+    color: var(--accent);
+}
+
+.footer-warning {
+    margin-top: 7px !important;
+    color: var(--text-muted);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.82rem;
+    font-style: italic;
+    letter-spacing: 0;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT
+   ========================================================= */
+
+@media (max-width: 600px) {
+    body {
+        padding: 22px 12px 20px;
+    }
+
+    .back-link {
+        margin-bottom: 24px;
+    }
+
+    .page-header {
+        margin-bottom: 22px;
+    }
+
+    .intro {
+        font-size: 0.91rem;
+    }
+
+    .artifact-topline {
+        padding: 12px;
+        font-size: 0.56rem;
+    }
+
+    .poster-figure {
+        padding: 12px;
+    }
+
+    .poster-figure figcaption {
+        font-size: 0.52rem;
+    }
+
+    .artifact-notes {
+        grid-template-columns: 1fr;
+        gap: 13px;
+        padding: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
+
+/* =========================================================
+   CLICK-TO-ENLARGE POSTER VIEWER
+   ========================================================= */
+
+.poster-open {
+    display: block;
+    padding: 0;
+    color: inherit;
+    text-align: inherit;
+    cursor: zoom-in;
+}
+
+.poster-open:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+.poster-open:hover {
+    border-color: var(--line-strong);
+}
+
+.poster-caption .caption-action {
+    color: var(--accent);
+}
+
+.poster-viewer {
+    width: min(96vw, 1500px);
+    max-width: none;
+    height: min(96dvh, 1100px);
+    max-height: none;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+
+    border: 1px solid var(--line-strong);
+    background: #0b0d0b;
+    color: var(--text-primary);
+    box-shadow: 0 25px 90px rgba(0, 0, 0, 0.65);
+}
+
+.poster-viewer::backdrop {
+    background: rgba(3, 4, 3, 0.88);
+    backdrop-filter: blur(5px);
+}
+
+.viewer-toolbar {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    min-height: 52px;
+    padding: 8px 12px 8px 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(13, 15, 12, 0.96);
+
+    font-family: "Courier New", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+}
+
+.viewer-controls {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.viewer-controls button {
+    min-width: 32px;
+    min-height: 32px;
+    padding: 4px 8px;
+
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text-primary);
+    font: inherit;
+    cursor: pointer;
+}
+
+.viewer-controls button:hover:not(:disabled) {
+    border-color: var(--line-strong);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.viewer-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+#zoom-level {
+    min-width: 42px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.viewer-controls .viewer-close {
+    margin-left: 4px;
+    border-color: transparent;
+    font-family: Arial, sans-serif;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.viewer-canvas {
+    position: absolute;
+    inset: 52px 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.viewer-canvas.dragging {
+    cursor: grabbing;
+}
+
+.viewer-image-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(70vh, 75vw);
+    aspect-ratio: 1546 / 2048;
+    flex: 0 0 auto;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.viewer-poster-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+.viewer-placeholder {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--line);
+    background: #11130f;
+}
+
+.viewer-hint {
+    position: absolute;
+    inset: auto 10px 0;
+    height: 32px;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--text-faint);
+    font-family: "Courier New", monospace;
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+body.viewer-open {
+    overflow: hidden;
+}
+
+@media (max-width: 600px) {
+    .poster-viewer {
+        width: 100vw;
+        height: 100dvh;
+        border: 0;
+    }
+
+    .viewer-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+        padding: 9px 10px;
+    }
+
+    .viewer-controls {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .viewer-canvas {
+        inset-block-start: 90px;
+    }
+
+    .viewer-image-wrap {
+        width: min(82vw, 58vh);
+    }
+
+    .viewer-hint {
+        font-size: 0.49rem;
+        letter-spacing: 0.04em;
+    }
+}

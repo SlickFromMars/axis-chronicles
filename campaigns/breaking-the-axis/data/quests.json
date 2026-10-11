@@ -338,6 +338,26 @@
         ]
     },
     {
+        "id": "grimsley",
+        "title": "Fraud Watch",
+        "team": "two",
+        "type": "companion",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "Grimsley has joined our team of adventurers, and maybe his own selfish motivations will align with that of our heroes.",
+        "objectives": [
+            {
+                "text": "Establish yourself as a valid member within the team.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "grimsley"
+        ],
+        "locations": [],
+        "developments": []
+    },
+    {
         "id": "glim",
         "title": "Shining Through the Darkness",
         "team": "two",

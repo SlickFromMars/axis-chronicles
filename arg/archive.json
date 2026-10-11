@@ -31,11 +31,20 @@
         },
         {
             "id": "004",
+            "title": "Collected Admissions Poster",
+            "description": "A fully intact admissions poster for Veyl University.",
+            "status": "recovered",
+            "unlocked": false,
+            "code": "STIRGE",
+            "link": "notes/enrollment.html"
+        },
+        {
+            "id": "005",
             "title": "Recovered Material",
             "description": "Additional material recovered from an unknown source.",
             "status": "recovered",
             "unlocked": false,
-            "code": "STIRGE",
+            "code": "RULESARECOMINGFORYOU",
             "link": "coming-soon.html"
         }
     ]

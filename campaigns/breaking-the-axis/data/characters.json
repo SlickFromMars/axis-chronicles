@@ -105,21 +105,21 @@
         "class": "Blood Hunter",
         "description": "A bubbly blood hunter from another world.",
         "status": "Active",
-        "quote": null,
-        "updateVersion": 1,
+        "quote": "It`s your birthday. This must be the kindest atom arrangement you`ve ever seen standing in front of you with your cake. You have 2.35 billion beats of your heart left, and each one spent with your brother is the greatest gift the universe has ever given you.",
+        "updateVersion": 2,
         "notes": []
     },
     {
         "id": "grimsley",
-        "name": "UNKNOWN",
+        "name": "Grimsley Perchunt",
         "type": "player",
         "team": "team-two",
-        "race": "UNKNOWN",
-        "class": "UNKNOWN",
-        "description": "TO BE DISCOVERED.",
+        "race": "Tiefling",
+        "class": "Cleric",
+        "description": "A con-artist cleric who knows his way around weak-willed individuals.",
         "status": "Active",
         "quote": null,
-        "updateVersion": 1,
+        "updateVersion": 2,
         "notes": []
     },
     {
