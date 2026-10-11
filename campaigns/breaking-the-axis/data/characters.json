@@ -179,6 +179,19 @@
         "notes": []
     },
     {
+        "id": "the-daughter",
+        "name": "\"The Girl\"",
+        "type": "god",
+        "location": "Unknown",
+        "race": "Unknown",
+        "class": "Unknown",
+        "description": "A mysterious figure whose origins and intentions are unclear.",
+        "status": "Unknown",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
         "id": "varkennan",
         "name": "Var'Kennan",
         "type": "god",
@@ -310,6 +323,21 @@
         "updateVersion": 1,
         "notes": [
             "Vae'saron told Maria that he might be somewhere in the Highlands, captured by Var'Kennan."
+        ]
+    },
+    {
+        "id": "glim",
+        "name": "Glim Leeyoon",
+        "type": "friend",
+        "location": "Homeward Reach",
+        "race": "Waxborn",
+        "class": "Cleric",
+        "description": "A Waxborn who has ventured far from her creator in search of purpose and joy.",
+        "status": "Unknown",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [
+            "Glim has split from the party to discover her origins in Homeward Reach."
         ]
     }
 ]

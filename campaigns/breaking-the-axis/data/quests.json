@@ -156,7 +156,8 @@
         "characters": [
             "caedes",
             "the-book",
-            "nihleia"
+            "nihleia",
+            "the-daughter"
         ],
         "developments": [
             {
@@ -325,7 +326,8 @@
         ],
         "characters": [
             "oliver",
-            "the-book"
+            "the-book",
+            "the-daughter"
         ],
         "locations": [
             "high-camorant"
@@ -370,6 +372,9 @@
                 "text": "Speak to Vae'Saron about where you come from.",
                 "completed": true
             }
+        ],
+        "characters": [
+            "glim"
         ],
         "developments": [
             {
