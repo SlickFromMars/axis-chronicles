@@ -1343,11 +1343,16 @@ async function renderQuestDetail(quest) {
     */
 
     const visibleObjectives =
-        hideCompleted
+        (hideCompleted
             ? objectives.filter(
                 objective => !objective.completed
             )
-            : objectives;
+            : [...objectives]
+        ).sort(
+            (a, b) =>
+                Number(Boolean(a.completed)) -
+                Number(Boolean(b.completed))
+        );
 
     /*
         Developments are only shown when there

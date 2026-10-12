@@ -5,7 +5,7 @@
         "team": "shared",
         "type": "main",
         "status": "active",
-        "updateVersion": 3,
+        "updateVersion": 4,
         "description": "Var'Kennan's influence reaches deeper into Caeloran society. Find a way to thwart his evil plans... or don't?",
         "objectives": [
             {
@@ -18,7 +18,7 @@
             },
             {
                 "text": "Sneak into High Camorant to get the lay of the land.",
-                "completed": false
+                "completed": true
             }
         ],
         "characters": [
@@ -27,7 +27,12 @@
         "locations": [
             "high-camorant"
         ],
-        "developments": []
+        "developments": [
+            {
+                "session": "Breaking the Axis, Chapter 3 - The Smooth Criminals",
+                "text": "During the investigation of High Camorant, we discovered new clues about Var'Kennan's plans as well as ways to possibly defeat him."
+            }
+        ]
     },
     {
         "id": "ashton",
@@ -89,7 +94,6 @@
             }
         ],
         "locations": [
-            "veloitama-trench",
             "undersea",
             "glaciers"
         ],
@@ -272,12 +276,12 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 3,
+        "updateVersion": 4,
         "description": "Maria has been stranded on Caelora with her memories clouded by amnesia.",
         "objectives": [
             {
                 "text": "Travel to the Highlands to find your brother.",
-                "completed": false
+                "completed": true
             },
             {
                 "text": "Discover how you got to Caelora, and find a way to return home.",
@@ -285,6 +289,10 @@
             },
             {
                 "text": "Discover the usage for the mysterious keys.",
+                "completed": false
+            },
+            {
+                "text": "Reconnect with your brother.",
                 "completed": false
             }
         ],
@@ -296,6 +304,10 @@
             "the-highlands"
         ],
         "developments": [
+            {
+                "session": "Breaking the Axis, Chapter 3 - The Smooth Criminals",
+                "text": "During the heist on High Camorant, the heroes brought Cody home from their strange prison, but he seems to have changed significantly since the last time we saw him."
+            },
             {
                 "session": "Team 2, Chapter 4 - Holocene",
                 "text": "Vae'Saron seems to think that your brother might be somewhere in the Highlands, which is the domain of Var'Kennan."
