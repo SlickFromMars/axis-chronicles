@@ -270,7 +270,7 @@ async function renderCampaignSwitcher() {
             if (!response.ok) throw new Error(`Could not load ${entry.master}`);
             const master = await response.json();
             const root = entry.master.slice(0, entry.master.lastIndexOf("/") + 1);
-            const imagePath = master.assets?.map || master.assets?.socialPreview || master.assets?.favicon;
+            const imagePath = master.assets?.socialPreview || master.assets?.favicon;
             return {
                 ...entry,
                 master,
