@@ -53,6 +53,12 @@ jobs:
             campaign_dir="$(dirname "$campaign_file")"
             campaign_id="$(basename "$campaign_dir")"
 
+            # Starter templates are examples, not deployable campaigns.
+            if [[ "$campaign_id" == _* ]]; then
+              echo "Skipping template folder: $campaign_id"
+              continue
+            fi
+
             echo "Generating portrait manifest: $campaign_id"
             python scripts/generate-portrait-manifest.py "$campaign_id"
           done

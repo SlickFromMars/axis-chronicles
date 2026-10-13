@@ -118,6 +118,9 @@ def generate_share_page(campaign_dir):
 
 def main():
     for campaign_dir in sorted(CAMPAIGNS.iterdir()):
+        if campaign_dir.name.startswith("_"):
+            continue
+
         if campaign_dir.is_dir() and (
             campaign_dir / "campaign.json"
         ).exists():

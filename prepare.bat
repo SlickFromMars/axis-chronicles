@@ -88,7 +88,7 @@ echo.
 set "FOUND_CAMPAIGN=0"
 
 for /D %%D in ("campaigns\*") do (
-    if exist "%%D\campaign.json" (
+    if /I not "%%~nxD"=="_template" if exist "%%D\campaign.json" (
         set "FOUND_CAMPAIGN=1"
         set "CAMPAIGN=%%~nxD"
 
