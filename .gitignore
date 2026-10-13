@@ -8,7 +8,6 @@ __pycache__/
 *$py.class
 .venv/
 venv/
-share/
 
 # Python tooling
 .pytest_cache/
