@@ -41,10 +41,9 @@ def generate_share_page(campaign_dir):
     )
 
     share_url = f"{BASE_URL}/share/{campaign_id}/"
-    destination = (
-        f"{BASE_URL}/?"
-        f"{urlencode({'campaign': campaign_id})}"
-    )
+
+    destination = f"{BASE_URL}/?{urlencode({'campaign': campaign_id})}"
+
 
     metadata = f"""
     <meta property="og:type" content="website">
@@ -77,8 +76,31 @@ def generate_share_page(campaign_dir):
 <body>
     <p>Opening {escape(name)}...</p>
     <p><a href="{escape(destination, quote=True)}">Continue to the campaign</a></p>
+
+
     <script>
-        window.location.replace({json.dumps(destination)});
+        const params = new URLSearchParams(window.location.search);
+        const requestedPage = params.get("page");
+
+        const allowedPages = new Set([
+            "quests",
+            "characters",
+            "map",
+            "calendar",
+            "music",
+            "archives"
+        ]);
+
+        const destination = new URL(
+            {json.dumps(destination)},
+            window.location.origin
+        );
+
+        if (allowedPages.has(requestedPage)) {{
+            destination.hash = requestedPage;
+        }}
+
+        window.location.replace(destination.href);
     </script>
 </body>
 </html>

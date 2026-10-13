@@ -1115,11 +1115,23 @@ if (campaignShareButton) {
 
         const campaignId = activeCampaign.id;
 
-        // Use the campaign-specific static share page.
+        // Preserve the currently selected tab.
+        const currentPage = window.location.hash
+            .slice(1)
+            .split("?")[0];
+
+        // Build the campaign-specific share URL.
         const shareURL = new URL(
             `share/${encodeURIComponent(campaignId)}/`,
             new URL(".", window.location.href)
-        ).href;
+        );
+
+        if (currentPage) {
+            shareURL.searchParams.set("page", currentPage);
+        }
+
+        const finalShareURL = shareURL.href;
+
 
         const shareTitle =
             activeCampaign.social?.title ||
@@ -1137,10 +1149,10 @@ if (campaignShareButton) {
                 await navigator.share({
                     title: shareTitle,
                     text: shareText,
-                    url: shareURL
+                    url: finalShareURL
                 });
             } else {
-                await navigator.clipboard.writeText(shareURL);
+                await navigator.clipboard.writeText(finalShareURL);
 
                 campaignShareButton.querySelector("span").textContent =
                     "Link copied!";
