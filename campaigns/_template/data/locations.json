@@ -1,0 +1,19 @@
+[
+    {
+        "id": "sample-region",
+        "name": "Sample Region",
+        "type": "Region",
+        "x": 50,
+        "y": 50,
+        "description": "A region or major area on your map."
+    },
+    {
+        "id": "sample-town",
+        "name": "Sample Town",
+        "type": "Settlement",
+        "region": "sample-region",
+        "x": 56,
+        "y": 42,
+        "description": "A settlement within the sample region."
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "id": "session-1",
+        "date": "2026-12-01",
+        "time": "19:00",
+        "duration": 180,
+        "team": "shared",
+        "chapter": 1,
+        "title": "Session 1 — The Beginning"
+    }
+]
