@@ -1,5 +1,5 @@
-@echo off
 
+@echo off
 setlocal EnableDelayedExpansion
 
 echo.
@@ -9,7 +9,6 @@ echo ========================================
 echo   Processing all campaigns
 echo ========================================
 echo.
-
 
 REM ========================================================
 REM CHECK PYTHON
@@ -32,7 +31,6 @@ if errorlevel 1 (
 echo Python found.
 echo.
 
-
 REM ========================================================
 REM INSTALL PYTHON DEPENDENCIES
 REM ========================================================
@@ -54,7 +52,6 @@ echo.
 echo Dependencies ready.
 echo.
 
-
 REM ========================================================
 REM ENFORCE CHARACTER IMAGE SIZES
 REM ========================================================
@@ -63,8 +60,6 @@ echo ========================================
 echo   Optimizing character image sizes
 echo ========================================
 echo.
-
-echo Enforcing maximum character image dimension...
 
 python scripts\enforce-character-sizes.py
 
@@ -81,7 +76,6 @@ echo.
 echo Character image sizes optimized.
 echo.
 
-
 REM ========================================================
 REM PROCESS CAMPAIGNS
 REM ========================================================
@@ -91,13 +85,10 @@ echo   Processing campaigns
 echo ========================================
 echo.
 
-
 set "FOUND_CAMPAIGN=0"
 
 for /D %%D in ("campaigns\*") do (
-
     if exist "%%D\campaign.json" (
-
         set "FOUND_CAMPAIGN=1"
         set "CAMPAIGN=%%~nxD"
 
@@ -107,10 +98,9 @@ for /D %%D in ("campaigns\*") do (
         echo ----------------------------------------
         echo.
 
-
-        REM ====================================================
+        REM ================================================
         REM GENERATE CALENDAR
-        REM ====================================================
+        REM ================================================
 
         echo Generating calendar...
 
@@ -128,18 +118,14 @@ for /D %%D in ("campaigns\*") do (
         echo Calendar generated.
         echo.
 
-
-        REM ====================================================
+        REM ================================================
         REM UPDATE LEGACY BTA CALENDAR
-        REM ====================================================
+        REM ================================================
 
         if /I "!CAMPAIGN!"=="breaking-the-axis" (
-
             echo Updating legacy Breaking the Axis calendar...
 
-            if not exist "data" (
-                mkdir "data"
-            )
+            if not exist "data" mkdir "data"
 
             copy /Y ^
                 "campaigns\breaking-the-axis\data\sessions.ics" ^
@@ -158,10 +144,9 @@ for /D %%D in ("campaigns\*") do (
             echo.
         )
 
-
-        REM ====================================================
+        REM ================================================
         REM CONVERT CHARACTER PORTRAITS
-        REM ====================================================
+        REM ================================================
 
         echo Converting character portraits to WebP...
 
@@ -178,31 +163,8 @@ for /D %%D in ("campaigns\*") do (
 
         echo Portrait conversion complete.
         echo.
-
-
-        REM ====================================================
-        REM GENERATE PORTRAIT MANIFEST
-        REM ====================================================
-
-        echo Generating character portrait manifest...
-
-        python scripts\generate-portrait-manifest.py "!CAMPAIGN!"
-
-        if errorlevel 1 (
-            echo.
-            echo ERROR: Portrait manifest generation failed for !CAMPAIGN!.
-            echo No commit was made.
-            echo.
-            pause
-            exit /b 1
-        )
-
-        echo Portrait manifest generated.
-        echo.
-
     )
 )
-
 
 REM ========================================================
 REM CHECK THAT AT LEAST ONE CAMPAIGN WAS FOUND
@@ -218,7 +180,6 @@ if "!FOUND_CAMPAIGN!"=="0" (
     pause
     exit /b 1
 )
-
 
 REM ========================================================
 REM VALIDATE CAMPAIGN JSON
@@ -244,7 +205,6 @@ if errorlevel 1 (
 echo JSON validation complete.
 echo.
 
-
 REM ========================================================
 REM SHOW GIT STATUS
 REM ========================================================
@@ -264,13 +224,10 @@ git status
 
 echo ----------------------------------------
 echo.
-
 echo Review your changes before committing.
 echo.
-
 echo No commit was made.
 echo.
 
 pause
-
 endlocal
