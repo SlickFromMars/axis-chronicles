@@ -86,7 +86,8 @@
         "appIcon192": "assets/branding/app-icon-192.png",
         "appIcon512": "assets/branding/app-icon-512.png",
         "socialPreview": "assets/branding/discord-preview.png",
-        "faviconVersion": "1"
+        "faviconVersion": "1",
+        "selectionPreview": "assets/branding/discord-preview.png"
     },
     "manifest": "manifest.json",
     "text": {
