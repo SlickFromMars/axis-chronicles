@@ -6769,3 +6769,59 @@ body.campaign-library-open {
         transition: none !important;
     }
 }
+
+/* =========================================================
+   CAMPAIGN SHARE BUTTON
+   ========================================================= */
+
+.share-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+
+    padding: 8px 13px;
+
+    color: var(--gold-bright);
+    background: rgba(201, 164, 92, 0.07);
+    border: 1px solid var(--gold-dark);
+    border-radius: 2px;
+
+    font-family: var(--font-label);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease;
+}
+
+.share-button:hover {
+    color: var(--parchment-bright);
+    background: rgba(201, 164, 92, 0.16);
+    border-color: var(--gold);
+}
+
+.share-button:active {
+    background: rgba(201, 164, 92, 0.22);
+}
+
+.share-button svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .share-button {
+        gap: 0;
+        padding: 9px;
+    }
+
+    .share-button span {
+        display: none;
+    }
+}

@@ -1097,3 +1097,74 @@ function escapeCampaignHTML(
         ]
     );
 }
+
+
+/* =========================================================
+   CAMPAIGN SHARING
+   ========================================================= */
+
+const campaignShareButton = document.getElementById(
+    "campaign-share-button"
+);
+
+if (campaignShareButton) {
+    campaignShareButton.addEventListener("click", async () => {
+        if (!activeCampaign) {
+            return;
+        }
+
+        const campaignId = activeCampaign.id;
+
+        // Use the campaign-specific static share page.
+        const shareURL = new URL(
+            `share/${encodeURIComponent(campaignId)}/`,
+            new URL(".", window.location.href)
+        ).href;
+
+        const shareTitle =
+            activeCampaign.social?.title ||
+            `${activeCampaign.name || "Campaign Journal"}`;
+
+        const shareText =
+            activeCampaign.social?.description ||
+            activeCampaign.text?.home?.description ||
+            `Explore ${activeCampaign.name || "this campaign"} in Axis Chronicles.`;
+
+        const originalHTML = campaignShareButton.innerHTML;
+
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: shareTitle,
+                    text: shareText,
+                    url: shareURL
+                });
+            } else {
+                await navigator.clipboard.writeText(shareURL);
+
+                campaignShareButton.querySelector("span").textContent =
+                    "Link copied!";
+
+                campaignShareButton.setAttribute(
+                    "aria-label",
+                    "Campaign link copied"
+                );
+
+                setTimeout(() => {
+                    campaignShareButton.innerHTML = originalHTML;
+                    campaignShareButton.setAttribute(
+                        "aria-label",
+                        "Share this campaign"
+                    );
+                }, 2000);
+            }
+        } catch (error) {
+            // Closing the native share menu is not an error.
+            if (error.name === "AbortError") {
+                return;
+            }
+
+            console.error("Could not share campaign:", error);
+        }
+    });
+}

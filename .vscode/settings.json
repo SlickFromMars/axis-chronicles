@@ -52,6 +52,7 @@
         "**/Thumbs.db": true,
         "**/.sessions.ics.state.json": true,
         "**/__pycache__": true,
-        "**/*.pyc": true
+        "**/*.pyc": true,
+        "share/": true
     }
 }

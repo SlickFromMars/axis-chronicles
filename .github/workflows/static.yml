@@ -40,6 +40,8 @@ jobs:
         run: |
           mkdir deploy
 
+          python scripts/generate-share-pages.py
+
           cp index.html deploy/
           cp 404.html deploy/
 
