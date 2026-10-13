@@ -1,10 +1,10 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Breaking the Axis//Campaign Calendar//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Breaking the Axis
-X-WR-TIMEZONE:America/New_York
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Breaking the Axis//Campaign Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Breaking the Axis
+X-WR-TIMEZONE:America/New_York
 BEGIN:VEVENT
 UID:crossover-chapter-2@breaking-the-axis
 DTSTAMP:20261007T143544Z
@@ -13,7 +13,7 @@ DTEND:20261004T030000Z
 SUMMARY:Breaking the Axis\, Chapter 2 - The Unforgiven
 DESCRIPTION:Shared - Chapter 2
 STATUS:CONFIRMED
-END:VEVENT
+END:VEVENT
 BEGIN:VEVENT
 UID:theft-mini-session@breaking-the-axis
 DTSTAMP:20261007T143544Z
@@ -22,7 +22,7 @@ DTEND:20261012T033000Z
 SUMMARY:Breaking the Axis\, Chapter 3 - Smooth Criminals
 DESCRIPTION:Shared - Chapter 3
 STATUS:CONFIRMED
-END:VEVENT
+END:VEVENT
 BEGIN:VEVENT
 UID:crossover-chapter-4@breaking-the-axis
 DTSTAMP:20261007T143544Z
@@ -31,5 +31,5 @@ DTEND:20261022T033000Z
 SUMMARY:Breaking the Axis\, Chapter 4 - Wind of Change
 DESCRIPTION:Shared - Chapter 4
 STATUS:CONFIRMED
-END:VEVENT
-END:VCALENDAR
+END:VEVENT
+END:VCALENDAR

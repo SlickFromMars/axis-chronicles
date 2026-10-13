@@ -207,333 +207,151 @@ function navigateTo(
 
 
 /* =========================================================
-   CAMPAIGN SWITCHER
+   CAMPAIGN LIBRARY
    ========================================================= */
+
+let campaignLibraryPreviousFocus = null;
 
 function setupCampaignSwitcher() {
+    const button = document.getElementById("campaign-switcher-button");
+    const overlay = document.getElementById("campaign-library");
+    const panel = overlay?.querySelector(".campaign-library-panel");
+    const closeButton = document.getElementById("campaign-library-close");
+    const backdrop = document.getElementById("campaign-library-backdrop");
 
-    const switcher =
-        document.getElementById(
-            "campaign-switcher"
-        );
+    if (!button || !overlay || !panel || !closeButton || !backdrop) return;
 
+    button.addEventListener("click", event => {
+        event.stopPropagation();
+        setCampaignSwitcherOpen(!campaignSwitcherOpen);
+    });
 
-    const button =
-        document.getElementById(
-            "campaign-switcher-button"
-        );
+    closeButton.addEventListener("click", () => setCampaignSwitcherOpen(false));
+    backdrop.addEventListener("click", () => setCampaignSwitcherOpen(false));
 
+    document.addEventListener("keydown", event => {
+        if (!campaignSwitcherOpen) return;
+        if (event.key === "Escape") {
+            event.preventDefault();
+            setCampaignSwitcherOpen(false);
+        }
 
-    const menu =
-        document.getElementById(
-            "campaign-switcher-menu"
-        );
-
-
-    if (
-        !switcher ||
-        !button ||
-        !menu
-    ) {
-        return;
-    }
-
+        // Keep keyboard focus inside the modal while it is open.
+        if (event.key === "Tab") {
+            const focusable = [...panel.querySelectorAll('button:not(:disabled), [href], [tabindex]:not([tabindex="-1"])')];
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+    });
 
     renderCampaignSwitcher();
-
-
-    button.addEventListener(
-        "click",
-        event => {
-
-            event.stopPropagation();
-
-            setCampaignSwitcherOpen(
-                !campaignSwitcherOpen
-            );
-        }
-    );
-
-
-    /*
-        Close when clicking elsewhere.
-    */
-
-    document.addEventListener(
-        "click",
-        event => {
-
-            if (
-                !switcher.contains(
-                    event.target
-                )
-            ) {
-
-                setCampaignSwitcherOpen(
-                    false
-                );
-            }
-        }
-    );
-
-
-    /*
-        Escape closes the menu.
-    */
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key ===
-                "Escape"
-            ) {
-
-                setCampaignSwitcherOpen(
-                    false
-                );
-            }
-        }
-    );
 }
 
+async function renderCampaignSwitcher() {
+    const grid = document.getElementById("campaign-library-grid");
+    if (!grid || !campaignRegistry || !Array.isArray(campaignRegistry.campaigns)) return;
 
-/* =========================================================
-   RENDER CAMPAIGN SWITCHER
-   ========================================================= */
-
-function renderCampaignSwitcher() {
-
-    const button =
-        document.getElementById(
-            "campaign-switcher-button"
-        );
-
-
-    const menu =
-        document.getElementById(
-            "campaign-switcher-menu"
-        );
-
-
-    if (
-        !button ||
-        !menu ||
-        typeof campaignRegistry ===
-        "undefined" ||
-        !campaignRegistry
-    ) {
+    if (campaignRegistry.campaigns.length <= 1) {
+        document.getElementById("campaign-switcher-button")?.setAttribute("aria-disabled", "true");
         return;
     }
 
+    const entries = await Promise.all(campaignRegistry.campaigns.map(async entry => {
+        try {
+            const response = await fetch(entry.master);
+            if (!response.ok) throw new Error(`Could not load ${entry.master}`);
+            const master = await response.json();
+            const root = entry.master.slice(0, entry.master.lastIndexOf("/") + 1);
+            const imagePath = master.assets?.map || master.assets?.socialPreview || master.assets?.favicon;
+            return {
+                ...entry,
+                master,
+                name: master.name || entry.name || formatCampaignId(entry.id),
+                description: master.text?.home?.description || master.social?.description || "Open this campaign journal and explore its world.",
+                image: imagePath ? new URL(imagePath, new URL(root, window.location.href)).href : "",
+                accent: master.theme?.accent || "#c9a45c",
+                isCurrent: typeof activeCampaign !== "undefined" && activeCampaign?.id === entry.id
+            };
+        } catch (error) {
+            console.warn("Could not prepare campaign library card:", entry.id, error);
+            return {
+                ...entry,
+                name: entry.name || formatCampaignId(entry.id),
+                description: "Open this campaign journal and explore its world.",
+                image: "",
+                accent: "#c9a45c",
+                isCurrent: typeof activeCampaign !== "undefined" && activeCampaign?.id === entry.id
+            };
+        }
+    }));
 
-    const campaigns =
-        Array.isArray(
-            campaignRegistry.campaigns
-        )
-            ? campaignRegistry.campaigns
-            : [];
+    grid.innerHTML = entries.map((campaign, index) => `
+        <button type="button" class="campaign-volume ${campaign.isCurrent ? "is-current" : ""}"
+            data-campaign-id="${escapeAppHTML(campaign.id)}"
+            style="--volume-accent:${escapeAppHTML(campaign.accent)};--volume-index:${index}"
+            ${campaign.isCurrent ? 'aria-current="true"' : ""}
+            aria-label="${campaign.isCurrent ? "Current campaign: " : "Open campaign: "}${escapeAppHTML(campaign.name)}">
+            <span class="campaign-volume-art ${campaign.image ? "has-art" : "no-art"}" ${campaign.image ? `style="background-image:url('${escapeAppHTML(campaign.image)}')"` : ""} aria-hidden="true">
+                <span class="campaign-volume-art-wash"></span>
+                <span class="campaign-volume-sigil">${campaign.isCurrent ? "✦" : "✧"}</span>
+                ${campaign.isCurrent ? '<span class="campaign-volume-current">CURRENT JOURNAL</span>' : ""}
+            </span>
+            <span class="campaign-volume-copy">
+                <span class="campaign-volume-kicker">VOLUME ${String(index + 1).padStart(2, "0")}</span>
+                <span class="campaign-volume-title">${escapeAppHTML(campaign.name)}</span>
+                <span class="campaign-volume-description">${escapeAppHTML(campaign.description)}</span>
+                <span class="campaign-volume-enter">${campaign.isCurrent ? "YOU ARE HERE" : "OPEN JOURNAL"}<span aria-hidden="true"> ↗</span></span>
+            </span>
+        </button>
+    `).join("");
 
-
-    if (
-        campaigns.length <=
-        1
-    ) {
-
-        button.setAttribute(
-            "aria-disabled",
-            "true"
-        );
-
-
-        button.classList.add(
-            "campaign-switcher-single"
-        );
-
-
-        menu.hidden =
-            true;
-
-
-        return;
-    }
-
-
-    button.removeAttribute(
-        "aria-disabled"
-    );
-
-
-    button.classList.remove(
-        "campaign-switcher-single"
-    );
-
-
-    menu.innerHTML =
-        campaigns
-            .map(
-                campaign => {
-
-                    const campaignId =
-                        campaign.id;
-
-
-                    const masterPath =
-                        campaign.master;
-
-
-                    /*
-                        Prefer the loaded campaign
-                        name when available.
-                    */
-
-                    const isCurrent =
-                        typeof activeCampaign !==
-                        "undefined" &&
-                        activeCampaign &&
-                        activeCampaign.id ===
-                        campaignId;
-
-
-                    const label =
-                        isCurrent &&
-                            activeCampaign.name
-                            ? activeCampaign.name
-                            : formatCampaignId(
-                                campaignId
-                            );
-
-
-                    return `
-                        <button
-                            type="button"
-                            class="
-                                campaign-option
-                                ${isCurrent
-                            ? "active"
-                            : ""}
-                            "
-                            data-campaign-id="${escapeAppHTML(
-                                campaignId
-                            )}"
-                            data-campaign-master="${escapeAppHTML(
-                                masterPath
-                            )}"
-                            ${isCurrent
-                            ? 'aria-current="true"'
-                            : ""}
-                        >
-
-                            <span
-                                class="campaign-option-marker"
-                                aria-hidden="true"
-                            >
-                                ${isCurrent
-                            ? "◆"
-                            : ""
-                        }
-                            </span>
-
-
-                            <span
-                                class="campaign-option-name"
-                            >
-                                ${escapeAppHTML(
-                            label
-                        )}
-                            </span>
-
-                        </button>
-                    `;
-                }
-            )
-            .join("");
-
-
-    menu
-        .querySelectorAll(
-            "[data-campaign-id]"
-        )
-        .forEach(
-            option => {
-
-                option.addEventListener(
-                    "click",
-                    event => {
-
-                        event.stopPropagation();
-
-
-                        const campaignId =
-                            option.dataset
-                                .campaignId;
-
-
-                        switchCampaign(
-                            campaignId
-                        );
-                    }
-                );
+    grid.querySelectorAll("[data-campaign-id]").forEach(card => {
+        card.addEventListener("click", () => {
+            const campaignId = card.dataset.campaignId;
+            if (campaignId === activeCampaign?.id) {
+                setCampaignSwitcherOpen(false);
+                return;
             }
-        );
-
-
-    button.setAttribute(
-        "aria-expanded",
-        String(
-            campaignSwitcherOpen
-        )
-    );
+            switchCampaign(campaignId);
+        });
+    });
 }
 
+function setCampaignSwitcherOpen(open) {
+    const button = document.getElementById("campaign-switcher-button");
+    const overlay = document.getElementById("campaign-library");
+    const panel = overlay?.querySelector(".campaign-library-panel");
+    if (!button || !overlay || !panel) return;
 
-/* =========================================================
-   CAMPAIGN SWITCHER STATE
-   ========================================================= */
+    if (open === campaignSwitcherOpen) return;
+    campaignSwitcherOpen = open;
 
-function setCampaignSwitcherOpen(
-    open
-) {
-
-    const button =
-        document.getElementById(
-            "campaign-switcher-button"
-        );
-
-
-    const menu =
-        document.getElementById(
-            "campaign-switcher-menu"
-        );
-
-
-    if (
-        !button ||
-        !menu
-    ) {
-        return;
+    if (open) {
+        campaignLibraryPreviousFocus = document.activeElement;
+        overlay.hidden = false;
+        overlay.setAttribute("aria-hidden", "false");
+        button.setAttribute("aria-expanded", "true");
+        button.classList.add("open");
+        document.body.classList.add("campaign-library-open");
+        requestAnimationFrame(() => panel.focus());
+    } else {
+        overlay.setAttribute("aria-hidden", "true");
+        button.setAttribute("aria-expanded", "false");
+        button.classList.remove("open");
+        document.body.classList.remove("campaign-library-open");
+        overlay.hidden = true;
+        if (campaignLibraryPreviousFocus && typeof campaignLibraryPreviousFocus.focus === "function") {
+            campaignLibraryPreviousFocus.focus();
+        }
     }
-
-
-    campaignSwitcherOpen =
-        open;
-
-
-    menu.hidden =
-        !open;
-
-
-    button.setAttribute(
-        "aria-expanded",
-        String(open)
-    );
-
-
-    button.classList.toggle(
-        "open",
-        open
-    );
 }
 
 

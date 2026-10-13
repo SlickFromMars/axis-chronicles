@@ -73,7 +73,6 @@
         "calendar": "data/sessions.ics"
     },
     "assets": {
-        "map": "assets/map/caelora.webp",
         "portraitManifest": "assets/characters/portrait-manifest.json",
         "favicon": "assets/branding/favicon.png",
         "appIcon180": "assets/branding/app-icon-180.png",
