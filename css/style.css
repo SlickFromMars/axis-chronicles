@@ -6825,3 +6825,1160 @@ body.campaign-library-open {
         display: none;
     }
 }
+
+/* =========================================================
+   MUSIC PAGE — BG3-INSPIRED CAMPAIGN UI
+   ========================================================= */
+
+.music-page {
+    max-width: 1180px;
+    padding-bottom: 3.5rem;
+}
+
+.music-hero {
+    gap: 1.35rem;
+    margin-bottom: 1.8rem;
+    padding: 1.65rem 1.8rem 1.75rem;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background:
+        linear-gradient(115deg, rgba(201, 164, 92, 0.075), transparent 48%),
+        linear-gradient(180deg, var(--panel-light), var(--panel-dark));
+    box-shadow: var(--bevel), 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.music-hero::before {
+    top: -115px;
+    right: -55px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(201, 164, 92, 0.13);
+    border-radius: 50%;
+    background: transparent;
+    opacity: 1;
+}
+
+.music-hero::after {
+    left: 1.8rem;
+    bottom: 0;
+    width: min(420px, calc(100% - 3.6rem));
+    height: 1px;
+    background: linear-gradient(90deg,
+            var(--gold),
+            rgba(201, 164, 92, 0.08),
+            transparent);
+    opacity: 0.8;
+}
+
+.music-hero-icon {
+    width: 62px;
+    height: 62px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    color: var(--gold-light);
+    background: linear-gradient(145deg,
+            rgba(201, 164, 92, 0.12),
+            rgba(0, 0, 0, 0.24));
+    box-shadow: var(--bevel), 0 5px 16px rgba(0, 0, 0, 0.25);
+    font-size: 1.7rem;
+}
+
+.music-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.45rem;
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 0.67rem;
+    letter-spacing: 0.2em;
+    opacity: 1;
+}
+
+.music-eyebrow::before {
+    content: "◆";
+    font-size: 0.45rem;
+    color: var(--gold-light);
+}
+
+.music-hero h1 {
+    margin: 0;
+    color: var(--parchment-bright);
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.3vw, 2.55rem);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    line-height: 1.15;
+    text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.music-hero .page-description {
+    max-width: 720px;
+    margin: 0.6rem 0 0;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.music-sections {
+    gap: 1.6rem;
+}
+
+.music-section {
+    margin: 0;
+    padding: 1.35rem 1.45rem 1.45rem;
+    border: 1px solid var(--border-light);
+    border-radius: 0;
+    background:
+        linear-gradient(135deg, rgba(201, 164, 92, 0.035), transparent 42%),
+        linear-gradient(180deg, var(--panel), var(--panel-dark));
+    box-shadow: var(--bevel), 0 8px 22px rgba(0, 0, 0, 0.2);
+    clip-path: none;
+    transition:
+        border-color 180ms ease,
+        background-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.music-section:hover {
+    border-color: var(--gold-dark);
+    transform: none;
+    background:
+        linear-gradient(135deg, rgba(201, 164, 92, 0.06), transparent 48%),
+        linear-gradient(180deg, var(--panel-light), var(--panel));
+    box-shadow: var(--bevel), 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.music-section-header {
+    grid-template-columns: 34px 42px minmax(0, 1fr);
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.music-section-header::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 110px;
+    height: 1px;
+    background: var(--gold-dark);
+}
+
+.music-section-number {
+    padding-top: 0.25rem;
+    color: var(--gold-muted);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    opacity: 0.9;
+}
+
+.music-section-icon {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    color: var(--gold-light);
+    background: linear-gradient(145deg,
+            rgba(201, 164, 92, 0.1),
+            rgba(0, 0, 0, 0.2));
+    box-shadow: var(--bevel);
+    font-size: 1.15rem;
+}
+
+.music-section-label {
+    margin-bottom: 0.2rem;
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    opacity: 0.9;
+}
+
+.music-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    color: var(--parchment-bright);
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: 0.055em;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.music-section h2::before {
+    content: "◆";
+    flex: 0 0 auto;
+    color: var(--gold);
+    font-size: 0.42rem;
+}
+
+.music-section h2::after {
+    content: "";
+    flex: 1 1 auto;
+    min-width: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-dark), transparent);
+}
+
+.music-section-heading p {
+    max-width: 850px;
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.music-player {
+    padding: 0.65rem;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.24);
+    box-shadow: var(--bevel);
+}
+
+.music-player-topline {
+    gap: 0.55rem;
+    padding: 0.15rem 0.3rem 0.65rem;
+    color: var(--gold-muted);
+    font-family: var(--font-label);
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+}
+
+.music-player-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--gold-light);
+    box-shadow: 0 0 7px rgba(226, 199, 133, 0.65);
+}
+
+.music-player iframe {
+    min-height: 500px;
+    border: 1px solid rgba(201, 164, 92, 0.18);
+    border-radius: 0;
+}
+
+.music-empty,
+.music-error {
+    padding: 3.25rem 2rem;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background:
+        linear-gradient(135deg, rgba(201, 164, 92, 0.055), transparent 55%),
+        var(--panel-dark);
+    box-shadow: var(--bevel), 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.music-empty-icon,
+.music-error-icon {
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    color: var(--gold-light);
+    background: rgba(201, 164, 92, 0.04);
+    box-shadow: var(--bevel);
+}
+
+.music-empty h2,
+.music-error h1 {
+    color: var(--parchment-bright);
+    font-family: var(--font-display);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.music-empty p,
+.music-error .page-description {
+    color: var(--muted);
+    font-family: var(--font-body);
+    line-height: 1.65;
+}
+
+@media (max-width: 600px) {
+    .music-hero {
+        gap: 0.9rem;
+        padding: 1.25rem 1rem 1.4rem;
+    }
+
+    .music-hero::after {
+        left: 1rem;
+        width: calc(100% - 2rem);
+    }
+
+    .music-hero-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.25rem;
+    }
+
+    .music-eyebrow {
+        font-size: 0.56rem;
+        letter-spacing: 0.13em;
+    }
+
+    .music-hero h1 {
+        font-size: 1.45rem;
+        overflow-wrap: anywhere;
+    }
+
+    .music-hero .page-description {
+        font-size: 0.9rem;
+    }
+
+    .music-section {
+        padding: 1rem;
+    }
+
+    .music-section-header {
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 0.7rem;
+    }
+
+    .music-section-number {
+        display: none;
+    }
+
+    .music-section-icon {
+        grid-column: 1;
+        grid-row: 1;
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .music-section-heading {
+        grid-column: 2;
+    }
+
+    .music-section h2 {
+        font-size: 1rem;
+        letter-spacing: 0.025em;
+    }
+
+    .music-section-heading p {
+        font-size: 0.88rem;
+    }
+
+    .music-player {
+        padding: 0.4rem;
+    }
+
+    .music-player iframe {
+        min-height: 500px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .music-section {
+        transition: none;
+    }
+}
+
+/* =========================================================
+   CALENDAR — BG3-INSPIRED CAMPAIGN CHRONICLE
+   Append to the bottom of css/style.css
+   ========================================================= */
+
+.calendar-page {
+    max-width: 1400px;
+    padding-bottom: 3.5rem;
+}
+
+/* ---------- Ornate month heading ---------- */
+
+.calendar-heading {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding: 2rem 2rem 1.5rem;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background:
+        linear-gradient(115deg,
+            rgba(201, 164, 92, 0.075),
+            transparent 52%),
+        linear-gradient(180deg,
+            var(--panel-light),
+            var(--panel-dark));
+    box-shadow:
+        var(--bevel),
+        0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.calendar-heading::before {
+    top: -160px;
+    right: -70px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(201, 164, 92, 0.14);
+    border-radius: 50%;
+    background: transparent;
+    opacity: 1;
+}
+
+.calendar-heading::after {
+    left: 2rem;
+    width: min(420px, calc(100% - 4rem));
+    height: 1px;
+    background: linear-gradient(90deg,
+            var(--gold),
+            rgba(201, 164, 92, 0.12),
+            transparent);
+    opacity: 0.9;
+}
+
+.calendar-heading-top {
+    gap: 1.5rem;
+}
+
+.calendar-heading .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.65rem;
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    opacity: 1;
+}
+
+.calendar-heading .eyebrow::before {
+    content: "◆";
+    color: var(--gold-light);
+    font-size: 0.45rem;
+}
+
+.calendar-heading h1 {
+    color: var(--parchment-bright);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    letter-spacing: 0.055em;
+    line-height: 1.15;
+    text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.calendar-heading h1 span {
+    color: var(--gold-muted);
+    font-weight: 400;
+    opacity: 1;
+}
+
+.calendar-description {
+    max-width: 650px;
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.calendar-heading-mark {
+    width: 76px;
+    height: 76px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    color: var(--gold-light);
+    background:
+        linear-gradient(145deg,
+            rgba(201, 164, 92, 0.1),
+            rgba(0, 0, 0, 0.25));
+    box-shadow:
+        var(--bevel),
+        0 8px 24px rgba(0, 0, 0, 0.3);
+    font-size: 1.8rem;
+    opacity: 1;
+}
+
+/* ---------- Navigation and actions ---------- */
+
+.calendar-toolbar {
+    gap: 1rem;
+    margin-top: 1.65rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.calendar-navigation {
+    gap: 0.45rem;
+}
+
+.calendar-nav-button,
+.calendar-today-button,
+.calendar-subscribe,
+.calendar-download {
+    min-height: 40px;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background:
+        linear-gradient(180deg,
+            var(--panel-light),
+            var(--panel-dark));
+    color: var(--parchment);
+    font-family: var(--font-label);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.045em;
+    box-shadow: var(--bevel);
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        color 180ms ease;
+}
+
+.calendar-nav-button {
+    min-width: 42px;
+    padding: 0.5rem;
+    color: var(--gold-light);
+    font-size: 1rem;
+}
+
+.calendar-nav-button:hover,
+.calendar-today-button:hover,
+.calendar-subscribe:hover,
+.calendar-download:hover {
+    border-color: var(--gold-light);
+    background:
+        linear-gradient(180deg,
+            #35291a,
+            var(--panel));
+    color: var(--gold-light);
+    transform: none;
+}
+
+.calendar-nav-button:active,
+.calendar-today-button:active,
+.calendar-subscribe:active,
+.calendar-download:active {
+    transform: translateY(1px);
+}
+
+.calendar-nav-button:focus-visible,
+.calendar-today-button:focus-visible,
+.calendar-subscribe:focus-visible,
+.calendar-download:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+}
+
+.calendar-subscribe span,
+.calendar-download span {
+    margin-right: 0.35rem;
+    color: var(--gold-light);
+}
+
+.calendar-subscribe.copied {
+    border-color: var(--gold-light);
+    color: var(--gold-light);
+}
+
+/* ---------- Monthly session summary ---------- */
+
+.calendar-summary {
+    gap: 0;
+    margin-top: 1.35rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--border);
+}
+
+.calendar-summary-item {
+    gap: 0.55rem;
+    padding: 0 1.35rem;
+}
+
+.calendar-summary-item:first-child {
+    padding-left: 0;
+}
+
+.calendar-summary-item strong {
+    color: var(--gold-light);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.calendar-summary-item span {
+    color: var(--muted);
+    font-family: var(--font-label);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+}
+
+.calendar-summary-divider {
+    width: 1px;
+    height: 25px;
+    background: var(--gold-dark);
+    opacity: 0.75;
+}
+
+/* ---------- Calendar frame ---------- */
+
+.calendar-shell {
+    overflow: hidden;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background: var(--panel-dark);
+    box-shadow:
+        var(--bevel),
+        0 14px 32px rgba(0, 0, 0, 0.28);
+}
+
+.calendar-weekdays {
+    gap: 0;
+    border-bottom: 1px solid var(--gold-dark);
+    background:
+        linear-gradient(180deg,
+            var(--panel-light),
+            var(--panel-dark));
+}
+
+.calendar-weekdays>div {
+    padding: 0.9rem 0.4rem;
+    border-right: 1px solid rgba(201, 164, 92, 0.1);
+    color: var(--gold-light);
+    font-family: var(--font-label);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    opacity: 0.9;
+}
+
+.calendar-weekdays>div:last-child {
+    border-right: none;
+}
+
+.calendar-grid {
+    gap: 1px;
+    background: var(--gold-shadow);
+}
+
+.calendar-day {
+    min-width: 0;
+    min-height: 145px;
+    padding: 0.65rem;
+    border: none;
+    border-right: 1px solid rgba(201, 164, 92, 0.12);
+    border-bottom: 1px solid rgba(201, 164, 92, 0.12);
+    background:
+        linear-gradient(145deg,
+            rgba(201, 164, 92, 0.025),
+            transparent 65%),
+        var(--panel);
+    transition: background 180ms ease;
+}
+
+.calendar-day:hover {
+    background:
+        linear-gradient(145deg,
+            rgba(201, 164, 92, 0.07),
+            transparent 75%),
+        var(--panel-light);
+}
+
+.calendar-day.empty {
+    background: rgba(0, 0, 0, 0.24);
+    opacity: 0.55;
+}
+
+.calendar-day.past {
+    opacity: 0.65;
+}
+
+.calendar-day:nth-child(7n) {
+    border-right: none;
+}
+
+.calendar-day:nth-last-child(-n + 7) {
+    border-bottom: none;
+}
+
+/* ---------- Date markers ---------- */
+
+.calendar-day-header {
+    min-height: 27px;
+    margin-bottom: 0.55rem;
+}
+
+.calendar-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 29px;
+    height: 29px;
+    margin-bottom: 0;
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: var(--parchment);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0.85;
+}
+
+.calendar-day.today {
+    background:
+        linear-gradient(145deg,
+            rgba(201, 164, 92, 0.085),
+            transparent 75%),
+        #1e1811;
+}
+
+.calendar-day.today::before {
+    height: 2px;
+    background: var(--gold-light);
+    box-shadow: 0 0 9px rgba(201, 164, 92, 0.35);
+}
+
+.calendar-day.today .calendar-date {
+    border-color: var(--gold);
+    border-radius: 0;
+    background: var(--gold);
+    color: #17110b;
+    box-shadow: var(--bevel);
+}
+
+.calendar-today-marker {
+    color: var(--gold-light);
+    font-family: var(--font-label);
+    font-size: 0.53rem;
+    letter-spacing: 0.1em;
+}
+
+.calendar-empty-day {
+    min-height: 80px;
+}
+
+/* ---------- Session entries ---------- */
+
+.calendar-events {
+    gap: 0.4rem;
+}
+
+.calendar-event {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0.55rem 0.5rem 0.55rem 0.8rem;
+    border: 1px solid rgba(201, 164, 92, 0.15);
+    border-left: none;
+    border-radius: 0;
+    background:
+        linear-gradient(100deg,
+            rgba(201, 164, 92, 0.08),
+            rgba(201, 164, 92, 0.015));
+    color: var(--parchment);
+    box-shadow: var(--bevel);
+    text-align: left;
+    overflow: hidden;
+    transition:
+        border-color 180ms ease,
+        background 180ms ease;
+}
+
+.calendar-event:hover {
+    border-color: var(--gold-dark);
+    background:
+        linear-gradient(100deg,
+            rgba(201, 164, 92, 0.15),
+            rgba(201, 164, 92, 0.035));
+    box-shadow:
+        var(--bevel),
+        0 0 12px rgba(201, 164, 92, 0.12);
+    transform: none;
+}
+
+.calendar-event-accent {
+    width: 3px;
+    background: var(--gold);
+    opacity: 0.9;
+}
+
+.calendar-event-team {
+    margin-bottom: 0.2rem;
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.calendar-event-title {
+    color: var(--parchment-bright);
+    font-family: var(--font-body);
+    font-size: 0.73rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.calendar-event-time {
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-size: 0.62rem;
+    opacity: 0.9;
+}
+
+.calendar-event.two {
+    border-color: rgba(154, 127, 76, 0.12);
+}
+
+.calendar-event.two .calendar-event-accent {
+    background: var(--muted);
+}
+
+.calendar-event.completed {
+    opacity: 0.48;
+}
+
+.calendar-event.today {
+    border-color: rgba(201, 164, 92, 0.4);
+    background:
+        linear-gradient(100deg,
+            rgba(201, 164, 92, 0.17),
+            rgba(201, 164, 92, 0.04));
+}
+
+/* ---------- Legend and footer ---------- */
+
+.calendar-footer {
+    gap: 1rem;
+    padding: 1rem 0.25rem;
+}
+
+.calendar-legend {
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.calendar-legend-item {
+    color: var(--muted);
+    font-size: 0.68rem;
+}
+
+.calendar-legend-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 0;
+}
+
+.calendar-legend-dot.upcoming,
+.calendar-legend-dot.today {
+    background: var(--gold-light);
+}
+
+.calendar-legend-dot.today {
+    box-shadow: 0 0 7px rgba(201, 164, 92, 0.45);
+}
+
+.calendar-footer-note {
+    color: var(--muted);
+}
+
+/* ---------- Session detail modal ---------- */
+
+.session-preview {
+    background: rgba(5, 4, 3, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.session-preview-card {
+    width: min(100%, 620px);
+    padding: 2rem;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background:
+        linear-gradient(135deg,
+            rgba(201, 164, 92, 0.055),
+            transparent 55%),
+        linear-gradient(180deg,
+            var(--panel-light),
+            var(--panel-dark));
+    box-shadow:
+        var(--bevel),
+        0 25px 80px rgba(0, 0, 0, 0.65);
+}
+
+.session-preview-card::before {
+    border-radius: 0;
+    opacity: 0.35;
+}
+
+.session-preview-card h2 {
+    color: var(--parchment-bright);
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.055em;
+}
+
+.session-preview-close {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background: var(--panel-dark);
+    color: var(--gold-light);
+}
+
+.session-preview-close:hover {
+    border-color: var(--gold-light);
+    background: var(--panel-light);
+    color: var(--parchment-bright);
+}
+
+.session-preview-details div {
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--gold-shadow);
+}
+
+.session-preview-details span,
+.session-preview-detail span:not(.session-preview-detail-icon) {
+    color: var(--gold-muted);
+    font-family: var(--font-label);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+}
+
+.session-preview-details strong,
+.session-preview-detail strong {
+    color: var(--parchment);
+}
+
+/* ---------- Loading and error states ---------- */
+
+.calendar-loading {
+    color: var(--muted);
+}
+
+.calendar-loading-mark {
+    color: var(--gold-light);
+}
+
+.calendar-error {
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    background:
+        linear-gradient(135deg,
+            rgba(201, 164, 92, 0.055),
+            transparent 55%),
+        var(--panel-dark);
+    box-shadow: var(--bevel);
+}
+
+.calendar-error-icon {
+    border: 1px solid var(--gold-dark);
+    border-radius: 0;
+    color: var(--gold-light);
+}
+
+.calendar-error h1 {
+    color: var(--parchment-bright);
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.calendar-error p {
+    color: var(--muted);
+}
+
+/* ---------- Responsive layout ---------- */
+
+@media (max-width: 900px) {
+    .calendar-day {
+        min-height: 115px;
+        padding: 0.5rem;
+    }
+
+    .calendar-event {
+        padding: 0.45rem 0.4rem 0.45rem 0.65rem;
+    }
+
+    .calendar-event-title {
+        font-size: 0.68rem;
+    }
+
+    .calendar-event-time {
+        font-size: 0.56rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .calendar-page {
+        padding-bottom: 2rem;
+    }
+
+    .calendar-heading {
+        padding: 1.25rem 1rem 1.35rem;
+    }
+
+    .calendar-heading::after {
+        left: 1rem;
+        width: calc(100% - 2rem);
+    }
+
+    .calendar-heading-top {
+        gap: 0.8rem;
+    }
+
+    .calendar-heading-mark {
+        width: 45px;
+        height: 45px;
+        font-size: 1.15rem;
+    }
+
+    .calendar-heading h1 {
+        font-size: 1.55rem;
+        overflow-wrap: anywhere;
+    }
+
+    .calendar-description {
+        font-size: 0.84rem;
+    }
+
+    .calendar-toolbar {
+        gap: 0.8rem;
+        margin-top: 1.2rem;
+        padding-top: 1rem;
+    }
+
+    .calendar-navigation {
+        gap: 0.35rem;
+    }
+
+    .calendar-nav-button,
+    .calendar-today-button {
+        min-height: 36px;
+        padding: 0.45rem 0.6rem;
+    }
+
+    .calendar-actions {
+        gap: 0.4rem;
+    }
+
+    .calendar-subscribe,
+    .calendar-download {
+        min-height: 36px;
+        padding: 0.4rem 0.55rem;
+        font-size: 0.62rem;
+    }
+
+    .calendar-summary {
+        justify-content: space-between;
+        gap: 0.3rem;
+        margin-top: 1rem;
+        padding-top: 0.9rem;
+    }
+
+    .calendar-summary-item {
+        gap: 0.15rem;
+        padding: 0 0.4rem;
+    }
+
+    .calendar-summary-item:first-child {
+        padding-left: 0;
+    }
+
+    .calendar-summary-item strong {
+        font-size: 1rem;
+    }
+
+    .calendar-summary-item span {
+        font-size: 0.49rem;
+        letter-spacing: 0.06em;
+    }
+
+    .calendar-summary-divider {
+        height: 24px;
+    }
+
+    .calendar-weekdays>div {
+        padding: 0.65rem 0.1rem;
+        font-size: 0.55rem;
+        letter-spacing: 0.04em;
+    }
+
+    .calendar-day {
+        min-height: 82px;
+        padding: 0.25rem;
+    }
+
+    .calendar-day-header {
+        min-height: 22px;
+        margin-bottom: 0.3rem;
+    }
+
+    .calendar-date {
+        width: 22px;
+        height: 22px;
+        font-size: 0.62rem;
+    }
+
+    .calendar-today-marker {
+        display: none;
+    }
+
+    .calendar-event {
+        padding: 0.35rem 0.2rem 0.35rem 0.4rem;
+    }
+
+    .calendar-event-team,
+    .calendar-event-time {
+        display: none;
+    }
+
+    .calendar-event-title {
+        font-size: 0.57rem;
+        line-height: 1.25;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .calendar-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+
+    .calendar-footer-note {
+        display: none;
+    }
+
+    .session-preview {
+        padding: 0.75rem;
+    }
+
+    .session-preview-card {
+        padding: 1.25rem;
+    }
+
+    .session-preview-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .calendar-day,
+    .calendar-event,
+    .calendar-nav-button,
+    .calendar-today-button,
+    .calendar-subscribe,
+    .calendar-download {
+        transition: none;
+    }
+}
