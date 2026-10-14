@@ -1,0 +1,45 @@
+[
+    {
+        "id": "sample-main-quest",
+        "title": "The First Adventure",
+        "team": "shared",
+        "type": "main",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "Describe the overall goal of this quest.",
+        "objectives": [
+            {
+                "text": "Write an objective the party can complete.",
+                "completed": false
+            }
+        ],
+        "characters": [
+            "sample-hero",
+            "sample-npc"
+        ],
+        "locations": [
+            "sample-town"
+        ],
+        "developments": [
+            {
+                "session": "Session 1 — The Beginning",
+                "text": "Record an important discovery or change here."
+            }
+        ]
+    },
+    {
+        "id": "sample-side-quest",
+        "title": "A Smaller Problem",
+        "team": "team-one",
+        "type": "side",
+        "status": "active",
+        "updateVersion": 1,
+        "description": "A smaller optional adventure.",
+        "objectives": [],
+        "characters": [
+            "sample-hero"
+        ],
+        "locations": [],
+        "developments": []
+    }
+]

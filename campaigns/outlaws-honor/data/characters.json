@@ -1,0 +1,30 @@
+[
+    {
+        "id": "sample-hero",
+        "name": "Sample Hero",
+        "type": "player",
+        "team": "team-one",
+        "race": "Human",
+        "class": "Fighter",
+        "description": "Replace this with a short character biography.",
+        "status": "Active",
+        "quote": "A memorable line goes here.",
+        "updateVersion": 1,
+        "notes": [
+            "Optional note about this character."
+        ]
+    },
+    {
+        "id": "sample-npc",
+        "name": "Sample NPC",
+        "type": "friend",
+        "location": "sample-town",
+        "race": "Elf",
+        "class": "Scholar",
+        "description": "Replace this with a description of the NPC.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    }
+]

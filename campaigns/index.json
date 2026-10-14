@@ -15,6 +15,11 @@
             "id": "glory-of-the-gods",
             "name": "Glory of the Gods",
             "master": "campaigns/glory-of-the-gods/campaign.json"
+        },
+        {
+            "id": "outlaws-honor",
+            "name": "The Outlaw's Honor",
+            "master": "campaigns/outlaws-honor/campaign.json"
         }
     ]
 }

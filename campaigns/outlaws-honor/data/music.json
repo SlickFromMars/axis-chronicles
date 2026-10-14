@@ -1,0 +1,16 @@
+{
+    "title": "Campaign Music",
+    "description": "The music behind your campaign.",
+    "sections": [
+        {
+            "title": "Campaign Inspiration",
+            "description": "Songs that inspired your characters, places, and story.",
+            "playlist": "https://open.spotify.com/embed/playlist/REPLACE_WITH_PLAYLIST_ID"
+        },
+        {
+            "title": "Session Soundtrack",
+            "description": "Music used during sessions.",
+            "playlist": "https://open.spotify.com/embed/playlist/REPLACE_WITH_PLAYLIST_ID"
+        }
+    ]
+}
