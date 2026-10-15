@@ -68,7 +68,8 @@
         "success": "#9aaa76",
         "failure": "#bd6e68",
         "border": "#eb9a2f",
-        "borderLight": "#4c0409"
+        "borderLight": "#4c0409",
+        "disableShadows": false
     },
     "data": {
         "quests": "data/quests.json",

@@ -8038,3 +8038,27 @@ body.campaign-library-open {
         transition: none;
     }
 }
+
+/* =========================================================
+   CAMPAIGN OPTION: FLAT, POSTER-STYLE INTERFACE
+   ========================================================= */
+
+html[data-disable-shadows="true"] {
+    --shadow-small: none;
+    --shadow-medium: none;
+    --shadow-large: none;
+    --gold-glow: none;
+    --bevel: none;
+}
+
+html[data-disable-shadows="true"] *,
+html[data-disable-shadows="true"] *::before,
+html[data-disable-shadows="true"] *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    background-image: none !important;
+    border-image: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+}

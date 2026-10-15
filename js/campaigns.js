@@ -388,6 +388,14 @@ function applyCampaignTheme() {
                 );
         }
     );
+
+    // Apply campaign-specific shadow settings.
+    // Always update the attribute so settings don't carry
+    // over when switching between campaigns.
+    document.documentElement.dataset.disableShadows =
+        theme.disableShadows === true
+            ? "true"
+            : "false";
 }
 
 
