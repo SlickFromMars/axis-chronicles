@@ -18,7 +18,7 @@
         },
         {
             "id": "outlaws-honor",
-            "name": "The Outlaw's Honor",
+            "name": "Outlaw's Honor",
             "master": "campaigns/outlaws-honor/campaign.json"
         }
     ]

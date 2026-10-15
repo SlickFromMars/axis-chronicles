@@ -1,8 +1,8 @@
 {
-    "name": "My Campaign",
-    "short_name": "My Campaign",
-    "description": "The campaign journal for My Campaign.",
-    "start_url": "../../?campaign=my-campaign",
+    "name": "Outlaw's Honor",
+    "short_name": "Crepitia's Most Wanted",
+    "description": "The campaign journal for Outlaw's Honor.",
+    "start_url": "../../?campaign=outlaws-honor",
     "scope": "../../",
     "display": "standalone",
     "background_color": "#100d0b",

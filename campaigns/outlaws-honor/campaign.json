@@ -1,11 +1,11 @@
 {
     "id": "outlaws-honor",
-    "name": "The Outlaw's Honor",
+    "name": "Outlaw's Honor",
     "shortName": "Crepitia's Most Wanted",
     "social": {
-        "title": "The Outlaw's Honor | Crepitia's Most Wanted",
-        "description": "Information on Crepitia",
-        "imageAlt": "My Campaign — tabletop roleplaying campaign"
+        "title": "Outlaw's Honor | Crepitia's Most Wanted",
+        "description": "Discover Crepitia and all of it's wild frontiers, quests, and infamous characters.",
+        "imageAlt": "Outlaw's Honor - campaign journal and quest board"
     },
     "defaultPage": "quests",
     "tabs": [
@@ -17,25 +17,25 @@
         },
         {
             "id": "characters",
-            "enabled": true,
+            "enabled": false,
             "label": "Characters",
             "icon": "♙"
         },
         {
             "id": "map",
-            "enabled": true,
+            "enabled": false,
             "label": "Map",
             "icon": "⌖"
         },
         {
             "id": "calendar",
-            "enabled": true,
+            "enabled": false,
             "label": "Calendar",
             "icon": "□"
         },
         {
             "id": "music",
-            "enabled": true,
+            "enabled": false,
             "label": "Music",
             "icon": "♫"
         },
@@ -47,28 +47,28 @@
         }
     ],
     "theme": {
-        "background": "#100d0b",
-        "backgroundDeep": "#080706",
-        "panel": "#1b1612",
-        "panelLight": "#261e17",
-        "panelHover": "#302519",
-        "panelDark": "#120f0c",
-        "accent": "#c9a45c",
-        "accentLight": "#e2c785",
-        "accentBright": "#f6e2a8",
-        "accentDark": "#6b5330",
-        "accentShadow": "#3d2f1b",
-        "accentMuted": "#9a7f4c",
-        "text": "#e6d9bc",
-        "textBright": "#f4e9d0",
-        "muted": "#a89d88",
-        "mutedDark": "#70675a",
-        "secondary": "#672b2b",
+        "background": "#350a07",
+        "backgroundDeep": "#230405",
+        "panel": "#4c0409",
+        "panelLight": "#4c0409",
+        "panelHover": "#350d00",
+        "panelDark": "#2c0507",
+        "accent": "#eb9a2f",
+        "accentLight": "#f79f50",
+        "accentBright": "#eb9a2f",
+        "accentDark": "#cc7424",
+        "accentShadow": "#cc7424",
+        "accentMuted": "#f0b260",
+        "text": "#fbd29c",
+        "textBright": "#fbd29c",
+        "muted": "#f0b260",
+        "mutedDark": "#4c0409",
+        "secondary": "#fbd29c",
         "secondaryLight": "#8c4140",
         "success": "#9aaa76",
         "failure": "#bd6e68",
-        "border": "#392d1f",
-        "borderLight": "#55432b"
+        "border": "#eb9a2f",
+        "borderLight": "#4c0409"
     },
     "data": {
         "quests": "data/quests.json",
@@ -92,16 +92,16 @@
     "manifest": "manifest.json",
     "text": {
         "header": {
-            "brand": "MY CAMPAIGN",
+            "brand": "OUTLAW'S HONOR",
             "label": "CAMPAIGN JOURNAL"
         },
         "navigation": {
-            "heading": "JOURNAL"
+            "heading": "NOTES"
         },
         "home": {
-            "eyebrow": "THE ADVENTURER'S JOURNAL",
-            "title": "My Campaign",
-            "description": "A record of the adventures, discoveries, and stories of your party."
+            "eyebrow": "OUTLAW'S HONOR",
+            "title": "Crepitia's Most Wanted",
+            "description": "A record of the quests, discoveries, and history of three unlikely outlaws."
         },
         "quests": {
             "categories": {
