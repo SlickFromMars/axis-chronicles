@@ -6489,6 +6489,44 @@ body.campaign-library-open {
     text-align: left;
 }
 
+/* 4+ campaigns: horizontal scroller instead of a grid */
+.campaign-library-grid.is-scrolling {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* room for the hover lift and card shadow, which overflow would otherwise clip */
+    padding: 10px 4px 18px;
+    margin: -10px -4px 0;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 4px;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--gold, #c9a45c) 55%, transparent) transparent;
+}
+
+.campaign-library-grid.is-scrolling::-webkit-scrollbar {
+    height: 8px;
+}
+
+.campaign-library-grid.is-scrolling::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, .03);
+}
+
+.campaign-library-grid.is-scrolling::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--gold, #c9a45c) 45%, transparent);
+}
+
+.campaign-library-grid.is-scrolling::-webkit-scrollbar-thumb:hover {
+    background: var(--gold, #c9a45c);
+}
+
+.campaign-library-grid.is-scrolling .campaign-volume {
+    flex: 0 0 min(270px, 78%);
+    scroll-snap-align: start;
+}
+
 .campaign-library-loading {
     grid-column: 1 / -1;
     padding: 35px 0;
@@ -6716,6 +6754,24 @@ body.campaign-library-open {
     .campaign-volume {
         display: grid;
         grid-template-columns: minmax(105px, 38%) minmax(0, 1fr);
+    }
+
+    /* In scroller mode keep cards stacked (art on top) and swipe sideways */
+    .campaign-library-grid.is-scrolling {
+        gap: 12px;
+    }
+
+    .campaign-library-grid.is-scrolling .campaign-volume {
+        display: flex;
+        flex: 0 0 78%;
+    }
+
+    .campaign-library-grid.is-scrolling .campaign-volume-art {
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 16 / 9;
+        border-right: 0;
+        border-bottom: 1px solid color-mix(in srgb, var(--volume-accent) 42%, transparent);
     }
 
     .campaign-volume-art {

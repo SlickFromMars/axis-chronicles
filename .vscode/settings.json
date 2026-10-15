@@ -3,9 +3,6 @@
     "editor.formatOnPaste": true,
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
-    "editor.rulers": [
-        100
-    ],
     "editor.wordWrap": "on",
     "editor.minimap.enabled": false,
     "files.trimTrailingWhitespace": true,

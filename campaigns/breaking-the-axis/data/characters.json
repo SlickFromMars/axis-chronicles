@@ -59,7 +59,7 @@
         "id": "vera",
         "name": "Vera",
         "type": "friend",
-        "team": "team-one",
+        "location": "With Mari",
         "race": "Arianrhod Owl",
         "class": "Companion",
         "description": "A mysterious but friendly owl accompanying Mari.",

@@ -293,6 +293,9 @@ async function renderCampaignSwitcher() {
         }
     }));
 
+    // Three or fewer campaigns fit in the grid; from the fourth on, switch to a horizontal scroller.
+    grid.classList.toggle("is-scrolling", entries.length > 3);
+
     grid.innerHTML = entries.map((campaign, index) => `
         <button type="button" class="campaign-volume ${campaign.isCurrent ? "is-current" : ""}"
             data-campaign-id="${escapeAppHTML(campaign.id)}"
