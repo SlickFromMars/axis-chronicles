@@ -9,23 +9,13 @@
         "description": "There's something amiss in the small town of Primrose, and it's up to our outlaws to figure out what.",
         "objectives": [
             {
-                "text": "Enter Primrose point to find shelter and check out what's up with the town.",
+                "text": "Enter Primrose Point to find shelter and check out what's up with the town.",
                 "completed": false
             }
         ],
-        "characters": [
-            "sample-hero",
-            "sample-npc"
-        ],
-        "locations": [
-            "sample-town"
-        ],
-        "developments": [
-            {
-                "session": "Session 1 — The Beginning",
-                "text": "Record an important discovery or change here."
-            }
-        ]
+        "characters": [],
+        "locations": [],
+        "developments": []
     },
     {
         "id": "achieving-infamy",
@@ -41,9 +31,7 @@
                 "completed": false
             }
         ],
-        "characters": [
-            "sample-hero"
-        ],
+        "characters": [],
         "locations": [],
         "developments": []
     }
