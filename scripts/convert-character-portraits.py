@@ -10,7 +10,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 SOURCE_EXTENSIONS = {
     ".png",
     ".jpg",
-    ".jpeg"
+    ".jpeg",
 }
 
 WEBP_QUALITY = 90
@@ -25,15 +25,15 @@ def get_campaign_dir(campaign_id):
 
 
 def convert_images(image_dir, label):
-    if not image_dir.exists():
-        raise FileNotFoundError(
-            f"{label} image directory not found: {image_dir}"
-        )
+    # Create missing directories so campaigns without images are valid.
+    image_dir.mkdir(parents=True, exist_ok=True)
 
     converted = 0
     skipped = 0
 
-    for image_file in sorted(image_dir.iterdir()):
+    image_files = sorted(image_dir.iterdir())
+
+    for image_file in image_files:
         if not image_file.is_file():
             continue
 
@@ -60,9 +60,10 @@ def convert_images(image_dir, label):
                     output_file,
                     "WEBP",
                     quality=WEBP_QUALITY,
-                    method=6
+                    method=6,
                 )
 
+            # Remove the source only after successful conversion.
             image_file.unlink()
             converted += 1
 
@@ -72,14 +73,24 @@ def convert_images(image_dir, label):
 
             raise RuntimeError(
                 f"Failed to convert {image_file.name}: {error}"
-            )
+            ) from error
+
+    if converted == 0 and skipped == 0:
+        print(f"No images to convert in {label} directory.")
 
     return converted, skipped
 
 
 def convert_portraits(campaign_id):
+    campaign_dir = get_campaign_dir(campaign_id)
+
+    if not campaign_dir.is_dir():
+        raise FileNotFoundError(
+            f"Campaign directory not found: {campaign_dir}"
+        )
+
     character_image_dir = (
-        get_campaign_dir(campaign_id)
+        campaign_dir
         / "assets"
         / "characters"
     )
@@ -90,7 +101,7 @@ def convert_portraits(campaign_id):
 
     converted, skipped = convert_images(
         character_image_dir,
-        f"Campaign '{campaign_id}' character"
+        f"Campaign '{campaign_id}' character",
     )
 
     print()
@@ -107,9 +118,14 @@ def convert_arg_assets():
     print("Converting ARG assets")
     print("=" * 60)
 
+    if not ARG_ASSET_DIR.is_dir():
+        raise FileNotFoundError(
+            f"ARG asset directory not found: {ARG_ASSET_DIR}"
+        )
+
     converted, skipped = convert_images(
         ARG_ASSET_DIR,
-        "ARG asset"
+        "ARG asset",
     )
 
     print()
@@ -121,12 +137,15 @@ def convert_arg_assets():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Convert campaign portraits and ARG assets to WebP."
+    )
 
     parser.add_argument(
         "campaign",
         nargs="?",
-        default=DEFAULT_CAMPAIGN
+        default=DEFAULT_CAMPAIGN,
+        help="Campaign ID (defaults to breaking-the-axis).",
     )
 
     args = parser.parse_args()

@@ -163,6 +163,26 @@ for /D %%D in ("campaigns\*") do (
 
         echo Portrait conversion complete.
         echo.
+
+        REM ====================================================
+        REM GENERATE PORTRAIT MANIFEST
+        REM ====================================================
+
+        echo Generating character portrait manifest...
+
+        python scripts\generate-portrait-manifest.py "!CAMPAIGN!"
+
+        if errorlevel 1 (
+            echo.
+            echo ERROR: Portrait manifest generation failed for !CAMPAIGN!.
+            echo No commit was made.
+            echo.
+            pause
+            exit /b 1
+        )
+
+        echo Portrait manifest generated.
+        echo.
     )
 )
 

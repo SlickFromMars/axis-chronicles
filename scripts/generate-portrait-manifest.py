@@ -1,4 +1,3 @@
-
 from pathlib import Path
 import argparse
 import json
@@ -29,19 +28,20 @@ def generate_manifest(campaign_id):
     character_image_dir = get_character_image_dir(campaign_id)
     output_file = character_image_dir / "portrait-manifest.json"
 
-    # Portraits are optional. Create the directory so an empty
-    # manifest can be generated for campaigns without portraits.
+    # Create the directory even if the campaign has no portraits.
     character_image_dir.mkdir(parents=True, exist_ok=True)
 
+    # Build the manifest from available WebP portraits.
     portraits = {
         image_file.stem: image_file.name
         for image_file in sorted(character_image_dir.glob("*.webp"))
         if image_file.is_file()
     }
 
+    # An empty portrait collection produces {}.
     manifest_content = json.dumps(portraits, indent=4) + "\n"
 
-    # Avoid rewriting the file when its contents have not changed.
+    # Avoid rewriting the file if its contents have not changed.
     if output_file.exists():
         current_content = output_file.read_text(encoding="utf-8")
 
@@ -52,7 +52,11 @@ def generate_manifest(campaign_id):
             )
             return
 
-    output_file.write_text(manifest_content, encoding="utf-8", newline="\n")
+    output_file.write_text(
+        manifest_content,
+        encoding="utf-8",
+        newline="\n",
+    )
 
     print(
         f"Generated portrait manifest for '{campaign_id}' "
