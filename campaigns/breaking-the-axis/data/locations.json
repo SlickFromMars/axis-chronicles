@@ -59,7 +59,7 @@
     {
         "id": "fort-clob",
         "name": "Fort Clob",
-        "type": "Fort",
+        "type": "Landmark",
         "region": "Verdant Expanses",
         "x": 43,
         "y": 39.5,
@@ -238,7 +238,7 @@
     {
         "id": "veloitama-trench",
         "name": "Veloi'tama Trench",
-        "type": "Trench",
+        "type": "Landmark",
         "region": "The Undersea",
         "x": 90.11,
         "y": 12.32,
@@ -247,7 +247,7 @@
     {
         "id": "glaciers",
         "name": "The Glaciers",
-        "type": "World Border",
+        "type": "Landmark",
         "region": "The Undersea",
         "x": 50,
         "y": 97.1,

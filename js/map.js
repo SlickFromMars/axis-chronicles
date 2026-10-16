@@ -264,8 +264,8 @@ async function showMap() {
 
                 <h1>
                     ${escapeMapHTML(
-                        mapText.pageTitle
-                    )}
+        mapText.pageTitle
+    )}
                 </h1>
 
             </div>
@@ -319,6 +319,10 @@ async function showMap() {
 
                             <option value="settlement">
                                 Settlements
+                            </option>
+
+                            <option value="landmark">
+                                Landmarks
                             </option>
 
                             <option value="location">
@@ -394,7 +398,7 @@ async function showMap() {
                         class="map-legend-location"
                     ></span>
 
-                    Settlement / Location
+                    Location
 
                 </span>
 
@@ -412,11 +416,11 @@ async function showMap() {
                         id="world-map-image"
                         class="map-image"
                         src="${escapeMapHTML(
-                            mapImagePath
-                        )}"
+        mapImagePath
+    )}"
                         alt="${escapeMapHTML(
-                            mapAlt
-                        )}"
+        mapAlt
+    )}"
                     >
 
 
@@ -465,8 +469,8 @@ async function showMap() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="${escapeMapHTML(
-                    `Fullscreen map of ${mapText.worldName}`
-                )}"
+        `Fullscreen map of ${mapText.worldName}`
+    )}"
                 aria-hidden="true"
                 hidden
             >
@@ -485,11 +489,11 @@ async function showMap() {
                             class="map-viewer-image"
                             id="map-viewer-image"
                             src="${escapeMapHTML(
-                                mapImagePath
-                            )}"
+        mapImagePath
+    )}"
                             alt="${escapeMapHTML(
-                                mapAlt
-                            )}"
+        mapAlt
+    )}"
                             draggable="false"
                         >
 
@@ -862,12 +866,21 @@ function getFilteredLocations() {
 
             } else if (
                 activeMapType ===
+                "landmark"
+            ) {
+
+                matchesType =
+                    type === "landmark";
+
+            } else if (
+                activeMapType ===
                 "location"
             ) {
 
                 matchesType =
                     type !== "region" &&
-                    type !== "settlement";
+                    type !== "settlement" &&
+                    type !== "landmark";
             }
 
 
@@ -875,16 +888,16 @@ function getFilteredLocations() {
                 type === "region"
                     ? location.name
                     : location.region ||
-                        "";
+                    "";
 
 
             const matchesRegion =
                 activeMapRegion ===
-                    "all" ||
+                "all" ||
                 locationRegion
                     .toLowerCase() ===
-                    activeMapRegion
-                        .toLowerCase();
+                activeMapRegion
+                    .toLowerCase();
 
 
             const searchableText = [
@@ -1067,11 +1080,10 @@ function renderMapMarkers(
                             type="button"
                             class="
                                 map-marker
-                                ${
-                                    isRegion
-                                        ? "map-marker-region"
-                                        : "map-marker-location"
-                                }
+                                ${isRegion
+                            ? "map-marker-region"
+                            : "map-marker-location"
+                        }
                             "
                             data-location-id="${safeId}"
                             style="
@@ -1082,21 +1094,20 @@ function renderMapMarkers(
                             aria-label="View ${safeName}"
                         >
 
-                            ${
-                                isRegion
-                                    ? `
+                            ${isRegion
+                            ? `
                                         <span
                                             class="map-region-symbol"
                                         >
                                             ✦
                                         </span>
                                     `
-                                    : `
+                            : `
                                         <span
                                             class="map-location-symbol"
                                         ></span>
                                     `
-                            }
+                        }
 
 
                             <span
@@ -1174,7 +1185,7 @@ function highlightSelectedMarker() {
                     "selected",
                     marker.dataset
                         .locationId ===
-                        selectedLocationId
+                    selectedLocationId
                 );
             }
         );
@@ -1214,14 +1225,14 @@ function openLocationDetails(
         isRegion
             ? "Region"
             : location.type ||
-                "Location";
+            "Location";
 
 
     const regionName =
         isRegion
             ? mapText.worldName
             : location.region ||
-                "Uncategorized";
+            "Uncategorized";
 
 
     const description =
@@ -1240,7 +1251,7 @@ function openLocationDetails(
             .filter(
                 quest =>
                     quest.status ===
-                        "active" &&
+                    "active" &&
                     Array.isArray(
                         quest.locations
                     ) &&
@@ -1262,15 +1273,15 @@ function openLocationDetails(
                 class="map-detail-eyebrow"
             >
                 ${escapeMapHTML(
-                    category
-                )}
+        category
+    )}
             </span>
 
 
             <h2>
                 ${escapeMapHTML(
-                    location.name
-                )}
+        location.name
+    )}
             </h2>
 
 
@@ -1278,8 +1289,8 @@ function openLocationDetails(
                 class="map-detail-region"
             >
                 ${escapeMapHTML(
-                    regionName
-                )}
+        regionName
+    )}
             </p>
 
         </div>
@@ -1294,29 +1305,27 @@ function openLocationDetails(
             class="map-detail-description"
         >
             ${escapeMapHTML(
-                description
-            )}
+        description
+    )}
         </p>
 
 
-        ${
-            location.status
-                ? `
+        ${location.status
+            ? `
                     <span
                         class="map-detail-status"
                     >
                         ${escapeMapHTML(
-                            location.status
-                        )}
+                location.status
+            )}
                     </span>
                 `
-                : ""
+            : ""
         }
 
 
-        ${
-            relevantQuests.length
-                ? `
+        ${relevantQuests.length
+            ? `
                     <div
                         class="map-detail-divider"
                     ></div>
@@ -1332,20 +1341,20 @@ function openLocationDetails(
                     >
 
                         ${relevantQuests
-                            .map(
-                                quest => `
+                .map(
+                    quest => `
                                     <button
                                         type="button"
                                         class="map-related-quest"
                                         data-related-quest="${escapeMapHTML(
-                                            quest.id
-                                        )}"
+                        quest.id
+                    )}"
                                     >
 
                                         <span>
                                             ${escapeMapHTML(
-                                                quest.title
-                                            )}
+                        quest.title
+                    )}
                                         </span>
 
 
@@ -1357,12 +1366,12 @@ function openLocationDetails(
 
                                     </button>
                                 `
-                            )
-                            .join("")}
+                )
+                .join("")}
 
                     </div>
                 `
-                : ""
+            : ""
         }
 
 
@@ -1858,7 +1867,7 @@ function measureMapViewer() {
         Math.min(
             mapView.cw,
             mapView.ch *
-                aspect
+            aspect
         );
 
 
@@ -1919,7 +1928,7 @@ function resetMapView() {
         (
             mapView.cw -
             mapView.baseW *
-                mapView.scale
+            mapView.scale
         ) / 2;
 
 
@@ -1927,7 +1936,7 @@ function resetMapView() {
         (
             mapView.ch -
             mapView.baseH *
-                mapView.scale
+            mapView.scale
         ) / 2;
 
 
@@ -1987,7 +1996,7 @@ function applyMapTransform() {
                 0,
                 Math.max(
                     mapView.cw -
-                        w,
+                    w,
                     mapView.x
                 )
             );
@@ -2003,7 +2012,7 @@ function applyMapTransform() {
                 0,
                 Math.max(
                     mapView.ch -
-                        h,
+                    h,
                     mapView.y
                 )
             );
@@ -2022,8 +2031,8 @@ function applyMapTransform() {
         Math.min(
             1,
             0.7 +
-                0.15 *
-                (s - 1)
+            0.15 *
+            (s - 1)
         );
 
 
@@ -2073,7 +2082,7 @@ function zoomMapAt(
             cx -
             mapView.x
         ) *
-            ratio;
+        ratio;
 
 
     mapView.y =
@@ -2082,7 +2091,7 @@ function zoomMapAt(
             cy -
             mapView.y
         ) *
-            ratio;
+        ratio;
 
 
     mapView.scale =
@@ -2103,7 +2112,7 @@ function zoomMapBy(
 
     zoomMapAt(
         mapView.scale *
-            factor,
+        factor,
         mapView.cw / 2,
         mapView.ch / 2
     );
@@ -2128,9 +2137,9 @@ function readMapPinch() {
         distance:
             Math.hypot(
                 a.x -
-                    b.x,
+                b.x,
                 a.y -
-                    b.y
+                b.y
             ),
 
         cx:
@@ -2163,9 +2172,9 @@ function bindMapGestures(
 
             if (
                 event.pointerType ===
-                    "mouse" &&
+                "mouse" &&
                 event.button !==
-                    0
+                0
             ) {
                 return;
             }
@@ -2267,7 +2276,7 @@ function bindMapGestures(
                 if (
                     !mapPinch ||
                     mapPinch.distance ===
-                        0
+                    0
                 ) {
 
                     mapPinch =
@@ -2293,16 +2302,16 @@ function bindMapGestures(
 
                 zoomMapAt(
                     mapView.scale *
-                        (
-                            pinch.distance /
-                            mapPinch.distance
-                        ),
+                    (
+                        pinch.distance /
+                        mapPinch.distance
+                    ),
 
                     pinch.cx -
-                        rect.left,
+                    rect.left,
 
                     pinch.cy -
-                        rect.top
+                    rect.top
                 );
 
 
@@ -2490,7 +2499,7 @@ function bindMapGestures(
                 event.deltaMode ===
                     1
                     ? event.deltaY *
-                        16
+                    16
                     : event.deltaY;
 
 
@@ -2507,13 +2516,13 @@ function bindMapGestures(
 
             zoomMapAt(
                 mapView.scale *
-                    factor,
+                factor,
 
                 event.clientX -
-                    rect.left,
+                rect.left,
 
                 event.clientY -
-                    rect.top
+                rect.top
             );
         },
         {
@@ -2550,13 +2559,13 @@ function bindMapGestures(
 
                 zoomMapAt(
                     mapView.scale *
-                        2,
+                    2,
 
                     event.clientX -
-                        rect.left,
+                    rect.left,
 
                     event.clientY -
-                        rect.top
+                    rect.top
                 );
             }
         }
@@ -2591,7 +2600,7 @@ function handleMapKeys(
 
 
     switch (
-        event.key
+    event.key
     ) {
 
         case "Escape":
@@ -2881,13 +2890,13 @@ function setupCoordinatePicker() {
 
             if (
                 event.clientX <
-                    rect.left ||
+                rect.left ||
                 event.clientX >
-                    rect.right ||
+                rect.right ||
                 event.clientY <
-                    rect.top ||
+                rect.top ||
                 event.clientY >
-                    rect.bottom
+                rect.bottom
             ) {
                 return;
             }
