@@ -364,7 +364,24 @@ function applyCampaignTheme() {
             "--border",
 
         borderLight:
-            "--border-light"
+            "--border-light",
+
+        // Optional calendar-specific colors. These override the
+        // shared theme only for the calendar UI.
+        calendarWeekdayBackground: "--calendar-weekday-background",
+        calendarWeekdayText: "--calendar-weekday-text",
+        calendarGrid: "--calendar-grid",
+        calendarDayBackground: "--calendar-day-background",
+        calendarDayHover: "--calendar-day-hover",
+        calendarEmptyBackground: "--calendar-empty-background",
+        calendarDate: "--calendar-date",
+        calendarEventBackground: "--calendar-event-background",
+        calendarEventHover: "--calendar-event-hover",
+        calendarEventText: "--calendar-event-text",
+        calendarEventBorder: "--calendar-event-border",
+        calendarEventTeam: "--calendar-event-team",
+        calendarEventTime: "--calendar-event-time",
+        calendarSecondTeam: "--calendar-second-team"
     };
 
 

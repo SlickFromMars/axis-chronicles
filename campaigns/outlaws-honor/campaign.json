@@ -23,7 +23,7 @@
         },
         {
             "id": "map",
-            "enabled": true,
+            "enabled": false,
             "label": "The World",
             "icon": "⌖"
         },
@@ -38,12 +38,6 @@
             "enabled": true,
             "label": "The Phonograph",
             "icon": "♫"
-        },
-        {
-            "id": "archives",
-            "enabled": false,
-            "label": "Archives",
-            "icon": "▥"
         }
     ],
     "theme": {
@@ -69,7 +63,21 @@
         "failure": "#bd6e68",
         "border": "#eb9a2f",
         "borderLight": "#4c0409",
-        "disableShadows": false
+        "disableShadows": false,
+        "calendarWeekdayBackground": "#2b2118",
+        "calendarWeekdayText": "#f0b260",
+        "calendarGrid": "#70402b",
+        "calendarDayBackground": "#301b17",
+        "calendarDayHover": "#4a281d",
+        "calendarEmptyBackground": "#241411",
+        "calendarDate": "#e9c9a0",
+        "calendarEventBackground": "#51251d",
+        "calendarEventHover": "#6b3020",
+        "calendarEventText": "#ffe0b5",
+        "calendarEventBorder": "#8a4a2c",
+        "calendarEventTeam": "#ffbd65",
+        "calendarEventTime": "#e6b98e",
+        "calendarSecondTeam": "#c7a4a0"
     },
     "data": {
         "quests": "data/quests.json",

@@ -2244,13 +2244,13 @@ body.character-profile-open {
     grid-template-columns:
         repeat(7, minmax(0, 1fr));
     border-bottom: 1px solid var(--border);
-    background: rgba(0, 0, 0, 0.18);
-    border-bottom-color: rgba(255, 255, 255, 0.09);
+    background: var(--calendar-weekday-background, rgba(0, 0, 0, 0.18));
+    border-bottom-color: var(--calendar-grid, rgba(255, 255, 255, 0.09));
 }
 
 .calendar-weekdays div {
     padding: 12px 6px;
-    color: var(--gold-light);
+    color: var(--calendar-weekday-text, var(--gold-light));
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.2em;
@@ -2262,7 +2262,7 @@ body.character-profile-open {
     position: relative;
     z-index: 1;
     gap: 1px;
-    background: var(--gold-shadow);
+    background: var(--calendar-grid, var(--gold-shadow));
     display: grid;
     grid-template-columns:
         repeat(7, minmax(0, 1fr));
@@ -2276,17 +2276,17 @@ body.character-profile-open {
     transition:
         background 0.18s ease;
     min-height: 145px;
-    background: rgba(0, 0, 0, 0.11);
-    border-right-color: rgba(255, 255, 255, 0.07);
-    border-bottom-color: rgba(255, 255, 255, 0.07);
+    background: var(--calendar-day-background, rgba(0, 0, 0, 0.11));
+    border-right-color: var(--calendar-grid, rgba(255, 255, 255, 0.07));
+    border-bottom-color: var(--calendar-grid, rgba(255, 255, 255, 0.07));
 }
 
 .calendar-day:hover {
-    background: rgba(255, 255, 255, 0.025);
+    background: var(--calendar-day-hover, rgba(255, 255, 255, 0.025));
 }
 
 .calendar-day.empty {
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--calendar-empty-background, rgba(0, 0, 0, 0.2));
     opacity: 0.45;
 }
 
@@ -2299,7 +2299,7 @@ body.character-profile-open {
     justify-content: center;
     width: 27px;
     height: 27px;
-    color: var(--muted);
+    color: var(--calendar-date, var(--muted));
     font-size: 0.72rem;
     font-weight: 500;
     opacity: 0.65;
@@ -2322,7 +2322,7 @@ body.character-profile-open {
     padding: 0.55rem 0.55rem 0.55rem 0.75rem;
     border: 1px solid transparent;
     border-radius: 7px;
-    color: var(--parchment);
+    color: var(--calendar-event-text, var(--parchment));
     font: inherit;
     text-align: left;
     cursor: pointer;
@@ -2331,20 +2331,20 @@ body.character-profile-open {
         background 0.18s ease,
         border-color 0.18s ease,
         transform 0.18s ease;
-    background: rgba(255, 255, 255, 0.045);
-    border-color: rgba(255, 255, 255, 0.035);
+    background: var(--calendar-event-background, rgba(255, 255, 255, 0.045));
+    border-color: var(--calendar-event-border, rgba(255, 255, 255, 0.035));
 }
 
 .calendar-event:hover {
     box-shadow: var(--bevel), 0 0 12px rgba(201, 164, 92, 0.2);
     transform: translateX(2px);
-    background: rgba(255, 255, 255, 0.075);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--calendar-event-hover, rgba(255, 255, 255, 0.075));
+    border-color: var(--calendar-event-border, rgba(255, 255, 255, 0.1));
 }
 
 .calendar-event-team {
     margin-bottom: 0.15rem;
-    color: var(--gold);
+    color: var(--calendar-event-team, var(--gold));
     font-size: 0.55rem;
     font-weight: 800;
     letter-spacing: 0.1em;
@@ -2360,7 +2360,7 @@ body.character-profile-open {
     line-height: 1.3;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--parchment);
+    color: var(--calendar-event-text, var(--parchment));
     font-weight: 600;
 }
 
@@ -2370,16 +2370,16 @@ body.character-profile-open {
     display: block;
     margin-top: 0.18rem;
     font-size: 0.63rem;
-    color: var(--muted);
+    color: var(--calendar-event-time, var(--muted));
     opacity: 0.72;
 }
 
 .calendar-event.two {
-    border-left-color: var(--muted);
+    border-left-color: var(--calendar-second-team, var(--muted));
 }
 
 .calendar-event.two .calendar-event-team {
-    color: var(--muted);
+    color: var(--calendar-second-team, var(--muted));
 }
 
 .calendar-actions {
@@ -8056,4 +8056,98 @@ html[data-disable-shadows="true"] *::after {
     border-image: none !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
+}
+
+/* =========================================================
+   CAMPAIGN-SPECIFIC CALENDAR COLOR OVERRIDES
+   These rules intentionally appear last so calendar-specific
+   variables take precedence over the shared campaign theme.
+   ========================================================= */
+
+.calendar-shell {
+    border-color: var(--calendar-grid, var(--gold-dark));
+    background: var(--calendar-day-background, var(--panel-dark));
+}
+
+.calendar-weekdays {
+    border-bottom-color: var(--calendar-grid, var(--gold-dark));
+    background: var(--calendar-weekday-background, var(--panel-dark));
+}
+
+.calendar-weekdays > div {
+    border-right-color: var(--calendar-grid, rgba(201, 164, 92, 0.1));
+    color: var(--calendar-weekday-text, var(--gold-light));
+}
+
+.calendar-grid {
+    background: var(--calendar-grid, var(--gold-shadow));
+}
+
+.calendar-day {
+    border-right-color: var(--calendar-grid, rgba(201, 164, 92, 0.12));
+    border-bottom-color: var(--calendar-grid, rgba(201, 164, 92, 0.12));
+    background: var(--calendar-day-background, var(--panel));
+}
+
+.calendar-day:hover {
+    background: var(--calendar-day-hover, var(--panel-light));
+}
+
+.calendar-day.empty {
+    background: var(--calendar-empty-background, rgba(0, 0, 0, 0.24));
+}
+
+.calendar-date {
+    color: var(--calendar-date, var(--parchment));
+}
+
+.calendar-day.today {
+    background: var(--calendar-day-hover, var(--panel-light));
+}
+
+.calendar-day.today .calendar-date {
+    border-color: var(--calendar-event-border, var(--gold));
+    background: var(--calendar-event-border, var(--gold));
+    color: var(--background-deep, #17110b);
+}
+
+.calendar-day.today::before {
+    background: var(--calendar-event-border, var(--gold-light));
+}
+
+.calendar-event {
+    border-color: var(--calendar-event-border, rgba(201, 164, 92, 0.15));
+    background: var(--calendar-event-background, var(--panel));
+    color: var(--calendar-event-text, var(--parchment));
+}
+
+.calendar-event:hover {
+    border-color: var(--calendar-event-border, var(--gold-dark));
+    background: var(--calendar-event-hover, var(--panel-light));
+}
+
+.calendar-event-title {
+    color: var(--calendar-event-text, var(--parchment-bright));
+}
+
+.calendar-event-team {
+    color: var(--calendar-event-team, var(--gold));
+}
+
+.calendar-event-time {
+    color: var(--calendar-event-time, var(--muted));
+}
+
+.calendar-event.two {
+    border-color: var(--calendar-event-border, rgba(154, 127, 76, 0.12));
+}
+
+.calendar-event.two .calendar-event-team,
+.calendar-event.two .calendar-event-accent {
+    color: var(--calendar-second-team, var(--muted));
+    background: var(--calendar-second-team, var(--muted));
+}
+
+.calendar-event-accent {
+    background: var(--calendar-event-border, var(--gold));
 }
