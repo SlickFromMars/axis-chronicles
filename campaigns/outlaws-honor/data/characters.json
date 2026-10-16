@@ -1,17 +1,32 @@
 [
     {
-        "id": "sample-hero",
-        "name": "Sample Hero",
+        "id": "flint",
+        "name": "Flint",
         "type": "player",
         "team": "team-one",
-        "race": "Human",
-        "class": "Fighter",
-        "description": "Replace this with a short character biography.",
+        "race": "Goblin",
+        "class": "Gunslinger",
+        "description": "A conman goblin on a mission to find his family and make some cash along the way.",
         "status": "Active",
-        "quote": "A memorable line goes here.",
+        "quote": null,
         "updateVersion": 1,
         "notes": [
-            "Optional note about this character."
+            "WANTED: Dead or Alive | for 1,450 gold pieces."
+        ]
+    },
+    {
+        "id": "dakota-collins",
+        "name": "Dakota Collins",
+        "type": "player",
+        "team": "team-one",
+        "race": "Tabaxi",
+        "class": "Fighter",
+        "description": "somethin.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [
+            "WANTED: Dead or Alive | 0$"
         ]
     },
     {

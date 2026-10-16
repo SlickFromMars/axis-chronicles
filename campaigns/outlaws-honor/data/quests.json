@@ -6,14 +6,17 @@
         "type": "main",
         "status": "active",
         "updateVersion": 1,
-        "description": "There's something amiss in the small town of Primrose, and it's up to our outlaws to figure out what.",
+        "description": "Bad circumstances have driven a few small-time outlaws to the town of Primrose Point. Now they must recuperate and investigate the town.",
         "objectives": [
             {
-                "text": "Enter Primrose Point to find shelter and check out what's up with the town.",
+                "text": "Enter Primrose Point to find shelter and check out the area.",
                 "completed": false
             }
         ],
-        "characters": [],
+        "characters": [
+            "flint",
+            "dakota-collins"
+        ],
         "locations": [],
         "developments": []
     },
@@ -31,7 +34,10 @@
                 "completed": false
             }
         ],
-        "characters": [],
+        "characters": [
+            "flint",
+            "dakota-collins"
+        ],
         "locations": [],
         "developments": []
     }

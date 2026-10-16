@@ -1,16 +1,16 @@
 {
-    "title": "Campaign Music",
-    "description": "The music behind your campaign.",
+    "title": "The Phonograph",
+    "description": "The music of Creptia.",
     "sections": [
         {
-            "title": "Campaign Inspiration",
-            "description": "Songs that inspired your characters, places, and story.",
-            "playlist": "https://open.spotify.com/embed/playlist/REPLACE_WITH_PLAYLIST_ID"
+            "title": "Songs to be an Outlaw to",
+            "description": "Songs that relate to Outlaw's Honor or that I was listening to while thinking about it.",
+            "playlist": "https://open.spotify.com/embed/playlist/11JFSXslrzrukOcUjlIuz5"
         },
         {
-            "title": "Session Soundtrack",
+            "title": "Background Phonograph",
             "description": "Music used during sessions.",
-            "playlist": "https://open.spotify.com/embed/playlist/REPLACE_WITH_PLAYLIST_ID"
+            "playlist": "https://open.spotify.com/embed/playlist/1pehASFvJgzLWIaKPzSuRO"
         }
     ]
 }

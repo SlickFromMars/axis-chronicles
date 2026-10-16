@@ -12,31 +12,31 @@
         {
             "id": "quests",
             "enabled": true,
-            "label": "Quests",
+            "label": "The Goal(s)",
             "icon": "▤"
         },
         {
             "id": "characters",
-            "enabled": false,
-            "label": "Characters",
-            "icon": "♙"
+            "enabled": true,
+            "label": "The Wanted",
+            "icon": "$"
         },
         {
             "id": "map",
-            "enabled": false,
-            "label": "Map",
+            "enabled": true,
+            "label": "The World",
             "icon": "⌖"
         },
         {
             "id": "calendar",
-            "enabled": false,
-            "label": "Calendar",
-            "icon": "□"
+            "enabled": true,
+            "label": "The Clock",
+            "icon": "┘"
         },
         {
             "id": "music",
-            "enabled": false,
-            "label": "Music",
+            "enabled": true,
+            "label": "The Phonograph",
             "icon": "♫"
         },
         {
@@ -62,7 +62,7 @@
         "text": "#fbd29c",
         "textBright": "#fbd29c",
         "muted": "#f0b260",
-        "mutedDark": "#4c0409",
+        "mutedDark": "#eb9a2f",
         "secondary": "#fbd29c",
         "secondaryLight": "#8c4140",
         "success": "#9aaa76",
@@ -122,14 +122,14 @@
         },
         "characters": {
             "page": {
-                "eyebrow": "THE PEOPLE OF YOUR WORLD",
+                "eyebrow": "THE PEOPLE OF CREPITIA",
                 "title": "Characters",
-                "description": "Heroes, allies, enemies, and others in your story."
+                "description": "The Wanted and the Unwanted."
             },
             "players": {
-                "eyebrow": "THE ADVENTURERS",
+                "eyebrow": "THE OUTLAWS",
                 "title": "Player Characters",
-                "description": "The people at the heart of your campaign.",
+                "description": "The unlikely group at the start of it all.",
                 "partyLabel": "PARTY"
             }
         },
@@ -181,13 +181,13 @@
                 "id": "gods",
                 "type": "god",
                 "label": "Gods and Deities",
-                "enabled": true
+                "enabled": false
             },
             {
                 "id": "friends",
                 "type": "friend",
                 "label": "Friends",
-                "enabled": true
+                "enabled": false
             },
             {
                 "id": "foes",
