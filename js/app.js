@@ -278,6 +278,17 @@ async function renderCampaignSwitcher() {
                 description: master.text?.home?.description || master.social?.description || "Open this campaign journal and explore its world.",
                 image: imagePath ? new URL(imagePath, new URL(root, window.location.href)).href : "",
                 accent: master.theme?.accent || "#c9a45c",
+                palette: {
+                    background: master.theme?.background || "#100d0b",
+                    backgroundDeep: master.theme?.backgroundDeep || "#080706",
+                    panel: master.theme?.panel || "#1b1612",
+                    panelLight: master.theme?.panelLight || master.theme?.panel || "#261e17",
+                    panelHover: master.theme?.panelHover || master.theme?.panelLight || "#302519",
+                    border: master.theme?.border || master.theme?.accent || "#c9a45c",
+                    text: master.theme?.textBright || "#f4e9d0",
+                    muted: master.theme?.muted || "#a89d88",
+                    secondary: master.theme?.secondary || "#672b2b"
+                },
                 isCurrent: typeof activeCampaign !== "undefined" && activeCampaign?.id === entry.id
             };
         } catch (error) {
@@ -288,10 +299,29 @@ async function renderCampaignSwitcher() {
                 description: "Open this campaign journal and explore its world.",
                 image: "",
                 accent: "#c9a45c",
+                palette: { background: "#100d0b", backgroundDeep: "#080706", panel: "#1b1612", panelLight: "#261e17", panelHover: "#302519", border: "#c9a45c", text: "#f4e9d0", muted: "#a89d88", secondary: "#672b2b" },
                 isCurrent: typeof activeCampaign !== "undefined" && activeCampaign?.id === entry.id
             };
         }
     }));
+
+    // The archive frame follows the currently active campaign palette, not a fixed gold theme.
+    const current = entries.find(campaign => campaign.isCurrent) || entries[0];
+    const palette = current.palette;
+    const library = document.getElementById("campaign-library");
+    if (library && palette) {
+        Object.entries({
+            "--library-background": palette.background,
+            "--library-background-deep": palette.backgroundDeep,
+            "--library-panel": palette.panel,
+            "--library-panel-light": palette.panelLight,
+            "--library-panel-hover": palette.panelHover,
+            "--library-border": palette.border,
+            "--library-text": palette.text,
+            "--library-muted": palette.muted,
+            "--library-secondary": palette.secondary
+        }).forEach(([name, value]) => library.style.setProperty(name, value));
+    }
 
     // Three or fewer campaigns fit in the grid; from the fourth on, switch to a horizontal scroller.
     grid.classList.toggle("is-scrolling", entries.length > 3);
@@ -299,7 +329,7 @@ async function renderCampaignSwitcher() {
     grid.innerHTML = entries.map((campaign, index) => `
         <button type="button" class="campaign-volume ${campaign.isCurrent ? "is-current" : ""}"
             data-campaign-id="${escapeAppHTML(campaign.id)}"
-            style="--volume-accent:${escapeAppHTML(campaign.accent)};--volume-index:${index}"
+            style="--volume-accent:${escapeAppHTML(campaign.accent)};--volume-index:${index};--volume-background:${escapeAppHTML(campaign.palette.background)};--volume-background-deep:${escapeAppHTML(campaign.palette.backgroundDeep)};--volume-panel:${escapeAppHTML(campaign.palette.panel)};--volume-panel-light:${escapeAppHTML(campaign.palette.panelLight)};--volume-panel-hover:${escapeAppHTML(campaign.palette.panelHover)};--volume-border:${escapeAppHTML(campaign.palette.border)};--volume-text:${escapeAppHTML(campaign.palette.text)};--volume-muted:${escapeAppHTML(campaign.palette.muted)};--volume-secondary:${escapeAppHTML(campaign.palette.secondary)}"
             ${campaign.isCurrent ? 'aria-current="true"' : ""}
             aria-label="${campaign.isCurrent ? "Current campaign: " : "Open campaign: "}${escapeAppHTML(campaign.name)}">
             <span class="campaign-volume-art ${campaign.image ? "has-art" : "no-art"}" ${campaign.image ? `style="background-image:url('${escapeAppHTML(campaign.image)}')"` : ""} aria-hidden="true">

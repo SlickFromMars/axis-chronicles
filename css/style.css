@@ -6355,8 +6355,8 @@ body.campaign-library-open {
     height: 100%;
     border: 0;
     cursor: default;
-    background: radial-gradient(ellipse at 50% 20%, rgba(90, 62, 29, .32), transparent 55%),
-        rgba(5, 4, 3, .88);
+    background: radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--library-secondary, #672b2b) 34%, transparent), transparent 58%),
+        color-mix(in srgb, var(--library-background-deep, #080706) 88%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     animation: campaign-library-fade-in .22s ease both;
@@ -6365,14 +6365,14 @@ body.campaign-library-open {
 .campaign-library-panel {
     position: relative;
     z-index: 1;
-    width: min(1060px, 100%);
-    max-height: min(92vh, 940px);
+    width: min(1180px, 100%);
+    max-height: min(94vh, 1040px);
     overflow-y: auto;
-    padding: clamp(25px, 5vw, 56px) clamp(16px, 4vw, 48px) 24px;
+    padding: clamp(20px, 3vw, 40px) clamp(20px, 4vw, 56px) 18px;
     text-align: center;
-    background: linear-gradient(145deg, rgba(35, 27, 19, .985), rgba(12, 10, 8, .99) 70%);
-    border: 1px solid color-mix(in srgb, var(--gold, #c9a45c) 65%, transparent);
-    box-shadow: 0 28px 100px rgba(0, 0, 0, .75), inset 0 0 0 5px rgba(201, 164, 92, .035), inset 0 0 70px rgba(201, 164, 92, .035);
+    background: linear-gradient(145deg, color-mix(in srgb, var(--library-panel-light, var(--panel, #261e17)) 92%, var(--library-secondary, #672b2b)), var(--library-background-deep, var(--background-deep, #080706)) 78%);
+    border: 1px solid color-mix(in srgb, var(--library-border, var(--gold, #c9a45c)) 72%, transparent);
+    box-shadow: 0 28px 100px rgba(0, 0, 0, .75), inset 0 0 0 5px color-mix(in srgb, var(--library-border, #c9a45c) 5%, transparent), inset 0 0 70px color-mix(in srgb, var(--library-border, #c9a45c) 6%, transparent);
     outline: none;
     animation: campaign-library-rise .32s cubic-bezier(.2, .75, .25, 1) both;
 }
@@ -6545,8 +6545,8 @@ body.campaign-library-open {
     color: inherit;
     text-align: left;
     cursor: pointer;
-    background: linear-gradient(160deg, rgba(255, 255, 255, .025), transparent 45%), #100d0b;
-    border: 1px solid color-mix(in srgb, var(--volume-accent) 36%, #211a12);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--volume-panel-light, #261e17) 88%, var(--volume-accent)) 0%, var(--volume-panel, #1b1612) 52%, var(--volume-background, #100d0b) 100%);
+    border: 1px solid color-mix(in srgb, var(--volume-border, var(--volume-accent)) 62%, transparent);
     box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .012), 0 8px 24px rgba(0, 0, 0, .2);
     transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
     animation: campaign-library-card-in .4s both;
@@ -6569,16 +6569,16 @@ body.campaign-library-open {
     position: relative;
     display: grid;
     place-items: center;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 5 / 3;
     overflow: hidden;
-    background-color: #17110c;
+    background-color: var(--volume-panel, #17110c);
     background-position: center;
     background-size: cover;
     border-bottom: 1px solid color-mix(in srgb, var(--volume-accent) 42%, transparent);
 }
 
 .campaign-volume-art.no-art {
-    background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--volume-accent) 22%, #17110c), #090807 75%);
+    background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--volume-accent) 30%, var(--volume-panel-light, #17110c)), var(--volume-background-deep, #090807) 78%);
 }
 
 .campaign-volume-art.has-art {
@@ -6625,7 +6625,7 @@ body.campaign-library-open {
     flex: 1;
     flex-direction: column;
     align-items: flex-start;
-    padding: 17px 17px 16px;
+    padding: 19px 19px 18px;
 }
 
 .campaign-volume-kicker {
@@ -6639,9 +6639,9 @@ body.campaign-library-open {
 .campaign-volume-title {
     display: block;
     margin-top: 7px;
-    color: var(--text-bright, #f4e9d0);
+    color: var(--volume-text, var(--text-bright, #f4e9d0));
     font-family: var(--font-display, Georgia, serif);
-    font-size: clamp(18px, 2vw, 22px);
+    font-size: clamp(19px, 2.1vw, 24px);
     line-height: 1.2;
 }
 
@@ -6649,9 +6649,9 @@ body.campaign-library-open {
     display: block;
     min-height: 3.3em;
     margin-top: 9px;
-    color: var(--muted, #a89d88);
+    color: var(--volume-muted, var(--muted, #a89d88));
     font-family: var(--font-body, Georgia, serif);
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.6;
 }
 
@@ -8074,7 +8074,7 @@ html[data-disable-shadows="true"] *::after {
     background: var(--calendar-weekday-background, var(--panel-dark));
 }
 
-.calendar-weekdays > div {
+.calendar-weekdays>div {
     border-right-color: var(--calendar-grid, rgba(201, 164, 92, 0.1));
     color: var(--calendar-weekday-text, var(--gold-light));
 }
@@ -8387,13 +8387,13 @@ html[data-disable-shadows="true"] *::after {
     font-style: italic;
 }
 
-.map-detail-link > span:last-child {
+.map-detail-link>span:last-child {
     flex: 0 0 auto;
     color: var(--gold-light);
     transition: transform 180ms ease;
 }
 
-.map-detail-link:hover > span:last-child {
+.map-detail-link:hover>span:last-child {
     transform: translateX(3px);
 }
 
@@ -8402,8 +8402,9 @@ html[data-disable-shadows="true"] *::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .map-detail-link,
-    .map-detail-link > span:last-child,
+    .map-detail-link>span:last-child,
     .map-detail-region-link {
         transition: none;
     }
