@@ -7,11 +7,6 @@
             "master": "campaigns/breaking-the-axis/campaign.json"
         },
         {
-            "id": "project-crucible",
-            "name": "Project Crucible",
-            "master": "campaigns/project-crucible/campaign.json"
-        },
-        {
             "id": "glory-of-the-gods",
             "name": "Glory of the Gods",
             "master": "campaigns/glory-of-the-gods/campaign.json"
@@ -20,6 +15,11 @@
             "id": "outlaws-honor",
             "name": "Outlaw's Honor",
             "master": "campaigns/outlaws-honor/campaign.json"
+        },
+        {
+            "id": "project-crucible",
+            "name": "Project Crucible",
+            "master": "campaigns/project-crucible/campaign.json"
         }
     ]
 }
