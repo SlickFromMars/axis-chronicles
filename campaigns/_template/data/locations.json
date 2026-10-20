@@ -5,7 +5,13 @@
         "type": "Region",
         "x": 50,
         "y": 50,
-        "description": "A region or major area on your map."
+        "description": "A region or major area on your map.",
+        "tagline": "An optional one-line hook for the region",
+        "tags": ["Optional tag", "Another tag"],
+        "facts": [
+            { "label": "Climate", "value": "Temperate" },
+            { "label": "Ruler", "value": "Optional NPC or faction" }
+        ]
     },
     {
         "id": "sample-town",
@@ -14,6 +20,47 @@
         "region": "sample-region",
         "x": 56,
         "y": 42,
-        "description": "A settlement within the sample region."
+        "description": "A settlement within the sample region.",
+        "tagline": "A short, evocative line",
+        "status": "Visited",
+        "image": "sample-town.webp",
+        "imageAlt": "Optional description of the image",
+        "imageCaption": "Optional caption under the image",
+        "tags": ["Trade hub"],
+        "facts": [
+            { "label": "Population", "value": "About 2,000" },
+            { "label": "Government", "value": "Town council" }
+        ],
+        "landmarks": [
+            "The Sample Inn",
+            {
+                "name": "The Sample Shrine",
+                "description": "Landmarks can have an optional description."
+            }
+        ],
+        "sections": [
+            {
+                "title": "History",
+                "text": "Optional lore blocks. Add as many as you like, each with its own title."
+            }
+        ],
+        "notes": ["Optional short note.", "Another note."],
+        "connections": [
+            {
+                "location": "sample-ruins",
+                "note": "Half a day's walk to the northeast"
+            }
+        ],
+        "characters": ["sample-npc"]
+    },
+    {
+        "id": "sample-ruins",
+        "name": "Sample Ruins",
+        "type": "Landmark",
+        "region": "sample-region",
+        "x": 63,
+        "y": 33,
+        "description": "A landmark that does not use any of the optional fields.",
+        "status": "Unexplored"
     }
 ]

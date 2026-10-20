@@ -20,7 +20,21 @@ const DEFAULT_MAP_CONFIG = {
 
 const DEFAULT_MAP_TEXT = {
     pageTitle: "Map of Caelora",
-    worldName: "Caelora"
+    worldName: "Caelora",
+
+    /*
+        Section headings in the location panel.
+        Campaigns can override any of these in
+        campaign.json under text.map.
+    */
+
+    landmarksLabel: "Notable Landmarks",
+    notesLabel: "Notes",
+    regionPlacesLabel: "Places in this Region",
+    connectionsLabel: "Connected Places",
+    charactersLabel: "Characters Here",
+    questsLabel: "Current Quests",
+    pastQuestsLabel: "Past Quests"
 };
 
 
@@ -885,10 +899,9 @@ function getFilteredLocations() {
 
 
             const locationRegion =
-                type === "region"
-                    ? location.name
-                    : location.region ||
-                    "";
+                getLocationRegionName(
+                    location
+                );
 
 
             const matchesRegion =
@@ -900,16 +913,10 @@ function getFilteredLocations() {
                     .toLowerCase();
 
 
-            const searchableText = [
-                location.name,
-                location.type,
-                location.region,
-                location.description,
-                location.notes
-            ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
+            const searchableText =
+                getLocationSearchText(
+                    location
+                );
 
 
             const matchesSearch =
@@ -1196,30 +1203,994 @@ function highlightSelectedMarker() {
    LOCATION DETAILS
    ========================================================= */
 
+/*
+    Every field used below is OPTIONAL.
+
+    Older locations.json files that only contain
+    id / name / type / region / x / y / description / status
+    render exactly as they always have. Extra fields simply
+    add extra sections to the panel when they are present:
+
+        tagline       short italic line under the name
+        image         image file for the panel banner
+        imageAlt      alt text for the image
+        imageCaption  caption shown under the image
+        status        badge (e.g. "Visited", "Unexplored")
+        tags          list of short badges
+        facts         list of { label, value } (or an object)
+        landmarks     list of names, or { name, description }
+        sections      list of { title, text } lore blocks
+        notes         list of short note strings
+        connections   list of location IDs, or { location, note }
+        characters    list of character IDs shown as present here
+
+    Region lists, character lists, and quests are also
+    gathered automatically from the rest of the campaign data.
+*/
+
+let mapCharacters = [];
+let mapCharactersPromise = null;
+let mapCharactersCampaignId = null;
+
+
+function getLocationText(
+    value
+) {
+    return value === null ||
+        value === undefined
+        ? ""
+        : String(value).trim();
+}
+
+
+function toLocationList(
+    value
+) {
+    if (Array.isArray(value)) {
+        return value;
+    }
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+        return [];
+    }
+
+    return [value];
+}
+
+
+function isRegionLocation(
+    location
+) {
+    return (
+        location?.type
+            ?.toLowerCase() ===
+        "region"
+    );
+}
+
+
+/*
+    Finds a location by ID first, then by name.
+    This lets "region", "connections", and "characters"
+    use either style of reference.
+*/
+
+function findLocationByRef(
+    ref
+) {
+    const key =
+        getLocationText(ref)
+            .toLowerCase();
+
+    if (!key) {
+        return null;
+    }
+
+    return (
+        mapLocations.find(
+            item =>
+                String(item.id)
+                    .toLowerCase() ===
+                key
+        ) ||
+        mapLocations.find(
+            item =>
+                getLocationText(
+                    item.name
+                ).toLowerCase() ===
+                key
+        ) ||
+        null
+    );
+}
+
+
+function getParentRegion(
+    location
+) {
+    if (!location.region) {
+        return null;
+    }
+
+    const match =
+        findLocationByRef(
+            location.region
+        );
+
+    return (
+        match &&
+        match !== location &&
+        isRegionLocation(match)
+    )
+        ? match
+        : null;
+}
+
+
+/*
+    The region's display name, whether the data
+    stores a region name or a region ID.
+*/
+
+function getLocationRegionName(
+    location
+) {
+    if (isRegionLocation(location)) {
+        return location.name || "";
+    }
+
+    const parent =
+        getParentRegion(location);
+
+    return parent
+        ? parent.name
+        : getLocationText(
+            location.region
+        );
+}
+
+
+function getRegionChildren(
+    region
+) {
+    return mapLocations
+        .filter(
+            item =>
+                item !== region &&
+                getParentRegion(item) ===
+                region
+        )
+        .sort(
+            (a, b) =>
+                getLocationText(a.name)
+                    .localeCompare(
+                        getLocationText(
+                            b.name
+                        )
+                    )
+        );
+}
+
+
+/* =========================================================
+   LOCATION PROFILE (NORMALIZED OPTIONAL FIELDS)
+   ========================================================= */
+
+/*
+    Older entries stored landmarks as a final paragraph of
+    the description: "Notable Landmarks: A, B, C".
+    Detect that so existing data gets the nicer layout
+    without editing any JSON.
+*/
+
+function parseLegacyLandmarks(
+    description
+) {
+    const match =
+        description.match(
+            /^([\s\S]*?)\n\s*\n\s*Notable Landmarks:\s*([^\n]+?)\s*$/i
+        );
+
+    if (!match) {
+        return null;
+    }
+
+    const names =
+        match[2]
+            .split(
+                /,\s*(?![^()]*\))/
+            )
+            .map(
+                name => name.trim()
+            )
+            .filter(Boolean);
+
+    if (!names.length) {
+        return null;
+    }
+
+    return {
+        description:
+            match[1].trim(),
+        landmarks:
+            names
+    };
+}
+
+
+function normalizeLocationFacts(
+    facts
+) {
+    if (!facts) {
+        return [];
+    }
+
+    let entries = [];
+
+    if (Array.isArray(facts)) {
+        entries =
+            facts.map(
+                fact => [
+                    fact?.label,
+                    fact?.value
+                ]
+            );
+    } else if (
+        typeof facts === "object"
+    ) {
+        entries =
+            Object.entries(facts);
+    }
+
+    return entries
+        .map(
+            ([label, value]) => ({
+                label:
+                    getLocationText(
+                        label
+                    ),
+                value:
+                    Array.isArray(value)
+                        ? value
+                            .map(getLocationText)
+                            .filter(Boolean)
+                            .join(", ")
+                        : getLocationText(
+                            value
+                        )
+            })
+        )
+        .filter(
+            fact =>
+                fact.label &&
+                fact.value
+        );
+}
+
+
+function normalizeLocationLandmarks(
+    landmarks,
+    location
+) {
+    return toLocationList(landmarks)
+        .map(
+            entry => {
+
+                const isObject =
+                    entry &&
+                    typeof entry ===
+                    "object";
+
+                const name =
+                    getLocationText(
+                        isObject
+                            ? entry.name
+                            : entry
+                    );
+
+                if (!name) {
+                    return null;
+                }
+
+                const target =
+                    findLocationByRef(
+                        isObject &&
+                            entry.location
+                            ? entry.location
+                            : name
+                    );
+
+                return {
+                    name,
+                    description:
+                        isObject
+                            ? getLocationText(
+                                entry.description
+                            )
+                            : "",
+                    target:
+                        target &&
+                            target !== location
+                            ? target
+                            : null
+                };
+            }
+        )
+        .filter(Boolean);
+}
+
+
+function normalizeLocationSections(
+    sections
+) {
+    return toLocationList(sections)
+        .map(
+            section => {
+
+                const text =
+                    Array.isArray(
+                        section?.text
+                    )
+                        ? section.text
+                            .map(getLocationText)
+                            .filter(Boolean)
+                            .join("\n\n")
+                        : getLocationText(
+                            section?.text
+                        );
+
+                return {
+                    title:
+                        getLocationText(
+                            section?.title
+                        ),
+                    text
+                };
+            }
+        )
+        .filter(
+            section =>
+                section.text
+        );
+}
+
+
+function normalizeLocationConnections(
+    connections,
+    location
+) {
+    const seen =
+        new Set();
+
+    return toLocationList(connections)
+        .map(
+            entry => {
+
+                const isObject =
+                    entry &&
+                    typeof entry ===
+                    "object";
+
+                const target =
+                    findLocationByRef(
+                        isObject
+                            ? entry.location ||
+                            entry.id
+                            : entry
+                    );
+
+                if (
+                    !target ||
+                    target === location ||
+                    seen.has(target.id)
+                ) {
+                    return null;
+                }
+
+                seen.add(target.id);
+
+                return {
+                    target,
+                    note:
+                        isObject
+                            ? getLocationText(
+                                entry.note
+                            )
+                            : ""
+                };
+            }
+        )
+        .filter(Boolean);
+}
+
+
+function getLocationProfile(
+    location
+) {
+    let description =
+        getLocationText(
+            location.description
+        );
+
+    let landmarkSource =
+        location.landmarks;
+
+    if (
+        landmarkSource === undefined ||
+        landmarkSource === null
+    ) {
+        const legacy =
+            parseLegacyLandmarks(
+                description
+            );
+
+        if (legacy) {
+            description =
+                legacy.description;
+            landmarkSource =
+                legacy.landmarks;
+        }
+    }
+
+    return {
+        description,
+        tagline:
+            getLocationText(
+                location.tagline
+            ),
+        tags:
+            toLocationList(location.tags)
+                .map(getLocationText)
+                .filter(Boolean),
+        facts:
+            normalizeLocationFacts(
+                location.facts
+            ),
+        landmarks:
+            normalizeLocationLandmarks(
+                landmarkSource,
+                location
+            ),
+        sections:
+            normalizeLocationSections(
+                location.sections
+            ),
+        notes:
+            toLocationList(location.notes)
+                .map(getLocationText)
+                .filter(Boolean),
+        connections:
+            normalizeLocationConnections(
+                location.connections,
+                location
+            ),
+        children:
+            isRegionLocation(location)
+                ? getRegionChildren(
+                    location
+                )
+                : [],
+        parent:
+            getParentRegion(location)
+    };
+}
+
+
+/*
+    Text used by the map search box, so every
+    optional field can be searched.
+*/
+
+function getLocationSearchText(
+    location
+) {
+    const profile =
+        getLocationProfile(location);
+
+    return [
+        location.name,
+        location.type,
+        getLocationRegionName(
+            location
+        ),
+        location.region,
+        location.description,
+        location.status,
+        profile.tagline,
+        ...profile.tags,
+        ...profile.facts.map(
+            fact =>
+                `${fact.label} ${fact.value}`
+        ),
+        ...profile.landmarks.map(
+            landmark =>
+                `${landmark.name} ${landmark.description}`
+        ),
+        ...profile.sections.map(
+            section =>
+                `${section.title} ${section.text}`
+        ),
+        ...profile.notes
+    ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+}
+
+
+function resolveLocationImage(
+    image
+) {
+    const value =
+        getLocationText(image);
+
+    if (!value) {
+        return "";
+    }
+
+    if (
+        /^(?:https?:)?\/\//i.test(value) ||
+        /^data:image\//i.test(value)
+    ) {
+        return value;
+    }
+
+    /* Block javascript: and other non-image schemes. */
+
+    if (
+        /^[a-z][a-z0-9+.-]*:/i.test(value)
+    ) {
+        return "";
+    }
+
+    if (
+        typeof resolveCampaignPath !==
+        "function"
+    ) {
+        return value;
+    }
+
+    /*
+        A bare file name lives in assets/locations/.
+        A path containing "/" is relative to the campaign folder.
+    */
+
+    return resolveCampaignPath(
+        value.includes("/")
+            ? value
+            : `assets/locations/${value}`
+    );
+}
+
+
+/* =========================================================
+   SELECTING LOCATIONS FROM INSIDE THE PANEL
+   ========================================================= */
+
+function resetMapFilters() {
+
+    mapSearchQuery = "";
+    activeMapType = "all";
+    activeMapRegion = "all";
+
+    const searchInput =
+        document.getElementById(
+            "map-search"
+        );
+
+    const typeFilter =
+        document.getElementById(
+            "map-type-filter"
+        );
+
+    const regionFilter =
+        document.getElementById(
+            "map-region-filter"
+        );
+
+    if (searchInput) {
+        searchInput.value = "";
+    }
+
+    if (typeFilter) {
+        typeFilter.value = "all";
+    }
+
+    if (regionFilter) {
+        regionFilter.value = "all";
+    }
+
+    renderFilteredMap();
+}
+
+
+function selectMapLocation(
+    location
+) {
+    if (!location) {
+        return;
+    }
+
+    /*
+        If the linked place is hidden by the current
+        search or filters, clear them so its marker exists.
+    */
+
+    if (
+        !getFilteredLocations()
+            .includes(location)
+    ) {
+        resetMapFilters();
+    }
+
+    selectedLocationId =
+        String(location.id);
+
+    highlightSelectedMarker();
+
+    openLocationDetails(
+        location
+    );
+}
+
+
+function loadMapCharacters() {
+
+    const campaignId =
+        getMapCampaignId();
+
+    if (
+        mapCharactersCampaignId !==
+        campaignId
+    ) {
+        mapCharacters = [];
+        mapCharactersPromise = null;
+        mapCharactersCampaignId =
+            campaignId;
+    }
+
+    if (!mapCharactersPromise) {
+
+        mapCharactersPromise =
+            (
+                typeof loadCharacters ===
+                    "function"
+                    ? loadCharacters()
+                    : Promise.resolve([])
+            )
+                .then(
+                    data => {
+                        mapCharacters =
+                            Array.isArray(data)
+                                ? data
+                                : [];
+
+                        return mapCharacters;
+                    }
+                )
+                .catch(
+                    error => {
+                        console.warn(
+                            "Could not load characters for the map:",
+                            error
+                        );
+
+                        mapCharactersPromise =
+                            null;
+
+                        return [];
+                    }
+                );
+    }
+
+    return mapCharactersPromise;
+}
+
+
+/*
+    Characters shown on a location are the ones listed in
+    the location's "characters" field plus any character whose
+    own "location" field matches this location's name or ID.
+*/
+
+function getLocationCharacters(
+    location
+) {
+    const listed =
+        toLocationList(
+            location.characters
+        )
+            .map(
+                ref =>
+                    getLocationText(ref)
+                        .toLowerCase()
+            )
+            .filter(Boolean);
+
+    const placeKeys =
+        new Set([
+            String(location.id)
+                .toLowerCase(),
+            getLocationText(
+                location.name
+            ).toLowerCase()
+        ]);
+
+    return mapCharacters.filter(
+        character => {
+
+            const id =
+                String(character.id)
+                    .toLowerCase();
+
+            const name =
+                getLocationText(
+                    character.name
+                ).toLowerCase();
+
+            const placedHere =
+                placeKeys.has(
+                    getLocationText(
+                        character.location
+                    ).toLowerCase()
+                );
+
+            return (
+                placedHere ||
+                listed.includes(id) ||
+                listed.includes(name)
+            );
+        }
+    );
+}
+
+
+async function populateLocationCharacters(
+    location
+) {
+    await loadMapCharacters();
+
+    /*
+        The player may have closed the panel or
+        picked another place while characters loaded.
+    */
+
+    const slot =
+        document.getElementById(
+            "map-detail-characters"
+        );
+
+    if (
+        !slot ||
+        selectedLocationId !==
+        String(location.id)
+    ) {
+        return;
+    }
+
+    const characters =
+        getLocationCharacters(
+            location
+        );
+
+    if (!characters.length) {
+        slot.remove();
+        return;
+    }
+
+    const mapText =
+        getMapText();
+
+    slot.innerHTML = `
+        <h3>
+            ${escapeMapHTML(
+        mapText.charactersLabel
+    )}
+        </h3>
+        <div class="map-detail-links">
+            ${characters
+            .map(
+                character => `
+                        <button
+                            type="button"
+                            class="map-detail-link"
+                            data-location-character="${escapeMapHTML(
+                    String(character.id)
+                )}"
+                        >
+                            <span class="map-detail-link-text">
+                                ${escapeMapHTML(
+                    character.name
+                )}
+                            </span>
+                            <span aria-hidden="true">
+                                →
+                            </span>
+                        </button>
+                    `
+            )
+            .join("")}
+        </div>
+    `;
+
+    slot
+        .querySelectorAll(
+            "[data-location-character]"
+        )
+        .forEach(
+            button => {
+                button.addEventListener(
+                    "click",
+                    () => {
+                        openLocationCharacter(
+                            button.dataset
+                                .locationCharacter
+                        );
+                    }
+                );
+            }
+        );
+}
+
+
+async function openLocationCharacter(
+    characterId
+) {
+    const character =
+        mapCharacters.find(
+            item =>
+                String(item.id) ===
+                String(characterId)
+        );
+
+    if (!character) {
+        return;
+    }
+
+    /* Make sure the portrait has been resolved. */
+
+    if (
+        typeof loadCharacterPortraits ===
+        "function" &&
+        typeof characterPortraits !==
+        "undefined" &&
+        !characterPortraits[
+        character.id
+        ]
+    ) {
+        await loadCharacterPortraits(
+            [character]
+        );
+    }
+
+    /*
+        The character profile sits underneath the
+        location panel, so close the panel first.
+    */
+
+    closeLocationDetails();
+
+    if (
+        typeof openCharacterProfile ===
+        "function"
+    ) {
+        openCharacterProfile(
+            character
+        );
+    }
+}
+
+
+/* =========================================================
+   LOCATION DETAIL MARKUP
+   ========================================================= */
+
+function renderLocationLinkRows(
+    entries
+) {
+    return `
+        <div class="map-detail-links">
+            ${entries
+            .map(
+                entry => `
+                        <button
+                            type="button"
+                            class="map-detail-link"
+                            data-location-link="${escapeMapHTML(
+                    String(entry.target.id)
+                )}"
+                        >
+                            <span class="map-detail-link-text">
+                                ${escapeMapHTML(
+                    entry.target.name
+                )}
+                                ${entry.note
+                        ? `
+                                            <small>
+                                                ${escapeMapHTML(
+                            entry.note
+                        )}
+                                            </small>
+                                        `
+                        : ""
+                    }
+                            </span>
+                            <span aria-hidden="true">
+                                →
+                            </span>
+                        </button>
+                    `
+            )
+            .join("")}
+        </div>
+    `;
+}
+
+
+function renderLocationQuestRows(
+    quests,
+    isPast
+) {
+    return `
+        <div class="map-related-quests">
+            ${quests
+            .map(
+                quest => `
+                        <button
+                            type="button"
+                            class="map-related-quest${isPast
+                        ? " is-past"
+                        : ""
+                    }"
+                            data-related-quest="${escapeMapHTML(
+                        quest.id
+                    )}"
+                        >
+                            <span>
+                                ${escapeMapHTML(
+                        quest.title
+                    )}
+                            </span>
+                            <span aria-hidden="true">
+                                →
+                            </span>
+                        </button>
+                    `
+            )
+            .join("")}
+        </div>
+    `;
+}
+
+
 function openLocationDetails(
     location
 ) {
-
     const panel =
         document.getElementById(
             "map-detail-panel"
         );
 
-
     if (!panel) {
         return;
     }
 
-
     const mapText =
         getMapText();
 
+    const profile =
+        getLocationProfile(
+            location
+        );
 
     const isRegion =
-        location.type
-            ?.toLowerCase() ===
-        "region";
-
+        isRegionLocation(
+            location
+        );
 
     const category =
         isRegion
@@ -1227,31 +2198,41 @@ function openLocationDetails(
             : location.type ||
             "Location";
 
-
     const regionName =
         isRegion
-            ? mapText.worldName
-            : location.region ||
-            "Uncategorized";
-
+            ? (
+                profile.parent
+                    ? profile.parent.name
+                    : mapText.worldName
+            )
+            : (
+                profile.parent
+                    ? profile.parent.name
+                    : location.region ||
+                    "Uncategorized"
+            );
 
     const description =
-        location.description ||
+        profile.description ||
         "No details have been recorded yet.";
 
+    const imageSource =
+        resolveLocationImage(
+            location.image
+        );
 
-    const relevantQuests =
+    const questList =
         (
-            Array.isArray(
-                allQuests
-            )
+            typeof allQuests !==
+                "undefined" &&
+                Array.isArray(
+                    allQuests
+                )
                 ? allQuests
                 : []
         )
             .filter(
                 quest =>
-                    quest.status ===
-                    "active" &&
                     Array.isArray(
                         quest.locations
                     ) &&
@@ -1264,11 +2245,41 @@ function openLocationDetails(
                     )
             );
 
+    const relevantQuests =
+        questList.filter(
+            quest =>
+                quest.status ===
+                "active"
+        );
+
+    const pastQuests =
+        questList.filter(
+            quest =>
+                quest.status !==
+                "active"
+        );
+
+    const badges = [
+        location.status
+            ? `
+                <span class="map-detail-status">
+                    ${escapeMapHTML(
+                location.status
+            )}
+                </span>
+            `
+            : "",
+        ...profile.tags.map(
+            tag => `
+                <span class="map-detail-tag">
+                    ${escapeMapHTML(tag)}
+                </span>
+            `
+        )
+    ].filter(Boolean);
 
     panel.innerHTML = `
-
         <div class="map-detail-header">
-
             <span
                 class="map-detail-eyebrow"
             >
@@ -1276,105 +2287,281 @@ function openLocationDetails(
         category
     )}
             </span>
-
-
             <h2>
                 ${escapeMapHTML(
         location.name
     )}
             </h2>
-
-
-            <p
-                class="map-detail-region"
-            >
-                ${escapeMapHTML(
-        regionName
-    )}
-            </p>
-
-        </div>
-
-
-        <div
-            class="map-detail-divider"
-        ></div>
-
-
-        <p
-            class="map-detail-description"
-        >
-            ${escapeMapHTML(
-        description
-    )}
-        </p>
-
-
-        ${location.status
+            ${profile.tagline
             ? `
-                    <span
-                        class="map-detail-status"
-                    >
-                        ${escapeMapHTML(
-                location.status
+                        <p class="map-detail-tagline">
+                            ${escapeMapHTML(
+                profile.tagline
             )}
-                    </span>
+                        </p>
+                    `
+            : ""
+        }
+            ${profile.parent
+            ? `
+                        <button
+                            type="button"
+                            class="map-detail-region map-detail-region-link"
+                            data-location-link="${escapeMapHTML(
+                String(
+                    profile.parent.id
+                )
+            )}"
+                        >
+                            ${escapeMapHTML(
+                regionName
+            )}
+                        </button>
+                    `
+            : `
+                        <p
+                            class="map-detail-region"
+                        >
+                            ${escapeMapHTML(
+                regionName
+            )}
+                        </p>
+                    `
+        }
+        </div>
+        ${imageSource
+            ? `
+                    <figure class="map-detail-figure">
+                        <img
+                            src="${escapeMapHTML(
+                imageSource
+            )}"
+                            alt="${escapeMapHTML(
+                getLocationText(
+                    location.imageAlt
+                ) ||
+                location.name
+            )}"
+                            loading="lazy"
+                        >
+                        ${location.imageCaption
+                ? `
+                                    <figcaption>
+                                        ${escapeMapHTML(
+                    location.imageCaption
+                )}
+                                    </figcaption>
+                                `
+                : ""
+            }
+                    </figure>
                 `
             : ""
         }
-
-
+        ${badges.length
+            ? `
+                    <div class="map-detail-badges">
+                        ${badges.join("")}
+                    </div>
+                `
+            : ""
+        }
+        <div
+            class="map-detail-divider"
+        ></div>
+        <p
+            class="map-detail-description"
+        >${escapeMapHTML(
+            description
+        )}</p>
+        ${profile.facts.length
+            ? `
+                    <dl class="map-detail-facts">
+                        ${profile.facts
+                .map(
+                    fact => `
+                                    <dt>
+                                        ${escapeMapHTML(
+                        fact.label
+                    )}
+                                    </dt>
+                                    <dd>
+                                        ${escapeMapHTML(
+                        fact.value
+                    )}
+                                    </dd>
+                                `
+                )
+                .join("")}
+                    </dl>
+                `
+            : ""
+        }
+        ${profile.landmarks.length
+            ? `
+                    <h3>
+                        ${escapeMapHTML(
+                mapText.landmarksLabel
+            )}
+                    </h3>
+                    <ul class="map-detail-landmarks">
+                        ${profile.landmarks
+                .map(
+                    landmark => `
+                                    <li>
+                                        ${landmark.target
+                            ? `
+                                                    <button
+                                                        type="button"
+                                                        class="map-detail-inline-link"
+                                                        data-location-link="${escapeMapHTML(
+                                String(
+                                    landmark.target.id
+                                )
+                            )}"
+                                                    >
+                                                        ${escapeMapHTML(
+                                landmark.name
+                                            )}
+                                                    </button>
+                                                `
+                            : `
+                                                    <span class="map-detail-landmark-name">
+                                                        ${escapeMapHTML(
+                                landmark.name
+                            )}
+                                                    </span>
+                                                `
+                        }
+                                        ${landmark.description
+                            ? `
+                                                    <span class="map-detail-landmark-text">
+                                                        ${escapeMapHTML(
+                                landmark.description
+                            )}
+                                                    </span>
+                                                `
+                            : ""
+                        }
+                                    </li>
+                                `
+                )
+                .join("")}
+                    </ul>
+                `
+            : ""
+        }
+        ${profile.sections
+            .map(
+                section => `
+                        ${section.title
+                        ? `
+                                    <h3>
+                                        ${escapeMapHTML(
+                            section.title
+                        )}
+                                    </h3>
+                                `
+                        : `
+                                    <div class="map-detail-divider"></div>
+                                `
+                    }
+                        <p class="map-detail-section-text">${escapeMapHTML(
+                        section.text
+                    )}</p>
+                    `
+            )
+            .join("")}
+        ${profile.notes.length
+            ? `
+                    <h3>
+                        ${escapeMapHTML(
+                mapText.notesLabel
+            )}
+                    </h3>
+                    <ul class="map-detail-notes">
+                        ${profile.notes
+                .map(
+                    note => `
+                                    <li>
+                                        ${escapeMapHTML(
+                        note
+                    )}
+                                    </li>
+                                `
+                )
+                .join("")}
+                    </ul>
+                `
+            : ""
+        }
+        ${profile.children.length
+            ? `
+                    <h3>
+                        ${escapeMapHTML(
+                mapText.regionPlacesLabel
+            )}
+                    </h3>
+                    ${renderLocationLinkRows(
+                profile.children.map(
+                    child => ({
+                        target: child,
+                        note:
+                            child.type ||
+                            ""
+                    })
+                )
+            )}
+                `
+            : ""
+        }
+        ${profile.connections.length
+            ? `
+                    <h3>
+                        ${escapeMapHTML(
+                mapText.connectionsLabel
+            )}
+                    </h3>
+                    ${renderLocationLinkRows(
+                profile.connections
+            )}
+                `
+            : ""
+        }
+        <div
+            id="map-detail-characters"
+        ></div>
         ${relevantQuests.length
             ? `
                     <div
                         class="map-detail-divider"
                     ></div>
-
-
                     <h3>
-                        Current Quests
+                        ${escapeMapHTML(
+                mapText.questsLabel
+            )}
                     </h3>
-
-
-                    <div
-                        class="map-related-quests"
-                    >
-
-                        ${relevantQuests
-                .map(
-                    quest => `
-                                    <button
-                                        type="button"
-                                        class="map-related-quest"
-                                        data-related-quest="${escapeMapHTML(
-                        quest.id
-                    )}"
-                                    >
-
-                                        <span>
-                                            ${escapeMapHTML(
-                        quest.title
-                    )}
-                                        </span>
-
-
-                                        <span
-                                            aria-hidden="true"
-                                        >
-                                            →
-                                        </span>
-
-                                    </button>
-                                `
-                )
-                .join("")}
-
-                    </div>
+                    ${renderLocationQuestRows(
+                relevantQuests,
+                false
+            )}
                 `
             : ""
         }
-
-
+        ${pastQuests.length
+            ? `
+                    <h3>
+                        ${escapeMapHTML(
+                mapText.pastQuestsLabel
+            )}
+                    </h3>
+                    ${renderLocationQuestRows(
+                pastQuests,
+                true
+            )}
+                `
+            : ""
+        }
         <button
             type="button"
             class="map-detail-close"
@@ -1382,9 +2569,25 @@ function openLocationDetails(
         >
             Close details
         </button>
-
     `;
 
+    /*
+        If the image file is missing, drop the whole
+        figure rather than showing a broken image.
+    */
+
+    panel
+        .querySelector(
+            ".map-detail-figure img"
+        )
+        ?.addEventListener(
+            "error",
+            event => {
+                event.target
+                    .closest("figure")
+                    ?.remove();
+            }
+        );
 
     document
         .getElementById(
@@ -1395,6 +2598,29 @@ function openLocationDetails(
             closeLocationDetails
         );
 
+    panel
+        .querySelectorAll(
+            "[data-location-link]"
+        )
+        .forEach(
+            button => {
+                button.addEventListener(
+                    "click",
+                    () => {
+                        selectMapLocation(
+                            mapLocations.find(
+                                item =>
+                                    String(
+                                        item.id
+                                    ) ===
+                                    button.dataset
+                                        .locationLink
+                            )
+                        );
+                    }
+                );
+            }
+        );
 
     panel
         .querySelectorAll(
@@ -1402,7 +2628,6 @@ function openLocationDetails(
         )
         .forEach(
             button => {
-
                 button.addEventListener(
                     "click",
                     () => {
@@ -1425,14 +2650,10 @@ function openLocationDetails(
                                     )
                             );
 
-
                         if (quest) {
-
                             markQuestAsRead(
                                 quest
                             );
-
-
                             renderQuestDetail(
                                 quest
                             );
@@ -1441,6 +2662,15 @@ function openLocationDetails(
                 );
             }
         );
+
+    /*
+        Characters come from a separate data file,
+        so they fill in once that file has loaded.
+    */
+
+    populateLocationCharacters(
+        location
+    );
 }
 
 

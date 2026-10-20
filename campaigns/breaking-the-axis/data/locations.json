@@ -72,7 +72,14 @@
         "region": "Verdant Expanses",
         "x": 50,
         "y": 50,
-        "description": "The true center of Caelora, built around the enormous Great Tree of Kjerne. It is home to Vae'Saron and those who worship him, and is frequently alive with parties, festivals, and celebrations of the blessing of life.\n\nNotable Landmarks: Wedding Platform, Grandroot Bathhouse, The Root & Branch, Whispering Garden, Canopy Market"
+        "description": "The true center of Caelora, built around the enormous Great Tree of Kjerne. It is home to Vae'Saron and those who worship him, and is frequently alive with parties, festivals, and celebrations of the blessing of life.",
+        "landmarks": [
+            "Wedding Platform",
+            "Grandroot Bathhouse",
+            "The Root & Branch",
+            "Whispering Garden",
+            "Canopy Market"
+        ]
     },
     {
         "id": "wigston",
@@ -81,7 +88,13 @@
         "region": "Verdant Expanses",
         "x": 67,
         "y": 49.5,
-        "description": "A quaint town that serves as a checkpoint between Starfall Forest, the Highlands, and the Amber Coast.\n\nNotable Landmarks: Drift Provisions, Tidemark Shrine, The Steel Talon, The Good Rock"
+        "description": "A quaint town that serves as a checkpoint between Starfall Forest, the Highlands, and the Amber Coast.",
+        "landmarks": [
+            "Drift Provisions",
+            "Tidemark Shrine",
+            "The Steel Talon",
+            "The Good Rock"
+        ]
     },
     {
         "id": "varinthall",
@@ -117,7 +130,14 @@
         "region": "Verdant Expanses",
         "x": 56.24,
         "y": 59.11,
-        "description": "A destitute town built into a gaping ravine and suspended by ropes and pulleys. It is known for its high-quality threads and serves as a religious center for Nihleia.\n\nNotable Landmarks: Raven Bridge, Mossen Alcove, Threadmaker's District, Willow's Roost, Raven's Rest"
+        "description": "A destitute town built into a gaping ravine and suspended by ropes and pulleys. It is known for its high-quality threads and serves as a religious center for Nihleia.",
+        "landmarks": [
+            "Raven Bridge",
+            "Mossen Alcove",
+            "Threadmaker's District",
+            "Willow's Roost",
+            "Raven's Rest"
+        ]
     },
     {
         "id": "huron",
@@ -225,7 +245,8 @@
         "region": "The Highlands",
         "x": 67,
         "y": 39.17,
-        "description": "The capital city of Var'Kennan's domain. Highly dangerous, it is occupied by his legions of Flamechildren and built around Castle Pyre."
+        "description": "The capital city of Var'Kennan's domain. Highly dangerous, it is occupied by his legions of Flamechildren and built around Castle Pyre.",
+        "image": "high-camorant.png"
     },
     {
         "id": "undersea",
