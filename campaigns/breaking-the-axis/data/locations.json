@@ -5,7 +5,15 @@
         "type": "Region",
         "x": 25,
         "y": 45,
-        "description": "The kingdom of the dwarves, exporting raw minerals, weapons, and armor. It is currently at war with the Order of Truespawn."
+        "description": "The kingdom of the dwarves, exporting raw minerals, weapons, and armor. It is currently at war with the Order of Truespawn.",
+        "tagline": "Where Hardened Warriors are Born.",
+        "status": "Not Visited",
+        "facts": [
+            {
+                "label": "Climate",
+                "value": "Boreal"
+            }
+        ]
     },
     {
         "id": "homeward-reach",
@@ -13,7 +21,7 @@
         "type": "Region",
         "x": 41.85,
         "y": 23.75,
-        "description": "A dense taiga zone at high elevation, filled with secrets and serving as the ancestral home of the Waxborn."
+        "description": "A dense, rocky forest zone at high elevation, filled with secrets and serving as the ancestral home of the Waxborn."
     },
     {
         "id": "amber-coast",
