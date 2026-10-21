@@ -6643,6 +6643,9 @@ body.campaign-library-open {
     font-family: var(--font-display, Georgia, serif);
     font-size: clamp(19px, 2.1vw, 24px);
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .campaign-volume-description {
