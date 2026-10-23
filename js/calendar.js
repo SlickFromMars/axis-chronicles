@@ -50,6 +50,571 @@ function getCalendarCampaignId() {
 
 
 /* =========================================================
+   CHARACTER BIRTHDAYS (OPTIONAL FEATURE)
+   ========================================================= */
+
+/*
+    Enable per campaign in campaign.json:
+
+        "birthdays": {
+            "enabled": true
+        }
+
+    Optional settings:
+
+        "label":    Text shown on a birthday ("Birthday").
+        "icon":     Symbol used when a character has no portrait.
+        "showAge":  Show "Turns 27" when the birthday includes a year.
+
+    Characters store a birthday in data/characters.json:
+
+        "birthday": "03-14"          (repeats every year)
+        "birthday": "1998-03-14"     (same, and allows an age)
+
+    Birthdays repeat every year on the calendar. A February 29
+    birthday is shown on February 28 in years without a leap day.
+*/
+
+const DEFAULT_BIRTHDAY_CONFIG = {
+    enabled: false,
+    label: "Birthday",
+    icon: "✦",
+    showAge: true
+};
+
+/* Parsed birthdays for the active campaign. */
+let calendarBirthdays = [];
+
+
+function getBirthdayConfig() {
+
+    if (
+        typeof activeCampaign === "undefined" ||
+        !activeCampaign ||
+        !activeCampaign.birthdays ||
+        typeof activeCampaign.birthdays !== "object"
+    ) {
+        return DEFAULT_BIRTHDAY_CONFIG;
+    }
+
+    return {
+        ...DEFAULT_BIRTHDAY_CONFIG,
+        ...activeCampaign.birthdays
+    };
+}
+
+
+function isBirthdaysEnabled() {
+
+    return getBirthdayConfig().enabled === true;
+}
+
+
+function isCalendarLeapYear(year) {
+
+    return (
+        year % 4 === 0 &&
+        (year % 100 !== 0 || year % 400 === 0)
+    );
+}
+
+
+/*
+    Accepts "MM-DD" or "YYYY-MM-DD".
+    Returns { month, day, year } (year may be null) or null
+    if the value is not a real calendar date.
+*/
+
+function parseBirthday(value) {
+
+    if (typeof value !== "string") {
+        return null;
+    }
+
+    const match =
+        value
+            .trim()
+            .match(
+                /^(?:(\d{4})-)?(\d{1,2})-(\d{1,2})$/
+            );
+
+    if (!match) {
+        return null;
+    }
+
+    const year =
+        match[1]
+            ? Number(match[1])
+            : null;
+
+    const month = Number(match[2]);
+    const day = Number(match[3]);
+
+    if (month < 1 || month > 12) {
+        return null;
+    }
+
+    /*
+        February allows 29 so a leap-day birthday is valid
+        even when no year is given.
+    */
+
+    const daysInThisMonth =
+        new Date(2000, month, 0).getDate();
+
+    if (day < 1 || day > daysInThisMonth) {
+        return null;
+    }
+
+    if (
+        year !== null &&
+        month === 2 &&
+        day === 29 &&
+        !isCalendarLeapYear(year)
+    ) {
+        return null;
+    }
+
+    return { month, day, year };
+}
+
+
+/*
+    Text for a character's profile card, e.g. "March 14" or
+    "March 14, 1998". Returns null when birthdays are off or the
+    character has no valid birthday.
+*/
+
+function getCharacterBirthdayText(character) {
+
+    if (
+        !isBirthdaysEnabled() ||
+        !character ||
+        character.birthday === undefined ||
+        character.birthday === null
+    ) {
+        return null;
+    }
+
+    const parsed =
+        parseBirthday(character.birthday);
+
+    if (!parsed) {
+        return null;
+    }
+
+    /* 2000 is a leap year, so Feb 29 formats correctly. */
+
+    const text =
+        new Date(2000, parsed.month - 1, parsed.day)
+            .toLocaleDateString(
+                "en-US",
+                { month: "long", day: "numeric" }
+            );
+
+    return parsed.year !== null
+        ? `${text}, ${parsed.year}`
+        : text;
+}
+
+
+function buildBirthdayList(characters) {
+
+    if (!Array.isArray(characters)) {
+        return [];
+    }
+
+    const birthdays = [];
+
+    characters.forEach(character => {
+
+        if (
+            !character ||
+            character.birthday === undefined ||
+            character.birthday === null ||
+            character.birthday === ""
+        ) {
+            return;
+        }
+
+        const parsed =
+            parseBirthday(character.birthday);
+
+        if (!parsed) {
+
+            console.warn(
+                `Ignoring invalid birthday "${character.birthday}" for ${character.name || character.id}. Use MM-DD or YYYY-MM-DD.`
+            );
+
+            return;
+        }
+
+        birthdays.push({
+            character,
+            ...parsed
+        });
+    });
+
+    return birthdays;
+}
+
+
+/*
+    Load the campaign's characters and portraits so birthdays
+    can be placed on the calendar. A failure here must never
+    break the calendar itself.
+*/
+
+async function loadCalendarBirthdays() {
+
+    calendarBirthdays = [];
+
+    if (!isBirthdaysEnabled()) {
+        return;
+    }
+
+    if (typeof loadCharacters !== "function") {
+        return;
+    }
+
+    try {
+
+        const characters =
+            await loadCharacters();
+
+        calendarBirthdays =
+            buildBirthdayList(characters);
+
+        if (
+            calendarBirthdays.length &&
+            typeof loadCharacterPortraits ===
+                "function"
+        ) {
+
+            try {
+
+                await loadCharacterPortraits(
+                    calendarBirthdays.map(
+                        entry => entry.character
+                    )
+                );
+
+            } catch (portraitError) {
+
+                /* Birthdays still work without portraits. */
+
+                console.warn(
+                    "Birthday portraits could not be loaded.",
+                    portraitError
+                );
+            }
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Character birthdays could not be loaded.",
+            error
+        );
+
+        calendarBirthdays = [];
+    }
+}
+
+
+function getBirthdaysForDate(
+    year,
+    month,
+    day
+) {
+
+    return calendarBirthdays
+        .filter(entry => {
+
+            if (
+                entry.month === month &&
+                entry.day === day
+            ) {
+                return true;
+            }
+
+            /* Leap-day birthdays fall on Feb 28 otherwise. */
+
+            return (
+                entry.month === 2 &&
+                entry.day === 29 &&
+                month === 2 &&
+                day === 28 &&
+                !isCalendarLeapYear(year)
+            );
+        })
+        .sort((a, b) =>
+            String(a.character.name || "")
+                .localeCompare(
+                    String(b.character.name || "")
+                )
+        );
+}
+
+
+function countBirthdaysInMonth(
+    year,
+    month,
+    daysInMonth
+) {
+
+    let count = 0;
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        count +=
+            getBirthdaysForDate(
+                year,
+                month,
+                day
+            ).length;
+    }
+
+    return count;
+}
+
+
+/* Age turned in the given year, or null if it shouldn't be shown. */
+
+function getBirthdayAge(entry, year) {
+
+    return (
+        getBirthdayConfig().showAge !== false &&
+        entry.year !== null &&
+        year - entry.year > 0
+    )
+        ? year - entry.year
+        : null;
+}
+
+
+/*
+    "Birthdays this month" panel shown under the calendar grid.
+    Lists the displayed month's birthdays in date order. Clicking
+    one opens the character's profile (handled by the shared
+    data-birthday-character-id listener).
+*/
+
+function renderBirthdaysThisMonth(
+    year,
+    month,
+    daysInMonth,
+    monthName,
+    todayString
+) {
+
+    const items = [];
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        getBirthdaysForDate(year, month, day)
+            .forEach(entry => items.push({ entry, day }));
+    }
+
+    if (!items.length) {
+        return "";
+    }
+
+    const now = new Date();
+
+    const isCurrentMonth =
+        now.getFullYear() === year &&
+        now.getMonth() + 1 === month;
+
+    const title =
+        isCurrentMonth
+            ? "Birthdays this month"
+            : `Birthdays in ${monthName}`;
+
+    const rows =
+        items
+            .map(({ entry, day }) => {
+
+                const character = entry.character;
+                const name = character.name || "Unknown";
+
+                const dateString =
+                    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+                const status =
+                    dateString < todayString
+                        ? "completed"
+                        : dateString === todayString
+                            ? "today"
+                            : "upcoming";
+
+                const age =
+                    getBirthdayAge(entry, year);
+
+                const portraitPath =
+                    typeof characterPortraits !==
+                        "undefined"
+                        ? characterPortraits[character.id]
+                        : null;
+
+                const avatar =
+                    portraitPath
+                        ? `<img src="${escapeHTML(portraitPath)}" alt="" loading="lazy">`
+                        : escapeHTML(getBirthdayConfig().icon);
+
+                const dateLabel =
+                    new Date(year, month - 1, day)
+                        .toLocaleDateString(
+                            "en-US",
+                            { month: "short", day: "numeric" }
+                        );
+
+                return `
+                    <li>
+                        <button
+                            type="button"
+                            class="birthday-list-item ${status}"
+                            data-birthday-character-id="${escapeHTML(character.id)}"
+                        >
+
+                            <span
+                                class="birthday-list-avatar"
+                                aria-hidden="true"
+                            >
+                                ${avatar}
+                            </span>
+
+                            <span class="birthday-list-name">
+                                ${escapeHTML(name)}
+                            </span>
+
+                            <span class="birthday-list-meta">
+                                ${
+                                    status === "today"
+                                        ? "Today · "
+                                        : ""
+                                }${escapeHTML(dateLabel)}${
+                                    age !== null
+                                        ? ` · Turns ${age}`
+                                        : ""
+                                }
+                            </span>
+
+                        </button>
+                    </li>
+                `;
+            })
+            .join("");
+
+    return `
+        <section
+            class="birthday-list"
+            aria-label="${escapeHTML(title)}"
+        >
+
+            <h2 class="birthday-list-title">
+                ${escapeHTML(title)}
+            </h2>
+
+            <ul class="birthday-list-items">
+                ${rows}
+            </ul>
+
+        </section>
+    `;
+}
+
+
+function renderCalendarBirthday(
+    entry,
+    year,
+    dateString,
+    todayString
+) {
+
+    const config = getBirthdayConfig();
+    const character = entry.character;
+    const name = character.name || "Unknown";
+
+    const age =
+        getBirthdayAge(entry, year);
+
+    const status =
+        dateString < todayString
+            ? "completed"
+            : dateString === todayString
+                ? "today"
+                : "upcoming";
+
+    const portraitPath =
+        typeof characterPortraits !==
+            "undefined"
+            ? characterPortraits[character.id]
+            : null;
+
+    const avatar =
+        portraitPath
+            ? `
+                <img
+                    src="${escapeHTML(portraitPath)}"
+                    alt=""
+                    loading="lazy"
+                >
+            `
+            : escapeHTML(config.icon);
+
+    const label =
+        age !== null
+            ? `Turns ${age}`
+            : String(config.label);
+
+    const accessibleLabel =
+        age !== null
+            ? `${name}'s ${config.label}, turns ${age}`
+            : `${name}'s ${config.label}`;
+
+    return `
+        <button
+            type="button"
+            class="calendar-birthday ${status}"
+            data-birthday-character-id="${escapeHTML(character.id)}"
+            aria-label="${escapeHTML(accessibleLabel)}"
+            title="${escapeHTML(accessibleLabel)}"
+        >
+
+            <span
+                class="calendar-birthday-avatar"
+                aria-hidden="true"
+            >
+                ${avatar}
+            </span>
+
+            <span class="calendar-birthday-content">
+
+                <span class="calendar-birthday-label">
+                    ${escapeHTML(label)}
+                </span>
+
+                <span class="calendar-birthday-name">
+                    ${escapeHTML(name)}
+                </span>
+
+            </span>
+
+        </button>
+    `;
+}
+
+
+/* =========================================================
    LOAD SESSIONS
    ========================================================= */
 
@@ -285,6 +850,9 @@ async function showCalendar() {
             await loadSessions();
 
 
+        await loadCalendarBirthdays();
+
+
         renderCalendar(
             sessions
         );
@@ -441,6 +1009,20 @@ function renderCalendar(
                 session.date <
                 todayString
         ).length;
+
+
+    const birthdaysEnabled =
+        isBirthdaysEnabled();
+
+
+    const monthBirthdayCount =
+        birthdaysEnabled
+            ? countBirthdaysInMonth(
+                year,
+                month + 1,
+                daysInMonth
+            )
+            : 0;
 
 
     const calendarFileAvailable =
@@ -658,6 +1240,36 @@ function renderCalendar(
 
                     </div>
 
+                    ${
+                        birthdaysEnabled
+                            ? `
+                                <div
+                                    class="calendar-summary-divider"
+                                ></div>
+
+
+                                <div
+                                    class="calendar-summary-item"
+                                >
+
+                                    <strong>
+                                        ${monthBirthdayCount}
+                                    </strong>
+
+
+                                    <span>
+                                        ${
+                                            monthBirthdayCount === 1
+                                                ? "Birthday"
+                                                : "Birthdays"
+                                        }
+                                    </span>
+
+                                </div>
+                            `
+                            : ""
+                    }
+
                 </div>
 
             </div>
@@ -735,6 +1347,16 @@ function renderCalendar(
             );
 
 
+        const dayBirthdays =
+            birthdaysEnabled
+                ? getBirthdaysForDate(
+                    year,
+                    month + 1,
+                    day
+                )
+                : [];
+
+
         const isToday =
             date ===
             todayString;
@@ -753,7 +1375,8 @@ function renderCalendar(
             isPast
                 ? "past"
                 : "",
-            daySessions.length
+            daySessions.length ||
+            dayBirthdays.length
                 ? "has-events"
                 : ""
         ]
@@ -795,11 +1418,24 @@ function renderCalendar(
 
 
                 ${
-                    daySessions.length
+                    daySessions.length ||
+                    dayBirthdays.length
                         ? `
                             <div
                                 class="calendar-events"
                             >
+                                ${dayBirthdays
+                                    .map(
+                                        entry =>
+                                            renderCalendarBirthday(
+                                                entry,
+                                                year,
+                                                date,
+                                                todayString
+                                            )
+                                    )
+                                    .join("")}
+
                                 ${daySessions
                                     .map(
                                         renderCalendarSession
@@ -827,6 +1463,19 @@ function renderCalendar(
             </div>
 
 
+            ${
+                birthdaysEnabled
+                    ? renderBirthdaysThisMonth(
+                        year,
+                        month + 1,
+                        daysInMonth,
+                        monthName,
+                        todayString
+                    )
+                    : ""
+            }
+
+
             <!-- =========================================
                  LEGEND
                  ========================================= -->
@@ -836,7 +1485,11 @@ function renderCalendar(
                 <div
                     class="calendar-footer-note"
                 >
-                    Select a session to view its details.
+                    ${
+                        birthdaysEnabled
+                            ? "Select a session or birthday to view its details."
+                            : "Select a session to view its details."
+                    }
                 </div>
 
             </div>
@@ -1080,6 +1733,48 @@ function attachCalendarListeners(
 
                             openSessionPreview(
                                 session
+                            );
+                        }
+                    }
+                );
+            }
+        );
+
+
+    /* =====================================================
+       BIRTHDAY CLICK HANDLERS
+       ===================================================== */
+
+    document
+        .querySelectorAll(
+            "[data-birthday-character-id]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const entry =
+                            calendarBirthdays.find(
+                                item =>
+                                    String(
+                                        item.character.id
+                                    ) ===
+                                    button.dataset
+                                        .birthdayCharacterId
+                            );
+
+
+                        if (
+                            entry &&
+                            typeof openCharacterProfile ===
+                                "function"
+                        ) {
+
+                            openCharacterProfile(
+                                entry.character
                             );
                         }
                     }

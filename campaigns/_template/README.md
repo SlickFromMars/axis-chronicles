@@ -6,7 +6,7 @@ Copy this entire `_template` folder into a new folder under `campaigns/` and ren
 
 - `campaign.json`: all currently supported campaign configuration fields, including tabs, theme colors, file paths, text labels, quest categories, party teams, character categories, and map settings.
 - `manifest.json`: installable-app metadata. Keep its name, description, start URL, scope, colors, and icon paths aligned with the campaign.
-- `data/characters.json`: sample player character and NPC, showing both `team` and `location` usage across entries.
+- `data/characters.json`: sample player character and NPC, showing both `team` and `location` usage across entries, plus the optional `birthday` field (see **Character birthdays** below).
 - `data/quests.json`: sample main and side quests, including objectives, character/location references, and developments.
 - `data/locations.json`: sample region, settlement, and landmark with map coordinates and a region reference. Coordinates are percentages from 0 to 100. The settlement demonstrates every optional detail field (see **Location fields** below).
 - `data/sessions.json`: sample scheduled session. Replace or remove it before publishing.
@@ -44,3 +44,32 @@ Some things are filled in automatically, so there is nothing extra to write:
 - The older style of ending a description with `Notable Landmarks: A, B, C` (after a blank line) is still understood and shown as a landmark list.
 
 The search box on the Map page also searches tags, facts, landmarks, sections, and notes. Section headings can be renamed per campaign with `text.map` in `campaign.json` using `landmarksLabel`, `notesLabel`, `regionPlacesLabel`, `connectionsLabel`, `charactersLabel`, `questsLabel`, and `pastQuestsLabel`.
+
+## Character birthdays
+
+Birthdays are an **optional** feature and are off unless you turn them on. When enabled, each character with a birthday appears on the Calendar page on that day, every year. Clicking one opens the character's profile.
+
+Turn the feature on in `campaign.json`:
+
+```json
+"birthdays": {
+    "enabled": true
+}
+```
+
+Then add a `birthday` to any character in `data/characters.json`:
+
+```json
+{ "id": "sample-hero", "name": "Sample Hero", "birthday": "03-14" }
+{ "id": "sample-npc", "name": "Sample NPC", "birthday": "1998-09-02" }
+```
+
+| Setting | Where | Meaning |
+| --- | --- | --- |
+| `enabled` | `birthdays` in `campaign.json` | `true` to show birthdays on the calendar. Defaults to `false`; with it off, `birthday` values are ignored. |
+| `label` | `birthdays` in `campaign.json` | Text shown on a birthday. Defaults to `"Birthday"`. |
+| `icon` | `birthdays` in `campaign.json` | Symbol shown for characters without a portrait. Defaults to `"✦"`. |
+| `showAge` | `birthdays` in `campaign.json` | When a birthday includes a year, show "Turns 27". Defaults to `true`; set `false` to hide ages. |
+| `birthday` | each character | `"MM-DD"` (repeats every year) or `"YYYY-MM-DD"` (same, and enables the age). Leave it out for characters with no birthday. |
+
+Birthdays use the real calendar shown on the Calendar page. A February 29 birthday is shown on February 28 in years without a leap day. Invalid values are skipped (and reported by `scripts/validate-json.py`).

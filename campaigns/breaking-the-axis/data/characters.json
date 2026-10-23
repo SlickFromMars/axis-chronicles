@@ -68,7 +68,8 @@
         "updateVersion": 1,
         "notes": [
             "Has magical properties allowing her to communicate with whoever she bonds to."
-        ]
+        ],
+        "birthday": "01-06"
     },
     {
         "id": "jorovindr",
@@ -107,7 +108,8 @@
         "status": "Active",
         "quote": "It`s your birthday. This must be the kindest atom arrangement you`ve ever seen standing in front of you with your cake. You have 2.35 billion beats of your heart left, and each one spent with your brother is the greatest gift the universe has ever given you.",
         "updateVersion": 2,
-        "notes": []
+        "notes": [],
+        "birthday": "06-13"
     },
     {
         "id": "grimsley",
@@ -135,7 +137,8 @@
         "updateVersion": 1,
         "notes": [
             "Has a connection to Quill's crystal by unknown means."
-        ]
+        ],
+        "birthday": "07-12"
     },
     {
         "id": "dyra",
@@ -148,7 +151,8 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [],
+        "birthday": "12-10"
     },
     {
         "id": "bix",
@@ -163,7 +167,8 @@
         "updateVersion": 1,
         "notes": [
             "Has a connection to Quill's crystal, and is known to manipulate it."
-        ]
+        ],
+        "birthday": "04-25"
     },
     {
         "id": "author",
@@ -295,7 +300,8 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [],
+        "birthday": "10-08"
     },
     {
         "id": "voltegar",
@@ -308,7 +314,8 @@
         "status": "Unknown",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [],
+        "birthday": "01-31"
     },
     {
         "id": "cody",
@@ -323,7 +330,8 @@
         "updateVersion": 2,
         "notes": [
             "The team recovered Cody from prison during their heist on High Camorant, but he seems to have been heavily affected by memory modification magic."
-        ]
+        ],
+        "birthday": "09-17"
     },
     {
         "id": "glim",

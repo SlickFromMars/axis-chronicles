@@ -346,13 +346,13 @@ function getCharacterReadVersions() {
 
     if (
         typeof campaignRegistry !==
-            "undefined" &&
+        "undefined" &&
         campaignRegistry &&
         typeof activeCampaign !==
-            "undefined" &&
+        "undefined" &&
         activeCampaign &&
         activeCampaign.id ===
-            campaignRegistry.defaultCampaign
+        campaignRegistry.defaultCampaign
     ) {
 
         const existingCampaignValue =
@@ -367,7 +367,7 @@ function getCharacterReadVersions() {
 
         if (
             existingCampaignValue ===
-                null &&
+            null &&
             oldGlobalValue !== null
         ) {
             localStorage.setItem(
@@ -408,7 +408,7 @@ function hasUnreadCharacterUpdate(
     const readVersion =
         Number(
             readVersions[
-                character.id
+            character.id
             ]
         ) || 0;
 
@@ -505,7 +505,7 @@ async function loadCharacterPortraitManifest() {
     const campaignId =
         typeof activeCampaign !==
             "undefined" &&
-        activeCampaign
+            activeCampaign
             ? activeCampaign.id
             : "default";
 
@@ -905,20 +905,20 @@ function renderCharacterList(
 
                 <div class="eyebrow">
                     ${escapeHTML(
-                        config.page.eyebrow
-                    )}
+        config.page.eyebrow
+    )}
                 </div>
 
                 <h1>
                     ${escapeHTML(
-                        config.page.title
-                    )}
+        config.page.title
+    )}
                 </h1>
 
                 <p>
                     ${escapeHTML(
-                        config.page.description
-                    )}
+        config.page.description
+    )}
                 </p>
 
             </div>
@@ -954,39 +954,37 @@ function renderCharacterList(
                  PLAYER CHARACTERS
                  ========================================= -->
 
-            ${
-                config.playerSection.enabled !== false
-                    ? renderPlayerCharacters(
-                        players
-                    )
-                    : ""
-            }
+            ${config.playerSection.enabled !== false
+            ? renderPlayerCharacters(
+                players
+            )
+            : ""
+        }
 
 
             <!-- =========================================
                  OTHER CHARACTERS
                  ========================================= -->
 
-            ${
-                configuredCategories
-                    .map(category => {
+            ${configuredCategories
+            .map(category => {
 
-                        const categoryCharacters =
-                            characters.filter(
-                                character =>
-                                    character.type ===
-                                    category.type
-                            );
+                const categoryCharacters =
+                    characters.filter(
+                        character =>
+                            character.type ===
+                            category.type
+                    );
 
 
-                        return renderCharacterCategory(
-                            category.label,
-                            categoryCharacters,
-                            category.id
-                        );
-                    })
-                    .join("")
-            }
+                return renderCharacterCategory(
+                    category.label,
+                    categoryCharacters,
+                    category.id
+                );
+            })
+            .join("")
+        }
 
         </section>
     `;
@@ -1204,9 +1202,9 @@ function renderPlayerCharacters(
                     teamCharacters,
                     team.id,
                     team.description ||
-                        "",
+                    "",
                     team.symbol ||
-                        "◆"
+                    "◆"
                 )
             );
         }
@@ -1275,20 +1273,20 @@ function renderPlayerCharacters(
 
                     <div class="eyebrow">
                         ${escapeHTML(
-                            playerSection.eyebrow
-                        )}
+        playerSection.eyebrow
+    )}
                     </div>
 
                     <h2>
                         ${escapeHTML(
-                            playerSection.title
-                        )}
+        playerSection.title
+    )}
                     </h2>
 
                     <p>
                         ${escapeHTML(
-                            playerSection.description
-                        )}
+        playerSection.description
+    )}
                     </p>
 
                 </div>
@@ -1322,7 +1320,7 @@ function getCharacterTeams() {
 
     if (
         typeof activeCampaign !==
-            "undefined" &&
+        "undefined" &&
         activeCampaign &&
         activeCampaign.party &&
         Array.isArray(
@@ -1384,14 +1382,14 @@ function renderPlayerTeam(
             class="
                 player-team
                 ${escapeHTML(
-                    getSafeTeamClass(
-                        teamId
-                    )
-                )}
+        getSafeTeamClass(
+            teamId
+        )
+    )}
             "
             data-player-team="${escapeHTML(
-                teamId
-            )}"
+        teamId
+    )}"
         >
 
             <div class="player-team-header">
@@ -1402,8 +1400,8 @@ function renderPlayerTeam(
                         class="player-team-symbol"
                     >
                         ${escapeHTML(
-                            symbol
-                        )}
+        symbol
+    )}
                     </span>
 
 
@@ -1413,24 +1411,24 @@ function renderPlayerTeam(
                             class="player-team-eyebrow"
                         >
                             ${escapeHTML(
-                                getCharacterConfig()
-                                    .playerSection
-                                    .partyLabel
-                            )}
+        getCharacterConfig()
+            .playerSection
+            .partyLabel
+    )}
                         </div>
 
 
                         <h3>
                             ${escapeHTML(
-                                title
-                            )}
+        title
+    )}
                         </h3>
 
 
                         <p>
                             ${escapeHTML(
-                                description
-                            )}
+        description
+    )}
                         </p>
 
                     </div>
@@ -1452,10 +1450,10 @@ function renderPlayerTeam(
             >
 
                 ${characters
-                    .map(
-                        renderPlayerCard
-                    )
-                    .join("")}
+            .map(
+                renderPlayerCard
+            )
+            .join("")}
 
             </div>
 
@@ -1494,7 +1492,7 @@ function renderPlayerCard(
 
     const portraitPath =
         characterPortraits[
-            character.id
+        character.id
         ];
 
 
@@ -1503,12 +1501,12 @@ function renderPlayerCard(
             ? `
                 <img
                     src="${escapeHTML(
-                        portraitPath
-                    )}"
+                portraitPath
+            )}"
                     alt="${escapeHTML(
-                        character.name ||
-                        "Unknown"
-                    )}"
+                character.name ||
+                "Unknown"
+            )}"
                     class="character-card-portrait"
                     loading="lazy"
                 >
@@ -1559,8 +1557,8 @@ function renderPlayerCard(
                 player-character-card
             "
             data-character-id="${escapeHTML(
-                character.id
-            )}"
+        character.id
+    )}"
         >
 
             <div class="character-card-image">
@@ -1595,8 +1593,8 @@ function renderPlayerCard(
                     class="character-card-title"
                 >
                     ${escapeHTML(
-                        name
-                    )}
+        name
+    )}
                 </h3>
 
 
@@ -1604,8 +1602,8 @@ function renderPlayerCard(
                     class="character-card-role"
                 >
                     ${escapeHTML(
-                        subtitle
-                    )}
+        subtitle
+    )}
                 </p>
 
 
@@ -1613,10 +1611,10 @@ function renderPlayerCard(
                     class="player-card-team"
                 >
                     ${escapeHTML(
-                        formatCharacterTeam(
-                            character.team
-                        )
-                    )}
+        formatCharacterTeam(
+            character.team
+        )
+    )}
                 </span>
 
             </div>
@@ -1647,8 +1645,8 @@ function renderCharacterCategory(
         <section
             class="character-category"
             data-character-category="${escapeHTML(
-                categoryId
-            )}"
+        categoryId
+    )}"
         >
 
             <button
@@ -1656,8 +1654,8 @@ function renderCharacterCategory(
                 class="character-category-toggle"
                 aria-expanded="true"
                 aria-controls="character-grid-${escapeHTML(
-                    categoryId
-                )}"
+        categoryId
+    )}"
             >
 
                 <span
@@ -1668,8 +1666,8 @@ function renderCharacterCategory(
                         class="character-category-title"
                     >
                         ${escapeHTML(
-                            title
-                        )}
+        title
+    )}
                     </span>
 
 
@@ -1695,15 +1693,15 @@ function renderCharacterCategory(
             <div
                 class="character-grid"
                 id="character-grid-${escapeHTML(
-                    categoryId
-                )}"
+        categoryId
+    )}"
             >
 
                 ${characters
-                    .map(
-                        renderCharacterCard
-                    )
-                    .join("")}
+            .map(
+                renderCharacterCard
+            )
+            .join("")}
 
             </div>
 
@@ -1722,7 +1720,7 @@ function renderCharacterCard(
 
     const portraitPath =
         characterPortraits[
-            character.id
+        character.id
         ];
 
 
@@ -1731,12 +1729,12 @@ function renderCharacterCard(
             ? `
                 <img
                     src="${escapeHTML(
-                        portraitPath
-                    )}"
+                portraitPath
+            )}"
                     alt="${escapeHTML(
-                        character.name ||
-                        "Unknown"
-                    )}"
+                character.name ||
+                "Unknown"
+            )}"
                     class="character-card-portrait"
                     loading="lazy"
                 >
@@ -1784,8 +1782,8 @@ function renderCharacterCard(
             type="button"
             class="character-card"
             data-character-id="${escapeHTML(
-                character.id
-            )}"
+        character.id
+    )}"
         >
 
             <div
@@ -1807,8 +1805,8 @@ function renderCharacterCard(
                     class="character-card-title"
                 >
                     ${escapeHTML(
-                        name
-                    )}
+        name
+    )}
                 </h3>
 
 
@@ -1816,8 +1814,8 @@ function renderCharacterCard(
                     class="character-card-role"
                 >
                     ${escapeHTML(
-                        subtitle
-                    )}
+        subtitle
+    )}
                 </p>
 
             </div>
@@ -1870,7 +1868,7 @@ function openCharacterProfile(
 
     const portraitPath =
         characterPortraits[
-            character.id
+        character.id
         ];
 
 
@@ -1879,12 +1877,12 @@ function openCharacterProfile(
             ? `
                 <img
                     src="${escapeHTML(
-                        portraitPath
-                    )}"
+                portraitPath
+            )}"
                     alt="${escapeHTML(
-                        character.name ||
-                        "Unknown"
-                    )}"
+                character.name ||
+                "Unknown"
+            )}"
                     class="character-profile-portrait"
                 >
             `
@@ -1921,7 +1919,7 @@ function openCharacterProfile(
 
                             const id =
                                 characterRef &&
-                                typeof characterRef ===
+                                    typeof characterRef ===
                                     "object"
                                     ? characterRef.id
                                     : characterRef;
@@ -1930,9 +1928,9 @@ function openCharacterProfile(
                             return String(
                                 id
                             ) ===
-                            String(
-                                character.id
-                            );
+                                String(
+                                    character.id
+                                );
                         }
                     )
             );
@@ -1948,9 +1946,8 @@ function openCharacterProfile(
             </h3>
 
 
-            ${
-                relevantQuests.length
-                    ? `
+            ${relevantQuests.length
+            ? `
                         <div
                             class="
                                 character-profile-quest-list
@@ -1958,17 +1955,17 @@ function openCharacterProfile(
                         >
 
                             ${relevantQuests
-                                .map(
-                                    quest =>
-                                        `
+                .map(
+                    quest =>
+                        `
                                         <button
                                             type="button"
                                             class="
                                                 character-profile-quest
                                             "
                                             data-character-quest-id="${escapeHTML(
-                                                quest.id
-                                            )}"
+                            quest.id
+                        )}"
                                         >
 
                                             <span
@@ -1979,16 +1976,16 @@ function openCharacterProfile(
 
                                                 <strong>
                                                     ${escapeHTML(
-                                                        quest.title ||
-                                                        "Untitled Quest"
-                                                    )}
+                            quest.title ||
+                            "Untitled Quest"
+                        )}
                                                 </strong>
 
                                                 <span>
                                                     ${escapeHTML(
-                                                        quest.status ||
-                                                        "Status unknown"
-                                                    )}
+                            quest.status ||
+                            "Status unknown"
+                        )}
                                                 </span>
 
                                             </span>
@@ -2005,12 +2002,12 @@ function openCharacterProfile(
 
                                         </button>
                                     `
-                                )
-                                .join("")}
+                )
+                .join("")}
 
                         </div>
                     `
-                    : `
+            : `
                         <p
                             class="
                                 character-profile-quests-empty
@@ -2020,7 +2017,7 @@ function openCharacterProfile(
                             to this character.
                         </p>
                     `
-            }
+        }
 
         </section>
     `;
@@ -2044,8 +2041,8 @@ function openCharacterProfile(
                     note => `
                         <li>
                             ${escapeHTML(
-                                note
-                            )}
+                        note
+                    )}
                         </li>
                     `
                 )
@@ -2087,8 +2084,8 @@ function openCharacterProfile(
                     "
                 >
                     "${escapeHTML(
-                        character.quote
-                    )}"
+                character.quote
+            )}"
                 </blockquote>
             `
             : "";
@@ -2138,6 +2135,53 @@ function openCharacterProfile(
 
 
     /* =====================================================
+       BIRTHDAY (optional campaign feature)
+       ===================================================== */
+
+    const birthdayText =
+        typeof getCharacterBirthdayText ===
+            "function"
+            ? getCharacterBirthdayText(
+                character
+            )
+            : null;
+
+
+    const birthdayLabel =
+        typeof getBirthdayConfig ===
+            "function"
+            ? getBirthdayConfig().label
+            : "Birthday";
+
+
+    const birthdayRow =
+        birthdayText
+            ? `
+                <div
+                    class="
+                        character-profile-birthday
+                    "
+                >
+
+                    <span>
+                        ${escapeHTML(
+                birthdayLabel
+            )}
+                    </span>
+
+
+                    <strong>
+                        ${escapeHTML(
+                birthdayText
+            )}
+                    </strong>
+
+                </div>
+            `
+            : "";
+
+
+    /* =====================================================
        PROFILE OVERLAY
        ===================================================== */
 
@@ -2159,12 +2203,11 @@ function openCharacterProfile(
         <div
             class="
                 character-profile-card
-                ${
-                    character.type ===
-                    "player"
-                        ? "player-profile-card"
-                        : ""
-                }
+                ${character.type ===
+            "player"
+            ? "player-profile-card"
+            : ""
+        }
             "
             role="dialog"
             aria-modal="true"
@@ -2194,46 +2237,45 @@ function openCharacterProfile(
 
                     <div class="eyebrow">
                         ${escapeHTML(
-                            type
-                        )}
+            type
+        )}
                     </div>
 
 
-                    ${
-                        character.type ===
-                        "player"
-                            ? `
+                    ${character.type ===
+            "player"
+            ? `
                                 <div
                                     class="
                                         player-profile-team
                                     "
                                 >
                                     ${escapeHTML(
-                                        formatCharacterTeam(
-                                            character.team
-                                        )
-                                    )}
+                formatCharacterTeam(
+                    character.team
+                )
+            )}
                                 </div>
                             `
-                            : ""
-                    }
+            : ""
+        }
 
 
                     <h2
                         id="character-profile-name"
                     >
                         ${escapeHTML(
-                            name
-                        )}
+            name
+        )}
                     </h2>
 
 
                     <p>
                         ${escapeHTML(
-                            getCharacterSubtitle(
-                                character
-                            )
-                        )}
+            getCharacterSubtitle(
+                character
+            )
+        )}
                     </p>
 
                 </div>
@@ -2249,8 +2291,8 @@ function openCharacterProfile(
                     class="character-profile-status"
                 >
                     ${escapeHTML(
-                        status
-                    )}
+            status
+        )}
                 </div>
 
 
@@ -2260,8 +2302,8 @@ function openCharacterProfile(
                     "
                 >
                     ${escapeHTML(
-                        description
-                    )}
+            description
+        )}
                 </p>
 
 
@@ -2283,8 +2325,8 @@ function openCharacterProfile(
 
                         <strong>
                             ${escapeHTML(
-                                race
-                            )}
+            race
+        )}
                         </strong>
 
                     </div>
@@ -2299,8 +2341,8 @@ function openCharacterProfile(
 
                         <strong>
                             ${escapeHTML(
-                                characterClass
-                            )}
+            characterClass
+        )}
                         </strong>
 
                     </div>
@@ -2310,20 +2352,23 @@ function openCharacterProfile(
 
                         <span>
                             ${escapeHTML(
-                                infoLabel
-                            )}
+            infoLabel
+        )}
                         </span>
 
 
                         <strong>
                             ${escapeHTML(
-                                infoValue
-                            )}
+            infoValue
+        )}
                         </strong>
 
                     </div>
 
                 </div>
+
+
+                ${birthdayRow}
 
 
                 ${relevantQuestsSection}

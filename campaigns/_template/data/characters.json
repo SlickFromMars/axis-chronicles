@@ -8,6 +8,7 @@
         "class": "Fighter",
         "description": "Replace this with a short character biography.",
         "status": "Active",
+        "birthday": "03-14",
         "quote": "A memorable line goes here.",
         "updateVersion": 1,
         "notes": [
@@ -23,6 +24,7 @@
         "class": "Scholar",
         "description": "Replace this with a description of the NPC.",
         "status": "Active",
+        "birthday": "1998-09-02",
         "quote": null,
         "updateVersion": 1,
         "notes": []

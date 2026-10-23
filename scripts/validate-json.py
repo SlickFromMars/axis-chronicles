@@ -1,5 +1,7 @@
 import json
+import re
 import sys
+from datetime import date
 from pathlib import Path
 
 
@@ -67,6 +69,45 @@ def check_location_references():
         print(f"{warnings} location warning(s). These do not fail validation.")
 
 
+def parse_birthday(value):
+    """Return True if value is a real MM-DD or YYYY-MM-DD date."""
+    if not isinstance(value, str):
+        return False
+
+    match = re.fullmatch(r"(?:(\d{4})-)?(\d{1,2})-(\d{1,2})", value.strip())
+    if not match:
+        return False
+
+    year = int(match.group(1)) if match.group(1) else 2000  # 2000 is a leap year
+    month, day = int(match.group(2)), int(match.group(3))
+
+    try:
+        date(year, month, day)
+    except ValueError:
+        return False
+    return True
+
+
+def check_birthdays():
+    """Warn (never fail) about birthdays that the calendar will skip."""
+    warnings = 0
+
+    for characters_file in sorted(CAMPAIGNS_DIR.glob("*/data/characters.json")):
+        for item in load_list(characters_file):
+            if not isinstance(item, dict) or item.get("birthday") in (None, ""):
+                continue
+
+            if not parse_birthday(item["birthday"]):
+                warnings += 1
+                print(
+                    f"WARNING: {characters_file} - {item.get('id', '?')}: "
+                    f"birthday '{item['birthday']}' is not a valid MM-DD or YYYY-MM-DD date"
+                )
+
+    if warnings:
+        print(f"{warnings} birthday warning(s). These do not fail validation.")
+
+
 def main():
     files = sorted(CAMPAIGNS_DIR.rglob("*.json"))
     failed = False
@@ -84,6 +125,7 @@ def main():
 
     print(f"Validated {len(files)} JSON files.")
     check_location_references()
+    check_birthdays()
 
 
 if __name__ == "__main__":

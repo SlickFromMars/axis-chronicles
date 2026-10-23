@@ -195,5 +195,11 @@
     },
     "map": {
         "coordinatePickerEnabled": true
+    },
+    "birthdays": {
+        "enabled": false,
+        "label": "Birthday",
+        "icon": "✦",
+        "showAge": true
     }
 }
