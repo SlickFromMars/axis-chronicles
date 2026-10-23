@@ -34,7 +34,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 3,
         "description": "A humble farmer looking to find more about his lineage.",
         "objectives": [
             {
@@ -67,7 +67,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 3,
         "description": "Sahaero has ran from his past but what will he do when his past catches up to him.",
         "objectives": [
             {
@@ -100,7 +100,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 3,
         "description": "After escaping his death by the help of the Queen, Seldorl must now walk a new path from a past of hatred.",
         "objectives": [
             {
