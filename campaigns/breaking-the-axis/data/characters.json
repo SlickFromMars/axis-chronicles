@@ -25,7 +25,8 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [],
+        "birthday": "04-11"
     },
     {
         "id": "mari",
