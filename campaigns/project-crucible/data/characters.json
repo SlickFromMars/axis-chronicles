@@ -10,7 +10,8 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 2,
-        "notes": []
+        "notes": [],
+        "birthday": "10-15"
     },
     {
         "id": "erin",
@@ -23,7 +24,8 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [],
+        "birthday": "09-11"
     },
     {
         "id": "voira",
@@ -36,6 +38,7 @@
         "status": "Active",
         "quote": null,
         "updateVersion": 1,
-        "notes": []
+        "notes": [],
+        "birthday": "10-04"
     }
 ]

@@ -12,7 +12,8 @@
         "updateVersion": 1,
         "notes": [
             "WANTED: Dead or Alive | for 1,450 gold pieces."
-        ]
+        ],
+        "birthday": "08-28"
     },
     {
         "id": "dakota-collins",
@@ -27,19 +28,7 @@
         "updateVersion": 1,
         "notes": [
             "WANTED: Dead or Alive | 0$"
-        ]
-    },
-    {
-        "id": "sample-npc",
-        "name": "Sample NPC",
-        "type": "friend",
-        "location": "sample-town",
-        "race": "Elf",
-        "class": "Scholar",
-        "description": "Replace this with a description of the NPC.",
-        "status": "Active",
-        "quote": null,
-        "updateVersion": 1,
-        "notes": []
+        ],
+        "birthday": "05-13"
     }
 ]

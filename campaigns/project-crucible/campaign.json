@@ -163,5 +163,11 @@
         "playerSection": {
             "enabled": true
         }
+    },
+    "birthdays": {
+        "enabled": true,
+        "label": "Birthday",
+        "icon": "✦",
+        "showAge": false
     }
 }
