@@ -43,7 +43,7 @@
             },
             {
                 "text": "Talk with the Knight about his gift.",
-                "completed": false
+                "completed": true
             }
         ],
         "characters": [
@@ -51,6 +51,10 @@
             "gigan"
         ],
         "developments": [
+            {
+                "session": "Team 1, Session 6: Come Together",
+                "text": "The Knight has given Unitas a new set of armor and weapon to best honor the god."
+            },
             {
                 "session": "Team 1, Session 3",
                 "text": "Unitas had proven himself in combat to earn the respect of the Knight, now the god has a gift for him when they meet again."
@@ -67,6 +71,10 @@
         "description": "Sahaero has ran from his past but what will he do when his past catches up to him.",
         "objectives": [
             {
+                "text": "Find your lost love",
+                "completed": false
+            },
+            {
                 "text": "Jet Jaguar has seen guards that were sent by your family on the island. Maybe he knows more info?",
                 "completed": false
             }
@@ -75,6 +83,10 @@
             "sahaero"
         ],
         "developments": [
+            {
+                "session": "Team 1, Session 6: Come Together",
+                "text": "The Phoenix was intrested in your story and wants to help aid you on your journy to freedom."
+            },
             {
                 "session": "Team 1, Session 5: The Sweet Prince and the Hero ",
                 "text": "Jet Jaguar seemed to know that you were on the run and explains that he saw guards from your home kingdom arriving on the island."
@@ -91,6 +103,10 @@
         "description": "After escaping his death by the help of the Queen, Seldorl must now walk a new path from a past of hatred.",
         "objectives": [
             {
+                "text": " Resist the urge of murder, find peace",
+                "completed": false
+            },
+            {
                 "text": "You've been sent to help aid the team as a way to walk your new path, help complete the mission.",
                 "completed": false
             }
@@ -98,7 +114,12 @@
         "characters": [
             "seldorl"
         ],
-        "developments": []
+        "developments": [
+            {
+                "session":"Team 1, Session 6: Come Together",
+                "text": "The Queen has fully introduced herself to you and has promised to help aid you on your journey away from brutal anger"
+            }
+        ]
     },
     {
         "id": "jasper",
