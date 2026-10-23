@@ -266,9 +266,7 @@ async function renderCampaignSwitcher() {
 
     const entries = await Promise.all(campaignRegistry.campaigns.map(async entry => {
         try {
-            const response = await fetch(entry.master);
-            if (!response.ok) throw new Error(`Could not load ${entry.master}`);
-            const master = await response.json();
+            const master = await loadJSON(entry.master);
             const root = entry.master.slice(0, entry.master.lastIndexOf("/") + 1);
             const imagePath = master.assets?.selectionPreview || master.assets?.map || master.assets?.socialPreview || master.assets?.favicon
             return {

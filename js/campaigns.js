@@ -12,31 +12,6 @@ let activeCampaignRoot = null;
 
 
 /* =========================================================
-   LOAD JSON
-   ========================================================= */
-
-async function loadJSON(
-    path,
-    errorMessage
-) {
-
-    const response =
-        await fetch(path);
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            `${errorMessage} (${response.status})`
-        );
-    }
-
-
-    return await response.json();
-}
-
-
-/* =========================================================
    DETERMINE REQUESTED CAMPAIGN
    ========================================================= */
 
@@ -84,11 +59,9 @@ function getRequestedCampaignId() {
 
 async function loadCampaign() {
 
-    campaignRegistry =
-        await loadJSON(
-            CAMPAIGN_REGISTRY_PATH,
-            "Could not load campaign registry"
-        );
+    campaignRegistry = await loadJSON(
+        CAMPAIGN_REGISTRY_PATH
+    );
 
 
     if (
@@ -157,11 +130,9 @@ async function loadCampaign() {
         registryEntry.master;
 
 
-    activeCampaign =
-        await loadJSON(
-            activeCampaignMasterPath,
-            `Could not load campaign "${registryEntry.id}"`
-        );
+    activeCampaign = await loadJSON(
+        activeCampaignMasterPath
+    );
 
 
     if (

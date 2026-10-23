@@ -80,105 +80,72 @@ function getMapCampaignId() {
 }
 
 
+
 /* =========================================================
-   SHARED LOADER
+   LOAD MAP LOCATIONS
    ========================================================= */
 
 async function loadMapLocations() {
-
-    const campaignId =
-        getMapCampaignId();
-
+    const campaignId = getMapCampaignId();
 
     /*
-        Clear the cached location data when
-        the active campaign changes.
+        Clear cached locations when the active campaign changes.
     */
 
-    if (
-        mapLocationsCampaignId !==
-        campaignId
-    ) {
-
+    if (mapLocationsCampaignId !== campaignId) {
         mapLocations = [];
         mapLocationsPromise = null;
         selectedLocationId = null;
-
-        mapLocationsCampaignId =
-            campaignId;
+        mapLocationsCampaignId = campaignId;
     }
 
+    /*
+        Reuse the loaded data if it is already available.
+    */
 
     if (
         Array.isArray(mapLocations) &&
-        mapLocations.length
+        mapLocations.length > 0
     ) {
         return mapLocations;
     }
 
+    /*
+        Reuse an existing request to avoid duplicate fetches.
+    */
 
-    if (
-        !mapLocationsPromise
-    ) {
-
+    if (!mapLocationsPromise) {
         const locationPath =
-            typeof getCampaignDataPath ===
-                "function"
-                ? getCampaignDataPath(
-                    "locations"
-                )
+            typeof getCampaignDataPath === "function"
+                ? getCampaignDataPath("locations")
                 : "data/locations.json";
 
-
         if (!locationPath) {
-
             throw new Error(
                 "No location data path configured for this campaign."
             );
         }
 
+        mapLocationsPromise = loadJSON(locationPath)
+            .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error(
+                        "locations.json must contain an array."
+                    );
+                }
 
-        mapLocationsPromise =
-            fetch(locationPath)
-                .then(response => {
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            `Could not load locations (${response.status})`
-                        );
-                    }
-
-                    return response.json();
-                })
-                .then(data => {
-
-                    if (
-                        !Array.isArray(data)
-                    ) {
-
-                        throw new Error(
-                            "locations.json must contain an array."
-                        );
-                    }
-
-                    mapLocations =
-                        data;
-
-                    return mapLocations;
-                })
-                .catch(error => {
-
-                    mapLocationsPromise =
-                        null;
-
-                    throw error;
-                });
+                mapLocations = data;
+                return mapLocations;
+            })
+            .catch(error => {
+                mapLocationsPromise = null;
+                throw error;
+            });
     }
-
 
     return mapLocationsPromise;
 }
+
 
 
 /* =========================================================
@@ -2422,7 +2389,7 @@ function openLocationDetails(
                                                     >
                                                         ${escapeMapHTML(
                                 landmark.name
-                                            )}
+                            )}
                                                     </button>
                                                 `
                             : `

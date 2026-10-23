@@ -537,37 +537,26 @@ async function loadCharacterPortraitManifest() {
             campaignId;
     }
 
+    if (!characterPortraitManifestPromise) {
+        const manifestPath =
+            getCharacterPortraitManifestPath();
 
-    if (
-        !characterPortraitManifestPromise
-    ) {
+        if (!manifestPath) {
+            throw new Error(
+                "No character portrait manifest path configured."
+            );
+        }
 
         characterPortraitManifestPromise =
-            fetch(
-                getCharacterPortraitManifestPath()
-            )
-                .then(response => {
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Could not load character portrait manifest"
-                        );
-                    }
-
-                    return response.json();
-                })
+            loadJSON(manifestPath)
                 .catch(error => {
-
-                    characterPortraitManifestPromise =
-                        null;
-
+                    characterPortraitManifestPromise = null;
                     throw error;
                 });
     }
 
-
     return characterPortraitManifestPromise;
+
 }
 
 
@@ -658,45 +647,30 @@ async function loadCharacterPortraits(
 }
 
 
-/* =========================================================
-   LOAD CHARACTERS
-   ========================================================= */
 
 async function loadCharacters() {
-
     const characterPath =
-        typeof getCampaignDataPath ===
-            "function"
-            ? getCampaignDataPath(
-                "characters"
-            )
+        typeof getCampaignDataPath === "function"
+            ? getCampaignDataPath("characters")
             : "data/characters.json";
 
-
     if (!characterPath) {
-
         throw new Error(
             "No character data path configured for this campaign."
         );
     }
 
+    const characters = await loadJSON(characterPath);
 
-    const response =
-        await fetch(
-            characterPath
-        );
-
-
-    if (!response.ok) {
-
+    if (!Array.isArray(characters)) {
         throw new Error(
-            "Could not load characters"
+            "Character data must contain an array."
         );
     }
 
-
-    return await response.json();
+    return characters;
 }
+
 
 
 /* =========================================================

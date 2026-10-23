@@ -288,7 +288,7 @@ async function loadCalendarBirthdays() {
         if (
             calendarBirthdays.length &&
             typeof loadCharacterPortraits ===
-                "function"
+            "function"
         ) {
 
             try {
@@ -497,15 +497,13 @@ function renderBirthdaysThisMonth(
                             </span>
 
                             <span class="birthday-list-meta">
-                                ${
-                                    status === "today"
-                                        ? "Today · "
-                                        : ""
-                                }${escapeHTML(dateLabel)}${
-                                    age !== null
-                                        ? ` · Turns ${age}`
-                                        : ""
-                                }
+                                ${status === "today"
+                        ? "Today · "
+                        : ""
+                    }${escapeHTML(dateLabel)}${age !== null
+                        ? ` · Turns ${age}`
+                        : ""
+                    }
                             </span>
 
                         </button>
@@ -620,116 +618,65 @@ function renderCalendarBirthday(
 
 async function loadSessions() {
 
-    const campaignId =
-        getCalendarCampaignId();
-
+    const campaignId = getCalendarCampaignId();
 
     /*
         Clear the cache if the active campaign changes.
     */
 
-    if (
-        calendarSessionsCampaignId !==
-        campaignId
-    ) {
+    if (calendarSessionsCampaignId !== campaignId) {
 
         calendarSessions = [];
         calendarSessionsPromise = null;
-
-        calendarSessionsCampaignId =
-            campaignId;
+        calendarSessionsCampaignId = campaignId;
     }
 
+    /*
+        Reuse an existing request for this campaign.
+    */
 
-    if (
-        Array.isArray(calendarSessions)
-    ) {
-
-        if (
-            calendarSessions.length ||
-            calendarSessionsPromise === null &&
-            calendarSessionsCampaignId ===
-                campaignId &&
-            calendarSessions.length === 0
-        ) {
-
-            /*
-                Do not use this shortcut until
-                a campaign path has actually been
-                requested below.
-            */
-
-        }
-    }
-
-
-    if (
-        calendarSessionsPromise
-    ) {
+    if (calendarSessionsPromise) {
         return calendarSessionsPromise;
     }
 
-
     const sessionPath =
-        typeof getCampaignDataPath ===
-            "function"
-            ? getCampaignDataPath(
-                "sessions"
-            )
+        typeof getCampaignDataPath === "function"
+            ? getCampaignDataPath("sessions")
             : "campaigns/breaking-the-axis/data/sessions.json";
 
-
     if (!sessionPath) {
-
         throw new Error(
             "No session data path configured for this campaign."
         );
     }
 
+    /*
+        Use the shared JSON loader so session data
+        follows the site's cache-revalidation policy.
+    */
 
-    calendarSessionsPromise =
-        fetch(sessionPath)
-            .then(response => {
+    calendarSessionsPromise = loadJSON(sessionPath)
+        .then(data => {
 
-                if (!response.ok) {
+            if (!Array.isArray(data)) {
+                throw new Error(
+                    "sessions.json must contain an array."
+                );
+            }
 
-                    throw new Error(
-                        `Could not load sessions (${response.status})`
-                    );
-                }
+            calendarSessions = data;
 
+            return calendarSessions;
+        })
+        .catch(error => {
 
-                return response.json();
-            })
-            .then(data => {
-
-                if (
-                    !Array.isArray(data)
-                ) {
-
-                    throw new Error(
-                        "sessions.json must contain an array."
-                    );
-                }
-
-
-                calendarSessions =
-                    data;
-
-
-                return calendarSessions;
-            })
-            .catch(error => {
-
-                calendarSessionsPromise =
-                    null;
-
-                throw error;
-            });
-
+            calendarSessionsPromise = null;
+            throw error;
+        });
 
     return calendarSessionsPromise;
 }
+
 
 
 /* =========================================================
@@ -776,7 +723,7 @@ function getCalendarDownloadName() {
     const campaignId =
         typeof activeCampaign !==
             "undefined" &&
-        activeCampaign
+            activeCampaign
             ? activeCampaign.id
             : "campaign";
 
@@ -987,9 +934,9 @@ function renderCalendar(
 
                 return (
                     sessionYear ===
-                        year &&
+                    year &&
                     sessionMonth ===
-                        month + 1
+                    month + 1
                 );
             }
         );
@@ -1045,15 +992,15 @@ function renderCalendar(
 
                         <div class="eyebrow">
                             ${escapeHTML(
-                                calendarText.eyebrow
-                            )}
+        calendarText.eyebrow
+    )}
                         </div>
 
 
                         <h1>
                             ${escapeHTML(
-                                monthName
-                            )}
+        monthName
+    )}
 
                             <span>
                                 ${year}
@@ -1065,8 +1012,8 @@ function renderCalendar(
                             class="calendar-description"
                         >
                             ${escapeHTML(
-                                calendarText.description
-                            )}
+        calendarText.description
+    )}
                         </p>
 
                     </div>
@@ -1127,9 +1074,8 @@ function renderCalendar(
 
                     <div class="calendar-actions">
 
-                        ${
-                            calendarFileAvailable
-                                ? `
+                        ${calendarFileAvailable
+            ? `
                                     <button
                                         type="button"
                                         class="calendar-subscribe"
@@ -1149,11 +1095,11 @@ function renderCalendar(
                                         class="calendar-download"
                                         id="calendar-download"
                                         href="${escapeHTML(
-                                            getCalendarFilePath()
-                                        )}"
+                getCalendarFilePath()
+            )}"
                                         download="${escapeHTML(
-                                            getCalendarDownloadName()
-                                        )}"
+                getCalendarDownloadName()
+            )}"
                                     >
                                         <span
                                             aria-hidden="true"
@@ -1164,8 +1110,8 @@ function renderCalendar(
                                         Download
                                     </a>
                                 `
-                                : ""
-                        }
+            : ""
+        }
 
                     </div>
 
@@ -1188,12 +1134,11 @@ function renderCalendar(
 
 
                         <span>
-                            ${
-                                monthSessions.length ===
-                                1
-                                    ? "Session"
-                                    : "Sessions"
-                            }
+                            ${monthSessions.length ===
+            1
+            ? "Session"
+            : "Sessions"
+        }
                         </span>
 
                     </div>
@@ -1240,9 +1185,8 @@ function renderCalendar(
 
                     </div>
 
-                    ${
-                        birthdaysEnabled
-                            ? `
+                    ${birthdaysEnabled
+            ? `
                                 <div
                                     class="calendar-summary-divider"
                                 ></div>
@@ -1258,17 +1202,16 @@ function renderCalendar(
 
 
                                     <span>
-                                        ${
-                                            monthBirthdayCount === 1
-                                                ? "Birthday"
-                                                : "Birthdays"
-                                        }
+                                        ${monthBirthdayCount === 1
+                ? "Birthday"
+                : "Birthdays"
+            }
                                     </span>
 
                                 </div>
                             `
-                            : ""
-                    }
+            : ""
+        }
 
                 </div>
 
@@ -1376,7 +1319,7 @@ function renderCalendar(
                 ? "past"
                 : "",
             daySessions.length ||
-            dayBirthdays.length
+                dayBirthdays.length
                 ? "has-events"
                 : ""
         ]
@@ -1402,54 +1345,52 @@ function renderCalendar(
                     </span>
 
 
-                    ${
-                        isToday
-                            ? `
+                    ${isToday
+                ? `
                                 <span
                                     class="calendar-today-marker"
                                 >
                                     TODAY
                                 </span>
                             `
-                            : ""
-                    }
+                : ""
+            }
 
                 </div>
 
 
-                ${
-                    daySessions.length ||
-                    dayBirthdays.length
-                        ? `
+                ${daySessions.length ||
+                dayBirthdays.length
+                ? `
                             <div
                                 class="calendar-events"
                             >
                                 ${dayBirthdays
-                                    .map(
-                                        entry =>
-                                            renderCalendarBirthday(
-                                                entry,
-                                                year,
-                                                date,
-                                                todayString
-                                            )
-                                    )
-                                    .join("")}
+                    .map(
+                        entry =>
+                            renderCalendarBirthday(
+                                entry,
+                                year,
+                                date,
+                                todayString
+                            )
+                    )
+                    .join("")}
 
                                 ${daySessions
-                                    .map(
-                                        renderCalendarSession
-                                    )
-                                    .join("")}
+                    .map(
+                        renderCalendarSession
+                    )
+                    .join("")}
                             </div>
                         `
-                        : `
+                : `
                             <div
                                 class="calendar-empty-day"
                             >
                             </div>
                         `
-                }
+            }
 
             </div>
         `;
@@ -1463,17 +1404,16 @@ function renderCalendar(
             </div>
 
 
-            ${
-                birthdaysEnabled
-                    ? renderBirthdaysThisMonth(
-                        year,
-                        month + 1,
-                        daysInMonth,
-                        monthName,
-                        todayString
-                    )
-                    : ""
-            }
+            ${birthdaysEnabled
+            ? renderBirthdaysThisMonth(
+                year,
+                month + 1,
+                daysInMonth,
+                monthName,
+                todayString
+            )
+            : ""
+        }
 
 
             <!-- =========================================
@@ -1485,11 +1425,10 @@ function renderCalendar(
                 <div
                     class="calendar-footer-note"
                 >
-                    ${
-                        birthdaysEnabled
-                            ? "Select a session or birthday to view its details."
-                            : "Select a session to view its details."
-                    }
+                    ${birthdaysEnabled
+            ? "Select a session or birthday to view its details."
+            : "Select a session to view its details."
+        }
                 </div>
 
             </div>
@@ -1770,7 +1709,7 @@ function attachCalendarListeners(
                         if (
                             entry &&
                             typeof openCharacterProfile ===
-                                "function"
+                            "function"
                         ) {
 
                             openCharacterProfile(
@@ -1820,14 +1759,14 @@ function renderCalendarSession(
             class="
                 calendar-event
                 ${escapeHTML(
-                    session.team ||
-                    ""
-                )}
+        session.team ||
+        ""
+    )}
                 ${status}
             "
             data-session-id="${escapeHTML(
-                session.id
-            )}"
+        session.id
+    )}"
         >
 
             <span
@@ -1843,10 +1782,10 @@ function renderCalendarSession(
                     class="calendar-event-team"
                 >
                     ${escapeHTML(
-                        formatTeam(
-                            session.team
-                        )
-                    )}
+        formatTeam(
+            session.team
+        )
+    )}
                 </span>
 
 
@@ -1854,8 +1793,8 @@ function renderCalendarSession(
                     class="calendar-event-title"
                 >
                     ${escapeHTML(
-                        session.title
-                    )}
+        session.title
+    )}
                 </span>
 
 
@@ -1863,10 +1802,10 @@ function renderCalendarSession(
                     class="calendar-event-time"
                 >
                     ${escapeHTML(
-                        formatSessionTime(
-                            session.time
-                        )
-                    )}
+        formatSessionTime(
+            session.time
+        )
+    )}
                 </span>
 
             </span>
@@ -2000,10 +1939,10 @@ function openSessionPreview(
                         class="eyebrow"
                     >
                         ${escapeHTML(
-                            formatTeam(
-                                session.team
-                            )
-                        )}
+        formatTeam(
+            session.team
+        )
+    )}
                     </div>
 
 
@@ -2025,8 +1964,8 @@ function openSessionPreview(
                 id="session-preview-title"
             >
                 ${escapeHTML(
-                    session.title
-                )}
+        session.title
+    )}
             </h2>
 
 
@@ -2060,8 +1999,8 @@ function openSessionPreview(
 
                         <strong>
                             ${escapeHTML(
-                                formattedDate
-                            )}
+        formattedDate
+    )}
                         </strong>
 
                     </div>
@@ -2090,10 +2029,10 @@ function openSessionPreview(
 
                         <strong>
                             ${escapeHTML(
-                                formatSessionTime(
-                                    session.time
-                                )
-                            )}
+        formatSessionTime(
+            session.time
+        )
+    )}
                         </strong>
 
                     </div>
@@ -2101,14 +2040,13 @@ function openSessionPreview(
                 </div>
 
 
-                ${
-                    session.chapter !==
-                    undefined &&
-                    session.chapter !==
-                    null &&
-                    session.chapter !==
-                    ""
-                        ? `
+                ${session.chapter !==
+            undefined &&
+            session.chapter !==
+            null &&
+            session.chapter !==
+            ""
+            ? `
                             <div
                                 class="session-preview-detail"
                             >
@@ -2130,18 +2068,18 @@ function openSessionPreview(
 
                                     <strong>
                                         ${escapeHTML(
-                                            String(
-                                                session.chapter
-                                            )
-                                        )}
+                String(
+                    session.chapter
+                )
+            )}
                                     </strong>
 
                                 </div>
 
                             </div>
                         `
-                        : ""
-                }
+            : ""
+        }
 
             </div>
 

@@ -463,10 +463,6 @@ function initializeQuestPreferences() {
 }
 
 
-/* =========================================================
-   LOAD CHARACTER DATA
-   ========================================================= */
-
 async function loadQuestCharacterData() {
 
     if (questCharacterData.length) {
@@ -488,46 +484,27 @@ async function loadQuestCharacterData() {
         }
 
         questCharacterDataPromise =
-            fetch(characterPath)
+            loadJSON(characterPath)
+                .then(characters => {
 
-                .then(
-                    response => {
+                    questCharacterData =
+                        Array.isArray(characters)
+                            ? characters
+                            : [];
 
-                        if (!response.ok) {
-                            throw new Error(
-                                "Could not load characters"
-                            );
-                        }
+                    return questCharacterData;
+                })
+                .catch(error => {
 
-                        return response.json();
-                    }
-                )
+                    questCharacterDataPromise = null;
 
-                .then(
-                    characters => {
+                    console.error(
+                        "Could not load quest character names:",
+                        error
+                    );
 
-                        questCharacterData =
-                            Array.isArray(characters)
-                                ? characters
-                                : [];
-
-                        return questCharacterData;
-                    }
-                )
-
-                .catch(
-                    error => {
-
-                        questCharacterDataPromise = null;
-
-                        console.error(
-                            "Could not load quest character names:",
-                            error
-                        );
-
-                        return [];
-                    }
-                );
+                    return [];
+                });
     }
 
     return questCharacterDataPromise;
@@ -687,10 +664,6 @@ function markQuestAsRead(quest) {
 }
 
 
-/* =========================================================
-   LOAD QUESTS
-   ========================================================= */
-
 async function loadQuests() {
 
     initializeQuestPreferences();
@@ -705,18 +678,8 @@ async function loadQuests() {
         );
     }
 
-    const response =
-        await fetch(questPath);
-
-    if (!response.ok) {
-
-        throw new Error(
-            "Could not load quests"
-        );
-    }
-
     const quests =
-        await response.json();
+        await loadJSON(questPath);
 
     if (!Array.isArray(quests)) {
 

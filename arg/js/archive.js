@@ -103,31 +103,8 @@ function getArchiveStatus() {
 async function loadArchive() {
 
     try {
-
-        const archiveResponse =
-            await fetch("archive.json");
-
-        if (!archiveResponse.ok) {
-            throw new Error(
-                `Failed to load archive: ${archiveResponse.status} `
-            );
-        }
-
-        archiveData =
-            await archiveResponse.json();
-
-
-        const responsesResponse =
-            await fetch("responses.json");
-
-        if (!responsesResponse.ok) {
-            throw new Error(
-                `Failed to load responses: ${responsesResponse.status} `
-            );
-        }
-
-        responseData =
-            await responsesResponse.json();
+        archiveData = await loadJSON("archive.json");
+        responseData = await loadJSON("responses.json");
 
 
         renderArchive();

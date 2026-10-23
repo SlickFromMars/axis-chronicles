@@ -48,10 +48,6 @@ function getMusicCampaignId() {
 }
 
 
-/* =========================================================
-   LOAD MUSIC DATA
-   ========================================================= */
-
 async function loadMusic() {
 
     const campaignId =
@@ -110,24 +106,13 @@ async function loadMusic() {
 
 
     musicDataPromise =
-        fetch(musicPath)
-            .then(response => {
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        `Could not load music (${response.status})`
-                    );
-                }
-
-
-                return response.json();
-            })
+        loadJSON(musicPath)
             .then(data => {
 
                 if (
                     !data ||
-                    typeof data !== "object"
+                    typeof data !== "object" ||
+                    Array.isArray(data)
                 ) {
 
                     throw new Error(
@@ -153,7 +138,6 @@ async function loadMusic() {
 
     return musicDataPromise;
 }
-
 
 /* =========================================================
    SHOW MUSIC
@@ -202,8 +186,8 @@ async function showMusic() {
 
                     <span class="music-eyebrow">
                         ${escapeMusicHTML(
-                            musicText.eyebrow
-                        )}
+        musicText.eyebrow
+    )}
                     </span>
 
 
@@ -287,8 +271,8 @@ async function showMusic() {
                                         aria-hidden="true"
                                     >
                                         ${escapeMusicHTML(
-                                            icon
-                                        )}
+                            icon
+                        )}
                                     </div>
 
 
@@ -305,15 +289,15 @@ async function showMusic() {
 
                                         <h2>
                                             ${escapeMusicHTML(
-                                                section.title
-                                            )}
+                            section.title
+                        )}
                                         </h2>
 
 
                                         <p>
                                             ${escapeMusicHTML(
-                                                section.description
-                                            )}
+                            section.description
+                        )}
                                         </p>
 
                                     </div>
@@ -321,9 +305,8 @@ async function showMusic() {
                                 </div>
 
 
-                                ${
-                                    section.playlist
-                                        ? `
+                                ${section.playlist
+                                ? `
                                             <div
                                                 class="music-player"
                                             >
@@ -351,8 +334,8 @@ async function showMusic() {
 
                                                 <iframe
                                                     src="${escapeMusicAttribute(
-                                                        section.playlist
-                                                    )}"
+                                    section.playlist
+                                )}"
                                                     width="100%"
                                                     height="500"
                                                     frameborder="0"
@@ -360,13 +343,13 @@ async function showMusic() {
                                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                                                     loading="lazy"
                                                     title="${escapeMusicAttribute(
-                                                        section.title
-                                                    )} playlist"
+                                    section.title
+                                )} playlist"
                                                 ></iframe>
 
                                             </div>
                                         `
-                                        : `
+                                : `
                                             <div
                                                 class="music-player-empty"
                                             >
@@ -382,7 +365,7 @@ async function showMusic() {
                                                 </p>
                                             </div>
                                         `
-                                }
+                            }
 
                             </article>
                         `;
@@ -408,22 +391,22 @@ async function showMusic() {
 
                         <span class="music-eyebrow">
                             ${escapeMusicHTML(
-                                musicText.eyebrow
-                            )}
+            musicText.eyebrow
+        )}
                         </span>
 
 
                         <h1>
     ${escapeMusicHTML(
-        musicText.title
-    )}
+            musicText.title
+        )}
 </h1>
 
 
 <p class="page-description">
     ${escapeMusicHTML(
-        musicText.description
-    )}
+            musicText.description
+        )}
 </p>
 
                     </div>
@@ -431,14 +414,13 @@ async function showMusic() {
                 </div>
 
 
-                ${
-                    sectionHTML
-                        ? `
+                ${sectionHTML
+                ? `
                             <div class="music-sections">
                                 ${sectionHTML}
                             </div>
                         `
-                        : `
+                : `
                             <div class="music-empty">
 
                                 <div
@@ -460,7 +442,7 @@ async function showMusic() {
 
                             </div>
                         `
-                }
+            }
 
             </section>
         `;
