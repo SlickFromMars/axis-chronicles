@@ -1,1 +1,11 @@
-[]
+[
+    {
+        "id": "chapter-1",
+        "date": "2026-11-05",
+        "time": "20:00",
+        "duration": 180,
+        "team": "team-one",
+        "chapter": 1,
+        "title": "Project Crucible, Chapter 1 - We Three"
+    }
+]
