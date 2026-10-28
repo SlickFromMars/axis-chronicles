@@ -26,7 +26,16 @@
             "destroyah"
         ],
         "locations": [],
-        "developments": []
+        "developments": [
+            {
+                "session": "Team 2, Session 6: The Room Where It Happens",
+                "text": "Team 2 has gathered all their gods together, they plan to enclose the vault before the Devil escapes."
+            },
+            {
+                "session": "Team 1, Session 6: Come Together",
+                "text": "Team 1 has gathered all their gods together, and now plan to storm the Dragons castle when he appears again."
+            }
+        ]
     },
     {
         "id": "unitas",
@@ -129,20 +138,29 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 3,
+        "updateVersion": 4,
         "description": "Jasper is on a journey that will put his home of Reiwa in the center of a possible conflict.",
         "objectives": [
             {
-                "text": "It seem the Crystal has been trying to communicate with you, probably best to find out what he wants.",
+                "text": "Continue onward and comunicate to X when needed.",
                 "completed": false
+            },
+            {
+                "text": "It seem the Crystal has been trying to communicate with you, probably best to find out what he wants.",
+                "completed": true
             }
         ],
         "characters": [
             "jasper",
-            "space-godzilla"
+            "space-godzilla",
+            "monster-x"
         ],
         "locations": [],
         "developments": [
+            {
+                "session": "Team 2, Session 6: The Room Where It Happens",
+                "text": "The Crystal schooled you about killing Von, seemingly taking some of your power away in the process. Later that night, X came to you with a proposition to work with him and he'll aid you on your return to Reiwa. You took the deal and seemingly became and Oath Breaker Paladin."
+            },
             {
                 "session": "Team 2, Session 5: Aliban and the Empire Ants",
                 "text": "When you went to the underdark to find the Bug, the crystals around you hummed in dissapointment. Is the Crystal trying to get your attention?"
@@ -159,9 +177,13 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 3,
+        "updateVersion": 4,
         "description": "After being kicked out of his family due to his mutation, Zettai had made a deal with the Flesh to stop it... but at what cost?",
         "objectives": [
+            {
+                "text": "Kill and feast on the Devil when given the chance.",
+                "completed": false
+            },
             {
                 "text": "Continue to feast on the flesh of fallen enemies... or don't.",
                 "completed": false
@@ -178,6 +200,10 @@
         "locations": [],
         "developments": [
             {
+                "session": "Team 2, Session 6: The Room Where It Happens",
+                "text": "The Flesh first spoke to you, telling you to kill and feast on the Devil. You gave him a deal that he wouldn't hurt your sister and friends if you did as he asked. He accepted."
+            },
+            {
                 "session": "Team 2, Session 4: Made of Flesh and Machine",
                 "text": "After walking back to Hedoron, the leader of the cult, Zagreth, took your flesh core and plunged it into your chest. He also stated he saw your sister somewhat recently and described her as powerful."
             },
@@ -193,7 +219,7 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 3,
+        "updateVersion": 4,
         "description": "Azarn has been accepted to be a warlock of the Mech after he was almost killed by his brother and family.",
         "objectives": [
             {
@@ -202,7 +228,7 @@
             },
             {
                 "text": "Meet with the Mech and ask about your new arm.",
-                "completed": false
+                "completed": true
             },
             {
                 "text": "Find more metal and tech for the Mech.",
@@ -216,6 +242,10 @@
         "locations": [],
         "developments": [
             {
+                "session": "Team 2, Session 6: The Room Where It Happens",
+                "text": "The Mech created a new arm for you that can shoot reloadable finger bullets. It also seems to be a lot more durable and sleeker. He also says that upgrades can be added and magical components. To add those magical components, you must seek a wizard by the name of Manda in the town Gorgo."
+            },
+            {
                 "session": "Team 2, Session 4: Made of Flesh and Machine",
                 "text": "The Mech said that your brother came in and stole some of his tech for an unknown reason and sent you to go find him. You also asked about a new arm and he seemed to want to make a new one for you."
             }
@@ -227,12 +257,16 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "After a voice woke him up one night and told him about a team. Aliban has now joined forces with the team and reconnecting with his distant family.",
         "objectives": [
             {
-                "text": "Find the Bug and talk more about your family connections.",
+                "text": "Learn more about the Bug and other things about the island.",
                 "completed": false
+            },
+            {
+                "text": "Find the Bug and talk more about your family connections.",
+                "completed": true
             }
         ],
         "characters": [
@@ -240,6 +274,10 @@
             "megalon"
         ],
         "developments": [
+            {
+                "session": "Team 2, Session 6: The Room Where It Happens",
+                "text": "You've talked with the Bug and explained more about your relation to him. Seeing you as family, the Bug gave you a sending stone to keep in contact."
+            },
             {
                 "session": "Team 2, Session 5: Aliban and the Empire Ants",
                 "text": "You've met and talked to the Bug and brought up your long distant family connection. He seemed very intrigued by this wanted to talk more about it soon."
