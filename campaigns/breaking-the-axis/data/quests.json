@@ -5,13 +5,9 @@
         "team": "shared",
         "type": "main",
         "status": "active",
-        "updateVersion": 4,
-        "description": "Var'Kennan's influence reaches deeper into Caeloran society. Find a way to thwart his evil plans... or don't?",
+        "updateVersion": 5,
+        "description": "Var'Kennan's influence reaches deeper into Caeloran society. Find a way to liberate the people of Caelora.",
         "objectives": [
-            {
-                "text": "Find a way to subdue or defeat Var'Kennan.",
-                "completed": false
-            },
             {
                 "text": "Dismantle the Order of Truespawn to stop the Dwarven genocide.",
                 "completed": false
@@ -19,6 +15,14 @@
             {
                 "text": "Sneak into High Camorant to get the lay of the land.",
                 "completed": true
+            },
+            {
+                "text": "Contact the Figure in hopes of finding a way to fight Var'Kennan.",
+                "completed": false
+            },
+            {
+                "text": "Feed fuel to the growing fire of unrest in the Highlands.",
+                "completed": false
             }
         ],
         "characters": [
@@ -276,8 +280,8 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 4,
-        "description": "Maria has been stranded on Caelora with her memories clouded by amnesia.",
+        "updateVersion": 5,
+        "description": "Maria and her brother have been stranded on Caelora with their memories clouded by amnesia. Find a way home.",
         "objectives": [
             {
                 "text": "Travel to the Highlands to find your brother.",
@@ -293,6 +297,10 @@
             },
             {
                 "text": "Reconnect with your brother.",
+                "completed": true
+            },
+            {
+                "text": "Help your brother get to know you once again.",
                 "completed": false
             }
         ],
@@ -357,16 +365,21 @@
         "team": "two",
         "type": "companion",
         "status": "active",
-        "updateVersion": 1,
+        "updateVersion": 2,
         "description": "Grimsley has joined our team of adventurers, and maybe his own selfish motivations will align with that of our heroes.",
         "objectives": [
             {
-                "text": "Establish yourself as a valid member within the team.",
+                "text": "Dive deeper into your relationship with Wintheria.",
                 "completed": false
+            },
+            {
+                "text": "Establish yourself as a valid member within the team.",
+                "completed": true
             }
         ],
         "characters": [
-            "grimsley"
+            "grimsley",
+            "wintheria"
         ],
         "locations": [],
         "developments": []
