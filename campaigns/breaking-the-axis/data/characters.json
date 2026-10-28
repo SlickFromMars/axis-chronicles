@@ -353,5 +353,19 @@
         "notes": [
             "Glim has split from the party to discover her origins in Homeward Reach."
         ]
+    },
+    {
+        "id": "winwood",
+        "name": "Winwood Markford",
+        "type": "foe",
+        "location": "Unknown",
+        "race": "Human",
+        "class": "Pirate",
+        "description": "Known on the shores of Caelora as \"Black Sea\", feared across the continent for his ruthless nature.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": [],
+        "birthday": "06-09"
     }
 ]
