@@ -188,7 +188,7 @@
         "team": "one",
         "type": "companion",
         "status": "active",
-        "updateVersion": 2,
+        "updateVersion": 3,
         "description": "A simple errand led to a chain reaction that has the humble Balthrum traveling Caelora, and it might hit closer to home than he thinks.",
         "objectives": [
             {
@@ -201,7 +201,7 @@
             },
             {
                 "text": "Assemble a ripcord-powered rocket axe, with the help of Fishsticks.",
-                "completed": false
+                "completed": true
             }
         ],
         "characters": [
