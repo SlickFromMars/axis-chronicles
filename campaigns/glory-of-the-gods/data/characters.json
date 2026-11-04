@@ -433,5 +433,44 @@
         "quote": null,
         "updateVersion": 1,
         "notes": []
+    },
+    {
+        "id": "zilvane",
+        "name": "Zilvane",
+        "type": "foe",
+        "location": "Reiwa",
+        "race": "Drow",
+        "class": "Rogue.",
+        "description": "A blood thristy killer working under the Forgotten.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "solron",
+        "name": "Solron Smithus",
+        "type": "foe",
+        "location": "Reiwa",
+        "race": "Tiefling",
+        "class": "Paladin",
+        "description": "One of two sons under the Smithus family.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
+    },
+    {
+        "id": "liora",
+        "name": "Liora Amanon",
+        "type": "friend",
+        "location": "Unknown",
+        "race": "Half elf",
+        "class": "Cleric.",
+        "description": "A sister looking for her brother and possibly save him.",
+        "status": "Active",
+        "quote": null,
+        "updateVersion": 1,
+        "notes": []
     }
 ]
