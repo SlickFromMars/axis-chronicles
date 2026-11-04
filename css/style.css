@@ -8709,3 +8709,181 @@ html[data-disable-shadows="true"] *::after {
         transition: none;
     }
 }
+
+
+/* =========================================================
+   CHARACTER PROFILE — PLAYER-VOTED SUPERLATIVES
+   ========================================================= */
+
+.character-profile-superlatives {
+    margin: 34px 0 8px;
+    padding: 22px;
+    background:
+        linear-gradient(135deg, rgba(201, 164, 92, 0.075), transparent 58%),
+        rgba(0, 0, 0, 0.24);
+    border: 1px solid var(--gold-dark);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.22);
+}
+
+.character-profile-superlatives-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0;
+    padding: 0 0 13px;
+    border-bottom: 1px solid rgba(201, 164, 92, 0.28);
+    cursor: pointer;
+    list-style: none;
+}
+
+.character-profile-superlatives-heading::-webkit-details-marker {
+    display: none;
+}
+
+.character-profile-superlatives-heading::marker {
+    content: "";
+}
+
+.character-profile-superlatives-heading::after {
+    content: "⌄";
+    flex: 0 0 auto;
+    margin-left: 2px;
+    color: var(--gold);
+    font-size: 20px;
+    line-height: 1;
+    transition: transform 180ms ease;
+}
+
+.character-profile-superlatives[open] .character-profile-superlatives-heading::after {
+    transform: rotate(180deg);
+}
+
+.character-profile-superlatives:not([open]) .character-profile-superlatives-heading {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.character-profile-superlatives-heading-title {
+    min-width: 0;
+}
+
+.character-profile-superlatives[open] .character-profile-superlatives-list {
+    margin-top: 17px;
+}
+
+.character-profile-superlatives-heading:focus-visible {
+    outline: 1px solid var(--gold);
+    outline-offset: 5px;
+}
+
+.character-profile-superlatives-eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.character-profile-superlatives-heading-text {
+    display: block;
+    color: var(--parchment-bright);
+    font-family: var(--font-heading);
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.character-profile-superlatives-count {
+    flex: 0 0 auto;
+    padding: 5px 8px;
+    color: var(--gold-light);
+    border: 1px solid var(--gold-dark);
+    font-family: var(--font-label);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+}
+
+.character-profile-superlatives-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.character-profile-superlative {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+    padding: 13px;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(201, 164, 92, 0.2);
+}
+
+.character-profile-superlative-icon {
+    display: grid;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    color: var(--gold-light);
+    background: rgba(201, 164, 92, 0.1);
+    border: 1px solid rgba(201, 164, 92, 0.35);
+    font-size: 17px;
+}
+
+.character-profile-superlative-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.character-profile-superlative-edition {
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.character-profile-superlative-prefix {
+    color: var(--gold-light);
+    font-family: var(--font-label);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+}
+
+.character-profile-superlative-copy strong {
+    color: var(--parchment-bright);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.character-profile-superlative-copy p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 620px) {
+    .character-profile-superlatives {
+        padding: 16px;
+    }
+
+    .character-profile-superlatives-list {
+        grid-template-columns: 1fr;
+    }
+
+    .character-profile-superlatives-heading-text {
+        font-size: 19px;
+    }
+}

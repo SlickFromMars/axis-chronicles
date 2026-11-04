@@ -674,6 +674,95 @@ async function loadCharacters() {
 
 
 /* =========================================================
+   PLAYER-VOTED SUPERLATIVES
+   ========================================================= */
+
+let characterSuperlatives = [];
+
+async function loadCharacterSuperlatives() {
+    const path =
+        typeof getCampaignDataPath === "function"
+            ? getCampaignDataPath("superlatives")
+            : null;
+
+    if (!path) {
+        characterSuperlatives = [];
+        return characterSuperlatives;
+    }
+
+    try {
+        const data = await loadJSON(path);
+        characterSuperlatives = Array.isArray(data)
+            ? data
+            : Array.isArray(data.editions)
+                ? data.editions
+                : [];
+    } catch (error) {
+        console.warn("Character superlatives could not be loaded.", error);
+        characterSuperlatives = [];
+    }
+
+    return characterSuperlatives;
+}
+
+function getSuperlativeEditionLabel(edition) {
+    const label = String(edition ?? "").trim();
+    return label || "Breaking the Axis Superlatives";
+}
+
+function renderCharacterSuperlatives(character) {
+    if (!character || character.type !== "player") return "";
+
+    const awards = characterSuperlatives
+        .flatMap(edition => {
+            const editionLabel = edition.edition ?? edition.label ?? edition.number
+                ?? "Breaking the Axis Superlatives";
+            return (Array.isArray(edition.awards) ? edition.awards : [])
+                .filter(award => {
+                    const winners = Array.isArray(award.winners)
+                        ? award.winners
+                        : award.winner != null
+                            ? [award.winner]
+                            : [];
+                    return winners.map(String).includes(String(character.id));
+                })
+                .map(award => ({ ...award, editionLabel }));
+        });
+
+    if (!awards.length) return "";
+
+    return `
+        <details class="character-profile-superlatives">
+            <summary class="character-profile-superlatives-heading">
+                <span class="character-profile-superlatives-heading-title">
+                    <span class="character-profile-superlatives-eyebrow">PLAYER-VOTED HONORS</span>
+                    <span class="character-profile-superlatives-heading-text">Superlatives</span>
+                </span>
+                <span class="character-profile-superlatives-count">
+                    ${awards.length} ${awards.length === 1 ? "AWARD" : "AWARDS"}
+                </span>
+            </summary>
+            <div class="character-profile-superlatives-list">
+                ${awards.map(award => `
+                    <article class="character-profile-superlative">
+                        <span class="character-profile-superlative-icon" aria-hidden="true">✦</span>
+                        <div class="character-profile-superlative-copy">
+                            <span class="character-profile-superlative-edition">
+                                ${escapeHTML(getSuperlativeEditionLabel(award.editionLabel))}
+                            </span>
+                            <span class="character-profile-superlative-prefix">MOST LIKELY TO...</span>
+                            <strong>${escapeHTML(award.title || "Untitled Superlative")}</strong>
+                            ${award.description ? `<p>${escapeHTML(award.description)}</p>` : ""}
+                        </div>
+                    </article>
+                `).join("")}
+            </div>
+        </details>
+    `;
+}
+
+
+/* =========================================================
    SHOW CHARACTERS
    ========================================================= */
 
@@ -701,6 +790,8 @@ async function showCharacters() {
 
         const characters =
             await loadCharacters();
+
+        await loadCharacterSuperlatives();
 
 
         await loadCharacterPortraits(
@@ -2343,6 +2434,9 @@ function openCharacterProfile(
 
 
                 ${birthdayRow}
+
+
+                ${renderCharacterSuperlatives(character)}
 
 
                 ${relevantQuestsSection}

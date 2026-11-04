@@ -1,0 +1,137 @@
+{
+    "editions": [
+        {
+            "edition": "1st Breaking the Axis Superlatives",
+            "awards": [
+                {
+                    "id": "superlative-01",
+                    "title": "Fireball an Enclosed Room",
+                    "winners": [
+                        "balthrum"
+                    ]
+                },
+                {
+                    "id": "superlative-02",
+                    "title": "Pet the Displacer Beast",
+                    "winners": [
+                        "maria"
+                    ]
+                },
+                {
+                    "id": "superlative-03",
+                    "title": "Railroad William",
+                    "winners": [
+                        "balthrum",
+                        "mari"
+                    ]
+                },
+                {
+                    "id": "superlative-04",
+                    "title": "Bleed Out Over the Floor",
+                    "winners": [
+                        "oliver"
+                    ]
+                },
+                {
+                    "id": "superlative-05",
+                    "title": "Get Got by a Mimic",
+                    "winners": [
+                        "grimsley"
+                    ]
+                },
+                {
+                    "id": "superlative-06",
+                    "title": "Save Someone from a Mimic",
+                    "winners": [
+                        "balthrum"
+                    ]
+                },
+                {
+                    "id": "superlative-07",
+                    "title": "Commit a Crime Accidentally",
+                    "winners": [
+                        "quill"
+                    ]
+                },
+                {
+                    "id": "superlative-08",
+                    "title": "Cry in Prison",
+                    "winners": [
+                        "oliver"
+                    ]
+                },
+                {
+                    "id": "superlative-09",
+                    "title": "Forget They Have a Piece of Info",
+                    "winners": [
+                        "jorovindr"
+                    ]
+                },
+                {
+                    "id": "superlative-10",
+                    "title": "Play Patty Cake While Friends Still Fighting",
+                    "winners": [
+                        "maria"
+                    ]
+                },
+                {
+                    "id": "superlative-11",
+                    "title": "Ragebait Balthrum",
+                    "winners": [
+                        "mari"
+                    ]
+                },
+                {
+                    "id": "superlative-12",
+                    "title": "Ragebait Maria",
+                    "winners": [
+                        "balthrum",
+                        "grimsley"
+                    ]
+                },
+                {
+                    "id": "superlative-13",
+                    "title": "Seduce the Dragon",
+                    "winners": [
+                        "grimsley"
+                    ]
+                },
+                {
+                    "id": "superlative-14",
+                    "title": "Hear Something Once and Remember It",
+                    "winners": [
+                        "quill"
+                    ]
+                },
+                {
+                    "id": "superlative-15",
+                    "title": "Die a Brutal, Bloody, Violent Death",
+                    "winners": [
+                        "caedes"
+                    ]
+                },
+                {
+                    "id": "superlative-16",
+                    "title": "Fall Asleep Listening to ASMR",
+                    "winners": [
+                        "balthrum"
+                    ]
+                },
+                {
+                    "id": "superlative-17",
+                    "title": "Hoard Everything, Regardless of Value",
+                    "winners": [
+                        "quill"
+                    ]
+                },
+                {
+                    "id": "superlative-18",
+                    "title": "Be The DM's Favorite",
+                    "winners": [
+                        "maria"
+                    ]
+                }
+            ]
+        }
+    ]
+}

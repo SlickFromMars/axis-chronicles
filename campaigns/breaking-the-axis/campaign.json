@@ -76,7 +76,8 @@
         "locations": "data/locations.json",
         "sessions": "data/sessions.json",
         "music": "data/music.json",
-        "calendar": "data/sessions.ics"
+        "calendar": "data/sessions.ics",
+        "superlatives": "data/superlatives.json"
     },
     "assets": {
         "map": "assets/map/caelora.webp",
