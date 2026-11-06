@@ -40,11 +40,20 @@
         },
         {
             "id": "005",
+            "title": "Propety Transfer Record",
+            "description": "A tattered property deed, tucked into the back of a book.",
+            "status": "recovered",
+            "unlocked": false,
+            "code": "RULESARECOMINGFORYOU",
+            "link": "notes/our-home.html"
+        },
+        {
+            "id": "006",
             "title": "Recovered Material",
             "description": "Additional material recovered from an unknown source.",
             "status": "recovered",
             "unlocked": false,
-            "code": "RULESARECOMINGFORYOU",
+            "code": "OURPLACE",
             "link": "coming-soon.html"
         }
     ]
